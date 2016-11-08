@@ -7,6 +7,7 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li>
+	<li role="presentation"><a href="#calf" aria-controls="calf" role="tab" data-toggle="tab">Calf</a></li>
     <li role="presentation"><a href="#meds" aria-controls="meds" role="tab" data-toggle="tab">Medication</a></li>
     <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
@@ -14,223 +15,313 @@
 
   <!-- Tab panes -->
 	<div class="tab-content">
-	  <div role="tabpanel" class="tab-pane fade in active" id="basics">
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#animalinfo" aria-controls="animalinfo" role="tab" data-toggle="tab">Animal Info</a></li>
-			<li role="presentation"><a href="#wean_yrling" aria-controls="wean_yrling" role="tab" data-toggle="tab">Wean/Yearling Scores</a></li>
-		</ul>
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane fade in active" id="animalinfo">
-				<div class="container">
-					<form class="form-horizontal" style="margin-top:15px;">
-						<div class="form-group">
-							<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="cow_number" placeholder="Cow Number">
-							</div>
-							<label for="height" class="control-label col-xs-1">Height</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="height" placeholder="Height">
-							</div>
-							<label for="weight" class="control-label col-xs-1">Weight</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="weight" placeholder="Weight">
-							</div>
-							<label for="breed" class="control-label col-xs-1">Breed</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="breed" placeholder="Breed">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="sel1" class="control-label col-xs-1">Sex</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="sex">
-								<option>Male</option>
-								<option>Female</option>
-							  </select>
-							</div>
-							<label for="pasture" class="control-label col-xs-1">Pastures</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="pasture">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-								<option>6</option>
-								<option>7</option>
-							  </select>
-							</div>
-							<label for="bloodline" class="control-label col-xs-1">Bloodline</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="bloodline" placeholder="Bloodline">
-							</div>
-							<label for="color" class="control-label col-xs-1">Color</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="color">
-								<option>White</option>
-								<option>Brown</option>
-								<option>Black</option>
-								<option>Other</option>
-							  </select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="herd" class="control-label col-xs-1">Herd</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="herd">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-							<label for="breeder" class="control-label col-xs-1">Breeder</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="breeder">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-							<label for="owner" class="control-label col-xs-1">Owner</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="owner">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-							<label for="group" class="control-label col-xs-1">Group</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="group">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="tattoo_left" class="control-label col-xs-1">Tattoo Left</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="pelvic_height">
-							</div>
-							<label for="tatoo_right" class="control-label col-xs-1">Tattoo Right</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="tattoo-right">
-							</div>
-							<label for="category" class="control-label col-xs-1">Category</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="category">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-							<label for="management_code" class="control-label col-xs-2">Management Code</label>
-							<div class="col-xs-2">
-							  <select class="form-control" id="management_code">
-								<option>option1</option>
-								<option>option2</option>
-								<option>option3</option>
-								<option>option4</option>
-								<option>option5</option>
-								<option>option6</option>
-								<option>option7</option>
-							  </select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="pelvic_height" class="control-label col-xs-1">Pelvic Height</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="pelvic_height">
-							</div>
-							<label for="pelvic_weight" class="control-label col-xs-1">Pelvic Weight</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="pelvic_weight">
-							</div>
-							<label for="pelvic_area" class="control-label col-xs-1">Pelvic Area</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="pelvic_area">
-							</div>
-							<label for="hip_height" class="control-label col-xs-1">Hip Height</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="hip_height">
-							</div>
-							<label for="disposition" class="control-label col-xs-1">Disposition</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="disposition">
-							</div>
-						</div>
-					</form>			
+		<div role="tabpanel" class="tab-pane fade in active" id="basics">
+			<form class="form-horizontal" style="margin-top:15px;">
+				<div class="form-group">
+					<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="cow_number" placeholder="Cow Number">
+					</div>
+					<label for="height" class="control-label col-xs-1">Ear Tag</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="eartag" placeholder="Ear Tag">
+					</div>
+					<label for="weight" class="control-label col-xs-1">EID</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="eid" placeholder="Eid">
+					</div>
+					<label for="pasture" class="control-label col-xs-1">Animal Type</label>
+					<div class="col-xs-2">
+					  <select class="form-control" id="animaltype">
+						<option>Cow</option>
+						<option>Bull</option>
+						<option>Calf</option>
+					  </select>
+					</div>
 				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane fade in active" id="wean_yrling">
-				<div class="container">
-					<form class="form-horizontal" style="margin-top:20px;">
-						<fieldset disabled>
-						  <div class="form-group">
-							<label for="disabledTextInput" class="col-sm-2 control-label">Cow/Tag Number</label>
-							<div class="col-sm-10">
-							  <input type="text" id="disabledTextInput" class="form-control" placeholder="Selected Cow Number">
-							</div>
-						  </div>
-						</fieldset>
-					</form>
+				<div class="form-group">
+					<label for="sex" class="control-label col-xs-1">Sex</label>
+					<div class="col-xs-2">
+					  <select class="form-control" id="sex">
+						<option>Male</option>
+						<option>Female</option>
+					  </select>
+					</div>
+					<label for="pasture" class="control-label col-xs-1">Location</label>
+					<div class="col-xs-2">
+					  <select class="form-control" id="pasture">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+					  </select>
+					</div>
+					<label for="breed" class="control-label col-xs-1">Breed</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="breed" placeholder="Breed">
+					</div>
+					<label for="status" class="control-label col-xs-1">Status</label>
+					<div class="col-xs-2">
+					  <select class="form-control" id="status">
+						<option>Active</option>
+						<option>Feed</option>
+						<option>Other</option>
+					  </select>
+					</div>
 				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="meds">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#addnew" aria-controls="new" role="tab" data-toggle="tab">Add new</a></li>
-					<li role="presentation"><a href="#vet_history" aria-controls="vet_history" role="tab" data-toggle="tab">Vet History</a></li>
-					<li role="presentation"><a href="#med_history" aria-controls="med_history" role="tab" data-toggle="tab">Medication History</a></li>
-					<li role="presentation"><a href="#full_history" aria-controls="full_history" role="tab" data-toggle="tab">Full History</a></li>
-				</ul>
-				<div class="tab-content">
-				  <div role="tabpanel" class="tab-pane fade in active" id="new">
-					<div class="container">
-					
+				<div class="form-group">
+					<label for="height" class="control-label col-xs-1">Height</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="height">
 					</div>
-				  </div>
-				  <div role="tabpanel" class="tab-pane fade in active" id="vet_history">
-					<div class="container">
-					
+					<label for="weight" class="control-label col-xs-1">Weight</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="weight">
 					</div>
-				  </div>
-				  <div role="tabpanel" class="tab-pane fade in active" id="med_history">
-					<div class="container">
-					
+					<label for="trial" class="control-label col-xs-1">Trial</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="trial">
 					</div>
-				  </div>
-				  <div role="tabpanel" class="tab-pane fade in active" id="full_history">
-					<div class="container">
-					
+					<label for="herd" class="control-label col-xs-1">Herd</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="herd">
 					</div>
-				  </div>
 				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane fade" id="history">History of the cow can be seen here</div>
-			<div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+				<fieldset disabled>
+				  <div class="form-group">
+					<label for="currentframescore" class="col-sm-2 control-label">Frame Score</label>
+					<div class="col-sm-10">
+					  <input type="text" id="currentframescore" class="form-control" placeholder="Current Frame Score">
+					</div>
+				  </div>
+				</fieldset>
+			</form>
 		</div>
+		<div role="tabpanel" class="tab-pane fade" id="calf">
+			<ul class="nav nav-tabs nav-justified">
+				<li role="presentation" class="active"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Inventory</a></li>
+				<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
+				<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
+				<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>
+				<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Grazing</a></li>
+				<li role="presentation"><a href="#calf_iacuc" aria-controls="calf_iacuc" role="tab" data-toggle="tab">IACUC</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_inventory">
+				<form class="form-horizontal" style="margin-top:15px;">
+					<div class="form-group">
+						<label for="trial" class="control-label col-xs-1">Trial</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="trial">
+						</div>
+						<label for="herd" class="control-label col-xs-1">Herd</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="herd">
+						</div>						
+						<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="cow_number" placeholder="Cow Number">
+						</div>
+						<label for="height" class="control-label col-xs-1">Ear Tag</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="eartag" placeholder="Ear Tag">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="weight" class="control-label col-xs-1">EID</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="eid" placeholder="Eid">
+						</div>
+						<label for="pasture" class="control-label col-xs-1">Animal Type</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="animaltype">
+							<option>Cow</option>
+							<option>Bull</option>
+							<option>Calf</option>
+						  </select>
+						</div>
+						<label for="pasture" class="control-label col-xs-1">Location</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="pasture">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+						  </select>
+						</div>
+						<label for="brand" class="control-label col-xs-1">Brand</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="brand" placeholder="Brand">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="brand_location" class="control-label col-xs-1">Brand Location</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="brand_location">
+							<option>Left Hip</option>
+							<option>Right Hip</option>
+						  </select>
+						</div>
+						<label for="tattoo_left" class="control-label col-xs-1">Tattoo Left</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="tattoo_left" placeholder="Tattoo Left">
+						</div>
+						<label for="tattoo_right" class="control-label col-xs-1">Tattoo Right</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="tattoo_right" placeholder="Tattoo Right">
+						</div>
+						<label for="alternative_id" class="control-label col-xs-1">Alternative ID</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="alternative_id" placeholder="Alternative ID">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="sex" class="control-label col-xs-1">Sex</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="sex">
+							<option>Steer</option>
+							<option>Heifer</option>
+							<option>Bull</option>
+							<option>Cow</option>
+						  </select>
+						</div>
+						<label for="breed" class="control-label col-xs-1">Breed</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="breed" placeholder="Breed">
+						</div>
+						<label for="registration" class="control-label col-xs-1">Registration</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="registration" placeholder="Registration">
+						</div>
+						<label for="color" class="control-label col-xs-1">Color</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="color" placeholder="Color">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="horn_status" class="control-label col-xs-1">Horn Status</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="horn_status">
+							<option>Polled</option>
+							<option>Scurred</option>
+							<option>Horned</option>
+						  </select>
+						</div>
+						<label for="dam" class="control-label col-xs-1">Dam</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="dam" placeholder="Dam">
+						</div>
+						<label for="sire" class="control-label col-xs-1">Sire</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="sire" placeholder="Sire">
+						</div>
+						<label class="control-label col-xs-1" for="date">D.O.B</label>
+						<div class="input-group col-xs-2">
+						   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="acquired_info" class="control-label col-xs-1">How Acquired</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="acquired_info">
+							<option>Raised</option>
+							<option>Purchased</option>
+							<option>Leased</option>
+						  </select>
+						</div>
+						<label class="control-label col-xs-1" for="date">Date Acquired</label>
+						<div class="input-group col-xs-2">
+						   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disposed_info" class="control-label col-xs-1">Disposed</label>
+						<div class="col-xs-2">
+						  <select class="form-control" id="disposed_info">
+							<option>Sold</option>
+							<option>Died</option>
+							<option>Euthanized</option>
+							<option>Returned</option>
+						  </select>
+						</div>
+						<label class="control-label col-xs-1" for="date">Date Disposed</label>
+						<div class="input-group col-xs-2">
+						   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+						</div>
+					</div>
+					<div class="form-group">	
+						<label for="disposal_reason" class="control-label col-xs-1">DIsposal Reason</label>
+						<div class="col-xs-4">
+							<input type="text" class="form-control" id="disposal_reason" placeholder="Disposal Reason ">
+						</div>
+					</div>
+				</form>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_experiment">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_reproduction">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_medical">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_grazing">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="calf_iacuc">
+				<div class="container">
+				
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane fade" id="meds">
+			<ul class="nav nav-tabs nav-justified">
+				<li role="presentation" class="active"><a href="#addnew" aria-controls="new" role="tab" data-toggle="tab">Add new</a></li>
+				<li role="presentation"><a href="#vet_history" aria-controls="vet_history" role="tab" data-toggle="tab">Vet History</a></li>
+				<li role="presentation"><a href="#med_history" aria-controls="med_history" role="tab" data-toggle="tab">Medication History</a></li>
+				<li role="presentation"><a href="#full_history" aria-controls="full_history" role="tab" data-toggle="tab">Full History</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div role="tabpanel" class="tab-pane fade in active" id="new">
+				<div class="form-group">
+					<h2>Hello There!! This is a field for new meds</h2>
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="vet_history">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="med_history">
+				<div class="container">
+				
+				</div>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade in active" id="full_history">
+				<div class="container">
+				
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane fade" id="history">History of the cow can be seen here</div>
+		<div role="tabpanel" class="tab-pane fade" id="settings">...</div>
 	</div>
 
 </div>
