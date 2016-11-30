@@ -25,14 +25,12 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/"><span style="margin-top:3px;" class="glyphicon glyphicon-home" "sr-only"></span></a></li>
-        <li><a href="/dashboard/">Second Screen</a></li>
+        <li><a href="/dashboard">Second Screen</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-		  
-		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
+		<div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
 			<h5>
-			<a role="presentation" data-toggle="modal" data-target="#exampleModal" href="#"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;&nbsp;</a>
-
+			<a role="presentation" data-toggle="modal" data-target="#exampleModal" href="/login"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;&nbsp;</a>
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
 				<div class="modal-content">
@@ -44,77 +42,21 @@
 					  <div class="container-fluid">
 						  <form action="" class="form-inline" method="post">
 							<input type="text" class="form-control" placeholder="Username" name="username" value="">
-							 <input type="password" class="form-control" placeholder="Password" name="password" value="">
+							<input type="password" class="form-control" placeholder="Password" name="password" value="">
 							<input class="btn btn-primary" type="submit" value="Login">
 						  </form>
-						  
 							<div class="container">
-							<br>
-						   <p>No account? <a href='/register'>Register here</a>.</p>
-						   <br>
-							
-						  </div>
+								<br>
+								<p>No account? <a href='/signup'>Register here</a>.</p>
+								<br>
+							</div>
 					</div>
 				  </div>
-
 				</div>
 			  </div>
 			</div>
-
-		<a role="presentation" class="active" data-toggle="modal" data-target="#register" href="#"><span class="glyphicon glyphicon-pencil"></span> Sign up</a><h5>
-		<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">Register</h4>
-			  </div>
-			  <div class="modal-body">
-				  <div class="container">
-					  
-						<form method=post action="/register">
-						  <dl>
-							
-  <dt><label for="username">Username</label>
-  <dd><input id="username" name="username" type="text" value="">
-  
-  </dd>
-
-							
-  <dt><label for="email">Email Address</label>
-  <dd><input id="email" name="email" type="text" value="">
-  
-  </dd>
-
-							
-  <dt><label for="password">New Password</label>
-  <dd><input id="password" name="password" type="password" value="">
-  
-  </dd>
-
-							
-  <dt><label for="confirm">Repeat Password</label>
-  <dd><input id="confirm" name="confirm" type="password" value="">
-  
-  </dd>
-
-							
-<!--   <dt><label for="accept_tos">I accept the <a href="/about/tos" target="blank">Terms of Service</a> and <a href="/about/privacy-policy" target="blank">Privacy Notice</a> (updated Jan 22, 2015)</label>
-  <dd><input id="accept_tos" name="accept_tos" type="checkbox" value="y">
-  
-  </dd> -->
-
-						  </dl>
-						  <p><input type=submit value=Register>
-						</form>
-					  
-				</div>
-			  </div>
-
-			</div>
-		  </div>
+			<a href="/signup"><span class="glyphicon glyphicon-pencil"></span> Sign up</a><h5>
 		</div>
-	  </div>
       </ul>
 	</ul>
     </div><!-- /.navbar-collapse -->
@@ -123,34 +65,31 @@
 </head>
 
 <body>
-
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-<div class="row">
-	<div class="col-lg-6">
-		<div class="input-group" style="padding-left:350px;">
-			<input type="text" class="form-control" placeholder="Cow Number" style="width:1026px;top: 400px;height: 64px;">
-			<span class="input-group-btn">
-			<button class="btn btn-default" type="button"style="top: 400px;height: 64px;">Search</button>
-			</span>
+	<div class="container" style="margin-bottom:20px;">
+      <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
+    </div>
+	<div class="row text-center">
+	  <div class="col-lg-6 col-lg-offset-3" style="margin-bottom:50px;">
+		<div class="input-group" style="margin:auto;">
+		  <input type="text" class="form-control" placeholder="Cow Number">
+		  <span class="input-group-btn"><input type="submit" class="btn" value="Search"></span>
 		</div><!-- /input-group -->
-	</div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-	
-<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="width: 600px;top: 500px;left: 600px;">
-	<div class="btn-group" role="group">
-		<button type="button" class="btn btn-warning">Group Add</button>
+	  </div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->	
+	<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-warning">Group Add</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-danger">Quit to Windows</button>
+		</div>
 	</div>
-	<div class="btn-group" role="group">
-		<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button>
-	</div>
-	<div class="btn-group" role="group">
-		<button type="button" class="btn btn-danger">Quit to Windows</button>
-	</div>
-</div>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type = "text/javascript" src = "http://159.203.164.159/static/bootstrap.min.js"></script>
-
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </html>
