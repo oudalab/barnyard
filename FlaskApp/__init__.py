@@ -1,23 +1,26 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session
 from models import db, User
-from forms import SignupForm
+from forms import LoginForm, SignupForm
 from secrets import login
+import config
 
 import logging
 from logging.handlers import RotatingFileHandler
 
-
 whole_string = login()
 app = Flask(__name__)
+app.config['OPENID_PROVIDERS'] = config.OPENID_PROVIDERS
+app.config['SECRET_KEY'] = config.SECRET_KEY
+app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
 
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 #disables SQLAlchemy event system
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
-#protect from CSFR
-app.secret_key = 'wearedifferent'
 
+
+@app.route('/')
 @app.route('/searchpage')
 def searchpage():
 	return render_template("search.html")
@@ -26,30 +29,18 @@ def searchpage():
 def dashboard():
 	return render_template("dashboard.html")
 
-@app.route('/login', methods = ['GET','POST'])
-def login_page():
-        error = None
-        try:
-                if request.method == "POST":
-                        attempted_username = request.form['username']
-                        attempted_password = request.form['password']
-
-                        #flash(attempted_username)
-                        #flash(attempted_password)
-
-                        if attempted_username == "admin" and attempted_password == "password":
-                                return redirect(url_for('searchpage'))
-                        else:
-                                error = "Invalid credentials. Try Again."
-                return render_template("login.html", error=error)
-                        
-        except Exception as e:
-                #flash(e)
-                return render_template("login.html", error = error)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for OpenID="%s", remember_me=%s' %(form.openid.data, str(form.remember_me.data)))
+        return redirect('/searchpage')
+	print(app.config)
+    return render_template('login.html', title='Sign In', form=form, providers=app.config['OPENID_PROVIDERS'])
 
 @app.errorhandler(404)
 def page_not_found(e):
-        return redirect(url_for('login_page'))
+        return redirect(url_for('login'))
 
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
@@ -71,7 +62,7 @@ def signup():
                         return render_template ("dashboard.html")
 
         elif request.method == "GET":
-                return render_template('signup.html', form=form)
+                return render_template('signup.html', form= form)
 
 
 
