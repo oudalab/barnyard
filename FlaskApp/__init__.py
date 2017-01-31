@@ -1,33 +1,19 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session
-import sqlite3
 from models import db, User
-from forms import LoginForm, SignupForm
-from secrets import sql_login
+from forms import SignupForm
+from secrets import whole_string
 import config
-from flask import g
 import logging
 from logging.handlers import RotatingFileHandler
 
-DATABASE = '/var/www/barnyard/FlaskApp/barnyard'
-
-
-
-sqlite_login = sql_login()
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////var/www/barnyard/FlaskApp/barnyard.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 #disables SQLAlchemy event system
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
-#app.config['OPENID_PROVIDERS'] = config.OPENID_PROVIDERS
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
 
-def connect_db():
-    return sqlite3.connect(DATABASE)
-
-@app.before_request
-def before_request():
-    g.db = connect_db()
 
 @app.route('/')
 @app.route('/searchpage')
@@ -80,8 +66,6 @@ def signup():
 
         elif request.method == "GET":
                 return render_template("signup.html", form= form)
-
-
 
 
 if __name__ == '__main__':
