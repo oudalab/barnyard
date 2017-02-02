@@ -5,8 +5,10 @@ from secrets import whole_string
 import config
 import logging
 from logging.handlers import RotatingFileHandler
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 #disables SQLAlchemy event system
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -24,7 +26,8 @@ def searchpage():
 def dashboard():
 	return render_template("dashboard.html")
 
-@app.route('/login/', methods = ['GET','POST'])
+	
+@app.route('/login', methods = ['GET','POST'])
 def login_page():
         error = None
         try:
@@ -39,12 +42,14 @@ def login_page():
                                 return redirect(url_for('searchpage'))
                         else:
                                 error = "Invalid credentials. Try Again."
-                return render_template("login.html", error=error)
+                return render_template(("login.html"), error=error)
                         
         except Exception as e:
                 #flash(e)
-                return render_template("login.html", error = error)
+                return render_template(("login.html"), error = error)
 
+
+	
 @app.errorhandler(404)
 def page_not_found(e):
         return redirect(url_for('login_page'))
@@ -59,17 +64,17 @@ def signup():
                         app.logger.info('Form validate equals false')
                         return render_template("signup.html", form=form)
                 else:
-                        newuser = User(form.first_name.data, form.last_name.data, form.email.data, form.password.data)
+                        newuser = User(form.firstname.data, form.lastname.data, form.email.data, form.password.data)
                         db.session.add(newuser)
                         db.session.commit()
-                        return redirect("login.html")
+                        return redirect(url_for('login_page'))
 
         elif request.method == "GET":
-                return render_template("signup.html", form= form)
+                return render_template(("signup.html"), form= form)
 
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(debug = True)
+    #app.run(debug = True)
