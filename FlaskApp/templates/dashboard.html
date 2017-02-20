@@ -1,7 +1,35 @@
 {% extends "header.html" %}
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='js/form.js') }}"></script>
+	
 {% block body %}
+<head>
+	<script type = text/javascript>
+	$(function() {
 
+	$('a#submit_button').bind('click', function() {
+			var cownumber : $('#cownumber').val();
+			var height : $('#height').val();
+			var weight : $('#weight').val();
+			$.ajax({
+				url: '162.243.13.216/api/post',
+				data: $('form').serialize(),
+				type: 'POST',
+				success: function(response) {
+					console.log(response);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+	</script>
+</head>
 <div>
 
   <!-- Nav tabs -->
@@ -18,11 +46,11 @@
   <!-- Tab panes -->
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane fade in active" id="basics">
-			<form class="form-horizontal" style="margin-top:15px;">
+			<form id="basics" action="/dashboard" class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
 					<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cow_number" placeholder="Cow Number">
+						<input type="text" class="form-control" id="cownumber" placeholder="Cow Number">
 					</div>
 					<label for="cow_name" class="control-label col-xs-1">Cow Name</label>
 					<div class="col-xs-2">
@@ -109,9 +137,10 @@
 					</div>
 				  </div>
 				</fieldset>
+				<id=submit_button><button class='btn btn-default'>Submit</button></a>
 			</form>
 		</div>
-		<div role="tabpanel" class="tab-pane fade in active" id="calf_inventory">
+		<div role="tabpanel" class="tab-pane fade" id="calf_inventory">
 			<form class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
 					<label for="trial" class="control-label col-xs-1">Trial</label>

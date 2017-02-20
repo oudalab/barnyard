@@ -1,6 +1,7 @@
-from flask import Flask, render_template, flash, request, url_for, redirect,session
-from models import db, Users
-from forms import SignupForm
+from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify
+from models import db, Users, Master_animal
+import forms
+import views
 from secrets import whole_string
 import config
 import logging
@@ -8,6 +9,8 @@ from logging.handlers import RotatingFileHandler
 from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
 from views import table_master
+import syslog
+import json
 
 
 app = Flask(__name__)
@@ -27,9 +30,9 @@ api.add_resource(table_master, '/api/master_animal/', endpoint = "cownumber")
 def searchpage():
 	return render_template("search.html")
  
-@app.route('/dashboard')
+@app.route('/dashboard', methods = ['GET','POST'])
 def dashboard():
-	return render_template("dashboard.html")
+	return render_template(("dashboard.html"))
 
 	
 @app.route('/login', methods = ['GET','POST'])
@@ -62,7 +65,7 @@ def page_not_found(e):
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
 
-        form = SignupForm()
+        form = forms.SignupForm()
 
         if request.method == "POST":
                 if form.validate() == False:
@@ -77,11 +80,42 @@ def signup():
         elif request.method == "GET":
                 return render_template(("signup.html"), form= form)
 
+@app.route('/api/post', methods = ['GET', 'POST'])
+def cowStatus():
+    cownumber = request.form['cownumber'];
+    height = request.form['height'];
+    weight = request.form['weight'];
+    return json.dumps({'status': 'OK', 'cownumber':cownumber, 'height': height, 'weight':weight});
 
+@app.route('/new')
+def newPage():
+    return render_template(("new.html"))
+
+@app.route('/background_process')
+def background_process():
+    lang = request.args.get('proglang')
+    if str(lang).lower() == 'python':
+        return jsonify(result = 'You are wise!')
+    else:
+        return jsonify(result = 'Try again')
+
+@app.route('/new2')
+def signUp():
+    return render_template('new2.html')
+
+@app.route('/signUpUser', methods=['POST'])
+def signUpUser():
+    user =  request.form['username'];
+    password = request.form['password'];
+    return json.dumps({'status':'OK','user':user,'pass':password});
 
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
+    syslog.syslog('Processing started')
+    syslog.syslog(syslog.LOG_ERR, 'Error message here')
+    syslog.syslog(syslog.LOG_DEBUG, 'Debug message here')
+    syslog.syslog(syslog.LOG_INFO, 'Informational message here')
     #app.run(debug = True)

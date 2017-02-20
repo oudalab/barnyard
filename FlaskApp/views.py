@@ -30,7 +30,8 @@ class table_master(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(master_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(master_dict['cownumber'], master_dict['weight'], master_dict['height'])
+                #master = Master_animal(master_dict['cownumber'], master_dict['weight'], master_dict['height'])
+                master = Master_animal(cownumber=master_dict['cownumber'], weight=master_dict['weight'],height=master_dict['height'])
                 master.add(master)
                 query = Master_animal.query.all()
                 results = schemaMaster.dump(query, many = True).data

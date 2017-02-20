@@ -13,7 +13,7 @@ from sqlalchemy.exc import SQLAlchemyError
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 
 #Class to add, update and delete data via SQLALchemy sessions
