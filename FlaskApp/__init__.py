@@ -17,7 +17,7 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 #disables SQLAlchemy event system
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODOFICATIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
 db.init_app(app)
