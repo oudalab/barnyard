@@ -1,71 +1,58 @@
+{% extends "header.html" %}
+{% block body %}
 <html>
-<link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='bootstrap.min.css') }}">
 <head>
-	<meta charset="utf-8">
-	<title>Barnyard</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
-	<link rel="shortcut icon" href="{{url_for('static', filename='cow.ico')}}">
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">
-	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}">
-	  </a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/"><span style="margin-top:3px;" class="glyphicon glyphicon-home" "sr-only"></span></a></li>
-        <li><a href="/dashboard">Second Screen</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-		<div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
-			<h5>
-			<a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;&nbsp;</a>
-			<a href="/signup"><span class="glyphicon glyphicon-pencil"></span> Sign up</a><h5>
-		</div>
-      </ul>
-	</ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+<link rel="stylesheet" media="screen" href = "static/css/bootstrap.min.css">
+<script type = "text/javascript">
+	$(function retriveCowNumber () {
+		$('#search').click(function() {
+			var cownumber = $('#cowSearch').val();
+			$.ajax({
+				url: '/api/master_animal/'+cownumber,
+				data: $('form').serialize(),
+				type: 'GET',
+				success: function(data) {
+					window.location.href = '/dashboard?cownumber='+cownumber
+					console.log(data);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+</script>
 </head>
 
 <body>
-	<div class="container" style="margin-bottom:20px;">
-      <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
-    </div>
-	<div class="row text-center">
-	  <div class="col-lg-6 col-lg-offset-3" style="margin-bottom:50px;">
-		<div class="input-group" style="margin:auto;">
-		  <input type="text" class="form-control" placeholder="Cow Number">
-		  <span class="input-group-btn"><input type="submit" class="btn" value="Search"></span>
-		</div><!-- /input-group -->
-	  </div><!-- /.col-lg-6 -->
-	</div><!-- /.row -->	
-	<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
-		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-warning">Group Add</button>
+	<form class = "form-horizontal">
+		<div class="container" style="margin-bottom:20px;">
+		  <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
 		</div>
-		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button>
+		<div class="row text-center">
+		  <div class="col-lg-6 col-lg-offset-3" style="margin-bottom:50px;">
+			<div class="input-group" style="margin:auto;">
+			  <input type="text" class="form-control" id="cowSearch" placeholder="Cow Number">
+			  <span class="input-group-btn"><input type="submit" class="btn" value="search" id ="search"></span>
+			</div><!-- /input-group -->
+		  </div><!-- /.col-lg-6 -->
+		</div><!-- /.row -->	
+		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-warning">Group Add</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-danger">Quit to Windows</button>
+			</div>
 		</div>
-		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-danger">Quit to Windows</button>
-		</div>
-	</div>
+	</form>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type = "text/javascript" src = "http://159.203.164.159/static/bootstrap.min.js"></script>
+<script type = "text/javascript" src = "/static/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </html>
+{% endblock %}

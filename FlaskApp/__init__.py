@@ -1,34 +1,40 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify
 from models import db, Users, Master_animal
 import forms
-import views
+from views import table_basics
 from secrets import whole_string
 import config
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
-from views import table_master
 import syslog
+import sys
 import json
-
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
-#disables SQLAlchemy event system
 app.config['SQLALCHEMY_TRACK_MODOFICATIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
 db.init_app(app)
 api = Api(app)
-api.add_resource(table_master, '/api/master_animal/<cownumber>')
-api.add_resource(table_master, '/api/master_animal/', endpoint = "cownumber")
+api.add_resource(table_basics, '/api/master_animal/<cownumber>')
+api.add_resource(table_basics, '/api/master_animal/', endpoint = "cownumber")
 
 @app.route('/')
 @app.route('/searchpage')
 def searchpage():
 	return render_template("search.html")
+	
+# @app.route('/api/master_animal/')
+# def getpost():
+	# cow= request.args.get('cownumber')
+	# r= requests.get('/api/master_animal/'+cow).content
+	# return jsonify(r)
+	
+ 
  
 @app.route('/dashboard', methods = ['GET','POST'])
 def dashboard():
@@ -82,10 +88,31 @@ def signup():
 
 @app.route('/api/post', methods = ['GET', 'POST'])
 def cowStatus():
-    cownumber = request.form['cownumber'];
-    height = request.form['height'];
-    weight = request.form['weight'];
-    return json.dumps({'status': 'OK', 'cownumber':cownumber, 'height': height, 'weight':weight});
+    print >> sys.stderr, "data {}".format(request.args)
+    print >> sys.stderr, "data {}".format(request.form)
+    print >> sys.stderr, "It is 9:13"
+    if request.method == "POST":
+        cownumber = request.form.get('cownumber')
+        height = request.form.get('height')
+        weight = request.form.get('weight')
+        eartag = request.form.get('eartag')
+        eid = request.form.get('eid')
+        sex = request.form.get('sex')
+        pasturenumber = request.form.get('pasturenumber')
+        breed = request.form.get('breed')
+        status = request.form.get('status')
+        trial = request.form.get('trial')
+        herd = request.form.get('herd')
+        animaltype = request.form.get('animaltype')
+        newmaster = Master_animal(cownumber,height,weight,eartag,eid,sex,pasturenumber,breed,status,trial,herd,animaltype)
+        db.session.add(newmaster)
+        db.session.commit()
+        return json.dumps({'success': True}), 200, {
+            'ContentType': 'application/json'
+        }
+
+    elif request.method == "GET":
+            return render_template(("dashboard.html"), form = form)
 
 @app.route('/new')
 def newPage():
@@ -111,11 +138,11 @@ def signUpUser():
 
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)
-    handler.setLevel(logging.INFO)
-    app.logger.addHandler(handler)
-    syslog.syslog('Processing started')
-    syslog.syslog(syslog.LOG_ERR, 'Error message here')
-    syslog.syslog(syslog.LOG_DEBUG, 'Debug message here')
-    syslog.syslog(syslog.LOG_INFO, 'Informational message here')
-    #app.run(debug = True)
+	handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)
+	handler.setLevel(logging.INFO)
+	app.logger.addHandler(handler)
+	syslog.syslog('Processing started')
+	syslog.syslog(syslog.LOG_ERR, 'Error message here')
+	syslog.syslog(syslog.LOG_DEBUG, 'Debug message here')
+	syslog.syslog(syslog.LOG_INFO, 'Informational message here')
+	#app.run(debug = True)

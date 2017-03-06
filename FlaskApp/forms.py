@@ -11,7 +11,7 @@ class SignupForm(Form):
 	submit = SubmitField('Sign up')
 	
 class Master_animalForm(Form):
-	cow_number = StringField('cow_number', validators = [DataRequired("Please enter Cow number")])
+	cownumber = StringField('cownumber', validators = [DataRequired("Please enter Cow number")])
 	height = StringField('height', validators = [DataRequired("Please enter the height of the cow")])
 	weight = StringField('weight', validators = [DataRequired("Please enter the weight of the cow")])
 	submit = SubmitField('submit')

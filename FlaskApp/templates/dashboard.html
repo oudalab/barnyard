@@ -1,28 +1,96 @@
 {% extends "header.html" %}
-	<script src="/var/www/barnyard/FlaskApp/static/js/form.js"></script>
-	
 {% block body %}
+<html>
 <head>
-	<script type = text/javascript>
-	$(function() {
+	<script type = "text/javascript">
+		$(function inputData() {
 
-	$('#submit_button').bind('click', function() {
-			var cownumber = $('#cownumber').val();
-			var height = $('#height').val();
-			var weight = $('#weight').val();
-			$.ajax({
-				url: '162.243.13.216/api/post',
-				data: $('form').serialize(),
-				type: 'POST',
-				success: function(response) {
-					console.log(response);
-				},
-				error: function(error) {
-					console.log(error);
+		$('#submit_button').click(function(e) {
+			var basic = {
+				cownumber : $('#cownumber').val(),
+				height: $('#height').val(),
+				weight : $('#weight').val(),
+				eartag : $('#eartag').val(),
+				eid : $('#eid').val(),
+				sex : $('#sex option:selected').text(),
+				pasturenumber : $('#pasturenumber option:selected').text(),
+				breed : $('#breed').val(),
+				status : $('#status option:selected').text(),
+				trial : $('#trial option:selected').text(),
+				herd : $('#herd').val(),
+				animaltype : $('#animaltype option:selected').text()
 				}
+				$.ajax({
+					url: '/api/post',
+					data: basic,
+					datatype: 'json',
+					type: 'POST',
+					success: function(response) {
+						console.log(response);
+						alert("Data saved")
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+				e.preventDefault();
 			});
 		});
-	});
+	</script>
+	<script>
+	function getQueryVariable(variable)
+	{
+		   var query = window.location.search.substring(1);
+		   var vars = query.split("&");
+		   for (var i=0;i<vars.length;i++) {
+				   var pair = vars[i].split("=");
+				   if(pair[0] == variable){return pair[1];}
+		   }
+		   return(false);
+	}
+	</script>
+	<script type = "text/javascript">
+		$(document).ready(function(){
+		$('#load').click(function(){
+			var cownumber = getQueryVariable("cownumber")
+			$.ajax({
+					url: '/api/master_animal/'+cownumber,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						console.log(data);
+						var height = data.data.attributes.height;
+						var weight = data.data.attributes.weight;
+						var eartag = data.data.attributes.eartag;
+						var eid = data.data.attributes.eid;
+						var sex = data.data.attributes.sex;
+						var pasturenumber = data.data.attributes.pasturenumber;
+						var breed = data.data.attributes.breed;
+						var status = data.data.attributes.status;
+						var trial = data.data.attributes.trial;
+						var herd = data.data.attributes.herd;
+						var animaltype = data.data.attributes.animaltype;
+						$('#cownumber').val(cownumber);
+						$('#height').val(height);
+						$('#weight').val(weight);
+						$('#eartag').val(eartag);
+						$('#eid').val(eid);
+						$('#sex option:selected').text(sex);
+						$('#pasturenumber option:selected').text(pasturenumber);
+						$('#breed').val(breed);
+						$('#status option:selected').text(status);
+						$('#trial option:selected').text(trial);
+						$('#herd').val(herd);
+						$('#animaltype option:selected').text(animaltype);
+					},
+					error: function(error) {
+						console.log(error)
+					}
+				});
+
+		  });
+		});
 	</script>
 </head>
 <div>
@@ -41,19 +109,19 @@
   <!-- Tab panes -->
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane fade in active" id="basics">
-			<form id="basics" action="/dashboard" class="form-horizontal" style="margin-top:15px;">
+			<form id="basics" method="POST" class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
 					<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cownumber" placeholder="Cow Number">
+						<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Cow Number">
 					</div>
-					<label for="cow_name" class="control-label col-xs-1">Cow Name</label>
+					<label for="cowname" class="control-label col-xs-1">Cow Name</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cow_name" placeholder="Cow Name">
+						<input type="text" class="form-control" id="cowname" placeholder="Cow Name">
 					</div>
-					<label for="ear_tag" class="control-label col-xs-1">Ear Tag</label>
+					<label for="eartag" class="control-label col-xs-1">Ear Tag</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="ear_tag" placeholder="Ear Tag">
+						<input type="text" class="form-control" id="eartag" placeholder="Ear Tag">
 					</div>
 					<label for="eid" class="control-label col-xs-1">EID</label>
 					<div class="col-xs-2">
@@ -70,9 +138,9 @@
 							<option>Cow</option>
 						  </select>
 						</div>
-					<label for="pasture_number" class="control-label col-xs-1">Pasture Number</label>
+					<label for="pasturenumber" class="control-label col-xs-1">Pasture Number</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="pasture_number">
+					  <select class="form-control" id="pasturenumber">
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
@@ -97,15 +165,23 @@
 				<div class="form-group">
 					<label for="height" class="control-label col-xs-1">Height</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="height">
+						<input type="text" class="form-control" id="height" name="height">
 					</div>
 					<label for="weight" class="control-label col-xs-1">Weight</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="weight">
+						<input type="text" class="form-control" id="weight" name="weight">
 					</div>
 					<label for="trial" class="control-label col-xs-1">Trial</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="trial">
+					  <select class="form-control" id="trial">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+					  </select>
 					</div>
 					<label for="herd" class="control-label col-xs-1">Herd</label>
 					<div class="col-xs-2">
@@ -132,7 +208,7 @@
 					</div>
 				  </div>
 				</fieldset>
-				<button id="submit_button" class='btn btn-default'>Submit</button></a>
+				<button id="submit_button" method="POST" class='btn btn-default'>Submit</button></a>
 			</form>
 		</div>
 		<div role="tabpanel" class="tab-pane fade" id="calf_inventory">
@@ -1204,4 +1280,5 @@
 		</div>
 	</div>
 </div>
+</html>
 {% endblock %}

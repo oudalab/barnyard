@@ -76,30 +76,56 @@ class UsersSchema(Schema):
 
 
 class Master_animal(db.Model, CRUD):
-    __tablename__ = 'master_animal'
-    cownumber = db.Column(db.Text, primary_key = True)
-    height = db.Column(db.Float)
-    weight = db.Column(db.Float)
-
-    def __init__(self, cownumber, height, weight):
-        self.cownumber = cownumber
-        self.height = height
-        self.weight = weight
+	__tablename__ = 'master_animal'
+	cownumber = db.Column(db.Text, primary_key = True)
+	height = db.Column(db.Float)
+	weight = db.Column(db.Float)
+	eartag = db.Column(db.Text)
+	eid = db.Column(db.Text)
+	sex = db.Column(db.Text)
+	pasturenumber = db.Column(db.Text)
+	breed = db.Column(db.Text)
+	status = db.Column(db.Text)
+	trial = db.Column(db.Text)
+	herd = db.Column(db.Text)
+	animaltype = db.Column(db.Text)
+	
+	def __init__(self, cownumber, height, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
+		self.cownumber = cownumber
+		self.height = height
+		self.weight = weight
+		self.eartag = eartag
+		self.eid = eid
+		self.sex = sex
+		self.pasturenumber = pasturenumber
+		self.breed = breed
+		self.status = status
+		self.trial = trial
+		self.herd = herd
+		self.animaltype = animaltype
 
 class Master_animal_Schema(Schema):
-    not_blank = validate.Length(min=1, error ='Field cannot be blank')
-    id = fields.Integer(dump_only=True) #WHY DOES THIS HAVE TO BE HERE???
-    cownumber = fields.String(validate = not_blank)
-    height = fields.Float(validate = not_blank)
-    weight = fields.Float(validate = not_blank)
-
-    # self links
-    def get_top_level_links(self, data, many):
-        print >> sys.stderr, "data {}".format(data) # print data to verify get request
-        if many:
-            self_link = "/master_animal/"
-        else:
-            self_link = "/master_animal/{}".format(data['attributes']['cownumber'])
-        return {"self":self_link}
-    class Meta:
-        type_ = 'master_animal'
+	not_blank = validate.Length(min=1, error ='Field cannot be blank')
+	id = fields.Integer(dump_only=True) #WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate = not_blank)
+	height = fields.Float(validate = not_blank)
+	weight = fields.Float(validate = not_blank)
+	eartag = fields.String(validate = not_blank)
+	eid = fields.String(validate = not_blank)
+	sex = fields.String(validate = not_blank)
+	pasturenumber = fields.String(validate = not_blank)
+	breed = fields.String(validate = not_blank)
+	status = fields.String(validate = not_blank)
+	trial = fields.String(validate = not_blank)
+	herd = fields.String(validate = not_blank)
+	animaltype = fields.String(validate = not_blank)
+	# self links
+	def get_top_level_links(self, data, many):
+		print >> sys.stderr, "data {}".format(data) # print data to verify get request
+		if many:
+			self_link = "/master_animal/"
+		else:
+			self_link = "/master_animal/{}".format(data['attributes']['cownumber'])
+		return {"self":self_link}
+	class Meta:
+		type_ = 'master_animal'
