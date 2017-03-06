@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="/searchpage">
 	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}">
 	  </a>
     </div>
@@ -44,17 +44,16 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Cow Number" style="width: 276px;">
         </div>
-        <button type="submit" class="btn btn-danger">Search</button>
+        <button type="submit" class="btn btn-danger" id = "headersearch">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
 		  
 		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
 			<h5>
-			<a href="#" id="load"> <span class="glyphicon glyphicon-eye-open"></span>Load &nbsp;</a>
-			<a href="#"> <span class="glyphicon glyphicon-plus"></span> Add &nbsp;</a>
+			<a href="" id="load"> <span class="glyphicon glyphicon-eye-open"></span>Load &nbsp;</a>
+			<a href="/adddashboard"> <span class="glyphicon glyphicon-plus"></span> Add &nbsp;</a>
 			<a href="#"> <span class="glyphicon glyphicon-floppy-disk"></span> Save &nbsp;</a>
-			<a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;</a>
-			<a href="/signup"><span class="glyphicon glyphicon-pencil"></span> Sign up &nbsp;</a><h5>
+			<a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;</a></h5>
 					  
 		  </div>
 		</div>
@@ -64,6 +63,25 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<script type = "text/javascript">
+	$(function retriveCowNumber () {
+		$('#headersearch').click(function() {
+			var cownumber = $('#cowSearch').val();
+			$.ajax({
+				url: '/api/master_animal/'+cownumber,
+				data: $('form').serialize(),
+				type: 'GET',
+				success: function(data) {
+					window.location.href = '/dashboard?cownumber='+cownumber
+					console.log(data);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+	});
+</script>
 </head>
 
 <body>

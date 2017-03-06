@@ -23,7 +23,7 @@ api = Api(app)
 api.add_resource(table_basics, '/api/master_animal/<cownumber>')
 api.add_resource(table_basics, '/api/master_animal/', endpoint = "cownumber")
 
-@app.route('/')
+
 @app.route('/searchpage')
 def searchpage():
 	return render_template("search.html")
@@ -39,8 +39,11 @@ def searchpage():
 @app.route('/dashboard', methods = ['GET','POST'])
 def dashboard():
 	return render_template(("dashboard.html"))
+@app.route('/adddashboard', methods = ['GET','POST'])
+def adddashboard():
+    return render_template("adddashboard.html")
 
-	
+@app.route('/', methods = ['GET','POST'])
 @app.route('/login', methods = ['GET','POST'])
 def login_page():
         error = None
