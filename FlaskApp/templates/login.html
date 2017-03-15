@@ -7,12 +7,33 @@
 	<br>
 	<h4>Please Login</h4>
 	<br>
-	<form action="" class="form-inline" method="post">
-		<input type="text" class="form-control" placeholder = "Username" name="username"
-		value="{{request.form.username}}">
-		<input type="password" class="form-control" placeholder = "Password" name="password"
-		value="{{request.form.password}}">
-		<input class="btn btn-default" type="submit" value="Login">
+	<form action="/login" class="form-inline" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+		  {{ form.email.label }}
+		  
+		  {% if form.email.errors %}
+			{% for error in form.email.errors %}
+				<p class="error-message">{{ error }}
+			{% endfor %}
+		  {% endif %}
+		  
+		  {{ form.email }}
+		</div>
+
+		<div class="form-group">
+		  {{ form.password.label }}
+		  
+		  {% if form.password.errors %}
+			{% for error in form.password.errors %}
+				<p class="error-message">{{ error }}
+			{% endfor %}
+		  {% endif %}
+		  
+		  {{ form.password }}
+		</div>
+		
+		{{ form.submit(class="btn-primary") }}
 	</form>
 	
 	<p>{{error}}</p>

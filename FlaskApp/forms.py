@@ -9,9 +9,8 @@ class SignupForm(Form):
 	email = StringField('Email', validators=[DataRequired("Please enter your email address."), Email("Please enter your email address.")])
 	password = PasswordField('Password', validators=[DataRequired("Please enter a password."), Length(min=6, message="Passwords must be 6 characters or more.")])
 	submit = SubmitField('Sign up')
-	
-class Master_animalForm(Form):
-	cownumber = StringField('cownumber', validators = [DataRequired("Please enter Cow number")])
-	height = StringField('height', validators = [DataRequired("Please enter the height of the cow")])
-	weight = StringField('weight', validators = [DataRequired("Please enter the weight of the cow")])
-	submit = SubmitField('submit')
+
+class LoginForm(Form):
+	email = StringField('Email', validators = [DataRequired("Please enter your email address."), Email("Please enter your email address.")])
+	password = PasswordField('Password', validators = [DataRequired("Please enter a password.")])
+	submit = SubmitField("Sign in")

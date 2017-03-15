@@ -52,7 +52,7 @@
 	</script>
 	<script type = "text/javascript">
 		$(document).ready(function(){
-		$('#load').click(function(){
+		$('#load').click(function(e){
 			var cownumber = getQueryVariable("cownumber")
 			$.ajax({
 					url: '/api/master_animal/'+cownumber,
@@ -89,7 +89,7 @@
 						console.log(error)
 					}
 				});
-
+			e.preventDefault();
 		  });
 		});
 	</script>
@@ -99,7 +99,7 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li>
-	<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Inventory</a></li>
+	<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Animal Inventory</a></li>
 	<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
 	<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
 	<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>

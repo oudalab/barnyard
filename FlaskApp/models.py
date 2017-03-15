@@ -34,25 +34,34 @@ class CRUD():
  
 #Our Users Models, which will inherit Flask-SQLAlchemy Model class and the CRUD class defined above
 class Users(db.Model, CRUD):
-    __tablename__ = 'users'
-    uid = db.Column(db.Integer, primary_key = True)
-    firstname = db.Column(db.Text)
-    lastname = db.Column(db.Text)
-    email = db.Column(db.Text, unique=True)
-    pwdhash = db.Column(db.Text)
+	__tablename__ = 'users'
+	uid = db.Column(db.Integer,primary_key = True)
+	firstname = db.Column(db.Text)
+	lastname = db.Column(db.Text)
+	email = db.Column(db.Text, unique = True)
+	pwdhash = db.Column(db.Text)
 
-    def __init__(self, firstname, lastname, email, password):
+	def is_authenticated(self):
+		return self.is_authenticated
+
+	def set_password(self,password):
+		self.pwdhash = bcrypt.generate_password_hash(password)
+
+	def check_password(self,password):
+		return bcrypt.check_password_hash(self.pwdhash, password)
+
+	def is_active(self):
+		#true, as all users are active
+		return True
+
+	def get_id(self):
+		return self.email
+
+	def __init__(self, firstname, lastname, email, password):
 		self.firstname = firstname
-		self.lastname = lastname
+		self.lastnaem = lastname
 		self.email = email
 		self.set_password(password)
-
-    def set_password(self, password):
-        self.pwdhash = bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def check_password(self, password):
-        return bcrypt.check_password_hash(pwdhash, password)
-
 
 
 class UsersSchema(Schema):

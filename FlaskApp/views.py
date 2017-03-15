@@ -20,7 +20,7 @@ class table_basics(Resource):
     def post(self):
         raw_dict = request.get_json(force=True)
         master_dict = raw_dict['data']['attributes']
-        print >> sys.stderr, "data {}".format(raw_dict)
+        #print >> sys.stderr, "data {}".format(raw_dict)
         try:
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(master_dict)
@@ -50,8 +50,31 @@ class UsersUpdate(Resource):
     def get(self, uid):
         user_query = Users.query.get_or_404(uid)
         result = schema.dump(user_query).data
-        return result       
-    
+        return result
+
+    def patch(self, id):
+        user = Users.query.get_or_404(id)
+        raw_dict = request.get_json(force=True)
+        user_dict = raw_dict['data']['attributes']
+        try:
+            for key, value in user_dict.items():
+                schema.validate({key: value})
+                setattr(user, key, value)
+
+            user.update()
+            return self.get(id)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
+
     def patch(self, uid):
         user = Users.query.get_or_404(uid)
         raw_dict = request.get_json(force=True)
