@@ -42,13 +42,6 @@ def load_user(userid):
 @app.route('/searchpage')
 def searchpage():
     return render_template("search.html")
-
-# @app.route('/api/master_animal/')
-# def getpost():
-    # cow= request.args.get('cownumber')
-    # r= requests.get('/api/master_animal/'+cow).content
-    # return jsonify(r)
-
  
  
 @app.route('/dashboard', methods = ['GET','POST'])
@@ -102,25 +95,10 @@ def signup():
 
 @app.route('/iacuc')
 def iacuc():
-    password1 = "password"
-    password2 = "password"
-    hash1 = bcrypt.generate_password_hash(password1)
-    hash2 = bcrypt.generate_password_hash(password2)
-    if bcrypt.check_password_hash(hash1, "password"):
-        print >> sys.stderr, "This passed for Password 1{}".format(hash1)
-    else:
-        print >> sys.stderr, "This FAILED for Password 1{}".format(hash1)
-    if bcrypt.check_password_hash(hash2, "password"):
-        print >> sys.stderr, "This passed for Password 2{}".format(hash2)
-    else:
-        print >> sys.stderr, "This FAILED for Password 2{}".format(hash2)
     return render_template("IACUC.html")
 
 @app.route('/api/post', methods = ['GET', 'POST'])
 def cowStatus():
-    #print >> sys.stderr, "data {}".format(request.args)
-    #print >> sys.stderr, "data {}".format(request.form)
-    #print >> sys.stderr, "It is 9:13"
     if request.method == "POST":
         cownumber = request.form.get('cownumber')
         height = request.form.get('height')
