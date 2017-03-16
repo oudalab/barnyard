@@ -1,0 +1,45 @@
+{% extends "header.html" %}
+{% block body %}
+<html>
+<head>
+<link rel="stylesheet" media="screen" href = "static/css/bootstrap.min.css">
+</head>
+
+<body>
+	<h1>Medical Inventory</h1>
+	<form class = "form-horizontal" style="margin-top:15px;">
+		<div class="form-group">
+					<label for="nameofmeds" class="control-label col-xs-1">Medication</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="nameofmeds" placeholder="Medication">
+					</div>
+					<label for="medsquantity" class="control-label col-xs-1">Meds Quantity</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="medsquantity" placeholder="Quantity">
+					</div>						
+					<label for="medscost" class="control-label col-xs-1">Cost</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="medscost" placeholder="Cost">
+					</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-1" for="date">Date of Purchase</label>
+			<div class="input-group col-xs-2">
+			   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-1" for="date">Expiry</label>
+			<div class="input-group col-xs-2">
+			   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+			</div>
+		
+		</div>
+	</form>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type = "text/javascript" src = "/static/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</html>
+{% endblock %}

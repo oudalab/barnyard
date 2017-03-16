@@ -38,6 +38,10 @@ login_manager.login_view = "login"
 def load_user(userid):
     return Users.query.get(userid)
 
+@app.route('/pharma')
+def pharma():
+    return render_template("Pharma.html")
+
 
 @app.route('/searchpage')
 def searchpage():

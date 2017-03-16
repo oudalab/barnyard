@@ -5,7 +5,8 @@
 	<script type = "text/javascript">
 		$(function inputData() {
 
-		$('#submit_button').click(function(e) {
+		$('#basic_update').click(function(e) {
+			var cownumber = getQueryVariable("cownumber")
 			var basic = {
 				cownumber : $('#cownumber').val(),
 				height: $('#height').val(),
@@ -21,10 +22,10 @@
 				animaltype : $('#animaltype option:selected').text()
 				}
 				$.ajax({
-					url: '/api/post',
+					url: '/api/master_animal/'+cownumber,
 					data: basic,
 					datatype: 'json',
-					type: 'POST',
+					type: 'PATCH',
 					success: function(response) {
 						console.log(response);
 						alert("Data saved")
@@ -211,16 +212,16 @@
 					</div>
 				  </div>
 				</fieldset>
-				<button id="submit_button" method="POST" class='btn btn-default'>Update</button></a>
+				<button id="basic_update" method="POST" class='btn btn-default'>Update</button></a>
 			</form>
 		</div>
 		<div role="tabpanel" class="tab-pane fade" id="calf_inventory">
 			<form class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
 					<label for="trial" class="control-label col-xs-1">Trial</label>
-				<div class="col-xs-2">
-					<input type="text" class="form-control" id="trial">
-				</div>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="trial">
+					</div>
 					<label for="herd" class="control-label col-xs-1">Herd</label>
 					<div class="col-xs-2">
 						<input type="text" class="form-control" id="herd">
