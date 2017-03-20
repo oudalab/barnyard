@@ -52,8 +52,7 @@
 	}
 	</script>
 	<script type = "text/javascript">
-		$(document).ready(function(){
-		$('#load').click(function(e){
+		$(document).ready(function(e){
 			var cownumber = getQueryVariable("cownumber")
 			$.ajax({
 					url: '/api/master_animal/'+cownumber,
@@ -91,7 +90,6 @@
 					}
 				});
 			e.preventDefault();
-		  });
 		});
 	</script>
 </head>
