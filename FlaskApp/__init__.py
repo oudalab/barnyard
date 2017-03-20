@@ -9,9 +9,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
-import syslog
-import sys
+import syslog, sys
 import json
+
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -41,6 +41,10 @@ def load_user(userid):
 @app.route('/pharma')
 def pharma():
     return render_template("Pharma.html")
+
+@app.route('/check')
+def check():
+    return render_template("check.html")
 
 
 @app.route('/searchpage')
@@ -104,6 +108,8 @@ def iacuc():
 @app.route('/api/post', methods = ['GET', 'POST'])
 def cowStatus():
     if request.method == "POST":
+        basic = request.get_json
+        print >> sys.stderr, "data {}".format(basic)
         cownumber = request.form.get('cownumber')
         height = request.form.get('height')
         weight = request.form.get('weight')
@@ -125,29 +131,6 @@ def cowStatus():
 
     elif request.method == "GET":
             return render_template(("dashboard.html"), form = form)
-
-@app.route('/new')
-def newPage():
-    return render_template(("new.html"))
-
-@app.route('/background_process')
-def background_process():
-    lang = request.args.get('proglang')
-    if str(lang).lower() == 'python':
-        return jsonify(result = 'You are wise!')
-    else:
-        return jsonify(result = 'Try again')
-
-@app.route('/new2')
-def signUp():
-    return render_template('new2.html')
-
-@app.route('/signUpUser', methods=['POST'])
-def signUpUser():
-    user =  request.form['username'];
-    password = request.form['password'];
-    return json.dumps({'status':'OK','user':user,'pass':password});
-
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

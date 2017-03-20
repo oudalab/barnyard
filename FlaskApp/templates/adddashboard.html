@@ -21,12 +21,13 @@
 				animaltype : $('#animaltype option:selected').text()
 				}
 				$.ajax({
-					url: '/api/post',
+					url: '/api/master_animal/',
 					data: basic,
 					datatype: 'json',
 					type: 'POST',
-					success: function(response) {
+					success: function(response, basic) {
 						console.log(response);
+						console.log(basic)
 						alert("Data saved")
 						window.location.href = '/dashboard?cownumber='+basic.cownumber
 					},

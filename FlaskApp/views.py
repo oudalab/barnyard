@@ -15,27 +15,28 @@ class table_basics(Resource):
         master_animal_query = Master_animal.query.get_or_404(cownumber)
         #Serialize the query results in the JSON API format
         result = schemaMaster.dump(master_animal_query).data
+        print >> sys.stderr, "data {}".format(result)
         return result
-       
+
     def post(self):
-        raw_dict = request.get_json(force=True)
-        master_dict = raw_dict['data']['attributes']
+        raw_dict = request.form
+        #master_dict = raw_dict['data']['attributes']
         try:
                 #Validate the data or raise a Validation error if
-                schemaMaster.validate(master_dict)
+                schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber=master_dict['cownumber'], weight=master_dict['weight'],height=master_dict['height'],eartag=master_dict['eartag'],eid=master_dict['eid'],sex=master_dict['sex'],pasturenumber=master_dict['pasturenumber'],breed=master_dict['breed'],status=master_dict['status'],trial=master_dict['trial'],herd=master_dict['herd'],animaltype=master_dict['animaltype'])
+                master = Master_animal(cownumber=raw_dict['cownumber'], weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
                 master.add(master)
                 query = Master_animal.query.all()
                 results = schemaMaster.dump(query, many = True).data
                 return results, 201
 
-            
+
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
                 resp.status_code = 403
-                return resp               
-                
+                return resp
+
         except SQLAlchemyError as e:
                 db.session.rollback()
                 resp = jsonify({"error": str(e)})
@@ -43,12 +44,16 @@ class table_basics(Resource):
                 return resp
 
     def patch(self, cownumber):
+        print >> sys.stderr, "THIS IS RIGHT AT THE START OF THE PATCH {}".format(cownumber)
         master_animal_query = Master_animal.query.get_or_404(cownumber)
-        raw_dict = request.get_json(force=True)
-        master_dict = raw_dict['data']['attributes']
+        print >> sys.stderr, "THIS IS THE QUERY REQUREST {}".format(master_animal_query)
+        raw_dict = request.form
+        print >> sys.stderr, "Request.form {}".format(raw_dict)
+        #raw_dict = request.get_json(force=True)
+        #master_dict = raw_dict['data']['attributes']
         try:
-            schemaMaster.validate(master_dict)
-            for key, value in master_dict.items():
+            schemaMaster.validate(raw_dict)
+            for key, value in raw_dict.items():
                 setattr(master_animal_query, key, value)
 
             master_animal_query.update()
@@ -66,7 +71,7 @@ class table_basics(Resource):
             return resp
 
 class UsersUpdate(Resource):
- 
+
     def get(self, uid):
         user_query = Users.query.get_or_404(uid)
         result = schema.dump(user_query).data
@@ -77,28 +82,28 @@ class UsersUpdate(Resource):
     def patch(self, uid):
         user = Users.query.get_or_404(uid)
         raw_dict = request.get_json(force=True)
-        
+
         try:
             schema.validate(raw_dict)
             user_dict = raw_dict['data']['attributes']
             for key, value in user_dict.items():
-                
+
                 setattr(user, key, value)
-          
-            user.update()            
+
+            user.update()
             return self.get(uid)
-            
+
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
                 resp.status_code = 401
-                return resp               
-                
+                return resp
+
         except SQLAlchemyError as e:
                 db.session.rollback()
                 resp = jsonify({"error": str(e)})
                 resp.status_code = 401
                 return resp
-         
+
     #http://jsonapi.org/format/#crud-deleting
     #A server MUST return a 204 No Content status code if a deletion request is successful and no content is returned.
     def delete(self, uid):
@@ -108,13 +113,13 @@ class UsersUpdate(Resource):
             response = make_response()
             response.status_code = 204
             return response
-            
+
         except SQLAlchemyError as e:
                 db.session.rollback()
                 resp = jsonify({"error": str(e)})
                 resp.status_code = 401
                 return resp
-        
+
 
 #api.add_resource(Master_animalList11, '.json')
 #api.add_resource(Master_animalList, '/api/master_animal/<int:cownumber>')
