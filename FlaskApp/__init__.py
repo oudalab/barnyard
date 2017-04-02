@@ -1,11 +1,12 @@
-from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify
+from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify, g
 from flask_login import LoginManager, login_user, logout_user
 from models import db, Users, Master_animal
 from forms import SignupForm, LoginForm
-from views import table_basics
+from views import table_basics, table_medical_inventory
 from secrets import whole_string
 import config
 import logging
+from functools import wraps
 from logging.handlers import RotatingFileHandler
 from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
@@ -27,36 +28,54 @@ db.init_app(app)
 api = Api(app)
 api.add_resource(table_basics, '/api/master_animal/<cownumber>')
 api.add_resource(table_basics, '/api/master_animal/', endpoint = "cownumber")
+api.add_resource(table_medical_inventory, '/api/medical_inventory/')
 
 #Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first")
+            return redirect(url_for('login_page'))
+
+    return wrap
 
 @login_manager.user_loader
 def load_user(userid):
     return Users.query.get(userid)
 
+@app.route('/inspectionreport')
+def inspectionreport():
+    return render_template("Inspectionreport.html")
+
 @app.route('/pharma')
+@login_required
 def pharma():
     return render_template("Pharma.html")
 
-@app.route('/check')
-def check():
-    return render_template("check.html")
-
-
 @app.route('/searchpage')
+@login_required
 def searchpage():
     return render_template("search.html")
- 
+
+@app.route('/test')
+@login_required
+def test():
+    return render_template("test.html")
  
 @app.route('/dashboard', methods = ['GET','POST'])
+@login_required
 def dashboard():
     return render_template(("dashboard.html"))
 
 @app.route('/adddashboard', methods = ['GET','POST'])
+@login_required
 def adddashboard():
     return render_template("adddashboard.html")
 
@@ -68,17 +87,21 @@ def login_page():
         user = Users.query.filter_by(email = formLogin.email.data).first_or_404()
         if user.check_password(formLogin.password.data):
             login_user(user)
-
+            flash("Logged in Succesfully")
+            session['logged_in'] = True
             return redirect(url_for('searchpage'))
         else:
-            return redirect(url_for('login'))
+            flash("Incorrect Email/Password combination")
+            return redirect(url_for('login_page'))
     return render_template('login.html', form=formLogin)
 
 @app.route('/signout')
+@login_required
 def signout():
     logout_user()
-
-    return redirect(url_for('login'))
+    session.clear()
+    flash("You have been logged out!")
+    return redirect(url_for('login_page'))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -102,6 +125,7 @@ def signup():
                 return render_template(("signup.html"), form= form)
 
 @app.route('/iacuc')
+@login_required
 def iacuc():
     return render_template("IACUC.html")
 

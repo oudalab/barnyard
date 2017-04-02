@@ -2,7 +2,86 @@
 {% block body %}
 <html>
 <head>
-<link rel="stylesheet" media="screen" href = "static/css/bootstrap.min.css">
+
+   <!--Import jQuery before export.js-->
+	<script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+
+    <!--Data Table-->
+    <script type="text/javascript"  src=" //cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"  src=" //cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+
+    <!--Export table buttons-->
+    <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js" ></script>
+    <script type="text/javascript"  src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
+
+	<!--Export table button CSS-->
+
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+<script type = "text/javascript">
+	$(function inputDataPharma() {
+
+	$('#submit_button_pharma').click(function(e) {
+		var pharma = {
+			medication : $('#medName').val(),
+			quantity: $('#medQuantity').val(),
+			cost : $('#medCost').val(),
+			purchasedate : $('#purchaseDate').val(),
+			expirydate : $('#expiryDate').val()
+			}
+			$.ajax({
+				url: '/api/medical_inventory/',
+				data: pharma,
+				datatype: 'json',
+				type: 'POST',
+				success: function(pharma) {
+					console.log(pharma);
+					alert("Data saved")
+					location.reload()
+				},
+				error: function(error) {
+					console.log(error)
+					alert("This med already exist");
+				}
+			});
+			e.preventDefault();
+		});
+	});
+</script>
+<script>
+	$(document).ready(function () {
+		$.ajax({
+            url : '/api/medical_inventory/',
+            type : 'GET',
+            dataType : 'json',
+            success : function(data) {
+                assignToEventsColumns(data);
+            }
+        });
+
+        function assignToEventsColumns(data) {
+            var table = $('#myTable').dataTable({
+                "bAutoWidth" : false,
+                data : data.data,
+				order: [ 3, 'desc' ],
+                "columns" : [ {
+                    "data" : "attributes.medication"
+                }, {
+                    "data" : "attributes.quantity"
+                }, {
+                    "data" : "attributes.cost"
+                }, {
+                    "data" : "attributes.purchasedate"
+                }, {
+					"data" : "attributes.expirydate"
+				} ]
+            })
+        }
+	});
+</script>	
 </head>
 
 <body>
@@ -11,73 +90,52 @@
 		<div class="form-group">
 					<label for="nameofmeds" class="control-label col-xs-1">Medication</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="nameofmeds" placeholder="Medication">
+						<input type="text" class="form-control" id="medName" placeholder="Medication">
 					</div>
 					<label for="medsquantity" class="control-label col-xs-1">Meds Quantity</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="medsquantity" placeholder="Quantity">
+						<input type="text" class="form-control" id="medQuantity" placeholder="Quantity">
 					</div>						
-					<label for="medscost" class="control-label col-xs-1">Cost</label>
+					<label for="medscost" class="control-label col-xs-1">Cost($)</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="medscost" placeholder="Cost">
+						<input type="text" class="form-control" id="medCost" placeholder="Cost">
 					</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-xs-1" for="date">Date of Purchase</label>
 			<div class="input-group col-xs-2">
-			   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+			   <input class="form-control" id="purchaseDate" name="date" placeholder="MM/DD/YYYY" type="text"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label col-xs-1" for="date">Expiry</label>
+			<label class="control-label col-xs-1" for="date">Expiry Date</label>
 			<div class="input-group col-xs-2">
-			   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+			   <input class="form-control" id="expiryDate" name="date" placeholder="MM/DD/YYYY" type="text"/>
 			</div>
-		
+			<button id="submit_button_pharma" method="POST" class='btn btn-default'>Submit</button></a>
 		</div>
-		<div class="container">
-		  <h2>Table1</h2>
-		  <p>Data Entered above will be displayed here</p>
-		  <table class="table table-hover">
-			<thead>
-			  <tr>
-				<th>Medication</th>
-				<th>Quantity</th>
-				<th>Cost($)</th>
-				<th>Date of Purchase</th>
-				<th>Expiry</th>
-			  </tr>
-			</thead>
-			<tbody>
-			  <tr>
-				<td>ABC</td>
-				<td>2</td>
-				<td>200</td>
-				<td>02-28-2016</td>
-				<td>04-16-2018</td>
-			  </tr>
-			  <tr>
-				<td>XYZ</td>
-				<td>4</td>
-				<td>400</td>
-				<td>02-28-2016</td>
-				<td>04-16-2018</td>
-			  </tr>
-			  <tr>
-				<td>MNO</td>
-				<td>5</td>
-				<td>200</td>
-				<td>02-28-2016</td>
-				<td>04-16-2018</td>
-			  </tr>
-			</tbody>
-		  </table>
-		</div>
+		<table id="myTable" class="display" cellspacing="0" width="90%">
+        <thead>
+            <tr>
+                <th>Medication</th>
+                <th>Medication Quantity</th>
+                <th>Mediaction Cost</th>
+                <th>Purchase Date</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Medication</th>
+                <th>Medication Quantity</th>
+                <th>Mediaction Cost</th>
+                <th>Purchase Date</th>
+                <th>Expiry Date</th>
+            </tr>
+        </tfoot>
+    </table>
+
 	</form>
 </body>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type = "text/javascript" src = "/static/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </html>
 {% endblock %}

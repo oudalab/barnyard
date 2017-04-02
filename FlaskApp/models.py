@@ -59,7 +59,7 @@ class Users(db.Model, CRUD):
 
 	def __init__(self, firstname, lastname, email, password):
 		self.firstname = firstname
-		self.lastnaem = lastname
+		self.lastname = lastname
 		self.email = email
 		self.set_password(password)
 
@@ -138,3 +138,42 @@ class Master_animal_Schema(Schema):
 		return {"self":self_link}
 	class Meta:
 		type_ = 'master_animal'
+
+
+class Medical_Inventory(db.Model, CRUD):
+	__tablename__ = 'medical_inventory'
+	uid = db.Column(db.Integer, primary_key=True)
+	medication = db.Column(db.Text)
+	quantity = db.Column(db.Float)
+	cost= db.Column(db.Float)
+	purchasedate = db.Column(db.Text)
+	expirydate = db.Column(db.Text)
+
+	def __init__(self, medication, quantity, cost, purchasedate, expirydate):
+		self.medication = medication
+		self.quantity = quantity
+		self.cost = cost
+		self.purchasedate = purchasedate
+		self.expirydate = expirydate
+
+
+class Medical_Inventory_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)
+	medication = fields.String(validate=not_blank)
+	quantity = fields.Float(validate=not_blank)
+	cost = fields.Float(validate=not_blank)
+	purchasedate = fields.String(validate=not_blank)
+	expirydate  = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/medical_inventory/"
+		else:
+			self_link = "/medical_inventory/{}".format(data['uid'])
+		return {'self': self_link}
+
+	class Meta:
+		type_ = 'medical_inventory'
+
