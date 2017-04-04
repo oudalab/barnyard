@@ -138,6 +138,7 @@ function getQueryVariable(variable)
 				success: function(data) {
 					basicget(cownumber);
 					$("<li><a onclick='basicget("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
+					$('#headerSearchbox').val('');
 				},
 				error: function(error) {
 					console.log(error);
