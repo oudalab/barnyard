@@ -131,10 +131,21 @@ function getQueryVariable(variable)
 	<script type="text/javascript">
 		$('#headersearch').click(function(){
 				var cownumber = $('#headerSearchbox').val();
-				$("<li ><a href = '#' onclick = "+basicget(cownumber)+"> "+ cownumber + "</a></li>").appendTo( "#latestcow");
-				basicget(cownumber);
-				return false;
-			});
+				$.ajax({
+				url: '/api/master_animal/'+cownumber,
+				data: $('form').serialize(),
+				type: 'GET',
+				success: function(data) {
+					basicget(cownumber);
+					$("<li><a onclick='basicget("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
+				},
+				error: function(error) {
+					console.log(error);
+					$.notify("Cow number doesnt exist", "danger");
+				}	
+			})
+			return false;
+		});
 	</script>
 	
 </body>
