@@ -3,9 +3,10 @@
 <html>
 <head>
 	<script type = "text/javascript">
-		$(function inputData() {
+		$(function inputDataBasic() {
 
 		$('#submit_button').click(function(e) {
+			var cownumber = $('#cownumber').val();
 			var basic = {
 				cownumber : $('#cownumber').val(),
 				height: $('#height').val(),
@@ -26,33 +27,70 @@
 					datatype: 'json',
 					type: 'POST',
 					success: function(response, basic) {
-						console.log(response);
-						console.log(basic)
-						alert("Data saved")
-						window.location.href = '/searchpage'
+						$.notify("Data Saved", "success");
+						setTimeout(function() {
+							window.location.href = '/dashboard?cownumber='+cownumber
+						}, 2000);
 					},
 					error: function(error) {
 						console.log(error)
-						alert("This cow number already exist");
+						$.notify("Cow already exists", "error");
 					}
 				});
 				e.preventDefault();
 			});
 		});
 	</script>
+	<script type = "text/javascript">
+		$(function inputDataAnimalInventory() {
 
+		$('#submit_button').click(function(e) {
+			var animal_inventory = {
+				cownumber : $('#cownumber').val(),
+				brandlocation: $('#brandlocation option:selected').text(),
+				tattooleft : $('#tattooleft').val(),
+				tattooright : $('#tattooright').val(),
+				alternativeid : $('#alternativeid').val(),
+				registration: $('#registration').val(),
+				color : $('#color').val(),
+				hornstatus : $('#hornstatus option:selected').text(),
+				dam : $('#dam').val(),
+				sire : $('#sire').val(),
+				dob : $('#dob').val(),
+				howacquired : $('#howacquired option:selected').text(),
+				dateacquired : $('#dateacquired').val(),
+				howdisposed : $('#howdisposed option:selected').text(),
+				datedisposed : $('#datedisposed').val(),
+				disposalreason : $('#disposalreason').val()
+				}
+				$.ajax({
+					url: '/api/animal_inventory/',
+					data: animal_inventory,
+					datatype: 'json',
+					type: 'POST',
+					success: function(animal_inventory) {
+						console.log(animal_inventory)
+					},
+					error: function(error) {
+						console.log(error)
+					}
+				});
+				e.preventDefault();
+			});
+		});
+	</script>
 </head>
 <div>
-  <h2>ADD NEW COW DATA </h2>	
+  <h2 align = "center">ADD NEW COW DATA </h2>
+  <button id="submit_button" method="POST" class='btn btn-info' align="center;" style = "margin-bottom:20px; margin:0px auto;">Submit</button></a>  
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li>
-	<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Inventory</a></li>
+	<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Animal Inventory</a></li>
 	<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
 	<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
 	<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>
 	<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Grazing</a></li>
-	<li role="presentation"><a href="#calf_iacuc" aria-controls="calf_iacuc" role="tab" data-toggle="tab">IACUC</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -149,74 +187,29 @@
 					  </select>
 					</div>
 				</div>
-				<button id="submit_button" method="POST" class='btn btn-default'>Submit</button></a>
 			</form>
 		</div>
 		<div role="tabpanel" class="tab-pane fade" id="calf_inventory">
 			<form class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
-					<label for="trial" class="control-label col-xs-1">Trial</label>
-				<div class="col-xs-2">
-					<input type="text" class="form-control" id="trial">
-				</div>
-					<label for="herd" class="control-label col-xs-1">Herd</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="herd">
-					</div>						
-					<label for="cow_number" class="control-label col-xs-1">Cow Number</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cow_number" placeholder="Cow Number">
-					</div>
-					<label for="height" class="control-label col-xs-1">Ear Tag</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="eartag" placeholder="Ear Tag">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="weight" class="control-label col-xs-1">EID</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="eid" placeholder="Eid">
-					</div>
-					<label for="cow_name" class="control-label col-xs-1">Cow Name</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cow_name" placeholder="Cow Name">
-					</div>
-					<label for="pasture_number" class="control-label col-xs-1">Pasture Number</label>
-					<div class="col-xs-2">
-					  <select class="form-control" id="pasture_number">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-						<option>6</option>
-						<option>7</option>
-					  </select>
-					</div>
-					<label for="brand" class="control-label col-xs-1">Brand</label>
-					<div class="col-xs-2">
-						<input type="text" class="form-control" id="brand" placeholder="Brand">
-					</div>
-				</div>
-				<div class="form-group">
 					<label for="brand_location" class="control-label col-xs-1">Brand Location</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="brand_location">
+					  <select class="form-control" id="brandlocation">
 						<option>Left Hip</option>
 						<option>Right Hip</option>
 					  </select>
 					</div>
 					<label for="tattoo_left" class="control-label col-xs-1">Tattoo Left</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="tattoo_left" placeholder="Tattoo Left">
+						<input type="text" class="form-control" id="tattooleft" placeholder="Tattoo Left">
 					</div>
 					<label for="tattoo_right" class="control-label col-xs-1">Tattoo Right</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="tattoo_right" placeholder="Tattoo Right">
+						<input type="text" class="form-control" id="tattooright" placeholder="Tattoo Right">
 					</div>
 					<label for="alternative_id" class="control-label col-xs-1">Alternative ID</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="alternative_id" placeholder="Alternative ID">
+						<input type="text" class="form-control" id="alternativeid" placeholder="Alternative ID">
 					</div>
 				</div>
 				<div class="form-group">
@@ -245,7 +238,7 @@
 				<div class="form-group">
 					<label for="horn_status" class="control-label col-xs-1">Horn Status</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="horn_status">
+					  <select class="form-control" id="hornstatus">
 						<option>Polled</option>
 						<option>Scurred</option>
 						<option>Horned</option>
@@ -262,13 +255,13 @@
 					</div>
 					<label class="control-label col-xs-1" for="date">D.O.B</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="dob" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="acquired_info" class="control-label col-xs-1">How Acquired</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="acquired_info">
+					  <select class="form-control" id="howacquired">
 						<option>Raised</option>
 						<option>Purchased</option>
 						<option>Leased</option>
@@ -276,13 +269,13 @@
 					</div>
 					<label class="control-label col-xs-1" for="date">Date Acquired</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="dateacquired" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="disposed_info" class="control-label col-xs-1">How Disposed</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="disposed_info">
+					  <select class="form-control" id="howdisposed">
 						<option>Sold</option>
 						<option>Died</option>
 						<option>Euthanized</option>
@@ -291,13 +284,13 @@
 					</div>
 					<label class="control-label col-xs-1" for="date">Date Disposed</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="datedisposed" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">	
 					<label for="disposal_reason" class="control-label col-xs-1">Disposal Reason</label>
 					<div class="col-xs-4">
-						<input type="text" class="form-control" id="disposal_reason" placeholder="Disposal Reason ">
+						<input type="text" class="form-control" id="disposalreason" placeholder="Disposal Reason ">
 					</div>
 				</div>
 			</form>
@@ -459,36 +452,6 @@
 					<div class="col-xs-2">
 						<input type="text" id="replicate" class="form-control" placeholder="Replicate">
 					</div>
-				</div>
-				<div class="container">
-				  <h2>Table1</h2>
-				  <p>The hover state on table rows:</p>
-				  <table class="table table-hover">
-					<thead>
-					  <tr>
-						<th>Firstname</th>
-						<th>Lastname</th>
-						<th>Email</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  <tr>
-						<td>John</td>
-						<td>Doe</td>
-						<td>john@example.com</td>
-					  </tr>
-					  <tr>
-						<td>Mary</td>
-						<td>Moe</td>
-						<td>mary@example.com</td>
-					  </tr>
-					  <tr>
-						<td>July</td>
-						<td>Dooley</td>
-						<td>july@example.com</td>
-					  </tr>
-					</tbody>
-				  </table>
 				</div>
 			</form>
 		</div>
@@ -804,56 +767,6 @@
 					</div>
 					<p>Importing PDFs coming soon</p>
 				</div>
-				<div class="form-group">
-					<div class="container">
-					  <h2>Pharmaceuticals</h2>
-					  <table class="table table-hover">
-						<thead>
-						  <tr>
-							<th>Name/Number</th>
-							<th>Pharmaceutical Name</th>
-							<th>Pharmaceutical Amount</th>
-							<th>Route of Administration</th>
-							<th>Location of Administration</th>
-							<th>Withdrawal Time</th>
-							<th>Documents</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>123</td>
-							<td>xyz</td>
-							<td>$$$</td>
-							<td>abc</td>
-							<td>pqr</td>
-							<td>23 days</td>
-							<td>docs</td>
-						  </tr>
-						</tbody>
-					  </table>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="container">
-					  <h2>Surgeries</h2>
-					  <table class="table table-hover">
-						<thead>
-						  <tr>
-							<th>Name/Number</th>
-							<th>Type of Surgery</th>
-							<th>Documents</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>123</td>
-							<td>xyz</td>
-							<td>docs</td>
-						  </tr>
-						</tbody>
-					  </table>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane fade" id="calf_grazing">
@@ -909,313 +822,6 @@
 							<input type="text" class="form-control" id="stocking_rate" placeholder="Stocking Rate">
 						</div>
 					</fieldset>
-				</div>
-				<div class="form-group">
-					<div class="container">
-					  <h2>P Sampling</h2>
-					  <table class="table table-hover">
-						<thead>
-						  <tr>
-							<th>Pasture Number</th>
-							<th>Sample</th>
-							<th>Biomass</th>
-							<th>DM Available</th>
-							<th>CP</th>
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>123</td>
-							<td>sample No.34</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-							<td>-</td>
-						  </tr>
-						</tbody>
-					  </table>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="container">
-					  <h2>Burning</h2>
-					  <table class="table table-hover">
-						<thead>
-						  <tr>
-							<th>Pasture Number</th>
-							<th>Date Burned</th>
-							<th>Quality of Burn</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>123</td>
-							<td>MM/DD/YYYY</td>
-							<td>75%</td>
-						  </tr>
-						</tbody>
-					  </table>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="container">
-					  <h2>Herbicide/Pesticide</h2>
-					  <table class="table table-hover">
-						<thead>
-						  <tr>
-							<th>Pasture Number</th>
-							<th>Chemical Name</th>
-							<th>Application Rate</th>
-							<th>Application Date</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>123</td>
-							<td>xyz</td>
-							<td>2acres/hour</td>
-							<td>MM/DD/YYYY</td>
-						  </tr>
-						</tbody>
-					  </table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div role="tabpanel" class="tab-pane fade" id="calf_iacuc">
-			<div class="form-horizontal">
-				<ul class="nav nav-tabs nav-justified">
-					<li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab">1</a></li>
-					<li role="presentation"><a href="#2" aria-controls="2" role="tab" data-toggle="tab">2</a></li>
-				</ul>
-				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane fade in active" id="1">
-						<form class="form-horizontal" style="margin-top:15px;">
-							<div class="form-group">
-								<label for="pasture_number" class="control-label col-xs-1">Pasture Number</label>
-								<div class="col-xs-2">
-									<input type="text" class="form-control" id="pasture_number" placeholder="Pasture Number">
-								</div>
-								<label for="general_appearance" class="control-label col-xs-1">General Appearance</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="general_appearance">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-								<label for="livestock" class="control-label col-xs-1">Livestock</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="livestock">
-									<option>Present</option>
-									<option>Absent</option>
-								  </select>
-								</div>
-								<label class="control-label col-xs-1" for="date">Date Inspected</label>
-								<div class="input-group col-xs-2">
-								   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="animal_condition" class="control-label col-xs-1">Animal Condition</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="animal_condition">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-								<label for="fencing" class="control-label col-xs-1">Fencing</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="fencing">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-								<label for="access_to_feed" class="control-label col-xs-1">Access To Feed/Food</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="access_to_feed">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-								<label for="access_to_water" class="control-label col-xs-1">Access To Water</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="access_to_water">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="water_cleanliness" class="control-label col-xs-1">Cleanliness of Water</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="water_cleanliness">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-								<label for="shed_access" class="control-label col-xs-1">Access to Shed/Shelter</label>
-								<div class="col-xs-2">
-								  <select class="form-control" id="shed_access">
-									<option>Poor</option>
-									<option>Fair</option>
-									<option>Good</option>
-									<option>Excellent</option>
-								  </select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="iacuc_comments" class="control-label col-xs-2">Comments</label>
-								<div class="col-xs-10">
-									<input type="text" class="form-control" id="iacuc_comments" placeholder="Comments">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="iacuc_major_deficiencies" class="control-label col-xs-2">Major Deficiencies</label>
-								<div class="col-xs-10">
-									<input type="text" class="form-control" id="iacuc_major_deficiencies" placeholder="Major Deficiencies">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="iacuc_minor_deficiencies" class="control-label col-xs-2">Minor Deficiencies</label>
-								<div class="col-xs-10">
-									<input type="text" class="form-control" id="iacuc_minor_deficiencies" placeholder="Minor Deficiencies">
-								</div>
-							</div>
-						</form>
-					</div>
-					<div role="tabpanel" class="tab-pane fade" id="2">
-						<div class="form-horizontal" style="margin-top:15px;">
-							<form class="form-horizontal" style="margin-top:15px;">
-								<div class="form-group">
-									<label for="building_number" class="control-label col-xs-2">Building Number</label>
-									<div class="col-xs-2">
-										<input type="text" class="form-control" id="building_number" placeholder="Building Number">
-									</div>
-									<label for="general_appearance" class="control-label col-xs-2">General Appearance</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="general_appearance">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="electrical_lighting" class="control-label col-xs-2">Electrical/Lighting</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="electrical_lighting">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-									<label class="control-label col-xs-2" for="date">Date Inspected</label>
-									<div class="input-group col-xs-2">
-									   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="housekeeping_cleanliness" class="control-label col-xs-2">Housekeeping or Cleanliness</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="housekeeping_cleanliness">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-									<label for="squeezechute_headcatch" class="control-label col-xs-2">Working Condition of sqeeze chute/Head Catch</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="squeezechute_headcatch">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="headcatch_exit" class="control-label col-xs-2">Evidence of non-slip surface for livesock exiting Head Catch</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="headcatch_exit">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-									<label for="pen_condition" class="control-label col-xs-2">Working Pen Conditions</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="pen_condition">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="sharp_disposal_containers" class="control-label col-xs-2">Evidence of sharp disposal container</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="sharp_disposal_containers">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-									<label for="drug_storage" class="control-label col-xs-2">Drug Storage</label>
-									<div class="col-xs-2">
-									  <select class="form-control" id="drug_storage">
-										<option>Poor</option>
-										<option>Fair</option>
-										<option>Good</option>
-										<option>Excellent</option>
-									  </select>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="iacuc2_comments" class="control-label col-xs-2">Comments</label>
-									<div class="col-xs-10">
-										<input type="text" class="form-control" id="iacuc2_comments" placeholder="Comments">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="iacuc_major2_deficiencies" class="control-label col-xs-2">Major Deficiencies</label>
-									<div class="col-xs-10">
-										<input type="text" class="form-control" id="iacuc_major2_deficiencies" placeholder="Major Deficiencies">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="iacuc_minor2_deficiencies" class="control-label col-xs-2">Minor Deficiencies</label>
-									<div class="col-xs-10">
-										<input type="text" class="form-control" id="iacuc_minor2_deficiencies" placeholder="Minor Deficiencies">
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

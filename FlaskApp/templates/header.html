@@ -14,51 +14,26 @@
         })
     })
 </script>
+
 <script>
-	window.setTimeout(function() {
-		$(".alert").fadeTo(500, 0).slideUp(500, function(){
-			$(this).remove(); 
-		});
-	}, 4000);
+function getQueryVariable(variable)
+{
+	   var query = window.location.search.substring(1);
+	   var vars = query.split("&");
+	   for (var i=0;i<vars.length;i++) {
+			   var pair = vars[i].split("=");
+			   if(pair[0] == variable){return pair[1];}
+	   }
+	   return(false);
+}
 </script>
-<script type = "text/javascript">
-	$(function retriveCowNumber () {
-		$('#headersearch').click(function() {
-			var cownumber = $('#headerSearchbox').val();
-			$.ajax({
-				url: '/api/master_animal/'+cownumber,
-				data: $('form').serialize(),
-				type: 'GET',
-				success: function(data) {
-					window.location.href = '/dashboard?cownumber='+cownumber
-					console.log(data);
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});
+<script>
+	jQuery(document).ready(function()
+		{
+			jQuery('.alert').delay(3000).fadeOut();
 		});
-	});
 </script>
-<script type = "text/javascript">
-	$(function sidebarSearch (component) {
-		$('#headersearch').click(function() {
-			var cownumber = $('#component').val();
-			$.ajax({
-				url: '/api/master_animal/'+cownumber,
-				data: $('form').serialize(),
-				type: 'GET',
-				success: function(data) {
-					window.location.href = '/dashboard?cownumber='+cownumber
-					console.log(data);
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});
-		});
-	});
-</script>
+
 	<meta charset="utf-8">
 	<title>Barnyard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,7 +61,7 @@
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
-			<input type="text" class="form-control" placeholder="Cow Number" id="headerSearchbox" style="width: 276px;">
+			<input type="text" class="form-control" placeholder="Cow Number" id="headerSearchbox" style="width: 250px;">
 			<button type="submit" class="btn btn-danger" id = "headersearch">Search</button>
 		</div>
         
@@ -114,57 +89,54 @@
 </head>
 
 <body>
-	<div class="container-fluid" style="min-height:100%; width:90%">
-      {% with msgs = get_flashed_messages() %}
-        {% if msgs %}
-          {%- for msg in msgs %}
-            <div class="alert alert-info">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<!-- <strong>Title</strong> --> {{ msg }}
-            </div>
-          {% endfor -%}
-        {% endif %}
-      {% endwith %}
-	
-	{% block body %}{% endblock %}
+	<div class="container-fluid" style="min-height:100%; width:100%">
+		{% block body %}{% endblock %}
+		<div style="width:50%; margin:0px auto;" align="center">
+		  {% with msgs = get_flashed_messages() %}
+			{% if msgs %}
+			  {%- for msg in msgs %}
+				<div class="alert alert-info">
+					{{ msg }}
+				</div>
+			  {% endfor -%}
+			{% endif %}
+		  {% endwith %}
+		</div>
 	</div>
+
+	<!--Importing jquery-->
+	<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
+	<!--Importing jquery-->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<!--Font Awesome (added because you use icons in your prepend/append)-->
+	<!-- <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" /> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Extra JavaScript/CSS added manually in "Settings" tab -->
+	<!-- Include jQuery -->
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	<script type = "text/javascript" src = "/static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type = "text/javascript" src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+	<script type="text/javascript">
+		$('#headersearch').click(function(){
+				var cownumber = $('#headerSearchbox').val();
+				$("<li ><a href = '#' onclick = "+basicget(cownumber)+"> "+ cownumber + "</a></li>").appendTo( "#latestcow");
+				basicget(cownumber);
+				return false;
+			});
+	</script>
 	
-	<div id="notifications"></div>
-
-<!--Importing jquery-->
-<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" /> 
-<!--Importing jquery-->
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<!--Font Awesome (added because you use icons in your prepend/append)-->
-<!-- <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" /> -->
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<!-- Extra JavaScript/CSS added manually in "Settings" tab -->
-<!-- Include jQuery -->
-
-<!-- Include Date Range Picker -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-	
-	
-
-<script type = "text/javascript" src = "/static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
 </body>
 
 

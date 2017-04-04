@@ -2,8 +2,15 @@
 {% block body %}
 <html>
 <head>
+<script>
+	<!-- $(document).ready(function(e){ -->
+		<!-- var cownumber = getQueryVariable("cownumber") -->
+		<!-- $("<li><a href='#1234'>$('#cownumber').val()</a></li>").appendTo( "#latestcow"); -->
+	<!-- }); -->
+	
+</script>
 	<script type = "text/javascript">
-		$(function inputData() {
+		$(function inputDataBasic() {
 		$('#basic_update').click(function(e) {
 			var cownumber = getQueryVariable("cownumber")
 			var basic = {
@@ -28,11 +35,11 @@
 					type: 'PATCH',
 					success: function(response) {
 						console.log(response);
-						alert("Data saved")
+						$.notify("Data Saved", "info");
 					},
 					error: function(error) {
 						console.log(error)
-						alert("This cow number already exist");
+						$.notify("Cow number already exist", "danger");
 					}
 				});
 				e.preventDefault();
@@ -40,24 +47,21 @@
 		});
 	</script>
 	<script>
-	function getQueryVariable(variable)
-	{
-		   var query = window.location.search.substring(1);
-		   var vars = query.split("&");
-		   for (var i=0;i<vars.length;i++) {
-				   var pair = vars[i].split("=");
-				   if(pair[0] == variable){return pair[1];}
-		   }
-		   return(false);
-	}
+		$(document).ready(function(){
+			var cownumber = getQueryVariable("cownumber")
+			basicget(cownumber)	
+		});
+	
 	</script>
 	
+	
 	<!-- Code to Load Data -->
-	<script type = "text/javascript">
+<script type = "text/javascript">
+	function basicget( variable) 
+	{
 		$(document).ready(function(e){
-			var cownumber = getQueryVariable("cownumber")
 			$.ajax({
-					url: '/api/master_animal/'+cownumber,
+					url: '/api/master_animal/'+variable,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
@@ -74,7 +78,7 @@
 						var trial = data.data.attributes.trial;
 						var herd = data.data.attributes.herd;
 						var animaltype = data.data.attributes.animaltype;
-						$('#cownumber').val(cownumber);
+						$('#cownumber').val(variable);
 						$('#height').val(height);
 						$('#weight').val(weight);
 						$('#eartag').val(eartag);
@@ -91,31 +95,17 @@
 						console.log(error)
 					}
 				});
-			e.preventDefault();
 		});
+
+	}
 	</script>
 </head>
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="col-xs-2 well sidebar-nav" style="margin-top:50px;max-height:500px;overflow-y:scroll;padding-left: 0px;padding-right: 0px;">
+		<div class="col-xs-2 well sidebar-nav" id="latestcow" style="margin-top:50px;max-height:500px;overflow-y:scroll;padding-left: 0px;padding-right: 0px;">
                 <ul class=" scrollable-menu">
 					<h4>Cow Numbers</h4>
-                    <a id="component1" href="" onclick="retriveCowNumber(component1)">Action</a><br>
-                    <a id="component2" href="" onclick="retriveCowNumber(component2)">Another action</a><br>
-                    <a href="#">Something else here</a><br>
-                    <a href="#">Action</a><br>
-                    <a href="#">Another action</a><br>
-                    <a href="#">Something else here</a><br>
-                    <a href="#">Action</a><br>
-                    <a href="#">Another action</a><br>
-                    <a href="#">Something else here</a><br>
-                    <a href="#">Action</a><br>
-                    <a href="#">Another action</a><br>
-                    <a href="#">Something else here</a><br>
-                    <a href="#">Action</a><br>
-                    <a href="#">Another action</a><br>
-					<a href="#">Action</a><br>
-                    <a href="#">Another action</a><br>
+					
                 </ul>
 		</div>
 		

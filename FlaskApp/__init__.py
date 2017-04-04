@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify, g
 from flask_login import LoginManager, login_user, logout_user
-from models import db, Users, Master_animal
+from models import db, Users
 from forms import SignupForm, LoginForm
-from views import table_basics, table_medical_inventory
+from views import table_basics, table_medical_inventory,table_animal_inventory
 from secrets import whole_string
 import config
 import logging
@@ -27,7 +27,9 @@ db.init_app(app)
 #API configurations
 api = Api(app)
 api.add_resource(table_basics, '/api/master_animal/<cownumber>')
-api.add_resource(table_basics, '/api/master_animal/', endpoint = "cownumber")
+api.add_resource(table_basics, '/api/master_animal/', endpoint = "1")
+api.add_resource(table_animal_inventory, '/api/animal_inventory/<cownumber>')
+api.add_resource(table_animal_inventory, '/api/animal_inventory/', endpoint = "2")
 api.add_resource(table_medical_inventory, '/api/medical_inventory/')
 
 #Login Manager
@@ -129,32 +131,32 @@ def signup():
 def iacuc():
     return render_template("IACUC.html")
 
-@app.route('/api/post', methods = ['GET', 'POST'])
-def cowStatus():
-    if request.method == "POST":
-        basic = request.get_json
-        print >> sys.stderr, "data {}".format(basic)
-        cownumber = request.form.get('cownumber')
-        height = request.form.get('height')
-        weight = request.form.get('weight')
-        eartag = request.form.get('eartag')
-        eid = request.form.get('eid')
-        sex = request.form.get('sex')
-        pasturenumber = request.form.get('pasturenumber')
-        breed = request.form.get('breed')
-        status = request.form.get('status')
-        trial = request.form.get('trial')
-        herd = request.form.get('herd')
-        animaltype = request.form.get('animaltype')
-        newmaster = Master_animal(cownumber,height,weight,eartag,eid,sex,pasturenumber,breed,status,trial,herd,animaltype)
-        db.session.add(newmaster)
-        db.session.commit()
-        return json.dumps({'success': True}), 200, {
-            'ContentType': 'application/json'
-        }
-
-    elif request.method == "GET":
-            return render_template(("dashboard.html"), form = form)
+# @app.route('/api/post', methods = ['GET', 'POST'])
+# def cowStatus():
+#     if request.method == "POST":
+#         basic = request.get_json
+#         print >> sys.stderr, "data {}".format(basic)
+#         cownumber = request.form.get('cownumber')
+#         height = request.form.get('height')
+#         weight = request.form.get('weight')
+#         eartag = request.form.get('eartag')
+#         eid = request.form.get('eid')
+#         sex = request.form.get('sex')
+#         pasturenumber = request.form.get('pasturenumber')
+#         breed = request.form.get('breed')
+#         status = request.form.get('status')
+#         trial = request.form.get('trial')
+#         herd = request.form.get('herd')
+#         animaltype = request.form.get('animaltype')
+#         newmaster = Master_animal(cownumber,height,weight,eartag,eid,sex,pasturenumber,breed,status,trial,herd,animaltype)
+#         db.session.add(newmaster)
+#         db.session.commit()
+#         return json.dumps({'success': True}), 200, {
+#             'ContentType': 'application/json'
+#         }
+#
+#     elif request.method == "GET":
+#             return render_template(("dashboard.html"), form = form)
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

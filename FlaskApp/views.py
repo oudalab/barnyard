@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema
+from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, Animal_Inventory, Animal_Inventory_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
@@ -8,6 +8,7 @@ import sys
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
 schemaMedical = Medical_Inventory_Schema()
+schemaAnimal = Animal_Inventory_Schema()
 
 # master_animal table
 class table_basics(Resource):
@@ -58,6 +59,64 @@ class table_basics(Resource):
                 setattr(master_animal_query, key, value)
 
             master_animal_query.update()
+            return self.get(cownumber)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
+
+class table_animal_inventory(Resource):
+
+    def get(self, cownumber):
+        animal_inventory_query = Animal_Inventory.query.get_or_404(cownumber)
+        #Serialize the query results in the JSON API format
+        result = schemaMaster.dump(animal_inventory_query).data
+        print >> sys.stderr, "data {}".format(result)
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        #master_dict = raw_dict['data']['attributes']
+        try:
+                #Validate the data or raise a Validation error if
+                schemaAnimal.validate(raw_dict)
+                #Create a master object with the API data recieved
+                animal = Animal_Inventory(cownumber=raw_dict['cownumber'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
+                                       registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],
+                                       dateacquired = raw_dict['dateacquired'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
+                animal.add(animal)
+                query = Animal_Inventory.query.all()
+                results = schemaAnimal.dump(query, many = True).data
+                return results, 201
+
+
+        except ValidationError as err:
+                resp = jsonify({"error": err.messages})
+                resp.status_code = 403
+                return resp
+
+        except SQLAlchemyError as e:
+                db.session.rollback()
+                resp = jsonify({"error": str(e)})
+                resp.status_code = 403
+                return resp
+
+    def patch(self, cownumber):
+        animal_inventory_query = Animal_Inventory.query.get_or_404(cownumber)
+        raw_dict = request.form
+        try:
+            schemaAnimal.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(animal_inventory_query, key, value)
+
+            animal_inventory_query.update()
             return self.get(cownumber)
 
         except ValidationError as err:

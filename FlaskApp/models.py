@@ -177,3 +177,74 @@ class Medical_Inventory_Schema(Schema):
 	class Meta:
 		type_ = 'medical_inventory'
 
+
+class Animal_Inventory(db.Model, CRUD):
+	__tablename__ = 'animal_inventory'
+	cownumber = db.Column(db.Text, primary_key=True)
+	brandlocation = db.Column(db.Text)
+	tattooleft = db.Column(db.Text)
+	tattooright = db.Column(db.Text)
+	alternativeid = db.Column(db.Text)
+	registration = db.Column(db.Text)
+	color = db.Column(db.Text)
+	dam = db.Column(db.Text)
+	hornstatus = db.Column(db.Text)
+	sire = db.Column(db.Text)
+	dob = db.Column(db.Text)
+	howacquired = db.Column(db.Text)
+	dateacquired = db.Column(db.Text)
+	howdisposed = db.Column(db.Text)
+	datedisposed = db.Column(db.Text)
+	disposalreason = db.Column(db.Text)
+
+	def __init__(self, cownumber, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
+				 howacquired, dateacquired,howdisposed, datedisposed, disposalreason):
+		self.cownumber = cownumber
+		self.brandlocation = brandlocation
+		self.tattooleft = tattooleft
+		self.tattooright = tattooright
+		self.alternativeid = alternativeid
+		self.registration = registration
+		self.color = color
+		self.dam = dam
+		self.hornstatus = hornstatus
+		self.sire = sire
+		self.dob = dob
+		self.howacquired = howacquired
+		self.dateacquired = dateacquired
+		self.howdisposed = howdisposed
+		self.datedisposed = datedisposed
+		self.disposalreason = disposalreason
+
+
+class Animal_Inventory_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate=not_blank)
+	brandlocation = fields.String(validate=not_blank)
+	tattooleft = fields.String(validate=not_blank)
+	tattooright = fields.String(validate=not_blank)
+	alternativeid = fields.String(validate=not_blank)
+	registration = fields.String(validate=not_blank)
+	color = fields.String(validate=not_blank)
+	dam = fields.String(validate=not_blank)
+	hornstatus = fields.String(validate=not_blank)
+	sire = fields.String(validate=not_blank)
+	dob = fields.String(validate=not_blank)
+	howacquired = fields.String(validate=not_blank)
+	dateacquired = fields.String(validate=not_blank)
+	howdisposed = fields.String(validate=not_blank)
+	datedisposed = fields.String(validate=not_blank)
+	disposalreason = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		print >> sys.stderr, "data {}".format(data)  # print data to verify get request
+		if many:
+			self_link = "/master_animal/"
+		else:
+			self_link = "/master_animal/{}".format(data['attributes']['cownumber'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'animal_inventory'

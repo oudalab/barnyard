@@ -11,13 +11,12 @@
 				data: $('form').serialize(),
 				type: 'GET',
 				success: function(data) {
-					<!-- window.location.href = '/dashboard?cownumber='+cownumber -->
-					$('#bsalert').show();
+					window.location.href = '/dashboard?cownumber='+cownumber
 					console.log(data);
 				},
 				error: function(error) {
 					console.log(error);
-					alert("Cow number doesnt exist");
+					$.notify("Cow number doesnt exist", "danger");
 				}
 			});
 			e.preventDefault();
@@ -28,7 +27,7 @@
 </head>
 
 <body>
-	<div class="alert alert-success" role="alert" id="bsalert" style="display:none;"> Something </div>
+	<div id="Notification area"></div>
 	<form class = "form-horizontal">
 		<div class="row text-center" style="margin-bottom:20px;">
 		  <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
@@ -70,6 +69,7 @@
 			</div>
 		</div>
 	</form>
+	
 </body>
 </html>
 {% endblock %}
