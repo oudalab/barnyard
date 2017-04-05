@@ -77,7 +77,7 @@ class table_animal_inventory(Resource):
     def get(self, cownumber):
         animal_inventory_query = Animal_Inventory.query.get_or_404(cownumber)
         #Serialize the query results in the JSON API format
-        result = schemaMaster.dump(animal_inventory_query).data
+        result = schemaAnimal.dump(animal_inventory_query).data
         print >> sys.stderr, "data {}".format(result)
         return result
 
@@ -88,7 +88,7 @@ class table_animal_inventory(Resource):
                 #Validate the data or raise a Validation error if
                 schemaAnimal.validate(raw_dict)
                 #Create a master object with the API data recieved
-                animal = Animal_Inventory(cownumber=raw_dict['cownumber'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
+                animal = Animal_Inventory(cownumber=raw_dict['cownumber'], brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
                                        registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],
                                        dateacquired = raw_dict['dateacquired'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
                 animal.add(animal)

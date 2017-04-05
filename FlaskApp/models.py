@@ -181,6 +181,7 @@ class Medical_Inventory_Schema(Schema):
 class Animal_Inventory(db.Model, CRUD):
 	__tablename__ = 'animal_inventory'
 	cownumber = db.Column(db.Text, primary_key=True)
+	brand = db.Column(db.Text)
 	brandlocation = db.Column(db.Text)
 	tattooleft = db.Column(db.Text)
 	tattooright = db.Column(db.Text)
@@ -197,9 +198,10 @@ class Animal_Inventory(db.Model, CRUD):
 	datedisposed = db.Column(db.Text)
 	disposalreason = db.Column(db.Text)
 
-	def __init__(self, cownumber, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
+	def __init__(self, cownumber, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
 				 howacquired, dateacquired,howdisposed, datedisposed, disposalreason):
 		self.cownumber = cownumber
+		self.brand = brand
 		self.brandlocation = brandlocation
 		self.tattooleft = tattooleft
 		self.tattooright = tattooright
@@ -221,6 +223,7 @@ class Animal_Inventory_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
 	cownumber = fields.String(validate=not_blank)
+	brand = fields.String(validate=not_blank)
 	brandlocation = fields.String(validate=not_blank)
 	tattooleft = fields.String(validate=not_blank)
 	tattooright = fields.String(validate=not_blank)

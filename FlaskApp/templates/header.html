@@ -85,10 +85,10 @@ function getQueryVariable(variable)
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
 </head>
 
 <body>
+
 	<div class="container-fluid" style="min-height:100%; width:100%">
 		{% block body %}{% endblock %}
 		<div style="width:50%; margin:0px auto;" align="center">
@@ -137,6 +137,7 @@ function getQueryVariable(variable)
 				type: 'GET',
 				success: function(data) {
 					basicget(cownumber);
+					animal_inventoryget(cownumber);
 					$("<li><a onclick='basicget("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
 					$('#headerSearchbox').val('');
 				},
