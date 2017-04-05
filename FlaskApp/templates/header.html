@@ -56,11 +56,9 @@ function getQueryVariable(variable)
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/searchpage"><span class="glyphicon glyphicon-home"></span></a></li>
-        <li><a href="/dashboard">Second Screen 2</a></li>
       </ul>
       <form class="navbar-form navbar-left">
-        <div class="form-group">
+        <div class="form-group col-xs-offset-2" style="margin:auto;">
 			<input type="text" class="form-control" placeholder="Cow Number" id="headerSearchbox" style="width: 250px;">
 			<button type="submit" class="btn btn-danger" id = "headersearch">Search</button>
 		</div>
@@ -70,10 +68,7 @@ function getQueryVariable(variable)
 		  
 		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
 			<h5>
-			<a href="" id="load"> <span class="glyphicon glyphicon-eye-open"></span>Load &nbsp;</a>
-			<a href="/adddashboard"> <span class="glyphicon glyphicon-plus"></span> Add &nbsp;</a>
-			<a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;</a>
-			<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>
+				<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>      
 			</h5>
 
 					  
