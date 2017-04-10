@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, request, url_for, redirect,sess
 from flask_login import LoginManager, login_user, logout_user
 from models import db, Users
 from forms import SignupForm, LoginForm
-from views import table_basics, table_medical_inventory,table_animal_inventory
+from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction
 from secrets import whole_string
 import config
 import logging
@@ -26,11 +26,16 @@ db.init_app(app)
 
 #API configurations
 api = Api(app)
+api.add_resource(table_medical_inventory, '/api/medical_inventory/')
 api.add_resource(table_basics, '/api/master_animal/<cownumber>')
 api.add_resource(table_basics, '/api/master_animal/', endpoint = "1")
 api.add_resource(table_animal_inventory, '/api/animal_inventory/<cownumber>')
 api.add_resource(table_animal_inventory, '/api/animal_inventory/', endpoint = "2")
-api.add_resource(table_medical_inventory, '/api/medical_inventory/')
+api.add_resource(table_experiment, '/api/experiment/<cownumber>')
+api.add_resource(table_experiment, '/api/experiment/', endpoint = "3")
+api.add_resource(table_reproduction, '/api/reproduction/<cownumber>')
+api.add_resource(table_reproduction, '/api/reproduction/', endpoint = "4")
+
 
 #Login Manager
 login_manager = LoginManager()

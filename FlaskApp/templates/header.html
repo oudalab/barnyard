@@ -38,7 +38,7 @@ function getQueryVariable(variable)
 	<title>Barnyard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="{{url_for('static', filename='cow.ico')}}">
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -84,7 +84,7 @@ function getQueryVariable(variable)
 
 <body>
 
-	<div class="container-fluid" style="min-height:100%; width:100%">
+	<div class="container-fluid" style="min-height:100%; width:100%; margin-top:80px;">
 		{% block body %}{% endblock %}
 		<div style="width:50%; margin:0px auto;" align="center">
 		  {% with msgs = get_flashed_messages() %}
@@ -97,6 +97,7 @@ function getQueryVariable(variable)
 			{% endif %}
 		  {% endwith %}
 		</div>
+		
 	</div>
 
 	<!--Importing jquery-->
@@ -133,7 +134,8 @@ function getQueryVariable(variable)
 				success: function(data) {
 					basicget(cownumber);
 					animal_inventoryget(cownumber);
-					$("<li><a onclick='basicget("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
+					experimentget(cownumber);
+					$("<li><a onclick='callall("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
 					$('#headerSearchbox').val('');
 				},
 				error: function(error) {
@@ -143,6 +145,13 @@ function getQueryVariable(variable)
 			})
 			return false;
 		});
+	</script>
+	<script>
+	function callall(variable){
+		basicget(variable);
+		animal_inventoryget(variable);
+		experimentget(variable);
+	}
 	</script>
 	
 </body>

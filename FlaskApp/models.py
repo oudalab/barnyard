@@ -242,12 +242,257 @@ class Animal_Inventory_Schema(Schema):
 
 	# self links
 	def get_top_level_links(self, data, many):
-		print >> sys.stderr, "data {}".format(data)  # print data to verify get request
 		if many:
-			self_link = "/master_animal/"
+			self_link = "/animal_inventory/"
 		else:
-			self_link = "/master_animal/{}".format(data['attributes']['cownumber'])
+			self_link = "/animal_inventory/{}".format(data['attributes']['cownumber'])
 		return {"self": self_link}
 
 	class Meta:
 		type_ = 'animal_inventory'
+
+class Experiment(db.Model, CRUD):
+	__tablename__ = 'experiment'
+	cownumber = db.Column(db.Text, primary_key=True)
+	dam = db.Column(db.Text)
+	sire = db.Column(db.Text)
+	birthweight = db.Column(db.Text)
+	damframescore = db.Column(db.Float)
+	sireframescore = db.Column(db.Float)
+	weanheight = db.Column(db.Float)
+	weanweight = db.Column(db.Float)
+	weandate = db.Column(db.Text)
+	adj205w = db.Column(db.Float)
+	adj205h = db.Column(db.Float)
+	dob = db.Column(db.Text)
+	weanframescore = db.Column(db.Float)
+	ageatwean = db.Column(db.Float)
+	yearlingweight = db.Column(db.Float)
+	yearlingheight = db.Column(db.Float)
+	yearlingdate = db.Column(db.Text)
+	adjyearlingw = db.Column(db.Float)
+	adjyearlingh = db.Column(db.Float)
+	yearlingframescore = db.Column(db.Float)
+	ageatyearling = db.Column(db.Float)
+	customweight = db.Column(db.Float)
+	customweightdate = db.Column(db.Text)
+	customheight = db.Column(db.Float)
+	customheightdate = db.Column(db.Text)
+	backfat = db.Column(db.Float)
+	treatment = db.Column(db.Text)
+	blockpen = db.Column(db.Text)
+	replicate = db.Column(db.Text)
+
+	def __init__(self, cownumber, dam, sire, birthweight, damframescore, sireframescore, weanheight, weanweight, weandate, adj205w, adj205h, dob,
+				 weanframescore, ageatwean,yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh, yearlingframescore, ageatyearling,
+				 customweight, customweightdate, customheight, customheightdate, backfat, treatment, blockpen, replicate):
+		self.cownumber = cownumber
+		self.dam = dam
+		self.sire = sire
+		self.birthweight = birthweight
+		self.damframescore = damframescore
+		self.sireframescore = sireframescore
+		self.weanheight = weanheight
+		self.weanweight = weanweight
+		self.weandate = weandate
+		self.adj205w = adj205w
+		self.adj205h = adj205h
+		self.dob = dob
+		self.weanframescore = weanframescore
+		self.ageatwean = ageatwean
+		self.yearlingweight = yearlingweight
+		self.yearlingheight = yearlingheight
+		self.yearlingdate = yearlingdate
+		self.adjyearlingw = adjyearlingw
+		self.adjyearlingh = adjyearlingh
+		self.yearlingframescore = yearlingframescore
+		self.ageatyearling = ageatyearling
+		self.customweight = customweight
+		self.customweightdate = customweightdate
+		self.customheight = customheight
+		self.customheightdate = customheightdate
+		self.backfat = backfat
+		self.treatment = treatment
+		self.blockpen = blockpen
+		self.replicate = replicate
+
+
+class Experiment_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate=not_blank)
+	dam = fields.String(validate=not_blank)
+	sire = fields.String(validate=not_blank)
+	birthweight = fields.Float(validate=not_blank)
+	damframescore = fields.Float(validate=not_blank)
+	sireframescore = fields.Float(validate=not_blank)
+	weanheight = fields.Float(validate=not_blank)
+	weanweight = fields.Float(validate=not_blank)
+	weandate = fields.String(validate=not_blank)
+	adj205w = fields.Float(validate=not_blank)
+	adj205h = fields.Float(validate=not_blank)
+	dob = fields.String(validate=not_blank)
+	weanframescore = fields.Float(validate=not_blank)
+	ageatwean = fields.Float(validate=not_blank)
+	yearlingweight = fields.Float(validate=not_blank)
+	yearlingheight = fields.Float(validate=not_blank)
+	yearlingdate = fields.String(validate=not_blank)
+	adjyearlingw = fields.Float(validate=not_blank)
+	adjyearlingh = fields.Float(validate=not_blank)
+	yearlingframescore = fields.Float(validate=not_blank)
+	ageatyearling = fields.Float(validate=not_blank)
+	customweight = fields.Float(validate=not_blank)
+	customweightdate = fields.String(validate=not_blank)
+	customheight = fields.Float(validate=not_blank)
+	customheightdate = fields.String(validate=not_blank)
+	backfat = fields.Float(validate=not_blank)
+	treatment = fields.String(validate=not_blank)
+	blockpen = fields.String(validate=not_blank)
+	replicate = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/experiment/"
+		else:
+			self_link = "/experiment/{}".format(data['attributes']['cownumber'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'experiment'
+
+class Reproduction(db.Model, CRUD):
+	__tablename__ = 'reproduction'
+	cownumber = db.Column(db.Text, primary_key=True)
+	breeding = db.Column(db.Text)
+	pregnancy = db.Column(db.Text)
+	calfatside = db.Column(db.Text)
+	totalcalves = db.Column(db.Float)
+	previouscalf = db.Column(db.Text)
+	currentcalf = db.Column(db.Text)
+	damageatbirth = db.Column(db.Float)
+	calfsex = db.Column(db.Text)
+	calfbirthweight = db.Column(db.Float)
+	pasturenumberreproduction = db.Column(db.Text)
+	calfdob = db.Column(db.Text)
+	damcalvingdisposition = db.Column(db.Text)
+	calvingease = db.Column(db.Text)
+	udderscore = db.Column(db.Float)
+	comments = db.Column(db.Text)
+	damdispostion = db.Column(db.Text)
+	cowframescore = db.Column(db.Float)
+	cowwtbreeding = db.Column(db.Float)
+	cowhtbreeding = db.Column(db.Float)
+	cowwtweaning = db.Column(db.Float)
+	cowhtweaning = db.Column(db.Float)
+	cowwtcalving = db.Column(db.Float)
+	cowhtcalving = db.Column(db.Float)
+	bcsweaning = db.Column(db.Float)
+	bcscalving = db.Column(db.Float)
+	bcsbreeding = db.Column(db.Float)
+	customcowwt = db.Column(db.Float)
+	customcowht = db.Column(db.Float)
+	bulldispostion = db.Column(db.Float)
+	bullframescore = db.Column(db.Float)
+	bullwtprebreeding = db.Column(db.Float)
+	bullhtprebreeding = db.Column(db.Float)
+	fertility = db.Column(db.Float)
+	mobility = db.Column(db.Float)
+	conc = db.Column(db.Float)
+	deadabnormal = db.Column(db.Float)
+
+	def __init__(self, cownumber, breeding, pregnancy, calfatside, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
+				 damcalvingdisposition, calvingease,udderscore, comments, damdispostion, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
+				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldispostion, bullframescore,
+				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal):
+		self.cownumber = cownumber
+		self.breeding = breeding
+		self.pregnancy = pregnancy
+		self.calfatside = calfatside
+		self.totalcalves = totalcalves
+		self.previouscalf = previouscalf
+		self.currentcalf = currentcalf
+		self.damageatbirth = damageatbirth
+		self.calfsex = calfsex
+		self.calfbirthweight = calfbirthweight
+		self.pasturenumberreproduction = pasturenumberreproduction
+		self.calfdob = calfdob
+		self.damcalvingdisposition = damcalvingdisposition
+		self.calvingease = calvingease
+		self.udderscore = udderscore
+		self.comments = comments
+		self.damdispostion = damdispostion
+		self.cowframescore = cowframescore
+		self.cowwtbreeding = cowwtbreeding
+		self.cowhtbreeding = cowhtbreeding
+		self.cowwtweaning = cowwtweaning
+		self.cowhtweaning = cowhtweaning
+		self.cowwtcalving = cowwtcalving
+		self.cowhtcalving = cowhtcalving
+		self.bcsweaning = bcsweaning
+		self.bcscalving = bcscalving
+		self.bcsbreeding = bcsbreeding
+		self.customcowwt = customcowwt
+		self.customcowht = customcowht
+		self.bulldispostion = bulldispostion
+		self.bullframescore = bullframescore
+		self.bullwtprebreeding = bullwtprebreeding
+		self.bullhtprebreeding = bullhtprebreeding
+		self.fertility = fertility
+		self.mobility = mobility
+		self.conc = conc
+		self.deadabnormal = deadabnormal
+
+
+class Reproduction_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate=not_blank)
+	breeding = fields.String(validate=not_blank)
+	pregnancy = fields.String(validate=not_blank)
+	calfatside = fields.String(validate=not_blank)
+	totalcalves = fields.Float(validate=not_blank)
+	previouscalf = fields.String(validate=not_blank)
+	currentcalf = fields.String(validate=not_blank)
+	damageatbirth = fields.Float(validate=not_blank)
+	calfsex = fields.String(validate=not_blank)
+	calfbirthweight = fields.Float(validate=not_blank)
+	pasturenumberreproduction = fields.String(validate=not_blank)
+	calfdob = fields.String(validate=not_blank)
+	damcalvingdisposition = fields.String(validate=not_blank)
+	calvingease = fields.String(validate=not_blank)
+	udderscore = fields.Float(validate=not_blank)
+	comments = fields.String(validate=not_blank)
+	damdispostion = fields.String(validate=not_blank)
+	cowframescore = fields.Float(validate=not_blank)
+	cowwtbreeding = fields.Float(validate=not_blank)
+	cowhtbreeding = fields.Float(validate=not_blank)
+	cowwtweaning = fields.Float(validate=not_blank)
+	cowhtweaning = fields.Float(validate=not_blank)
+	cowwtcalving = fields.Float(validate=not_blank)
+	cowhtcalving = fields.Float(validate=not_blank)
+	bcsweaning = fields.Float(validate=not_blank)
+	bcscalving = fields.Float(validate=not_blank)
+	bcsbreeding = fields.Float(validate=not_blank)
+	customcowwt = fields.Float(validate=not_blank)
+	customcowht = fields.Float(validate=not_blank)
+	bulldisposition = fields.String(validate=not_blank)
+	bullframescore = fields.Float(validate=not_blank)
+	bullwtprebreeding = fields.Float(validate=not_blank)
+	bullhtprebreeding = fields.Float(validate=not_blank)
+	fertility = fields.Float(validate=not_blank)
+	mobility = fields.Float(validate=not_blank)
+	conc = fields.Float(validate=not_blank)
+	deadabnormal = fields.Float(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/reproduction/"
+		else:
+			self_link = "/reproduction/{}".format(data['attributes']['cownumber'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'reproduction'
+
