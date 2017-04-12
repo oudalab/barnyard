@@ -135,6 +135,9 @@ function getQueryVariable(variable)
 					basicget(cownumber);
 					animal_inventoryget(cownumber);
 					experimentget(cownumber);
+					reproductionget(cownumber);
+					medicalget(cownumber);
+					grazingget(cownumber);
 					$("<li><a onclick='callall("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
 					$('#headerSearchbox').val('');
 				},
@@ -148,9 +151,12 @@ function getQueryVariable(variable)
 	</script>
 	<script>
 	function callall(variable){
-		basicget(variable);
-		animal_inventoryget(variable);
-		experimentget(variable);
+		basicget(cownumber);
+		animal_inventoryget(cownumber);
+		experimentget(cownumber);
+		reproductionget(cownumber);
+		medicalget(cownumber);
+		grazingget(cownumber);
 	}
 	</script>
 	

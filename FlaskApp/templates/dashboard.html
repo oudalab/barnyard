@@ -146,6 +146,9 @@
 			basicget(cownumber);
 			animal_inventoryget(cownumber);
 			experimentget(cownumber);
+			reproductionget(cownumber);
+			medicalget(cownumber);
+			grazingget(cownumber);
 			$("<li><a onclick='callall("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
 		});
 	
@@ -331,6 +334,171 @@
 				});
 		});
 
+	};
+</script>
+<script type = "text/javascript">
+	function reproductionget( variable) 
+	{
+		$(document).ready(function(e){
+			$.ajax({
+					url: '/api/reproduction/'+variable,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						console.log(data);
+						var breeding = data.data.attributes.breeding;
+						var pregnancy = data.data.attributes.pregnancy;
+						var calfatside = data.data.attributes.calfatside;
+						var totalcalves = data.data.attributes.totalcalves;
+						var previouscalf = data.data.attributes.previouscalf;
+						var damageatbirth = data.data.attributes.damageatbirth;
+						var currentcalf = data.data.attributes.currentcalf;
+						var calfdob = data.data.attributes.calfdob;
+						var calfsex = data.data.attributes.calfsex;
+						var calfbirthweight = data.data.attributes.calfbirthweight;
+						var pasturenumberreproduction = data.data.attributes.pasturenumberreproduction;
+						var damcalvingdisposition = data.data.attributes.damcalvingdisposition;
+						var calvingease = data.data.attributes.calvingease;
+						var udderscore = data.data.attributes.udderscore;
+						var comments = data.data.attributes.comments;
+						var damdisposition = data.data.attributes.damdisposition;
+						var cowframescore = data.data.attributes.cowframescore;
+						var cowwtbreeding = data.data.attributes.cowwtbreeding;
+						var cowwtweaning = data.data.attributes.cowwtweaning;
+						var cowwtcalving = data.data.attributes.cowwtcalving;
+						var bcsweaning = data.data.attributes.bcsweaning;
+						var bcscalving = data.data.attributes.bcscalving;
+						var bcsbreeding = data.data.attributes.bcsbreeding;
+						var customcowht = data.data.attributes.customcowht;
+						var customcowwt = data.data.attributes.customcowwt;
+						var bullframescore = data.data.attributes.bullframescore;
+						var bulldisposition = data.data.attributes.bulldisposition;
+						var bullwtprebreeding = data.data.attributes.bullwtprebreeding;
+						var bullhtprebreeding = data.data.attributes.bullhtprebreeding;
+						var fertility = data.data.attributes.fertility;
+						var mobility = data.data.attributes.mobility;
+						var conc = data.data.attributes.conc;
+						var deadabnormal = data.data.attributes.deadabnormal;
+						$('#breeding option:selected').text(breeding);
+						$('#preganacy option:selected').text(preganacy);
+						$('#calfatside').val(calfatside);
+						$('#totalcalves').val(totalcalves);
+						$('#previouscalf').val(previouscalf);
+						$('#damageatbirth').val(damageatbirth);
+						$('#currentcalf').val(currentcalf);
+						$('#calfdob').val(calfdob);
+						$('#calfsex option:selected').text(calfsex);
+						$('#calfbirthweight').val(calfbirthweight);
+						$('#pasturenumberreproduction').val(pasturenumberreproduction);
+						$('#damcalvingdisposition option:selected').text(damcalvingdisposition);
+						$('#calvingease option:selected').text(calvingease);
+						$('#udderscore').val(udderscore);
+						$('#comments').val(comments);
+						$('#damdisposition option:selected').text(damdisposition);
+						$('#cowframescore').val(cowframescore);
+						$('#cowwtbreeding').val(cowwtbreeding);
+						$('#cowhtbreeding').val(cowhtbreeding);
+						$('#cowwtcalving').val(cowwtcalving);
+						$('#cowhtcalving').val(cowhtcalving);
+						$('#cowwtweaning').val(cowwtweaning);
+						$('#cowhtweaning').val(cowhtweaning);
+						$('#bcsbreeding').val(bcsbreeding);
+						$('#bcscalving').val(bcscalving);
+						$('#bcsweaning').val(bcsweaning);
+						$('#customcowht').val(customcowht);
+						$('#customcowwt').val(customcowwt);
+						$('#bullframescore').val(bullframescore);
+						$('#bulldisposition option:selected').text(bulldisposition);
+						$('#bullwtprebreeding').val(bullwtprebreeding);
+						$('#bullhtprebreeding').val(bullhtprebreeding);
+						$('#fertility').val(fertility);
+						$('#mobility').val(mobility);
+						$('#conc').val(conc);
+						$('#deadabnormal').val(deadabnormal);
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("Master_Animal Failed", "error")
+						
+					}
+				});
+		});
+	return false;
+	};
+</script>
+<script type = "text/javascript">
+	function medicalget( variable) 
+	{
+		$(document).ready(function(e){
+			$.ajax({
+					url: '/api/medical/'+variable,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						console.log(data);
+						var reasonforprocedure = data.data.attributes.reasonforprocedure;
+						var notificationofvmo = data.data.attributes.notificationofvmo;
+						var reccomendationofvmo = data.data.attributes.reccomendationofvmo;
+						var treatmentprotocol = data.data.attributes.treatmentprotocol;
+						var animallocationpreresolution = data.data.attributes.animallocationpreresolution;
+						var followupexam = data.data.attributes.followupexam;
+						var resolution = data.data.attributes.resolution;
+						var dateoffollowup = data.data.attributes.dateoffollowup;
+						var animallocation = data.data.attributes.animallocation;
+						var dateofaction = data.data.attributes.dateofaction;
+						$('#reasonforprocedure').val(reasonforprocedure);
+						$('#notificationofvmo option:selected').text(notificationofvmo);
+						$('#reccomendationofvmo').val(reccomendationofvmo);
+						$('#treatmentprotocol').val(treatmentprotocol);
+						$('#animallocationpreresolution').val(animallocationpreresolution);
+						$('#followupexam').val(followupexam);
+						$('#resolution').val(resolution);
+						$('#dateoffollowup').val(dateoffollowup);
+						$('#animallocation').val(animallocation);
+						$('#dateofaction').val(dateofaction);
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("Medical data Failed", "error")
+						
+					}
+				});
+		});
+	return false;
+	};
+</script>
+<script type = "text/javascript">
+	function grazingget( variable) 
+	{
+		$(document).ready(function(e){
+			$.ajax({
+					url: '/api/grazing/'+variable,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						console.log(data);
+						var pastureacres = data.data.attributes.pastureacres;
+						var animalspresent = data.data.attributes.animalspresent;
+						var datein = data.data.attributes.datein;
+						var dateout = data.data.attributes.dateout;
+						var stockingrate = data.data.attributes.stockingrate;
+						pastureacres: $('#pastureacres').val(pastureacres);
+						animalspresent : $('#animalspresent').val(animalspresent);
+						datein : $('#datein').val(datein);
+						dateout : $('#dateout').val(dateout);
+						stockingrate : $('#stockingrate').val(stockingrate);
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("Grazing Failed", "error")
+						
+					}
+				});
+		});
+	return false;
 	};
 </script>
 </head>
@@ -741,9 +909,9 @@
 				<div role="tabpanel" class="tab-pane fade" id="calf_reproduction">
 					<div class="form-horizontal" style="margin-top:15px;">
 						<div class= "form-group">
-							<label for="breedingbulls" class="control-label col-xs-1">Breeding</label>
+							<label for="breeding" class="control-label col-xs-1">Breeding</label>
 							<div class="col-xs-2">
-							  <select class="form-control" id="breedingbulls">
+							  <select class="form-control" id="breeding">
 								<option>Bull-1</option>
 								<option>Bull-2</option>
 								<option>Bull-3</option>

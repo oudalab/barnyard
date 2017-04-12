@@ -86,7 +86,7 @@ class UsersSchema(Schema):
 
 class Master_animal(db.Model, CRUD):
 	__tablename__ = 'master_animal'
-	cownumber = db.Column(db.Text, primary_key = True)
+	cownumber = db.Column(db.Integer, primary_key = True)
 	height = db.Column(db.Float)
 	weight = db.Column(db.Float)
 	eartag = db.Column(db.Text)
@@ -116,7 +116,7 @@ class Master_animal(db.Model, CRUD):
 class Master_animal_Schema(Schema):
 	not_blank = validate.Length(min=1, error ='Field cannot be blank')
 	id = fields.Integer(dump_only=True) #WHY DOES THIS HAVE TO BE HERE???
-	cownumber = fields.String(validate = not_blank)
+	cownumber = fields.Integer(validate = not_blank)
 	height = fields.Float(validate = not_blank)
 	weight = fields.Float(validate = not_blank)
 	eartag = fields.String(validate = not_blank)
@@ -180,7 +180,7 @@ class Medical_Inventory_Schema(Schema):
 
 class Animal_Inventory(db.Model, CRUD):
 	__tablename__ = 'animal_inventory'
-	cownumber = db.Column(db.Text, primary_key=True)
+	cownumber = db.Column(db.Integer, primary_key=True)
 	brand = db.Column(db.Text)
 	brandlocation = db.Column(db.Text)
 	tattooleft = db.Column(db.Text)
@@ -222,7 +222,7 @@ class Animal_Inventory(db.Model, CRUD):
 class Animal_Inventory_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
-	cownumber = fields.String(validate=not_blank)
+	cownumber = fields.Integer(validate=not_blank)
 	brand = fields.String(validate=not_blank)
 	brandlocation = fields.String(validate=not_blank)
 	tattooleft = fields.String(validate=not_blank)
@@ -253,7 +253,7 @@ class Animal_Inventory_Schema(Schema):
 
 class Experiment(db.Model, CRUD):
 	__tablename__ = 'experiment'
-	cownumber = db.Column(db.Text, primary_key=True)
+	cownumber = db.Column(db.Integer, primary_key=True)
 	dam = db.Column(db.Text)
 	sire = db.Column(db.Text)
 	birthweight = db.Column(db.Text)
@@ -320,7 +320,7 @@ class Experiment(db.Model, CRUD):
 class Experiment_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
-	cownumber = fields.String(validate=not_blank)
+	cownumber = fields.Integer(validate=not_blank)
 	dam = fields.String(validate=not_blank)
 	sire = fields.String(validate=not_blank)
 	birthweight = fields.Float(validate=not_blank)
@@ -363,7 +363,7 @@ class Experiment_Schema(Schema):
 
 class Reproduction(db.Model, CRUD):
 	__tablename__ = 'reproduction'
-	cownumber = db.Column(db.Text, primary_key=True)
+	cownumber = db.Column(db.Integer, primary_key=True)
 	breeding = db.Column(db.Text)
 	pregnancy = db.Column(db.Text)
 	calfatside = db.Column(db.Text)
@@ -447,7 +447,7 @@ class Reproduction(db.Model, CRUD):
 class Reproduction_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
-	cownumber = fields.String(validate=not_blank)
+	cownumber = fields.Integer(validate=not_blank)
 	breeding = fields.String(validate=not_blank)
 	pregnancy = fields.String(validate=not_blank)
 	calfatside = fields.String(validate=not_blank)
@@ -496,3 +496,112 @@ class Reproduction_Schema(Schema):
 	class Meta:
 		type_ = 'reproduction'
 
+
+class Medical(db.Model, CRUD):
+	__tablename__ = 'medical'
+	cownumber = db.Column(db.Integer, primary_key=True)
+	reasonforprocedure = db.Column(db.Text)
+	notificationofvmo = db.Column(db.Text)
+	recommendationofvmo = db.Column(db.Text)
+	treatmentprotocol = db.Column(db.Text)
+	animallocationpreresolution = db.Column(db.Text)
+	followupexam = db.Column(db.Text)
+	resolution = db.Column(db.Text)
+	dateoffollowup = db.Column(db.Text)
+	animallocation = db.Column(db.Text)
+	dateofaction = db.Column(db.Text)
+
+	def __init__(self, cownumber, reasonforprocedure, notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
+		self.cownumber = cownumber
+		self.reasonforprocedure = reasonforprocedure
+		self.notificationofvmo = notificationofvmo
+		self.recommendationofvmo = recommendationofvmo
+		self.treatmentprotocol = treatmentprotocol
+		self.animallocationpreresolution = animallocationpreresolution
+		self.followupexam = followupexam
+		self.resolution = resolution
+		self.dateoffollowup = dateoffollowup
+		self.animallocation = animallocation
+		self.dateofaction = dateofaction
+
+
+class Medical_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.Integer(validate=not_blank)
+	reasonforprocedure = fields.String(validate=not_blank)
+	notificationofvmo = fields.String(validate=not_blank)
+	recommendationofvmo = fields.String(validate=not_blank)
+	treatmentprotocol = fields.String(validate=not_blank)
+	animallocationpreresolution = fields.String(validate=not_blank)
+	followupexam = fields.String(validate=not_blank)
+	resolution = fields.String(validate=not_blank)
+	dateoffollowup = fields.String(validate=not_blank)
+	animallocation = fields.String(validate=not_blank)
+	dateofaction = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/medical/"
+		else:
+			self_link = "/medical/{}".format(data['attributes']['cownumber'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'medical'
+
+class Grazing(db.Model, CRUD):
+	__tablename__ = 'grazing'
+	cownumber = db.Column(db.Integer, primary_key=True)
+	pastureacres = db.Column(db.Text)
+	animalspresent = db.Column(db.Text)
+	datein = db.Column(db.Text)
+	dateout = db.Column(db.Text)
+	stockingrate = db.Column(db.Text)
+
+	def __init__(self, cownumber, pastureacres, animalspresent, datein, dateout, stockingrate):
+		self.cownumber = cownumber
+		self.pastureacres = pastureacres
+		self.animalspresent = animalspresent
+		self.datein = datein
+		self.dateout = dateout
+		self.stockingrate = stockingrate
+
+
+class Grazing_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.Integer(validate=not_blank)
+	pastureacres = fields.String(validate=not_blank)
+	animalspresent = fields.String(validate=not_blank)
+	datein = fields.String(validate=not_blank)
+	dateout = fields.String(validate=not_blank)
+	stockingrate = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/grazing/"
+		else:
+			self_link = "/grazing/{}".format(data['attributes']['cownumber'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'grazing'
+
+
+class Test1(db.Model, CRUD):
+	__tablename__ = 'Test1'
+	cownumber = db.Column(db.Integer, primary_key = True)
+	firstname = db.Column(db.Text)
+
+	def __init__(self, cownumber,firstname):
+		self.cownumber = cownumber
+		self.firstname = firstname
+
+class Test1Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)
+	cownumber = fields.Integer(validate = not_blank)
+	firstname = fields.String(validate=not_blank)

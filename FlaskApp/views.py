@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
-    Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema
+    Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
+    Grazing, Grazing_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
@@ -12,6 +13,8 @@ schemaMedical = Medical_Inventory_Schema()
 schemaAnimal = Animal_Inventory_Schema()
 schemaExperiment = Experiment_Schema()
 schemaReproduction = Reproduction_Schema()
+schemaAnimalMedical = Medical_Schema()
+schemaGrazing = Grazing_Schema()
 
 # master_animal table
 class table_basics(Resource):
@@ -30,7 +33,7 @@ class table_basics(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber=raw_dict['cownumber'], weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= None, weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
                 master.add(master)
                 query = Master_animal.query.all()
                 results = schemaMaster.dump(query, many = True).data
@@ -89,7 +92,7 @@ class table_animal_inventory(Resource):
                 #Validate the data or raise a Validation error if
                 schemaAnimal.validate(raw_dict)
                 #Create a master object with the API data recieved
-                animal = Animal_Inventory(cownumber=raw_dict['cownumber'], brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
+                animal = Animal_Inventory(cownumber= None, brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
                                        registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],
                                        dateacquired = raw_dict['dateacquired'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
                 animal.add(animal)
@@ -232,7 +235,7 @@ class table_experiment(Resource):
             schemaExperiment.validate(raw_dict)
             print >> sys.stderr, "THIS IS has pass validation {}".format(raw_dict)
             # Create a master object with the API data recieved
-            experiment = Experiment(cownumber=raw_dict['cownumber'], dam=raw_dict['dam'], sire=raw_dict['sire'],
+            experiment = Experiment(cownumber=None, dam=raw_dict['dam'], sire=raw_dict['sire'],
                                     birthweight=raw_dict['birthweight'],
                                     damframescore=raw_dict['damframescore'],
                                     sireframescore=raw_dict['sireframescore'],
@@ -308,7 +311,7 @@ class table_reproduction(Resource):
             # Validate the data or raise a Validation error if
             schemaReproduction.validate(raw_dict)
             # Create a master object with the API data recieved
-            reproduction = Reproduction(cownumber=raw_dict['cownumber'], breeding=raw_dict['breeding'],
+            reproduction = Reproduction(cownumber=None, breeding=raw_dict['breeding'],
                                         pregnancy=raw_dict['pregnancy'], calfatside=raw_dict['calfatside'],
                                         totalcalves=raw_dict['totalcalves'],
                                         previouscalf=raw_dict['previouscalf'],
@@ -363,6 +366,126 @@ class table_reproduction(Resource):
                 setattr(reproduction_query, key, value)
 
             reproduction_query.update()
+            return self.get(cownumber)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
+
+class table_medical(Resource):
+
+    def get(self, cownumber):
+        medical_query = Medical.query.get_or_404(cownumber)
+        # Serialize the query results in the JSON API format
+        result = schemaAnimalMedical.dump(medical_query).data
+        print >> sys.stderr, "data {}".format(result)
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        # master_dict = raw_dict['data']['attributes']
+        try:
+            # Validate the data or raise a Validation error if
+            schemaAnimalMedical.validate(raw_dict)
+            # Create a master object with the API data recieved
+            medical = Medical(cownumber=None, reasonforprocedure=raw_dict['reasonforprocedure'],
+                             notificationofvmo=raw_dict['notificationofvmo'],
+                             recommendationofvmo=raw_dict['recommendationofvmo'],
+                             treatmentprotocol=raw_dict['treatmentprotocol'],
+                             animallocationpreresolution=raw_dict['animallocationpreresolution'],
+                             followupexam=raw_dict['followupexam'], resolution=raw_dict['resolution'],
+                             animallocation=raw_dict['animallocation'],
+                             dateoffollowup=raw_dict['dateoffollowup'], dateofaction=raw_dict['dateofaction'])
+            medical.add(medical)
+            query = Medical.query.all()
+            results = schemaAnimalMedical.dump(query, many=True).data
+            return results, 201
+
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+    def patch(self, cownumber):
+        medical_query = Medical.query.get_or_404(cownumber)
+        raw_dict = request.form
+        try:
+            schemaAnimalMedical.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(medical_query, key, value)
+
+            medical_query.update()
+            return self.get(cownumber)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
+
+class table_grazing(Resource):
+
+    def get(self, cownumber):
+        grazing_query = Grazing.query.get_or_404(cownumber)
+        result = schemaGrazing.dump(grazing_query).data
+        print >> sys.stderr, "data {}".format(result)
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        # master_dict = raw_dict['data']['attributes']
+        try:
+            # Validate the data or raise a Validation error if
+            schemaGrazing.validate(raw_dict)
+            # Create a master object with the API data recieved
+            animal = Grazing(cownumber=None, pastureacres=raw_dict['pastureacres'],
+                             animalspresent=raw_dict['animalspresent'], datein=raw_dict['datein'],
+                             dateout=raw_dict['dateout'], stockingrate=raw_dict['stockingrate'])
+            animal.add(animal)
+            query = Grazing.query.all()
+            results = schemaGrazing.dump(query, many=True).data
+            return results, 201
+
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+    def patch(self, cownumber):
+        grazing_query = Grazing.query.get_or_404(cownumber)
+        raw_dict = request.form
+        try:
+            schemaGrazing.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(grazing_query, key, value)
+
+            grazing_query.update()
             return self.get(cownumber)
 
         except ValidationError as err:

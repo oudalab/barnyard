@@ -7,9 +7,7 @@
 		$(function inputDataBasic() {
 
 		$('#submit_button').click(function(e) {
-			var cownumber = $('#cownumber').val();
 			var basic = {
-				cownumber : $('#cownumber').val(),
 				height: $('#height').val(),
 				weight : $('#weight').val(),
 				eartag : $('#eartag').val(),
@@ -206,6 +204,67 @@
 			});
 		});
 	</script>
+	<script type = "text/javascript">
+		$(function inputDataMedical() {
+
+		$('#submit_button').click(function(e) {
+			var medical = {
+				reasonforprocedure: $('#reasonforprocedure').val(),
+				notificationofvmo : $('#notificationofvmo option:selected').text(),
+				reccomendationofvmo : $('#reccomendationofvmo').val(),
+				treatmentprotocol : $('#treatmentprotocol').val(),
+				animallocationpreresolution : $('#animallocationpreresolution').val(),
+				followupexam : $('#followupexam').val(),
+				resolution : $('#resolution').val(),
+				dateoffollowup : $('#dateoffollowup').val(),
+				animallocation : $('#animallocation').val(),
+				dateofaction : $('#dateofaction').val()
+				}
+				$.ajax({
+					url: '/api/medical/',
+					data: medical,
+					datatype: 'json',
+					type: 'POST',
+					success: function(response, medical) {
+						$.notify("Medical Data Saved", "success");
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("Medical data error", "error");
+					}
+				});
+				e.preventDefault();
+			});
+		});
+	</script>
+	<script type = "text/javascript">
+		$(function inputDataGrazing() {
+
+		$('#submit_button').click(function(e) {
+			var grazing = {
+				pastureacres: $('#pastureacres').val(),
+				animalspresent : $('#animalspresent').val(),
+				datein : $('#datein').val(),
+				dateout : $('#dateout').val(),
+				stockingrate : $('#stockingrate').val()
+				}
+				$.ajax({
+					url: '/api/grazing/',
+					data: grazing,
+					datatype: 'json',
+					type: 'POST',
+					success: function(response, grazing) {
+						$.notify("Grazing Data Saved", "success");
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("Grazing data error", "error");
+					}
+				});
+				e.preventDefault();
+			});
+		});
+	</script>
 	
 </head>
 <div>
@@ -228,7 +287,7 @@
 				<div class="form-group">
 					<label class="control-label col-xs-1">Cow Number</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Cow Number">
+						<input type="text" class="form-control" id="cownumber" value= "NULL" name="cownumber" placeholder="Cow Number">
 					</div>
 					<label class="control-label col-xs-1">Cow Name</label>
 					<div class="col-xs-2">
@@ -780,13 +839,13 @@
 		<div role="tabpanel" class="tab-pane fade" id="calf_medical">
 			<div class="form-horizontal" style="margin-top:15px;">
 				<div class="form-group">
-					<label for="procedurereason" class="control-label col-xs-1">Reason for Procedure</label>
+					<label for="reasonofprocedure" class="control-label col-xs-1">Reason for Procedure</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="procedurereason" placeholder="Reason for Procedure">
+						<input type="text" class="form-control" id="reasonforprocedure" placeholder="Reason for Procedure">
 					</div>
-					<label for="notificationvmo" class="control-label col-xs-1">Notification of VMO</label>
+					<label for="notificationofvmo" class="control-label col-xs-1">Notification of VMO</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="notificationvmo">
+					  <select class="form-control" id="notificationofvmo">
 						<option>None</option>
 						<option>Site Visit</option>
 						<option>Email</option>
@@ -794,9 +853,9 @@
 						<option>Text</option>
 					  </select>
 					</div>
-					<label for="vmorecommendation" class="control-label col-xs-1">Recommendation of VMO</label>
+					<label for="reccomendationofvmo" class="control-label col-xs-1">Recommendation of VMO</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="vmorecommendation" placeholder="Recommendation of VMO">
+						<input type="text" class="form-control" id="reccomendationofvmo" placeholder="Recommendation of VMO">
 					</div>
 					<label for="treatmentprotocol" class="control-label col-xs-1">Treatment Protocol</label>
 					<div class="col-xs-2">
@@ -804,9 +863,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="animallocationpreres" class="control-label col-xs-1">Animal Location Pre-resolution</label>
+					<label for="animallocationpreresolution" class="control-label col-xs-1">Animal Location Pre-resolution</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="animallocationpreres" placeholder="Animal Location Pre-resolution">
+						<input type="text" class="form-control" id="animallocationpreresolution" placeholder="Animal Location Pre-resolution">
 					</div>
 					<label for="followupexam" class="control-label col-xs-1">Follow-up Exam</label>
 					<div class="col-xs-2">
@@ -818,7 +877,7 @@
 					</div>
 					<label class="control-label col-xs-1" for="date">Date of Followup Exam</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="dateoffollowup" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -826,9 +885,9 @@
 					<div class="col-xs-2">
 						<input type="text" class="form-control" id="animallocation" placeholder="Animal Location">
 					</div>
-					<label class="control-label col-xs-1" for="date">Date of Action</label>
+					<label class="control-label col-xs-1" for="dateofaction">Date of Action</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="dateofaction" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 			</div>
@@ -848,13 +907,13 @@
 				<div class="form-group">
 					<label class="control-label col-xs-1" for="date">Date In</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="datein" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-1" for="date">Date Out</label>
 					<div class="input-group col-xs-2">
-					   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+					   <input class="form-control" id="dateout" name="date" placeholder="MM/DD/YYYY" type="text"/>
 					</div>
 				</div>
 				<div class="form-group">
