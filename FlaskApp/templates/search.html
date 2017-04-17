@@ -1,30 +1,7 @@
 {% extends "header.html" %}
 {% block body %}
 <html>
-<head>
-<script type = "text/javascript">
-	$(function retriveCowNumber () {
-		$('#search').click(function(e) {
-			var cownumber = $('#cowSearch').val();
-			$.ajax({
-				url: '/api/master_animal/'+cownumber,
-				data: $('form').serialize(),
-				type: 'GET',
-				success: function(data) {
-					window.location.href = '/dashboard?cownumber='+cownumber
-					console.log(data);
-				},
-				error: function(error) {
-					console.log(error);
-					$.notify("Cow number doesnt exist", "danger");
-				}
-			});
-			e.preventDefault();
-		});
-	});
-</script>
 
-</head>
 
 <body>
 	<div id="Notification area"></div>
@@ -42,7 +19,7 @@
 		</div><!-- /.row -->	
 		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
 			<div class="btn-group" role="group">
-				<a href="/adddashboard" id="newcow"><button type="button" class="btn btn-info">New Cow</button></a>
+				<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Cow</button></a>
 			</div>
 			<div class="btn-group" role="group">
 				<a href="#" id="addgroup"><button type="button" class="btn btn-warning">Group Add</button></a>
@@ -56,7 +33,7 @@
 		</div>
 		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%; margin-top:10px">
 			<div class="btn-group" role="group">
-				<a href="/iacuc" id="newcow"><button type="button" class="btn btn-default">IACUC</button></a>
+				<a href="/iacuc" id="iacuc"><button type="button" class="btn btn-default">IACUC</button></a>
 			</div>
 			<div class="btn-group" role="group">
 				<a href="/pharma" id="pharma"><button type="button" class="btn btn-default">Pharma Inventory</button></a>
@@ -71,5 +48,6 @@
 	</form>
 	
 </body>
+	<script type = "text/javascript" src="{{url_for('static', filename= 'js/searchpagescripts.js')}}"></script>
 </html>
 {% endblock %}

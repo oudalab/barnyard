@@ -12,6 +12,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_TRACK_MODOFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 db = SQLAlchemy(app)
 
@@ -379,7 +380,7 @@ class Reproduction(db.Model, CRUD):
 	calvingease = db.Column(db.Text)
 	udderscore = db.Column(db.Float)
 	comments = db.Column(db.Text)
-	damdispostion = db.Column(db.Text)
+	damdisposition = db.Column(db.Text)
 	cowframescore = db.Column(db.Float)
 	cowwtbreeding = db.Column(db.Float)
 	cowhtbreeding = db.Column(db.Float)
@@ -392,7 +393,7 @@ class Reproduction(db.Model, CRUD):
 	bcsbreeding = db.Column(db.Float)
 	customcowwt = db.Column(db.Float)
 	customcowht = db.Column(db.Float)
-	bulldispostion = db.Column(db.Float)
+	bulldisposition = db.Column(db.Float)
 	bullframescore = db.Column(db.Float)
 	bullwtprebreeding = db.Column(db.Float)
 	bullhtprebreeding = db.Column(db.Float)
@@ -402,8 +403,8 @@ class Reproduction(db.Model, CRUD):
 	deadabnormal = db.Column(db.Float)
 
 	def __init__(self, cownumber, breeding, pregnancy, calfatside, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
-				 damcalvingdisposition, calvingease,udderscore, comments, damdispostion, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
-				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldispostion, bullframescore,
+				 damcalvingdisposition, calvingease,udderscore, comments, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
+				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldisposition, bullframescore,
 				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal):
 		self.cownumber = cownumber
 		self.breeding = breeding
@@ -421,7 +422,7 @@ class Reproduction(db.Model, CRUD):
 		self.calvingease = calvingease
 		self.udderscore = udderscore
 		self.comments = comments
-		self.damdispostion = damdispostion
+		self.damdisposition = damdisposition
 		self.cowframescore = cowframescore
 		self.cowwtbreeding = cowwtbreeding
 		self.cowhtbreeding = cowhtbreeding
@@ -434,7 +435,7 @@ class Reproduction(db.Model, CRUD):
 		self.bcsbreeding = bcsbreeding
 		self.customcowwt = customcowwt
 		self.customcowht = customcowht
-		self.bulldispostion = bulldispostion
+		self.bulldisposition = bulldisposition
 		self.bullframescore = bullframescore
 		self.bullwtprebreeding = bullwtprebreeding
 		self.bullhtprebreeding = bullhtprebreeding
@@ -463,7 +464,7 @@ class Reproduction_Schema(Schema):
 	calvingease = fields.String(validate=not_blank)
 	udderscore = fields.Float(validate=not_blank)
 	comments = fields.String(validate=not_blank)
-	damdispostion = fields.String(validate=not_blank)
+	damdisposition = fields.String(validate=not_blank)
 	cowframescore = fields.Float(validate=not_blank)
 	cowwtbreeding = fields.Float(validate=not_blank)
 	cowhtbreeding = fields.Float(validate=not_blank)
@@ -589,19 +590,3 @@ class Grazing_Schema(Schema):
 
 	class Meta:
 		type_ = 'grazing'
-
-
-class Test1(db.Model, CRUD):
-	__tablename__ = 'Test1'
-	cownumber = db.Column(db.Integer, primary_key = True)
-	firstname = db.Column(db.Text)
-
-	def __init__(self, cownumber,firstname):
-		self.cownumber = cownumber
-		self.firstname = firstname
-
-class Test1Schema(Schema):
-	not_blank = validate.Length(min=1, error='Field cannot be blank')
-	id = fields.Integer(dump_only=True)
-	cownumber = fields.Integer(validate = not_blank)
-	firstname = fields.String(validate=not_blank)

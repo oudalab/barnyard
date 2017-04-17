@@ -3,268 +3,7 @@
 <html>
 <head>
 
-	<script type = "text/javascript">
-		$(function inputDataBasic() {
 
-		$('#submit_button').click(function(e) {
-			var basic = {
-				height: $('#height').val(),
-				weight : $('#weight').val(),
-				eartag : $('#eartag').val(),
-				eid : $('#eid').val(),
-				sex : $('#sex option:selected').text(),
-				pasturenumber : $('#pasturenumber option:selected').text(),
-				breed : $('#breed').val(),
-				status : $('#status option:selected').text(),
-				trial : $('#trial option:selected').text(),
-				herd : $('#herd').val(),
-				animaltype : $('#animaltype option:selected').text()
-				}
-				$.ajax({
-					url: '/api/master_animal/',
-					data: basic,
-					datatype: 'json',
-					type: 'POST',
-					success: function(response, basic) {
-						$.notify("Data Saved", "success");
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Cow already exists", "error");
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function inputDataAnimalInventory() {
-
-		$('#submit_button').click(function(e) {
-			var cownumber = $('#cownumber').val();
-			var animal_inventory = {
-				cownumber : $('#cownumber').val(),
-				brand : $('#brand').val(),
-				brandlocation: $('#brandlocation option:selected').text(),
-				tattooleft : $('#tattooleft').val(),
-				tattooright : $('#tattooright').val(),
-				alternativeid : $('#alternativeid').val(),
-				registration: $('#registration').val(),
-				color : $('#color').val(),
-				hornstatus : $('#hornstatus option:selected').text(),
-				dam : $('#dam').val(),
-				sire : $('#sire').val(),
-				dob : $('#dob').val(),
-				howacquired : $('#howacquired option:selected').text(),
-				dateacquired : $('#dateacquired').val(),
-				howdisposed : $('#howdisposed option:selected').text(),
-				datedisposed : $('#datedisposed').val(),
-				disposalreason : $('#disposalreason').val()
-				}
-				$.ajax({
-					url: '/api/animal_inventory/',
-					data: animal_inventory,
-					datatype: 'json',
-					type: 'POST',
-					success: function(animal_inventory) {
-						console.log(animal_inventory)
-						setTimeout(function() {
-							window.location.href = '/dashboard?cownumber='+cownumber
-						}, 2000);
-						
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Check Error log", "error")
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function inputDataExperiment() {
-
-		$('#submit_button').click(function(e) {
-			var cownumber = $('#cownumber').val();
-			var experiment = {
-				cownumber : $('#cownumber').val(),
-				dam : $('#damexperiment').val(),
-				sire : $('#sireexperiment').val(),
-				birthweight : $('#birthweight').val(),
-				damframescore : $('#damframescore').val(),
-				sireframescore : $('#sireframescore').val(),
-				dob : $('#dobexperiment').val(),
-				weanheight : $('#weanheight').val(),
-				weanweight : $('#weanweight').val(),
-				weandate : $('#weandate').val(),
-				adj205w : $('#adj205w').val(),
-				adj205h : $('#adj205h').val(),
-				weanframescore : $('#weanframescore').val(),
-				ageatwean : $('#ageatwean').val(),
-				yearlingweight : $('#yearlingweight').val(),
-				yearlingheight : $('#yearlingheight').val(),
-				yearlingdate : $('#yearlingdate').val(),
-				adjyearlingh : $('#adjyearlingh').val(),
-				adjyearlingw : $('#adjyearlingw').val(),
-				yearlingframescore : $('#yearlingframescore').val(),
-				ageatyearling : $('#ageatyearling').val(),
-				customweight : $('#customweight').val(),
-				customheight : $('#customheight').val(),
-				customheightdate : $('#customheightdate').val(),
-				customweightdate : $('#customweightdate').val(),
-				backfat : $('#backfat').val(),
-				treatment : $('#treatment option:selected').text(),
-				blockpen : $('#blockpen').val(),
-				replicate : $('#replicate').val()
-				}
-				$.ajax({
-					url: '/api/experiment/',
-					data: experiment,
-					datatype: 'json',
-					type: 'POST',
-					success: function(experiment) {
-						console.log(experiment)
-						setTimeout(function() {
-							window.location.href = '/dashboard?cownumber='+cownumber
-						}, 2000);
-						
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Input Experiment, Error log", "error")
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function inputDataReproduction() {
-
-		$('#submit_button').click(function(e) {
-			var cownumber = $('#cownumber').val();
-			var experiment = {
-				cownumber : $('#cownumber').val(),
-				breeding : $('#breedingbulls option:selected').text(),
-				pregnancy : $('#pregnancy option:selected').text(),
-				calfatside : $('#calfatside').val(),
-				totalcalves : $('#totalcalves').val(),
-				previouscalf : $('#previouscalf').val(),
-				damageatbirth : $('#damageatbirth').val(),
-				currentcalf : $('#currentcalf').val(),
-				calfdob : $('#calfdob').val(),
-				calfsex : $('#calfsex option:selected').text(),
-				calfbirthweight : $('#calfbirthweight').val(),
-				pasturenumberreproduction : $('#pasturenumberreproduction').val(),
-				damcalvingdisposition : $('#damcalvingdisposition option:selected').text(),
-				calvingease : $('#calvingease option:selected').text(),
-				udderscore : $('#udderscore').val(),
-				comments : $('#comments').val(),
-				damdisposition : $('#damdisposition option:selected').text(),
-				cowframescore : $('#cowframescore').val(),
-				cowwtbreeding : $('#cowwtbreeding').val(),
-				cowhtbreeding : $('#cowhtbreeding').val(),
-				cowwtweaning : $('#cowwtweaning').val(),
-				cowhtweaning : $('#cowhtweaning').val(),
-				cowwtcalving : $('#cowwtcalving').val(),
-				cowhtcalving : $('#cowhtcalving').val(),
-				bcsweaning : $('#bcsweaning').val(),
-				bcscalving : $('#bcscalving').val(),
-				bcsbreeding : $('#bcsbreeding').val(),
-				customcowwt : $('#customcowwt').val(),
-				customcowht : $('#customcowht').val(),
-				bulldisposition : $('#bulldisposition option:selected').text(),
-				bullframescore : $('#bullframescore').val(),
-				bullwtprebreeding : $('#bullwtprebreeding').val(),
-				bullhtprebreeding : $('#bullhtprebreeding').val(),
-				fertility : $('#bullfertility').val(),
-				mobility : $('#bullmobility').val(),
-				conc : $('#bullconc').val(),
-				deadabnormal : $('#deadabnormal').val()
-				}
-				$.ajax({
-					url: '/api/experiment/',
-					data: experiment,
-					datatype: 'json',
-					type: 'POST',
-					success: function(experiment) {
-						console.log(experiment)
-						setTimeout(function() {
-							window.location.href = '/dashboard?cownumber='+cownumber
-						}, 2000);
-						
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Input Reproduction, Error log", "error")
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function inputDataMedical() {
-
-		$('#submit_button').click(function(e) {
-			var medical = {
-				reasonforprocedure: $('#reasonforprocedure').val(),
-				notificationofvmo : $('#notificationofvmo option:selected').text(),
-				reccomendationofvmo : $('#reccomendationofvmo').val(),
-				treatmentprotocol : $('#treatmentprotocol').val(),
-				animallocationpreresolution : $('#animallocationpreresolution').val(),
-				followupexam : $('#followupexam').val(),
-				resolution : $('#resolution').val(),
-				dateoffollowup : $('#dateoffollowup').val(),
-				animallocation : $('#animallocation').val(),
-				dateofaction : $('#dateofaction').val()
-				}
-				$.ajax({
-					url: '/api/medical/',
-					data: medical,
-					datatype: 'json',
-					type: 'POST',
-					success: function(response, medical) {
-						$.notify("Medical Data Saved", "success");
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Medical data error", "error");
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function inputDataGrazing() {
-
-		$('#submit_button').click(function(e) {
-			var grazing = {
-				pastureacres: $('#pastureacres').val(),
-				animalspresent : $('#animalspresent').val(),
-				datein : $('#datein').val(),
-				dateout : $('#dateout').val(),
-				stockingrate : $('#stockingrate').val()
-				}
-				$.ajax({
-					url: '/api/grazing/',
-					data: grazing,
-					datatype: 'json',
-					type: 'POST',
-					success: function(response, grazing) {
-						$.notify("Grazing Data Saved", "success");
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Grazing data error", "error");
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
 	
 </head>
 <div>
@@ -618,9 +357,9 @@
 		<div role="tabpanel" class="tab-pane fade" id="calf_reproduction">
 			<div class="form-horizontal" style="margin-top:15px;">
 				<div class= "form-group">
-					<label for="breedingbulls" class="control-label col-xs-1">Breeding</label>
+					<label for="breeding" class="control-label col-xs-1">Breeding</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="breedingbulls">
+					  <select class="form-control" id="breeding">
 						<option>Bull-1</option>
 						<option>Bull-2</option>
 						<option>Bull-3</option>
@@ -665,7 +404,7 @@
 						</div>
 						<label for="dob" class="col-xs-1 control-label">D.O.B</label>
 						<div class="col-xs-2">
-							<input type="text" id="dob" class="form-control" placeholder="D.O.B">
+							<input type="text" id="calfdob" class="form-control" placeholder="D.O.B">
 						</div>
 						<label for="calfsex" class="col-xs-1 control-label">Calf Sex</label>
 						<div class="col-xs-2">
@@ -722,7 +461,7 @@
 					<div class="form-group">
 						<label for="damdisposition" class="col-xs-1 control-label">Dam Disposition</label>
 						<div class="col-xs-2">
-							<select class="form-control" id="cowdamdisposition">
+							<select class="form-control" id="damdisposition">
 								<option>1</option>
 								<option>2</option>
 								<option>3</option>

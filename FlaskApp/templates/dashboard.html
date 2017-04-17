@@ -1,507 +1,6 @@
 {% extends "header.html" %}
 {% block body %}
 <html>
-<head>
-<script>
-	<!-- $(document).ready(function(e){ -->
-		<!-- var cownumber = getQueryVariable("cownumber") -->
-		<!-- $("<li><a href='#1234'>$('#cownumber').val()</a></li>").appendTo( "#latestcow"); -->
-	<!-- }); -->
-	
-</script>
-	<script type = "text/javascript">
-		$(function patchBasic() {
-		$('#basic_update').click(function(e) {
-			var cownumber = $('#cownumber').val()
-			var basic = {
-				cownumber : $('#cownumber').val(),
-				height: $('#height').val(),
-				weight : $('#weight').val(),
-				eartag : $('#eartag').val(),
-				eid : $('#eid').val(),
-				sex : $('#sex option:selected').text(),
-				pasturenumber : $('#pasturenumber option:selected').text(),
-				breed : $('#breed').val(),
-				status : $('#status option:selected').text(),
-				trial : $('#trial option:selected').text(),
-				herd : $('#herd').val(),
-				animaltype : $('#animaltype option:selected').text()
-				}
-			//var patchdata = {"data" : { "attributes" : basic } };
-				$.ajax({
-					url: '/api/master_animal/'+cownumber,
-					data: basic,
-					datatype: 'json',
-					type: 'PATCH',
-					success: function(response) {
-						console.log(response);
-						$.notify("Basic Data Saved", "info");
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Cow number already exist", "danger");
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function patchAnimalInventory() {
-
-		$('#basic_update').click(function(e) {
-			var cownumber = $('#cownumber').val()
-			var animal_inventory = {
-				brand : $('#brand').val(),
-				brandlocation: $('#brandlocation option:selected').text(),
-				tattooleft : $('#tattooleft').val(),
-				tattooright : $('#tattooright').val(),
-				alternativeid : $('#alternativeid').val(),
-				registration: $('#registration').val(),
-				color : $('#color').val(),
-				hornstatus : $('#hornstatus option:selected').text(),
-				dam : $('#dam').val(),
-				sire : $('#sire').val(),
-				dob : $('#dob').val(),
-				howacquired : $('#howacquired option:selected').text(),
-				dateacquired : $('#dateacquired').val(),
-				howdisposed : $('#howdisposed option:selected').text(),
-				datedisposed : $('#datedisposed').val(),
-				disposalreason : $('#disposalreason').val()
-				}
-				$.ajax({
-					url: '/api/animal_inventory/'+cownumber,
-					data: animal_inventory,
-					datatype: 'json',
-					type: 'PATCH',
-					success: function(animal_inventory) {
-						console.log(animal_inventory)
-						$.notify("Inventory Data Saved", "info");						
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Check Error log", "error")
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script type = "text/javascript">
-		$(function patchExperiment() {
-
-		$('#basic_update').click(function(e) {
-			var cownumber = $('#cownumber').val()
-			var experiment = {
-				dam : $('#damexperiment').val(),
-				sire : $('#sireexperiment').val(),
-				birthweight : $('#birthweight').val(),
-				damframescore : $('#damframescore').val(),
-				sireframescore : $('#sireframescore').val(),
-				dob : $('#dobexperiment').val(),
-				weanheight : $('#weanheight').val(),
-				weanweight : $('#weanweight').val(),
-				weandate : $('#weandate').val(),
-				adj205w : $('#adj205w').val(),
-				adj205h : $('#adj205h').val(),
-				weanframescore : $('#weanframescore').val(),
-				ageatwean : $('#ageatwean').val(),
-				yearlingweight : $('#yearlingweight').val(),
-				yearlingheight : $('#yearlingheight').val(),
-				yearlingdate : $('#yearlingdate').val(),
-				adjyearlingh : $('#adjyearlingh').val(),
-				adjyearlingw : $('#adjyearlingw').val(),
-				yearlingframescore : $('#yearlingframescore').val(),
-				ageatyearling : $('#ageatyearling').val(),
-				customweight : $('#customweight').val(),
-				customheight : $('#customheight').val(),
-				customheightdate : $('#customheightdate').val(),
-				customweightdate : $('#customweightdate').val(),
-				backfat : $('#backfat').val(),
-				treatment : $('#treatment option:selected').text(),
-				blockpen : $('#blockpen').val(),
-				replicate : $('#replicate').val()
-				}
-				$.ajax({
-					url: '/api/experiment/'+cownumber,
-					data: experiment,
-					datatype: 'json',
-					type: 'PATCH',
-					success: function(experiment) {
-						console.log(experiment)
-						$.notify("Experiment Data Saved", "info");
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Input Experiment, Error log", "error")
-					}
-				});
-				e.preventDefault();
-			});
-		});
-	</script>
-	<script>
-		$(document).ready(function(){
-			var cownumber = getQueryVariable("cownumber")
-			basicget(cownumber);
-			animal_inventoryget(cownumber);
-			experimentget(cownumber);
-			reproductionget(cownumber);
-			medicalget(cownumber);
-			grazingget(cownumber);
-			$("<li><a onclick='callall("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
-		});
-	
-	</script>
-
-	<!-- Code to Load Data -->
-<script type = "text/javascript">
-	function basicget( variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/master_animal/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						var height = data.data.attributes.height;
-						var weight = data.data.attributes.weight;
-						var eartag = data.data.attributes.eartag;
-						var eid = data.data.attributes.eid;
-						var sex = data.data.attributes.sex;
-						var pasturenumber = data.data.attributes.pasturenumber;
-						var breed = data.data.attributes.breed;
-						var status = data.data.attributes.status;
-						var trial = data.data.attributes.trial;
-						var herd = data.data.attributes.herd;
-						var animaltype = data.data.attributes.animaltype;
-						$('#cownumber').val(variable);
-						$('#height').val(height);
-						$('#weight').val(weight);
-						$('#eartag').val(eartag);
-						$('#eid').val(eid);
-						$('#sex option:selected').text(sex);
-						$('#pasturenumber option:selected').text(pasturenumber);
-						$('#breed').val(breed);
-						$('#status option:selected').text(status);
-						$('#trial option:selected').text(trial);
-						$('#herd').val(herd);
-						$('#animaltype option:selected').text(animaltype);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Master_Animal Failed", "error")
-						
-					}
-				});
-		});
-	return false;
-	};
-</script>
-<script type = "text/javascript">
-	function animal_inventoryget(variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/animal_inventory/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						
-						var brand = data.data.attributes.brand;
-						var brandlocation = data.data.attributes.brandlocation;
-						var tattooleft = data.data.attributes.tattooleft;
-						var tattooright = data.data.attributes.tattooright;
-						var alternativeid = data.data.attributes.alternativeid;
-						var registration = data.data.attributes.registration;
-						var color  = data.data.attributes.color;
-						var hornstatus  = data.data.attributes.hornstatus;
-						var dam  = data.data.attributes.dam;
-						var sire  = data.data.attributes.sire;
-						var dob  = data.data.attributes.dob;
-						var howacquired  = data.data.attributes.howacquired;
-						var dateacquired  = data.data.attributes.dateacquired;
-						var howdisposed  = data.data.attributes.howdisposed;
-						var datedisposed  = data.data.attributes.datedisposed;
-						var disposalreason  = data.data.attributes.disposalreason;
-						$('#brand').val(brand);
-						$('#brandlocation option:selected').text(brandlocation);
-						$('#tattooleft').val(tattooleft);
-						$('#tattooright').val(tattooright);
-						$('#alternativeid').val(alternativeid);
-						$('#registration').val(registration);
-						$('#color').val(color);
-						$('#hornstatus option:selected').text(hornstatus);
-						<!-- $('#dam').val(dam); -->
-						<!-- $('#sire').val(sire); -->
-						<!-- $('#dob').val(dob); -->
-						$('#howacquired option:selected').text(howacquired);
-						$('#dateacquired').val(dateacquired);
-						$('#howdisposed option:selected').text(howdisposed);
-						$('#datedisposed').val(datedisposed);
-						$('#disposalreason').val(disposalreason);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Animal_Inventory Failed", "error")
-					}
-				});
-		});
-
-	};
-</script>
-<script type = "text/javascript">
-	function experimentget(variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/experiment/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						
-						var birthweight = data.data.attributes.birthweight;
-						var damframescore = data.data.attributes.damframescore;
-						var sireframescore = data.data.attributes.sireframescore;
-						var weanheight = data.data.attributes.weanheight;
-						var weanweight = data.data.attributes.weanweight;
-						var weandate = data.data.attributes.weandate;
-						var adj205w  = data.data.attributes.adj205w;
-						var adj205h  = data.data.attributes.adj205h;
-						var weanframescore  = data.data.attributes.weanframescore;
-						var ageatwean  = data.data.attributes.ageatwean;
-						var yearlingweight  = data.data.attributes.yearlingweight;
-						var yearlingheight  = data.data.attributes.yearlingheight;
-						var yearlingdate  = data.data.attributes.yearlingdate;
-						var adjyearlingw  = data.data.attributes.adjyearlingw;
-						var adjyearlingh  = data.data.attributes.adjyearlingh;
-						var yearlingframescore  = data.data.attributes.yearlingframescore;
-						var ageatyearling  = data.data.attributes.ageatyearling;
-						var customweight  = data.data.attributes.customweight;
-						var customheight  = data.data.attributes.customheight;
-						var customweightdate  = data.data.attributes.customweightdate;
-						var customheightdate  = data.data.attributes.customheightdate;
-						var backfat  = data.data.attributes.backfat;
-						var treatment  = data.data.attributes.treatment;
-						var blockpen  = data.data.attributes.blockpen;
-						var replicate  = data.data.attributes.replicate;
-						var dam  = data.data.attributes.dam;
-						var sire  = data.data.attributes.sire;
-						var dob  = data.data.attributes.dob;						
-						$('#birthweight').val(birthweight);
-						$('#damframescore').val(damframescore);
-						$('#sireframescore').val(sireframescore);
-						$('#weanheight').val(weanheight);
-						$('#weanweight').val(weanweight);
-						$('#weandate').val(weandate);
-						$('#adj205w').val(adj205w);
-						$('#adj205h').val(adj205h);
-						$('#weanframescore').val(weanframescore);
-						$('#ageatwean').val(ageatwean);
-						$('#yearlingheight').val(yearlingheight);
-						$('#yearlingweight').val(yearlingweight);
-						$('#yearlingdate').val(yearlingdate);
-						$('#adjyearlingh').val(adjyearlingh);
-						$('#adjyearlingw').val(adjyearlingw);
-						$('#yearlingframescore').val(yearlingframescore);
-						$('#ageatyearling').val(ageatyearling);
-						$('#customweight').val(customweight);
-						$('#customheight').val(customheight);
-						$('#weanframescore').val(weanframescore);
-						$('#customheightdate').val(customheightdate);
-						$('#customweightdate').val(customweightdate);
-						$('#backfat').val(backfat);
-						$('#blockpen').val(blockpen);
-						$('#replicate').val(replicate);
-						$('#dam').val(dam);
-						$('#sire').val(sire);
-						$('#dob').val(dob);
-						$('#damexperiment').val(dam);
-						$('#sireexperiment').val(sire);
-						$('#dobexperiment').val(dob);
-						$('#treatment option:selected').text(treatment);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Experiment GET Failed", "error")
-					}
-				});
-		});
-
-	};
-</script>
-<script type = "text/javascript">
-	function reproductionget( variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/reproduction/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						var breeding = data.data.attributes.breeding;
-						var pregnancy = data.data.attributes.pregnancy;
-						var calfatside = data.data.attributes.calfatside;
-						var totalcalves = data.data.attributes.totalcalves;
-						var previouscalf = data.data.attributes.previouscalf;
-						var damageatbirth = data.data.attributes.damageatbirth;
-						var currentcalf = data.data.attributes.currentcalf;
-						var calfdob = data.data.attributes.calfdob;
-						var calfsex = data.data.attributes.calfsex;
-						var calfbirthweight = data.data.attributes.calfbirthweight;
-						var pasturenumberreproduction = data.data.attributes.pasturenumberreproduction;
-						var damcalvingdisposition = data.data.attributes.damcalvingdisposition;
-						var calvingease = data.data.attributes.calvingease;
-						var udderscore = data.data.attributes.udderscore;
-						var comments = data.data.attributes.comments;
-						var damdisposition = data.data.attributes.damdisposition;
-						var cowframescore = data.data.attributes.cowframescore;
-						var cowwtbreeding = data.data.attributes.cowwtbreeding;
-						var cowwtweaning = data.data.attributes.cowwtweaning;
-						var cowwtcalving = data.data.attributes.cowwtcalving;
-						var bcsweaning = data.data.attributes.bcsweaning;
-						var bcscalving = data.data.attributes.bcscalving;
-						var bcsbreeding = data.data.attributes.bcsbreeding;
-						var customcowht = data.data.attributes.customcowht;
-						var customcowwt = data.data.attributes.customcowwt;
-						var bullframescore = data.data.attributes.bullframescore;
-						var bulldisposition = data.data.attributes.bulldisposition;
-						var bullwtprebreeding = data.data.attributes.bullwtprebreeding;
-						var bullhtprebreeding = data.data.attributes.bullhtprebreeding;
-						var fertility = data.data.attributes.fertility;
-						var mobility = data.data.attributes.mobility;
-						var conc = data.data.attributes.conc;
-						var deadabnormal = data.data.attributes.deadabnormal;
-						$('#breeding option:selected').text(breeding);
-						$('#preganacy option:selected').text(preganacy);
-						$('#calfatside').val(calfatside);
-						$('#totalcalves').val(totalcalves);
-						$('#previouscalf').val(previouscalf);
-						$('#damageatbirth').val(damageatbirth);
-						$('#currentcalf').val(currentcalf);
-						$('#calfdob').val(calfdob);
-						$('#calfsex option:selected').text(calfsex);
-						$('#calfbirthweight').val(calfbirthweight);
-						$('#pasturenumberreproduction').val(pasturenumberreproduction);
-						$('#damcalvingdisposition option:selected').text(damcalvingdisposition);
-						$('#calvingease option:selected').text(calvingease);
-						$('#udderscore').val(udderscore);
-						$('#comments').val(comments);
-						$('#damdisposition option:selected').text(damdisposition);
-						$('#cowframescore').val(cowframescore);
-						$('#cowwtbreeding').val(cowwtbreeding);
-						$('#cowhtbreeding').val(cowhtbreeding);
-						$('#cowwtcalving').val(cowwtcalving);
-						$('#cowhtcalving').val(cowhtcalving);
-						$('#cowwtweaning').val(cowwtweaning);
-						$('#cowhtweaning').val(cowhtweaning);
-						$('#bcsbreeding').val(bcsbreeding);
-						$('#bcscalving').val(bcscalving);
-						$('#bcsweaning').val(bcsweaning);
-						$('#customcowht').val(customcowht);
-						$('#customcowwt').val(customcowwt);
-						$('#bullframescore').val(bullframescore);
-						$('#bulldisposition option:selected').text(bulldisposition);
-						$('#bullwtprebreeding').val(bullwtprebreeding);
-						$('#bullhtprebreeding').val(bullhtprebreeding);
-						$('#fertility').val(fertility);
-						$('#mobility').val(mobility);
-						$('#conc').val(conc);
-						$('#deadabnormal').val(deadabnormal);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Master_Animal Failed", "error")
-						
-					}
-				});
-		});
-	return false;
-	};
-</script>
-<script type = "text/javascript">
-	function medicalget( variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/medical/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						var reasonforprocedure = data.data.attributes.reasonforprocedure;
-						var notificationofvmo = data.data.attributes.notificationofvmo;
-						var reccomendationofvmo = data.data.attributes.reccomendationofvmo;
-						var treatmentprotocol = data.data.attributes.treatmentprotocol;
-						var animallocationpreresolution = data.data.attributes.animallocationpreresolution;
-						var followupexam = data.data.attributes.followupexam;
-						var resolution = data.data.attributes.resolution;
-						var dateoffollowup = data.data.attributes.dateoffollowup;
-						var animallocation = data.data.attributes.animallocation;
-						var dateofaction = data.data.attributes.dateofaction;
-						$('#reasonforprocedure').val(reasonforprocedure);
-						$('#notificationofvmo option:selected').text(notificationofvmo);
-						$('#reccomendationofvmo').val(reccomendationofvmo);
-						$('#treatmentprotocol').val(treatmentprotocol);
-						$('#animallocationpreresolution').val(animallocationpreresolution);
-						$('#followupexam').val(followupexam);
-						$('#resolution').val(resolution);
-						$('#dateoffollowup').val(dateoffollowup);
-						$('#animallocation').val(animallocation);
-						$('#dateofaction').val(dateofaction);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Medical data Failed", "error")
-						
-					}
-				});
-		});
-	return false;
-	};
-</script>
-<script type = "text/javascript">
-	function grazingget( variable) 
-	{
-		$(document).ready(function(e){
-			$.ajax({
-					url: '/api/grazing/'+variable,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						var pastureacres = data.data.attributes.pastureacres;
-						var animalspresent = data.data.attributes.animalspresent;
-						var datein = data.data.attributes.datein;
-						var dateout = data.data.attributes.dateout;
-						var stockingrate = data.data.attributes.stockingrate;
-						pastureacres: $('#pastureacres').val(pastureacres);
-						animalspresent : $('#animalspresent').val(animalspresent);
-						datein : $('#datein').val(datein);
-						dateout : $('#dateout').val(dateout);
-						stockingrate : $('#stockingrate').val(stockingrate);
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("Grazing Failed", "error")
-						
-					}
-				});
-		});
-	return false;
-	};
-</script>
-</head>
 
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -541,6 +40,7 @@
 					<label for="sex" class="control-label col-xs-1">Sex</label>
 						<div class="col-xs-2">
 						  <select class="form-control" id="sex">
+							<option></option>
 							<option>Steer</option>
 							<option>Heifer</option>
 							<option>Bull</option>
@@ -550,6 +50,7 @@
 					<label for="pasturenumber" class="control-label col-xs-1">Pasture Number</label>
 					<div class="col-xs-2">
 					  <select class="form-control" id="pasturenumber">
+						<option></option>
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
@@ -562,6 +63,7 @@
 					<label for="trial" class="control-label col-xs-1">Trial</label>
 					<div class="col-xs-2">
 					  <select class="form-control" id="trial">
+						<option></option>
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
@@ -609,6 +111,7 @@
 							<label for="animaltype" class="control-label col-xs-1">Animal Type</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="animaltype">
+								<option></option>
 								<option>Cow</option>
 								<option>Bull</option>
 								<option>Calf</option>
@@ -619,6 +122,7 @@
 							<label for="status" class="control-label col-xs-1">Status</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="status">
+								<option></option>
 								<option>Active</option>
 								<option>Inactive</option>
 							  </select>
@@ -644,6 +148,7 @@
 							<label for="brandlocation" class="control-label col-xs-1">Brand Location</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="brandlocation">
+								<option></option>
 								<option>Left Hip</option>
 								<option>Right Hip</option>
 							  </select>
@@ -677,6 +182,7 @@
 							<label for="hornstatus" class="control-label col-xs-1">Horn Status</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="hornstatus">
+								<option></option>
 								<option>Polled</option>
 								<option>Scurred</option>
 								<option>Horned</option>
@@ -700,6 +206,7 @@
 							<label for="acquiredinfo" class="control-label col-xs-1">How Acquired</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="howacquired">
+								<option></option>
 								<option>Raised</option>
 								<option>Purchased</option>
 								<option>Leased</option>
@@ -714,6 +221,7 @@
 							<label for="disposedinfo" class="control-label col-xs-1">How Disposed</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="howdisposed">
+								<option></option>
 								<option>Sold</option>
 								<option>Died</option>
 								<option>Euthanized</option>
@@ -859,6 +367,7 @@
 							<label for="treatment" class="col-xs-1 control-label">Treatment</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="treatment">
+								<option></option>
 								<option>Steer</option>
 								<option>Heifer</option>
 								<option>Bull</option>
@@ -912,6 +421,7 @@
 							<label for="breeding" class="control-label col-xs-1">Breeding</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="breeding">
+								<option></option>
 								<option>Bull-1</option>
 								<option>Bull-2</option>
 								<option>Bull-3</option>
@@ -924,6 +434,7 @@
 							<label for="preganacy" class="col-xs-1 control-label">Pregnancy</label>
 								<div class="col-xs-2">
 								  <select class="form-control" id="pregnancy">
+									<option></option>
 									<option>Pregnant</option>
 									<option>Open</option>
 								  </select>
@@ -954,13 +465,14 @@
 								<div class="col-xs-2">
 									<input type="text" id="currentcalf" class="form-control" placeholder="Current Calf">
 								</div>
-								<label for="dob" class="col-xs-1 control-label">D.O.B</label>
+								<label for="calfdob" class="col-xs-1 control-label">D.O.B</label>
 								<div class="col-xs-2">
-									<input type="text" id="dob" class="form-control" placeholder="D.O.B">
+									<input type="text" id="calfdob" class="form-control" placeholder="D.O.B">
 								</div>
 								<label for="calfsex" class="col-xs-1 control-label">Calf Sex</label>
 								<div class="col-xs-2">
 								  <select class="form-control" id="calfsex">
+									<option></option>
 									<option>Steer</option>
 									<option>Heifer</option>
 									<option>Bull</option>
@@ -976,6 +488,7 @@
 								<label for="damcalvingdisposition" class="col-xs-1 control-label">Dam Calving Disposition</label>
 								<div class="col-xs-2">
 									<select class="form-control" id="damcalvingdisposition">
+										<option></option>
 										<option>1</option>
 										<option>2</option>
 										<option>3</option>
@@ -986,6 +499,7 @@
 								<label for="calvingease" class="col-xs-1 control-label">Calving Ease</label>
 								<div class="col-xs-2">
 									<select class="form-control" id="calvingease">
+										<option></option>
 										<option>1</option>
 										<option>2</option>
 										<option>3</option>
@@ -1010,6 +524,7 @@
 								<label for="damdisposition" class="col-xs-1 control-label">Dam Disposition</label>
 								<div class="col-xs-2">
 									<select class="form-control" id="damdisposition">
+										<option></option>
 										<option>1</option>
 										<option>2</option>
 										<option>3</option>
@@ -1081,6 +596,7 @@
 								<label for="bulldamdisposition" class="col-xs-1 control-label">Dam Disposition</label>
 								<div class="col-xs-2">
 									<select class="form-control" id="bulldamdisposition">
+										<option></option>
 										<option>1</option>
 										<option>2</option>
 										<option>3</option>
@@ -1104,21 +620,21 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="bullfertility" class="col-xs-1 control-label">Fertility</label>
+								<label for="fertility" class="col-xs-1 control-label">Fertility</label>
 								<div class="col-xs-2">
-										<input type="text" id="bullfertility" class="form-control" placeholder="Fertility">
+										<input type="text" id="fertility" class="form-control" placeholder="Fertility">
 								</div>
-								<label for="bullmobility" class="col-xs-1 control-label">Mobility</label>
+								<label for="mobility" class="col-xs-1 control-label">Mobility</label>
 								<div class="col-xs-2">
-										<input type="text" id="bullmobility" class="form-control" placeholder="Mobility">
+										<input type="text" id="mobility" class="form-control" placeholder="Mobility">
 								</div>	
-								<label for="bullconc" class="col-xs-1 control-label">Conc.</label>
+								<label for="conc" class="col-xs-1 control-label">Conc.</label>
 								<div class="col-xs-2">
-										<input type="text" id="bullconc" class="form-control" placeholder="Conc.">
+										<input type="text" id="conc" class="form-control" placeholder="Conc.">
 								</div>
-								<label for="bulldoa" class="col-xs-1 control-label">%Dead/Alive</label>
+								<label for="deadabnormal" class="col-xs-1 control-label">%Dead/Abnormal</label>
 								<div class="col-xs-2">
-										<input type="text" id="bulldoa" class="form-control" placeholder="%Dead/Alive">
+										<input type="text" id="deadabnormal" class="form-control" placeholder="%Dead/Alive">
 								</div>
 							</div>
 					</div>
@@ -1126,13 +642,14 @@
 				<div role="tabpanel" class="tab-pane fade" id="calf_medical">
 					<div class="form-horizontal" style="margin-top:15px;">
 						<div class="form-group">
-							<label for="procedurereason" class="control-label col-xs-1">Reason for Procedure</label>
+							<label for="reasonforprocedure" class="control-label col-xs-1">Reason for Procedure</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="procedurereason" placeholder="Reason for Procedure">
+								<input type="text" class="form-control" id="reasonforprocedure" placeholder="Reason for Procedure">
 							</div>
-							<label for="notificationvmo" class="control-label col-xs-1">Notification of VMO</label>
+							<label for="notificationofvmo" class="control-label col-xs-1">Notification of VMO</label>
 							<div class="col-xs-2">
-							  <select class="form-control" id="notificationvmo">
+							  <select class="form-control" id="notificationofvmo">
+								<option></option>
 								<option>None</option>
 								<option>Site Visit</option>
 								<option>Email</option>
@@ -1140,9 +657,9 @@
 								<option>Text</option>
 							  </select>
 							</div>
-							<label for="vmorecommendation" class="control-label col-xs-1">Recommendation of VMO</label>
+							<label for="recommendationofvmo" class="control-label col-xs-1">Recommendation of VMO</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="vmorecommendation" placeholder="Recommendation of VMO">
+								<input type="text" class="form-control" id="recommendationofvmo" placeholder="Recommendation of VMO">
 							</div>
 							<label for="treatmentprotocol" class="control-label col-xs-1">Treatment Protocol</label>
 							<div class="col-xs-2">
@@ -1150,9 +667,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="animallocationpreres" class="control-label col-xs-1">Animal Location Pre-resolution</label>
+							<label for="animallocationpreresolution" class="control-label col-xs-1">Animal Location Pre-resolution</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="animallocationpreres" placeholder="Animal Location Pre-resolution">
+								<input type="text" class="form-control" id="animallocationpreresolution" placeholder="Animal Location Pre-resolution">
 							</div>
 							<label for="followupexam" class="control-label col-xs-1">Follow-up Exam</label>
 							<div class="col-xs-2">
@@ -1162,9 +679,9 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="resolution" placeholder="Resolution">
 							</div>
-							<label class="control-label col-xs-1" for="date">Date of Followup Exam</label>
+							<label class="control-label col-xs-1" for="dateoffollowup">Date of Followup Exam</label>
 							<div class="input-group col-xs-2">
-							   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							   <input class="form-control" id="dateoffollowup" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -1172,9 +689,9 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="animallocation" placeholder="Animal Location">
 							</div>
-							<label class="control-label col-xs-1" for="date">Date of Action</label>
+							<label class="control-label col-xs-1" for="dateofaction">Date of Action</label>
 							<div class="input-group col-xs-2">
-							   <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							   <input class="form-control" id="dateofaction" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
 							<p>Importing PDFs coming soon</p>
 						</div>
@@ -1345,5 +862,6 @@
 		</div>
 	</div>
 </div>
+	<script type = "text/javascript" src="{{url_for('static', filename= 'js/dashboardscripts.js')}}"></script>
 </html>
 {% endblock %}
