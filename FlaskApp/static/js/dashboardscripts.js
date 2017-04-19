@@ -222,7 +222,7 @@
 		reproductionget(cownumber);
 		medicalget(cownumber);
 		grazingget(cownumber);
-		$("<li><a onclick='callall("+cownumber+")'> "+ cownumber + "</a></li>").prependTo( "#latestcow");
+		$("<li><a onclick='callall("+cownumber+")'> "+cownumber+"</a></li>").prependTo( "#latestcow");
 	});
 	function callall(cownumber){
 		console.log("this is the cownumber" +cownumber);
