@@ -8,6 +8,8 @@ from marshmallow_jsonapi import Schema, fields
 from marshmallow import validate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import Column, Integer, DateTime, event, DDL
+from sqlalchemy.sql import func
 
 
 app = Flask(__name__)
@@ -87,7 +89,7 @@ class UsersSchema(Schema):
 
 class Master_animal(db.Model, CRUD):
 	__tablename__ = 'master_animal'
-	cownumber = db.Column(db.Integer, primary_key = True)
+	cownumber = db.Column(db.Integer, primary_key = True, autoincrement=True, default = -1)
 	height = db.Column(db.Float)
 	weight = db.Column(db.Float)
 	eartag = db.Column(db.Text)
@@ -99,8 +101,9 @@ class Master_animal(db.Model, CRUD):
 	trial = db.Column(db.Text)
 	herd = db.Column(db.Text)
 	animaltype = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 	
-	def __init__(self, cownumber, height, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
+	def __init__(self, cownumber,ts, height, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
 		self.cownumber = cownumber
 		self.height = height
 		self.weight = weight
@@ -113,6 +116,8 @@ class Master_animal(db.Model, CRUD):
 		self.trial = trial
 		self.herd = herd
 		self.animaltype = animaltype
+		self.ts= ts
+
 
 class Master_animal_Schema(Schema):
 	not_blank = validate.Length(min=1, error ='Field cannot be blank')
@@ -129,9 +134,9 @@ class Master_animal_Schema(Schema):
 	trial = fields.String(validate = not_blank)
 	herd = fields.String(validate = not_blank)
 	animaltype = fields.String(validate = not_blank)
+	ts = fields.DateTime(validate = not_blank)
 	# self links
 	def get_top_level_links(self, data, many):
-		print >> sys.stderr, "data {}".format(data) # print data to verify get request
 		if many:
 			self_link = "/master_animal/"
 		else:
@@ -140,6 +145,11 @@ class Master_animal_Schema(Schema):
 	class Meta:
 		type_ = 'master_animal'
 
+
+
+trig_ddl = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(rowid) from master_animal) WHERE cownumber = -1; END;''')
+tbl = Master_animal.__table__
+event.listen(tbl, 'after_create', trig_ddl)
 
 class Medical_Inventory(db.Model, CRUD):
 	__tablename__ = 'medical_inventory'
@@ -198,8 +208,9 @@ class Animal_Inventory(db.Model, CRUD):
 	howdisposed = db.Column(db.Text)
 	datedisposed = db.Column(db.Text)
 	disposalreason = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
+	def __init__(self, cownumber,ts, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
 				 howacquired, dateacquired,howdisposed, datedisposed, disposalreason):
 		self.cownumber = cownumber
 		self.brand = brand
@@ -218,6 +229,7 @@ class Animal_Inventory(db.Model, CRUD):
 		self.howdisposed = howdisposed
 		self.datedisposed = datedisposed
 		self.disposalreason = disposalreason
+		self.ts= ts
 
 
 class Animal_Inventory_Schema(Schema):
@@ -240,6 +252,7 @@ class Animal_Inventory_Schema(Schema):
 	howdisposed = fields.String(validate=not_blank)
 	datedisposed = fields.String(validate=not_blank)
 	disposalreason = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate= not_blank)
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -283,8 +296,9 @@ class Experiment(db.Model, CRUD):
 	treatment = db.Column(db.Text)
 	blockpen = db.Column(db.Text)
 	replicate = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber, dam, sire, birthweight, damframescore, sireframescore, weanheight, weanweight, weandate, adj205w, adj205h, dob,
+	def __init__(self, cownumber,ts, dam, sire, birthweight, damframescore, sireframescore, weanheight, weanweight, weandate, adj205w, adj205h, dob,
 				 weanframescore, ageatwean,yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh, yearlingframescore, ageatyearling,
 				 customweight, customweightdate, customheight, customheightdate, backfat, treatment, blockpen, replicate):
 		self.cownumber = cownumber
@@ -316,6 +330,7 @@ class Experiment(db.Model, CRUD):
 		self.treatment = treatment
 		self.blockpen = blockpen
 		self.replicate = replicate
+		self.ts = ts
 
 
 class Experiment_Schema(Schema):
@@ -350,6 +365,7 @@ class Experiment_Schema(Schema):
 	treatment = fields.String(validate=not_blank)
 	blockpen = fields.String(validate=not_blank)
 	replicate = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate= not_blank)
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -401,8 +417,9 @@ class Reproduction(db.Model, CRUD):
 	mobility = db.Column(db.Float)
 	conc = db.Column(db.Float)
 	deadabnormal = db.Column(db.Float)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber, breeding, pregnancy, calfatside, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
+	def __init__(self, cownumber,ts, breeding, pregnancy, calfatside, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
 				 damcalvingdisposition, calvingease,udderscore, comments, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
 				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldisposition, bullframescore,
 				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal):
@@ -443,6 +460,7 @@ class Reproduction(db.Model, CRUD):
 		self.mobility = mobility
 		self.conc = conc
 		self.deadabnormal = deadabnormal
+		self.ts = ts
 
 
 class Reproduction_Schema(Schema):
@@ -485,6 +503,7 @@ class Reproduction_Schema(Schema):
 	mobility = fields.Float(validate=not_blank)
 	conc = fields.Float(validate=not_blank)
 	deadabnormal = fields.Float(validate=not_blank)
+	ts = fields.DateTime(validate = not_blank)
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -511,8 +530,9 @@ class Medical(db.Model, CRUD):
 	dateoffollowup = db.Column(db.Text)
 	animallocation = db.Column(db.Text)
 	dateofaction = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber, reasonforprocedure, notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
+	def __init__(self, cownumber, ts,reasonforprocedure, notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
 		self.cownumber = cownumber
 		self.reasonforprocedure = reasonforprocedure
 		self.notificationofvmo = notificationofvmo
@@ -524,6 +544,7 @@ class Medical(db.Model, CRUD):
 		self.dateoffollowup = dateoffollowup
 		self.animallocation = animallocation
 		self.dateofaction = dateofaction
+		self.ts = ts
 
 
 class Medical_Schema(Schema):
@@ -540,6 +561,7 @@ class Medical_Schema(Schema):
 	dateoffollowup = fields.String(validate=not_blank)
 	animallocation = fields.String(validate=not_blank)
 	dateofaction = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate = not_blank)
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -560,14 +582,16 @@ class Grazing(db.Model, CRUD):
 	datein = db.Column(db.Text)
 	dateout = db.Column(db.Text)
 	stockingrate = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber, pastureacres, animalspresent, datein, dateout, stockingrate):
+	def __init__(self, cownumber,ts, pastureacres, animalspresent, datein, dateout, stockingrate):
 		self.cownumber = cownumber
 		self.pastureacres = pastureacres
 		self.animalspresent = animalspresent
 		self.datein = datein
 		self.dateout = dateout
 		self.stockingrate = stockingrate
+		self.ts = ts
 
 
 class Grazing_Schema(Schema):
@@ -579,6 +603,7 @@ class Grazing_Schema(Schema):
 	datein = fields.String(validate=not_blank)
 	dateout = fields.String(validate=not_blank)
 	stockingrate = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate = not_blank)
 
 	# self links
 	def get_top_level_links(self, data, many):

@@ -76,6 +76,11 @@ def pharma():
 def searchpage():
     return render_template("search.html")
 
+@app.route('/groupadd')
+@login_required
+def groupadd():
+    return render_template("Groupadd.html")
+
 @app.route('/test')
 @login_required
 def test():

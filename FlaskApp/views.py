@@ -5,6 +5,7 @@ from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
+from sqlalchemy import desc
 import sys
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
@@ -20,9 +21,10 @@ schemaGrazing = Grazing_Schema()
 class table_basics(Resource):
 
     def get(self, cownumber):
-        master_animal_query = Master_animal.query.get_or_404(cownumber)
+        master_animal_query = Master_animal.query.filter_by(cownumber = cownumber).order_by(Master_animal.ts.desc())
         #Serialize the query results in the JSON API format
-        result = schemaMaster.dump(master_animal_query).data
+        result = schemaMaster.dump(master_animal_query, many = True).data
+        print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
         return result
 
     def post(self):
@@ -32,9 +34,9 @@ class table_basics(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber= None, weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= None,ts = None,weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
                 master.add(master)
-                print >> sys.stderr, "data {}".format(master)
+                print >> sys.stderr, "data for basic post {}".format(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
                 print >> sys.stderr, "This is print master {}".format(master)
@@ -54,35 +56,62 @@ class table_basics(Resource):
                 resp.status_code = 403
                 return resp
 
-    def patch(self, cownumber):
-        master_animal_query = Master_animal.query.get_or_404(cownumber)
+    def patch(self):
+        #Not a real patch by definition. Used to store duplicate entries to keep track of changes over time
         raw_dict = request.form
+        #master_dict = raw_dict['data']['attributes']
         try:
-            schemaMaster.validate(raw_dict)
-            for key, value in raw_dict.items():
-                setattr(master_animal_query, key, value)
+                #Validate the data or raise a Validation error if
+                schemaMaster.validate(raw_dict)
+                #Create a master object with the API data recieved
+                master = Master_animal(cownumber= raw_dict['cownumber'],ts = None,weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master.add(master)
+                query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
+                results = schemaMaster.dump(query, many = True).data
+                return jsonify(results)
+                #return results, 201
 
-            master_animal_query.update()
-            return self.get(cownumber)
 
         except ValidationError as err:
-            resp = jsonify({"error": err.messages})
-            resp.status_code = 401
-            return resp
+                resp = jsonify({"error": err.messages})
+                resp.status_code = 403
+                return resp
 
         except SQLAlchemyError as e:
-            db.session.rollback()
-            resp = jsonify({"error": str(e)})
-            resp.status_code = 401
-            return resp
+                db.session.rollback()
+                resp = jsonify({"error": str(e)})
+                resp.status_code = 403
+                return resp
+
+    # def patch(self, cownumber):
+    #     master_animal_query = Master_animal.query.get_or_404(cownumber)
+    #     raw_dict = request.form
+    #     try:
+    #         schemaMaster.validate(raw_dict)
+    #         for key, value in raw_dict.items():
+    #             setattr(master_animal_query, key, value)
+    #
+    #         master_animal_query.update()
+    #         return self.get(cownumber)
+    #
+    #     except ValidationError as err:
+    #         resp = jsonify({"error": err.messages})
+    #         resp.status_code = 401
+    #         return resp
+    #
+    #     except SQLAlchemyError as e:
+    #         db.session.rollback()
+    #         resp = jsonify({"error": str(e)})
+    #         resp.status_code = 401
+    #         return resp
 
 class table_animal_inventory(Resource):
 
     def get(self, cownumber):
-        animal_inventory_query = Animal_Inventory.query.get_or_404(cownumber)
+        animal_inventory_query = Animal_Inventory.query.filter_by(cownumber = cownumber).order_by(Animal_Inventory.ts.desc())
         #Serialize the query results in the JSON API format
-        result = schemaAnimal.dump(animal_inventory_query).data
-        print >> sys.stderr, "data {}".format(result)
+        result = schemaAnimal.dump(animal_inventory_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from Animal Inventory {}".format(result)
         return result
 
     def post(self):
@@ -92,7 +121,7 @@ class table_animal_inventory(Resource):
                 #Validate the data or raise a Validation error if
                 schemaAnimal.validate(raw_dict)
                 #Create a master object with the API data recieved
-                animal = Animal_Inventory(cownumber= raw_dict['cownumber'], brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
+                animal = Animal_Inventory(cownumber= raw_dict['cownumber'],ts = None, brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
                                        registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],
                                        dateacquired = raw_dict['dateacquired'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
                 animal.add(animal)
@@ -168,62 +197,13 @@ class table_medical_inventory(Resource):
                 resp.status_code = 403
                 return resp
 
-class UsersUpdate(Resource):
-
-    def get(self, uid):
-        user_query = Users.query.get_or_404(uid)
-        result = schema.dump(user_query).data
-        return result
-
-
-
-    def patch(self, uid):
-        user = Users.query.get_or_404(uid)
-        raw_dict = request.get_json(force=True)
-
-        try:
-            schema.validate(raw_dict)
-            user_dict = raw_dict['data']['attributes']
-            for key, value in user_dict.items():
-
-                setattr(user, key, value)
-
-            user.update()
-            return self.get(uid)
-
-        except ValidationError as err:
-                resp = jsonify({"error": err.messages})
-                resp.status_code = 401
-                return resp
-
-        except SQLAlchemyError as e:
-                db.session.rollback()
-                resp = jsonify({"error": str(e)})
-                resp.status_code = 401
-                return resp
-
-    #http://jsonapi.org/format/#crud-deleting
-    #A server MUST return a 204 No Content status code if a deletion request is successful and no content is returned.
-    def delete(self, uid):
-        user = Users.query.get_or_404(uid)
-        try:
-            delete = user.delete(user)
-            response = make_response()
-            response.status_code = 204
-            return response
-
-        except SQLAlchemyError as e:
-                db.session.rollback()
-                resp = jsonify({"error": str(e)})
-                resp.status_code = 401
-                return resp
 
 class table_experiment(Resource):
 
     def get(self, cownumber):
-        experiment_query = Experiment.query.get_or_404(cownumber)
-        result = schemaExperiment.dump(experiment_query).data
-        print >> sys.stderr, "data {}".format(result)
+        experiment_query = Experiment.query.filter_by(cownumber = cownumber).order_by(Experiment.ts.desc())
+        result = schemaExperiment.dump(experiment_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
         return result
 
     def post(self):
@@ -232,7 +212,7 @@ class table_experiment(Resource):
             # Validate the data or raise a Validation error if
             schemaExperiment.validate(raw_dict)
             # Create a master object with the API data recieved
-            experiment = Experiment(cownumber=raw_dict['cownumber'], dam=raw_dict['dam'], sire=raw_dict['sire'],
+            experiment = Experiment(cownumber=raw_dict['cownumber'],ts = None, dam=raw_dict['dam'], sire=raw_dict['sire'],
                                     birthweight=raw_dict['birthweight'],
                                     damframescore=raw_dict['damframescore'],
                                     sireframescore=raw_dict['sireframescore'],
@@ -253,11 +233,9 @@ class table_experiment(Resource):
                                     customheightdate=raw_dict['customheightdate'], backfat=raw_dict['backfat'],
                                     treatment=raw_dict['treatment'], blockpen=raw_dict['blockpen'],
                                     replicate=raw_dict['replicate'])
-            print >> sys.stderr, "THIS IS after all the data has been submited {}".format(experiment)
             experiment.add(experiment)
             query = Experiment.query.all()
             results = schemaExperiment.dump(query, many=True).data
-            print >> sys.stderr, "Last query {}".format(results)
             return results, 201
 
         except ValidationError as err:
@@ -297,9 +275,9 @@ class table_experiment(Resource):
 class table_reproduction(Resource):
 
     def get(self, cownumber):
-        reproduction_query = Reproduction.query.get_or_404(cownumber)
-        result = schemaReproduction.dump(reproduction_query).data
-        print >> sys.stderr, "data {}".format(result)
+        reproduction_query = Reproduction.query.filter_by(cownumber = cownumber).order_by(Reproduction.ts.desc())
+        result = schemaReproduction.dump(reproduction_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from reproduction {}".format(result)
         return result
 
     def post(self):
@@ -308,7 +286,7 @@ class table_reproduction(Resource):
             # Validate the data or raise a Validation error if
             schemaReproduction.validate(raw_dict)
             # Create a master object with the API data recieved
-            reproduction = Reproduction(cownumber=raw_dict['cownumber'],
+            reproduction = Reproduction(cownumber=raw_dict['cownumber'],ts = None,
                                         breeding=raw_dict['breeding'],
                                         pregnancy=raw_dict['pregnancy'],
                                         calfatside=raw_dict['calfatside'],
@@ -360,7 +338,6 @@ class table_reproduction(Resource):
             db.session.rollback()
             resp = jsonify({"error": str(e)})
             resp.status_code = 403
-            print >> sys.stderr, "THIS is at reproduction {}".format(resp)
             return resp
 
 
@@ -389,10 +366,10 @@ class table_reproduction(Resource):
 class table_medical(Resource):
 
     def get(self, cownumber):
-        medical_query = Medical.query.get_or_404(cownumber)
+        medical_query = Medical.query.filter_by(cownumber = cownumber).order_by(Medical.ts.desc())
         # Serialize the query results in the JSON API format
-        result = schemaAnimalMedical.dump(medical_query).data
-        print >> sys.stderr, "data {}".format(result)
+        result = schemaAnimalMedical.dump(medical_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from medical {}".format(result)
         return result
 
     def post(self):
@@ -402,7 +379,7 @@ class table_medical(Resource):
             # Validate the data or raise a Validation error if
             schemaAnimalMedical.validate(raw_dict)
             # Create a master object with the API data recieved
-            medical = Medical(cownumber=raw_dict['cownumber'], reasonforprocedure=raw_dict['reasonforprocedure'],
+            medical = Medical(cownumber=raw_dict['cownumber'],ts = None, reasonforprocedure=raw_dict['reasonforprocedure'],
                              notificationofvmo=raw_dict['notificationofvmo'],
                              recommendationofvmo=raw_dict['recommendationofvmo'],
                              treatmentprotocol=raw_dict['treatmentprotocol'],
@@ -452,8 +429,9 @@ class table_medical(Resource):
 class table_grazing(Resource):
 
     def get(self, cownumber):
-        grazing_query = Grazing.query.get_or_404(cownumber)
-        result = schemaGrazing.dump(grazing_query).data
+        grazing_query = Grazing.query.filter_by(cownumber = cownumber).order_by(Grazing.ts.desc())
+        result = schemaGrazing.dump(grazing_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from grazing {}".format(result)
         return result
 
     def post(self):
@@ -463,7 +441,7 @@ class table_grazing(Resource):
             # Validate the data or raise a Validation error if
             schemaGrazing.validate(raw_dict)
             # Create a master object with the API data recieved
-            animal = Grazing(cownumber=raw_dict['cownumber'], pastureacres=raw_dict['pastureacres'],
+            animal = Grazing(cownumber=raw_dict['cownumber'], ts = None,pastureacres=raw_dict['pastureacres'],
                              animalspresent=raw_dict['animalspresent'], datein=raw_dict['datein'],
                              dateout=raw_dict['dateout'], stockingrate=raw_dict['stockingrate'])
             animal.add(animal)
@@ -490,7 +468,6 @@ class table_grazing(Resource):
             schemaGrazing.validate(raw_dict)
             for key, value in raw_dict.items():
                 setattr(grazing_query, key, value)
-
             grazing_query.update()
             return self.get(cownumber)
 

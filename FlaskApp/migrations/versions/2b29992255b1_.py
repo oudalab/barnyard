@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: bd401cb75757
+Revision ID: 2b29992255b1
 Revises: 
-Create Date: 2017-04-14 19:19:31.344460
+Create Date: 2017-04-24 19:49:10.063657
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bd401cb75757'
+revision = '2b29992255b1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,7 +36,8 @@ def upgrade():
     sa.Column('howdisposed', sa.Text(), nullable=True),
     sa.Column('datedisposed', sa.Text(), nullable=True),
     sa.Column('disposalreason', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     op.create_table('experiment',
     sa.Column('cownumber', sa.Integer(), nullable=False),
@@ -68,7 +69,8 @@ def upgrade():
     sa.Column('treatment', sa.Text(), nullable=True),
     sa.Column('blockpen', sa.Text(), nullable=True),
     sa.Column('replicate', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     op.create_table('grazing',
     sa.Column('cownumber', sa.Integer(), nullable=False),
@@ -77,7 +79,8 @@ def upgrade():
     sa.Column('datein', sa.Text(), nullable=True),
     sa.Column('dateout', sa.Text(), nullable=True),
     sa.Column('stockingrate', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     op.create_table('master_animal',
     sa.Column('cownumber', sa.Integer(), nullable=False),
@@ -92,7 +95,8 @@ def upgrade():
     sa.Column('trial', sa.Text(), nullable=True),
     sa.Column('herd', sa.Text(), nullable=True),
     sa.Column('animaltype', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     op.create_table('medical',
     sa.Column('cownumber', sa.Integer(), nullable=False),
@@ -106,7 +110,8 @@ def upgrade():
     sa.Column('dateoffollowup', sa.Text(), nullable=True),
     sa.Column('animallocation', sa.Text(), nullable=True),
     sa.Column('dateofaction', sa.Text(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     op.create_table('reproduction',
     sa.Column('cownumber', sa.Integer(), nullable=False),
@@ -146,7 +151,8 @@ def upgrade():
     sa.Column('mobility', sa.Float(), nullable=True),
     sa.Column('conc', sa.Float(), nullable=True),
     sa.Column('deadabnormal', sa.Float(), nullable=True),
-    sa.PrimaryKeyConstraint('cownumber')
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
     # ### end Alembic commands ###
 

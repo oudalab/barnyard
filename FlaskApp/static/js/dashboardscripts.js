@@ -1,5 +1,5 @@
 // SCRIPTS FOR DASHBOARD
-	$(function patchBasic() {
+	$(function postBasic() {
 	$('#basic_update').click(function(e) {
 		var cownumber = $('#cownumber').val()
 		var basic = {
@@ -17,7 +17,7 @@
 			animaltype : $('#animaltype option:selected').text()
 			}
 			$.ajax({
-				url: '/api/master_animal/'+cownumber,
+				url: '/api/master_animal/',
 				data: basic,
 				datatype: 'json',
 				type: 'PATCH',
@@ -33,11 +33,12 @@
 			e.preventDefault();
 		});
 	});
-	$(function patchAnimalInventory() {
+	$(function postAnimalInventory() {
 
 	$('#basic_update').click(function(e) {
 		var cownumber = $('#cownumber').val()
 		var animal_inventory = {
+			cownumber : $('#cownumber').val(),
 			brand : $('#brand').val(),
 			brandlocation: $('#brandlocation option:selected').text(),
 			tattooleft : $('#tattooleft').val(),
@@ -56,10 +57,10 @@
 			disposalreason : $('#disposalreason').val()
 			}
 			$.ajax({
-				url: '/api/animal_inventory/'+cownumber,
+				url: '/api/animal_inventory/',
 				data: animal_inventory,
 				datatype: 'json',
-				type: 'PATCH',
+				type: 'POST',
 				success: function(animal_inventory) {
 					console.log(animal_inventory)
 					$.notify("Inventory Data Saved", "info");						
@@ -72,11 +73,12 @@
 			e.preventDefault();
 		});
 	});
-	$(function patchExperiment() {
+	$(function postExperiment() {
 
 	$('#basic_update').click(function(e) {
 		var cownumber = $('#cownumber').val()
 		var experiment = {
+			cownumber : $('#cownumber').val(),
 			dam : $('#damexperiment').val(),
 			sire : $('#sireexperiment').val(),
 			birthweight : $('#birthweight').val(),
@@ -107,10 +109,10 @@
 			replicate : $('#replicate').val()
 			}
 			$.ajax({
-				url: '/api/experiment/'+cownumber,
+				url: '/api/experiment/',
 				data: experiment,
 				datatype: 'json',
-				type: 'PATCH',
+				type: 'POST',
 				success: function(experiment) {
 					console.log(experiment)
 					$.notify("Experiment Data Saved", "info");
@@ -123,13 +125,13 @@
 			e.preventDefault();
 		});
 	});
-	$(function patchReproduction() {
+	$(function postReproduction() {
 	$('#basic_update').click(function(e) {
 		var cownumber = $('#cownumber').val()
 		var reproduction = {
 			cownumber : $('#cownumber').val(),
 			breeding: $('#breeding option:selected').text(),
-			preganacy: $('#preganacy option:selected').text(),
+			pregnancy: $('#pregnancy option:selected').text(),
 			calfatside : $('#calfatside').val(),
 			totalcalves : $('#totalcalves').val(),
 			previouscalf : $('#previouscalf').val(),
@@ -162,26 +164,27 @@
 			fertility: $('#fertility').val(),
 			mobility: $('#mobility').val(),
 			conc: $('#conc').val(),
+			pasturenumberreproduction: $('#pasturenumberreproduction').val(),
 			deadabnormal: $('#deadabnormal').val()
 			}
 			$.ajax({
-				url: '/api/reproduction/'+cownumber,
+				url: '/api/reproduction/',
 				data: reproduction,
 				datatype: 'json',
-				type: 'PATCH',
+				type: 'POST',
 				success: function(response) {
 					console.log(response);
 					$.notify("Reproduction Data Saved", "info");
 				},
 				error: function(error) {
-					console.log(error)
+					console.log(error);
 					$.notify("Reproduction Data Error", "danger");
 				}
 			});
 			e.preventDefault();
 		});
 	});
-	$(function patchMedical() {
+	$(function postMedical() {
 	$('#basic_update').click(function(e) {
 		var cownumber = $('#cownumber').val()
 		var medical = {
@@ -198,13 +201,41 @@
 			dateofaction : $('#dateofaction').val()
 			}
 			$.ajax({
-				url: '/api/medical/'+cownumber,
+				url: '/api/medical/',
 				data: medical,
 				datatype: 'json',
-				type: 'PATCH',
+				type: 'POST',
 				success: function(response) {
 					console.log(response);
-					$.notify("Basic Data Saved", "info");
+					$.notify("Medical Data Saved", "info");
+				},
+				error: function(error) {
+					console.log(error)
+					$.notify("Cow number already exist", "danger");
+				}
+			});
+			e.preventDefault();
+		});
+	});
+	$(function postGrazing() {
+	$('#basic_update').click(function(e) {
+		var cownumber = $('#cownumber').val()
+		var grazing = {
+			cownumber : $('#cownumber').val(),
+			pastureacres: $('#pastureacres').val(),
+			animalspresent : $('#animalspresent').val(),
+			datein : $('#datein').val(),
+			dateout : $('#dateout').val(),
+			stockingrate : $('#stockingrate').val()
+			}
+			$.ajax({
+				url: '/api/grazing/',
+				data: grazing,
+				datatype: 'json',
+				type: 'POST',
+				success: function(response) {
+					console.log(response);
+					$.notify("Grazing Data Saved", "info");
 				},
 				error: function(error) {
 					console.log(error)
@@ -244,17 +275,17 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var height = data.data.attributes.height;
-						var weight = data.data.attributes.weight;
-						var eartag = data.data.attributes.eartag;
-						var eid = data.data.attributes.eid;
-						var sex = data.data.attributes.sex;
-						var pasturenumber = data.data.attributes.pasturenumber;
-						var breed = data.data.attributes.breed;
-						var status = data.data.attributes.status;
-						var trial = data.data.attributes.trial;
-						var herd = data.data.attributes.herd;
-						var animaltype = data.data.attributes.animaltype;
+						var height = data.data[0].attributes.height;
+						var weight = data.data[0].attributes.weight;
+						var eartag = data.data[0].attributes.eartag;
+						var eid = data.data[0].attributes.eid;
+						var sex = data.data[0].attributes.sex;
+						var pasturenumber = data.data[0].attributes.pasturenumber;
+						var breed = data.data[0].attributes.breed;
+						var status = data.data[0].attributes.status;
+						var trial = data.data[0].attributes.trial;
+						var herd = data.data[0].attributes.herd;
+						var animaltype = data.data[0].attributes.animaltype;
 						$('#cownumber').val(variable);
 						$('#height').val(height);
 						$('#weight').val(weight);
@@ -287,22 +318,22 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);	
-						var brand = data.data.attributes.brand;
-						var brandlocation = data.data.attributes.brandlocation;
-						var tattooleft = data.data.attributes.tattooleft;
-						var tattooright = data.data.attributes.tattooright;
-						var alternativeid = data.data.attributes.alternativeid;
-						var registration = data.data.attributes.registration;
-						var color  = data.data.attributes.color;
-						var hornstatus  = data.data.attributes.hornstatus;
-						var dam  = data.data.attributes.dam;
-						var sire  = data.data.attributes.sire;
-						var dob  = data.data.attributes.dob;
-						var howacquired  = data.data.attributes.howacquired;
-						var dateacquired  = data.data.attributes.dateacquired;
-						var howdisposed  = data.data.attributes.howdisposed;
-						var datedisposed  = data.data.attributes.datedisposed;
-						var disposalreason  = data.data.attributes.disposalreason;
+						var brand = data.data[0].attributes.brand;
+						var brandlocation = data.data[0].attributes.brandlocation;
+						var tattooleft = data.data[0].attributes.tattooleft;
+						var tattooright = data.data[0].attributes.tattooright;
+						var alternativeid = data.data[0].attributes.alternativeid;
+						var registration = data.data[0].attributes.registration;
+						var color  = data.data[0].attributes.color;
+						var hornstatus  = data.data[0].attributes.hornstatus;
+						var dam  = data.data[0].attributes.dam;
+						var sire  = data.data[0].attributes.sire;
+						var dob  = data.data[0].attributes.dob;
+						var howacquired  = data.data[0].attributes.howacquired;
+						var dateacquired  = data.data[0].attributes.dateacquired;
+						var howdisposed  = data.data[0].attributes.howdisposed;
+						var datedisposed  = data.data[0].attributes.datedisposed;
+						var disposalreason  = data.data[0].attributes.disposalreason;
 						$('#brand').val(brand);
 						$('#brandlocation option:selected').text(brandlocation);
 						$('#tattooleft').val(tattooleft);
@@ -336,34 +367,34 @@
 					success: function(data) {
 						console.log(data);
 						
-						var birthweight = data.data.attributes.birthweight;
-						var damframescore = data.data.attributes.damframescore;
-						var sireframescore = data.data.attributes.sireframescore;
-						var weanheight = data.data.attributes.weanheight;
-						var weanweight = data.data.attributes.weanweight;
-						var weandate = data.data.attributes.weandate;
-						var adj205w  = data.data.attributes.adj205w;
-						var adj205h  = data.data.attributes.adj205h;
-						var weanframescore  = data.data.attributes.weanframescore;
-						var ageatwean  = data.data.attributes.ageatwean;
-						var yearlingweight  = data.data.attributes.yearlingweight;
-						var yearlingheight  = data.data.attributes.yearlingheight;
-						var yearlingdate  = data.data.attributes.yearlingdate;
-						var adjyearlingw  = data.data.attributes.adjyearlingw;
-						var adjyearlingh  = data.data.attributes.adjyearlingh;
-						var yearlingframescore  = data.data.attributes.yearlingframescore;
-						var ageatyearling  = data.data.attributes.ageatyearling;
-						var customweight  = data.data.attributes.customweight;
-						var customheight  = data.data.attributes.customheight;
-						var customweightdate  = data.data.attributes.customweightdate;
-						var customheightdate  = data.data.attributes.customheightdate;
-						var backfat  = data.data.attributes.backfat;
-						var treatment  = data.data.attributes.treatment;
-						var blockpen  = data.data.attributes.blockpen;
-						var replicate  = data.data.attributes.replicate;
-						var dam  = data.data.attributes.dam;
-						var sire  = data.data.attributes.sire;
-						var dob  = data.data.attributes.dob;						
+						var birthweight = data.data[0].attributes.birthweight;
+						var damframescore = data.data[0].attributes.damframescore;
+						var sireframescore = data.data[0].attributes.sireframescore;
+						var weanheight = data.data[0].attributes.weanheight;
+						var weanweight = data.data[0].attributes.weanweight;
+						var weandate = data.data[0].attributes.weandate;
+						var adj205w  = data.data[0].attributes.adj205w;
+						var adj205h  = data.data[0].attributes.adj205h;
+						var weanframescore  = data.data[0].attributes.weanframescore;
+						var ageatwean  = data.data[0].attributes.ageatwean;
+						var yearlingweight  = data.data[0].attributes.yearlingweight;
+						var yearlingheight  = data.data[0].attributes.yearlingheight;
+						var yearlingdate  = data.data[0].attributes.yearlingdate;
+						var adjyearlingw  = data.data[0].attributes.adjyearlingw;
+						var adjyearlingh  = data.data[0].attributes.adjyearlingh;
+						var yearlingframescore  = data.data[0].attributes.yearlingframescore;
+						var ageatyearling  = data.data[0].attributes.ageatyearling;
+						var customweight  = data.data[0].attributes.customweight;
+						var customheight  = data.data[0].attributes.customheight;
+						var customweightdate  = data.data[0].attributes.customweightdate;
+						var customheightdate  = data.data[0].attributes.customheightdate;
+						var backfat  = data.data[0].attributes.backfat;
+						var treatment  = data.data[0].attributes.treatment;
+						var blockpen  = data.data[0].attributes.blockpen;
+						var replicate  = data.data[0].attributes.replicate;
+						var dam  = data.data[0].attributes.dam;
+						var sire  = data.data[0].attributes.sire;
+						var dob  = data.data[0].attributes.dob;						
 						$('#birthweight').val(birthweight);
 						$('#damframescore').val(damframescore);
 						$('#sireframescore').val(sireframescore);
@@ -415,42 +446,42 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var breeding = data.data.attributes.breeding;
-						var pregnancy = data.data.attributes.pregnancy;
-						var calfatside = data.data.attributes.calfatside;
-						var totalcalves = data.data.attributes.totalcalves;
-						var previouscalf = data.data.attributes.previouscalf;
-						var damageatbirth = data.data.attributes.damageatbirth;
-						var currentcalf = data.data.attributes.currentcalf;
-						var calfdob = data.data.attributes.calfdob;
-						var calfsex = data.data.attributes.calfsex;
-						var calfbirthweight = data.data.attributes.calfbirthweight;
-						var pasturenumberreproduction = data.data.attributes.pasturenumberreproduction;
-						var damcalvingdisposition = data.data.attributes.damcalvingdisposition;
-						var calvingease = data.data.attributes.calvingease;
-						var udderscore = data.data.attributes.udderscore;
-						var comments = data.data.attributes.comments;
-						var damdisposition = data.data.attributes.damdisposition;
-						var cowframescore = data.data.attributes.cowframescore;
-						var cowwtbreeding = data.data.attributes.cowwtbreeding;
-						var cowwtweaning = data.data.attributes.cowwtweaning;
-						var cowwtcalving = data.data.attributes.cowwtcalving;
-						var cowhtbreeding = data.data.attributes.cowhtbreeding;
-						var cowhtweaning = data.data.attributes.cowhtweaning;
-						var cowhtcalving = data.data.attributes.cowhtcalving;
-						var bcsweaning = data.data.attributes.bcsweaning;
-						var bcscalving = data.data.attributes.bcscalving;
-						var bcsbreeding = data.data.attributes.bcsbreeding;
-						var customcowht = data.data.attributes.customcowht;
-						var customcowwt = data.data.attributes.customcowwt;
-						var bullframescore = data.data.attributes.bullframescore;
-						var bulldisposition = data.data.attributes.bulldisposition;
-						var bullwtprebreeding = data.data.attributes.bullwtprebreeding;
-						var bullhtprebreeding = data.data.attributes.bullhtprebreeding;
-						var fertility = data.data.attributes.fertility;
-						var mobility = data.data.attributes.mobility;
-						var conc = data.data.attributes.conc;
-						var deadabnormal = data.data.attributes.deadabnormal;
+						var breeding = data.data[0].attributes.breeding;
+						var pregnancy = data.data[0].attributes.pregnancy;
+						var calfatside = data.data[0].attributes.calfatside;
+						var totalcalves = data.data[0].attributes.totalcalves;
+						var previouscalf = data.data[0].attributes.previouscalf;
+						var damageatbirth = data.data[0].attributes.damageatbirth;
+						var currentcalf = data.data[0].attributes.currentcalf;
+						var calfdob = data.data[0].attributes.calfdob;
+						var calfsex = data.data[0].attributes.calfsex;
+						var calfbirthweight = data.data[0].attributes.calfbirthweight;
+						var pasturenumberreproduction = data.data[0].attributes.pasturenumberreproduction;
+						var damcalvingdisposition = data.data[0].attributes.damcalvingdisposition;
+						var calvingease = data.data[0].attributes.calvingease;
+						var udderscore = data.data[0].attributes.udderscore;
+						var comments = data.data[0].attributes.comments;
+						var damdisposition = data.data[0].attributes.damdisposition;
+						var cowframescore = data.data[0].attributes.cowframescore;
+						var cowwtbreeding = data.data[0].attributes.cowwtbreeding;
+						var cowwtweaning = data.data[0].attributes.cowwtweaning;
+						var cowwtcalving = data.data[0].attributes.cowwtcalving;
+						var cowhtbreeding = data.data[0].attributes.cowhtbreeding;
+						var cowhtweaning = data.data[0].attributes.cowhtweaning;
+						var cowhtcalving = data.data[0].attributes.cowhtcalving;
+						var bcsweaning = data.data[0].attributes.bcsweaning;
+						var bcscalving = data.data[0].attributes.bcscalving;
+						var bcsbreeding = data.data[0].attributes.bcsbreeding;
+						var customcowht = data.data[0].attributes.customcowht;
+						var customcowwt = data.data[0].attributes.customcowwt;
+						var bullframescore = data.data[0].attributes.bullframescore;
+						var bulldisposition = data.data[0].attributes.bulldisposition;
+						var bullwtprebreeding = data.data[0].attributes.bullwtprebreeding;
+						var bullhtprebreeding = data.data[0].attributes.bullhtprebreeding;
+						var fertility = data.data[0].attributes.fertility;
+						var mobility = data.data[0].attributes.mobility;
+						var conc = data.data[0].attributes.conc;
+						var deadabnormal = data.data[0].attributes.deadabnormal;
 						$('#breeding option:selected').text(breeding);
 						$('#pregnancy option:selected').text(pregnancy);
 						$('#calfatside').val(calfatside);
@@ -507,16 +538,16 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var reasonforprocedure = data.data.attributes.reasonforprocedure;
-						var notificationofvmo = data.data.attributes.notificationofvmo;
-						var recommendationofvmo = data.data.attributes.recommendationofvmo;
-						var treatmentprotocol = data.data.attributes.treatmentprotocol;
-						var animallocationpreresolution = data.data.attributes.animallocationpreresolution;
-						var followupexam = data.data.attributes.followupexam;
-						var resolution = data.data.attributes.resolution;
-						var dateoffollowup = data.data.attributes.dateoffollowup;
-						var animallocation = data.data.attributes.animallocation;
-						var dateofaction = data.data.attributes.dateofaction;
+						var reasonforprocedure = data.data[0].attributes.reasonforprocedure;
+						var notificationofvmo = data.data[0].attributes.notificationofvmo;
+						var recommendationofvmo = data.data[0].attributes.recommendationofvmo;
+						var treatmentprotocol = data.data[0].attributes.treatmentprotocol;
+						var animallocationpreresolution = data.data[0].attributes.animallocationpreresolution;
+						var followupexam = data.data[0].attributes.followupexam;
+						var resolution = data.data[0].attributes.resolution;
+						var dateoffollowup = data.data[0].attributes.dateoffollowup;
+						var animallocation = data.data[0].attributes.animallocation;
+						var dateofaction = data.data[0].attributes.dateofaction;
 						$('#reasonforprocedure').val(reasonforprocedure);
 						$('#notificationofvmo option:selected').text(notificationofvmo);
 						$('#recommendationofvmo').val(recommendationofvmo);
@@ -547,11 +578,11 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var pastureacres = data.data.attributes.pastureacres;
-						var animalspresent = data.data.attributes.animalspresent;
-						var datein = data.data.attributes.datein;
-						var dateout = data.data.attributes.dateout;
-						var stockingrate = data.data.attributes.stockingrate;
+						var pastureacres = data.data[0].attributes.pastureacres;
+						var animalspresent = data.data[0].attributes.animalspresent;
+						var datein = data.data[0].attributes.datein;
+						var dateout = data.data[0].attributes.dateout;
+						var stockingrate = data.data[0].attributes.stockingrate;
 						pastureacres: $('#pastureacres').val(pastureacres);
 						animalspresent : $('#animalspresent').val(animalspresent);
 						datein : $('#datein').val(datein);
