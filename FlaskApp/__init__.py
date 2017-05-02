@@ -1,9 +1,9 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify, g
 from flask_login import LoginManager, login_user, logout_user
-from models import db, Users, Master_animal, Master_animal_Schema
+from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing
+    table_grazing, table_group
 from secrets import whole_string, short_string
 import config
 import logging
@@ -18,7 +18,7 @@ import syslog, sys
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
-schemaMaster = Master_animal_Schema()
+
 #Database config
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 app.config['SQLALCHEMY_TRACK_MODOFICATIONS'] = True
@@ -41,6 +41,8 @@ api.add_resource(table_medical, '/api/medical/<cownumber>')
 api.add_resource(table_medical, '/api/medical/', endpoint = "5")
 api.add_resource(table_grazing, '/api/grazing/<cownumber>')
 api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
+api.add_resource(table_group, '/api/group/<groupnumber>')
+api.add_resource(table_group, '/api/group/', endpoint = "7")
 
 #Login Manager
 login_manager = LoginManager()
@@ -76,10 +78,25 @@ def pharma():
 def searchpage():
     return render_template("search.html")
 
-@app.route('/groupadd')
+@app.route('/newexperimentpage')
 @login_required
 def groupadd():
-    return render_template("Groupadd.html")
+    return render_template("newexperimentpage.html")
+
+@app.route('/experiment')
+#@login_required
+def cowgroup():
+    return render_template("experiment.html")
+    #if request.method == 'POST':
+    #groupnumber = "G1"
+    #schemaGroup = Group_Schema()
+    #group_query = Group.query.filter_by(groupnumber=groupnumber).order_by(Group.ts.desc())
+    #results = schemaGroup.dump(group_query, many=True).data
+    #print >> sys.stderr, "This is the results of the get request from Group {}".format(results)
+    #return render_template("Groupmanage.html")
+    #return render_template("Groupmanage.html",results = results)
+    #else
+        #return render_template("search.html")
 
 @app.route('/test')
 @login_required
@@ -104,7 +121,7 @@ def login_page():
         user = Users.query.filter_by(email = formLogin.email.data).first_or_404()
         if user.check_password(formLogin.password.data):
             login_user(user)
-            flash("Logged in Succesfully")
+            flash("Logged in Successfully")
             session['logged_in'] = True
             return redirect(url_for('searchpage'))
         else:

@@ -252,19 +252,37 @@
 	$(function retriveCowNumber () {
 		$('#search').click(function(e) {
 			var cownumber = $('#cowSearch').val();
-			$.ajax({
-				url: '/api/master_animal/'+cownumber,
-				data: $('form').serialize(),
-				type: 'GET',
-				success: function(data) {
-					window.location.href = '/dashboard?cownumber='+cownumber
-					console.log(data);
-				},
-				error: function(error) {
-					console.log(error);
-					$.notify("Cow number doesnt exist", "danger");
-				}
-			});
+			var boollean = $.isNumeric(cownumber);
+			if (boollean == true){
+				$.ajax({
+					url: '/api/master_animal/'+cownumber,
+					data: $('form').serialize(),
+					type: 'GET',
+					success: function(data) {
+						window.location.href = '/dashboard?cownumber='+cownumber
+						console.log(data);
+					},
+					error: function(error) {
+						console.log(error);
+						$.notify("Cow number doesnt exist", "danger");
+					}
+				});
+			}
+			else {
+				$.ajax({
+					url: '/api/group/'+cownumber,
+					data: $('form').serialize(),
+					type: 'GET',
+					success: function(data) {
+						window.location.href = '/groupadd?cownumber='+cownumber
+						console.log(data);
+					},
+					error: function(error) {
+						console.log(error);
+						$.notify("Group number doesnt exist", "danger");
+					}
+				});
+			}
 			return false;	
 		});
 		

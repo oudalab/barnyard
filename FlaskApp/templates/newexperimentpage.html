@@ -1,0 +1,185 @@
+{% extends "header.html" %}
+
+{% block body %}
+<body>
+	<h1 align="center">Welcome to New Experiment Page</h1>
+	<br>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="col-xs-12">
+				<div style="margin-bottom:100px;">
+					<form>
+						<div class="form-group" >
+							<label for="cownumber" class="control-label col-xs-1">Cow Numbers</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Cow Numbers">
+							</div>
+							<label for="groupname" class="control-label col-xs-1">Group Name</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="groupname" placeholder="Group Name">
+							</div>
+							<label for="groupnumber" class="control-label col-xs-1">Group Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="groupnumber" placeholder="Group Number">
+							</div>
+							<div class="control-label col-xs-3">
+								<a href="#" id="submit_newexperimentadd"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Create</button></a>
+							</div>
+						</div>
+						<br>
+						<div class="form-group">
+								<label for="groupdescription" class="control-label col-xs-1">Group Description</label>
+								<div class="col-xs-11">
+									<input type="text" id="groupdescription" class="form-control" placeholder="Group Description">
+								</div>
+						</div>
+						<br>
+						<br>
+						<br>
+							<div class="col-xs-2">
+								<div class="form-control margin-top:5px">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Basics</h4>
+									<br>
+									<form>
+										<input type="checkbox" class="groupaddinput" value="pasturenumber" name="option1">Pasture Number<br>
+										<input type="checkbox" class="groupaddinput" value="sex" name="option2">Sex<br> 
+										<input type="checkbox" class="groupaddinput" value="breed" name="option3">Breed<br> 
+										<input type="checkbox" class="groupaddinput" value="height" name="option4">Height<br> 
+										<input type="checkbox" class="groupaddinput" value="weight" name="option5">Weight<br> 
+										<input type="checkbox" class="groupaddinput" value="animaltype" name="option6">Animal Type<br> 
+										<input type="checkbox" class="groupaddinput" value="status" name="option7">Status<br> 
+										<input type="checkbox" class="groupaddinput" value="herd" name="option8">Herd<br>
+									</form>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Inventory</h4>
+									<br>
+										<input type="checkbox" class="groupaddinput" value="brand" name="option1">Brand<br>
+										<input type="checkbox" class="groupaddinput" value="brandlocation" name="option2">Brand Location<br> 
+										<input type="checkbox" class="groupaddinput" value="tattooleft" name="option3">Tattoo Left<br> 
+										<input type="checkbox" class="groupaddinput" value="tattooright" name="option4">Tattoo Right<br> 
+										<input type="checkbox" class="groupaddinput" value="alternativeid" name="option5">Alternative ID<br> 
+										<input type="checkbox" class="groupaddinput" value="registration" name="option6">Registration<br> 
+										<input type="checkbox" class="groupaddinput" value="color" name="option7">Color<br> 
+										<input type="checkbox" class="groupaddinput" value="hornstatus" name="option8">Horn Status<br> 
+										<input type="checkbox" class="groupaddinput" value="dam" name="option9">Dam<br> 
+										<input type="checkbox" class="groupaddinput" value="sire" name="option10">Sire<br>
+										<input type="checkbox" class="groupaddinput" value="dob" name="option10">D.O.B<br>
+										<input type="checkbox" class="groupaddinput" value="howacquired" name="option11">How Acquired<br> 
+										<input type="checkbox" class="groupaddinput" value="dateacquired" name="option12">Date Acquired<br> 
+										<input type="checkbox" class="groupaddinput" value="howdisposed" name="option13">How Disposed<br> 
+										<input type="checkbox" class="groupaddinput" value="datedisposed" name="option14">Date Disposed<br>
+										<input type="checkbox" class="groupaddinput" value="disposalreason" name="option10">Disposal Reason<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Experiment</h4>
+									<br>
+										<input type="checkbox" class="groupaddinput" value="dam" name="option1">Dam<br> 
+										<input type="checkbox" class="groupaddinput" value="sire" name="option2">Sire<br>
+										<input type="checkbox" class="groupaddinput" value="damframescore" name="option10">Dam Frame Score<br>
+										<input type="checkbox" class="groupaddinput" value="sireframescore" name="option3">Sire Frame Score<br> 
+										<input type="checkbox" class="groupaddinput" value="dobexperiment" name="option4">DOB<br> 
+										<input type="checkbox" class="groupaddinput" value="weanheight" name="option5">Wean Height<br> 
+										<input type="checkbox" class="groupaddinput" value="weanweight" name="option6">Wean Weight<br> 
+										<input type="checkbox" class="groupaddinput" value="weandate" name="option7">Wean Date<br> 
+										<input type="checkbox" class="groupaddinput" value="birthweight" name="option9">Birth Weight<br>  
+										<input type="checkbox" class="groupaddinput" value="yearlingheight" name="option8">Yearling Height<br>
+										<input type="checkbox" class="groupaddinput" value="yearlingweight" name="option11">Yearling Weight<br>
+										<input type="checkbox" class="groupaddinput" value="yearlingdate" name="option12">Yearling Date<br> 
+										<input type="checkbox" class="groupaddinput" value="customweight" name="option13">Custom Weight<br> 
+										<input type="checkbox" class="groupaddinput" value="customweightdate" name="option14">Custom Weight Date<br> 
+										<input type="checkbox" class="groupaddinput" value="customheight" name="option15">Custom Height<br>
+										<input type="checkbox" class="groupaddinput" value="customweightdate" name="option16">Custom Height Date<br>
+										<input type="checkbox" class="groupaddinput" value="blockpen" name="option17">Block/Pen<br> 
+										<input type="checkbox" class="groupaddinput" value="replicate" name="option18">Replicate<br> 
+										<input type="checkbox" class="groupaddinput" value="backfat" name="option19">Back Fat<br>
+										<input type="checkbox" class="groupaddinput" value="treatment" name="option20">Treatment<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Reproduction</h4>
+									<br>
+										<input type="checkbox" class="groupaddinput" value="breeding" name="option1">Breeding<br> 
+										<input type="checkbox" class="groupaddinput" value="pregnancy" name="option2">Pregnancy<br>
+										<input type="checkbox" class="groupaddinput" value="currentcalf" name="option10">Current Calf<br>
+										<input type="checkbox" class="groupaddinput" value="calfdob" name="option3">DOB<br> 
+										<input type="checkbox" class="groupaddinput" value="calfsex" name="option4">Calf Sex<br> 
+										<input type="checkbox" class="groupaddinput" value="calfbirthweight" name="option5">Calf Birth Weight<br> 
+										<input type="checkbox" class="groupaddinput" value="damcalvingdisposition" name="option6">Dam Calving Disposition<br> 
+										<input type="checkbox" class="groupaddinput" value="calvingease" name="option7">Calving Ease<br> 
+										<input type="checkbox" class="groupaddinput" value="udderscore" name="option9">Udder Score<br>  
+										<input type="checkbox" class="groupaddinput" value="comments" name="option8">Comments<br>
+										<input type="checkbox" class="groupaddinput" value="damdisposition" name="option11">Dam Disposition<br>
+										<input type="checkbox" class="groupaddinput" value="cowwtbreeding" name="option12">Cow Wt Breeding<br> 
+										<input type="checkbox" class="groupaddinput" value="cowhtbreeding" name="option13">Cow Ht Breeding<br> 
+										<input type="checkbox" class="groupaddinput" value="cowwtweaning" name="option14">Cow Wt Weaning<br> 
+										<input type="checkbox" class="groupaddinput" value="cowhtweaning" name="option15">Cow Ht Weaning<br>
+										<input type="checkbox" class="groupaddinput" value="cowwtcalving" name="option16">Cow Wt Calving<br>
+										<input type="checkbox" class="groupaddinput" value="cowhtcalving" name="option17">Cow Ht Calving<br> 
+										<input type="checkbox" class="groupaddinput" value="bcsweaning" name="option18">B.C.S Weaning<br> 
+										<input type="checkbox" class="groupaddinput" value="bcscalving" name="option19">B.C.S Calving<br>
+										<input type="checkbox" class="groupaddinput" value="bcsbreeding" name="option20">B.C.S Breeding<br>
+										<input type="checkbox" class="groupaddinput" value="customcowwt" name="option11">Custom Cow Wt<br>
+										<input type="checkbox" class="groupaddinput" value="customcowht" name="option12">Custom Cow Ht<br> 
+										<input type="checkbox" class="groupaddinput" value="bulldisposition" name="option13">Bull Disposition<br> 
+										<input type="checkbox" class="groupaddinput" value="bullwtprebreeding" name="option14">Bull Wt Pre-Breeding<br> 
+										<input type="checkbox" class="groupaddinput" value="bullhtprebreeding" name="option15">Bull Ht Pre-Breeding<br>
+										<input type="checkbox" class="groupaddinput" value="fertility" name="option16">Fertility<br>
+										<input type="checkbox" class="groupaddinput" value="mobility" name="option17">Mobility<br> 
+										<input type="checkbox" class="groupaddinput" value="conc" name="option18">Conc.<br> 
+										<input type="checkbox" class="groupaddinput" value="deadabnormal" name="option19">Dead/Abnormal<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Medical</h4>
+									<br>
+										<input type="checkbox" class="groupaddinput" value="reasonforprocedure" name="option1">Reason for Procedure<br>
+										<input type="checkbox" class="groupaddinput" value="notificationofvmo" name="option2">Notification of VMO<br> 
+										<input type="checkbox" class="groupaddinput" value="recommendationofvmo" name="option3">Recommendation of VMO<br> 
+										<input type="checkbox" class="groupaddinput" value="treatmentprotocol" name="option4">Treatment Protocol<br> 
+										<input type="checkbox" class="groupaddinput" value="animallocationpreresolution" name="option5">Animal Location Pre-Resolution<br> 
+										<input type="checkbox" class="groupaddinput" value="followupexam" name="option6">Follow-up Exam<br> 
+										<input type="checkbox" class="groupaddinput" value="resolution" name="option7">Resolution<br> 
+										<input type="checkbox" class="groupaddinput" value="dateoffollowupexam" name="option8">Date of follow-up Exam<br> 
+										<input type="checkbox" class="groupaddinput" value="animallocation" name="option9">Animal Location<br> 
+										<input type="checkbox" class="groupaddinput" value="dateofaction" name="option10">Date of Action<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Grazing</h4>
+									<br>
+										<input type="checkbox" class="groupaddinput" value="pastureacres" name="option1">Pasture Acres<br>
+										<input type="checkbox" class="groupaddinput" value="animalspresent" name="option2">Animals Present<br> 
+										<input type="checkbox" class="groupaddinput" value="datein" name="option3">Date In<br> 
+										<input type="checkbox" class="groupaddinput" value="dateout" name="option4">Date Out<br> 
+										<input type="checkbox" class="groupaddinput" value="stocking" name="option5">Stocking<br>
+								</div>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/newexperimentpagescripts.js')}}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

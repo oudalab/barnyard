@@ -5,14 +5,14 @@
 
 <body>
 	<div id="Notification area"></div>
-	<form class = "form-horizontal">
+	<form class = "form-horizontal" method="POST">
 		<div class="row text-center" style="margin-bottom:20px;">
 		  <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
 		</div>
 		<div class="row text-center">
 		  <div class="col-lg-6 col-lg-offset-3" style="margin-bottom:50px;">
 			<div class="input-group" style="margin:auto;">
-			  <input type="text" class="form-control" id="cowSearch" placeholder="Cow Number">
+			  <input type="text" class="form-control" id="cowSearch" name="cowsearch" placeholder="Cow Number">
 			  <span class="input-group-btn"><input type="submit" class="btn" value="Search" id ="search"></span>
 			</div><!-- /input-group -->
 		  </div><!-- /.col-lg-6 -->
@@ -22,7 +22,7 @@
 				<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Cow</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href="#" id="addgroup"><button type="button" class="btn btn-warning">Group Add</button></a>
+				<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-warning">New Experiment</button></a>
 			</div>
 			<div class="btn-group" role="group">
 				<a href="#" id="readtag"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button></a>

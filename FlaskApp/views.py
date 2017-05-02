@@ -1,12 +1,13 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
-    Grazing, Grazing_Schema
+    Grazing, Grazing_Schema, Group, Group_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
 from sqlalchemy import desc
 import sys
+import json
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
@@ -16,6 +17,7 @@ schemaExperiment = Experiment_Schema()
 schemaReproduction = Reproduction_Schema()
 schemaAnimalMedical = Medical_Schema()
 schemaGrazing = Grazing_Schema()
+schemaGroup = Group_Schema()
 
 # master_animal table
 class table_basics(Resource):
@@ -57,7 +59,7 @@ class table_basics(Resource):
                 return resp
 
     def patch(self):
-        #Not a real patch by definition. Used to store duplicate entries to keep track of changes over time
+        #Not a real patch by definition. Used to store duplicate cownumber entries to keep track of changes over time
         raw_dict = request.form
         #master_dict = raw_dict['data']['attributes']
         try:
@@ -83,27 +85,6 @@ class table_basics(Resource):
                 resp.status_code = 403
                 return resp
 
-    # def patch(self, cownumber):
-    #     master_animal_query = Master_animal.query.get_or_404(cownumber)
-    #     raw_dict = request.form
-    #     try:
-    #         schemaMaster.validate(raw_dict)
-    #         for key, value in raw_dict.items():
-    #             setattr(master_animal_query, key, value)
-    #
-    #         master_animal_query.update()
-    #         return self.get(cownumber)
-    #
-    #     except ValidationError as err:
-    #         resp = jsonify({"error": err.messages})
-    #         resp.status_code = 401
-    #         return resp
-    #
-    #     except SQLAlchemyError as e:
-    #         db.session.rollback()
-    #         resp = jsonify({"error": str(e)})
-    #         resp.status_code = 401
-    #         return resp
 
 class table_animal_inventory(Resource):
 
@@ -441,10 +422,10 @@ class table_grazing(Resource):
             # Validate the data or raise a Validation error if
             schemaGrazing.validate(raw_dict)
             # Create a master object with the API data recieved
-            animal = Grazing(cownumber=raw_dict['cownumber'], ts = None,pastureacres=raw_dict['pastureacres'],
+            grazing = Grazing(cownumber=raw_dict['cownumber'], ts = None,pastureacres=raw_dict['pastureacres'],
                              animalspresent=raw_dict['animalspresent'], datein=raw_dict['datein'],
                              dateout=raw_dict['dateout'], stockingrate=raw_dict['stockingrate'])
-            animal.add(animal)
+            grazing.add(grazing)
             query = Grazing.query.all()
             results = schemaGrazing.dump(query, many=True).data
             return results, 201
@@ -482,5 +463,63 @@ class table_grazing(Resource):
             resp.status_code = 401
             return resp
 
-#api.add_resource(Master_animalList11, '.json')
-#api.add_resource(Master_animalList, '/api/master_animal/<int:cownumber>')
+
+class table_group(Resource):
+
+    def get(self, groupnumber):
+        group_query = Group.query.filter_by(groupnumber = groupnumber).order_by(Group.ts.desc())
+        result = schemaGroup.dump(group_query,many = True).data
+        print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        # master_dict = raw_dict['data']['attributes']
+        try:
+            # Validate the data or raise a Validation error if
+            schemaGroup.validate(raw_dict)
+            # Create a master object with the API data received
+            print >> sys.stderr, "This is the results of the POST request from Group {}".format(raw_dict)
+            print >> sys.stderr, "attributes[] --> {}".format(raw_dict.getlist('attributes[]'))
+            #attributes = json.dumps(raw_dict.getlist('attributes[]'))
+            group = Group(cownumber=raw_dict['cownumber'], ts=None, groupnumber=raw_dict['groupnumber'],
+                             groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],
+                             attributes = raw_dict['attributes'])
+            #attributes = raw_dict.getlist('attributes[]')
+            group.add(group)
+            query = Group.query.all()
+            results = schemaGroup.dump(query, many=True).data
+            return results, 201
+
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+    def patch(self, groupnumber):
+        group_query = Group.query.get_or_404(cownumber)
+        raw_dict = request.form
+        try:
+            schemaGroup.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(group_query, key, value)
+            group_query.update()
+            return self.get(cownumber)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
