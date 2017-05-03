@@ -274,7 +274,7 @@
 					data: $('form').serialize(),
 					type: 'GET',
 					success: function(data) {
-						window.location.href = '/groupadd?cownumber='+cownumber
+						window.location.href = '/experiment?groupnumber='+cownumber
 						console.log(data);
 					},
 					error: function(error) {
