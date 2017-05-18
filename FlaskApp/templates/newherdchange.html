@@ -1,0 +1,195 @@
+{% extends "header.html" %}
+
+{% block body %}
+<head>
+	<title>Select Herd</title>
+</head>
+<body>
+	<h1 align="center">Welcome to Herd Change Page</h1>
+	<br>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="col-xs-12">
+				<div style="margin-bottom:100px;">
+					<form>
+						<span class="input-group-addon" name="herdsearchradios">
+							<input type="radio" name="type" value="cownumber" checked="checked"> Cow Number
+							<input type="radio" name="type" value="eid"> EID
+							<input type="radio" name="type" value="groupnumber"> Group Number
+							<input type="radio" name="type" value="eartag"> Ear Tag
+						</span>
+						<div class="form-group"  style="margin-top:10px;">
+							<label for="cownumber" class="control-label col-xs-1">Cow Numbers</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Cow Numbers">
+							</div>
+							<label for="eid" class="control-label col-xs-1">EID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="eid" placeholder="EID">
+							</div>
+							<label for="eartag" class="control-label col-xs-1">Ear Tag</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="eartag" placeholder="Ear Tag">
+							</div>
+							<label for="groupnumber" class="control-label col-xs-1">Group Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="groupnumber" placeholder="Group Number">
+							</div>
+						</div>
+						<br>
+						<br>
+						<br>
+						<br>
+							<div class="col-xs-2">
+								<div class="form-control margin-top:5px">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Basics</h4>
+									<br>
+									<form>
+										<input type="checkbox" class="herdchangeinput" value="pasturenumber" name="option1">Pasture Number<br>
+										<input type="checkbox" class="herdchangeinput" value="sex" name="option2">Sex<br> 
+										<input type="checkbox" class="herdchangeinput" value="breed" name="option3">Breed<br> 
+										<input type="checkbox" class="herdchangeinput" value="height" name="option4">Height<br> 
+										<input type="checkbox" class="herdchangeinput" value="weight" name="option5">Weight<br> 
+										<input type="checkbox" class="herdchangeinput" value="animaltype" name="option6">Animal Type<br> 
+										<input type="checkbox" class="herdchangeinput" value="status" name="option7">Status<br> 
+										<input type="checkbox" class="herdchangeinput" value="herd" name="option8">Herd<br>
+									</form>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Inventory</h4>
+									<br>
+										<input type="checkbox" class="herdchangeinput" value="brand" name="option1">Brand<br>
+										<input type="checkbox" class="herdchangeinput" value="brandlocation" name="option2">Brand Location<br> 
+										<input type="checkbox" class="herdchangeinput" value="tattooleft" name="option3">Tattoo Left<br> 
+										<input type="checkbox" class="herdchangeinput" value="tattooright" name="option4">Tattoo Right<br> 
+										<input type="checkbox" class="herdchangeinput" value="alternativeid" name="option5">Alternative ID<br> 
+										<input type="checkbox" class="herdchangeinput" value="registration" name="option6">Registration<br> 
+										<input type="checkbox" class="herdchangeinput" value="color" name="option7">Color<br> 
+										<input type="checkbox" class="herdchangeinput" value="hornstatus" name="option8">Horn Status<br> 
+										<input type="checkbox" class="herdchangeinput" value="dam" name="option9">Dam<br> 
+										<input type="checkbox" class="herdchangeinput" value="sire" name="option10">Sire<br>
+										<input type="checkbox" class="herdchangeinput" value="dob" name="option10">D.O.B<br>
+										<input type="checkbox" class="herdchangeinput" value="howacquired" name="option11">How Acquired<br> 
+										<input type="checkbox" class="herdchangeinput" value="dateacquired" name="option12">Date Acquired<br> 
+										<input type="checkbox" class="herdchangeinput" value="howdisposed" name="option13">How Disposed<br> 
+										<input type="checkbox" class="herdchangeinput" value="datedisposed" name="option14">Date Disposed<br>
+										<input type="checkbox" class="herdchangeinput" value="disposalreason" name="option10">Disposal Reason<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Experiment</h4>
+									<br>
+										<input type="checkbox" class="herdchangeinput" value="dam" name="option1">Dam<br> 
+										<input type="checkbox" class="herdchangeinput" value="sire" name="option2">Sire<br>
+										<input type="checkbox" class="herdchangeinput" value="damframescore" name="option10">Dam Frame Score<br>
+										<input type="checkbox" class="herdchangeinput" value="sireframescore" name="option3">Sire Frame Score<br> 
+										<input type="checkbox" class="herdchangeinput" value="dobexperiment" name="option4">DOB<br> 
+										<input type="checkbox" class="herdchangeinput" value="weanheight" name="option5">Wean Height<br> 
+										<input type="checkbox" class="herdchangeinput" value="weanweight" name="option6">Wean Weight<br> 
+										<input type="checkbox" class="herdchangeinput" value="weandate" name="option7">Wean Date<br> 
+										<input type="checkbox" class="herdchangeinput" value="birthweight" name="option9">Birth Weight<br>  
+										<input type="checkbox" class="herdchangeinput" value="yearlingheight" name="option8">Yearling Height<br>
+										<input type="checkbox" class="herdchangeinput" value="yearlingweight" name="option11">Yearling Weight<br>
+										<input type="checkbox" class="herdchangeinput" value="yearlingdate" name="option12">Yearling Date<br> 
+										<input type="checkbox" class="herdchangeinput" value="customweight" name="option13">Custom Weight<br> 
+										<input type="checkbox" class="herdchangeinput" value="customweightdate" name="option14">Custom Weight Date<br> 
+										<input type="checkbox" class="herdchangeinput" value="customheight" name="option15">Custom Height<br>
+										<input type="checkbox" class="herdchangeinput" value="customweightdate" name="option16">Custom Height Date<br>
+										<input type="checkbox" class="herdchangeinput" value="blockpen" name="option17">Block/Pen<br> 
+										<input type="checkbox" class="herdchangeinput" value="replicate" name="option18">Replicate<br> 
+										<input type="checkbox" class="herdchangeinput" value="backfat" name="option19">Back Fat<br>
+										<input type="checkbox" class="herdchangeinput" value="treatment" name="option20">Treatment<br>
+										<input type="checkbox" class="herdchangeinput" value="adj205w" name="option21">Adj205w<br>
+										<input type="checkbox" class="herdchangeinput" value="adj205h" name="option22">Adj205h<br>
+										<input type="checkbox" class="herdchangeinput" value="weanframescore" name="option23">Wean Frame Score<br>
+										<input type="checkbox" class="herdchangeinput" value="ageatwean" name="option24">Age at Wean<br>
+										<input type="checkbox" class="herdchangeinput" value="adjyearlingw" name="option25">Adj Yearling Weight<br>
+										<input type="checkbox" class="herdchangeinput" value="adjyearlingh" name="option26">Adj Yearling Height<br>
+										<input type="checkbox" class="herdchangeinput" value="yearlingframescore" name="option27">Yearling Frame Score<br>
+										<input type="checkbox" class="herdchangeinput" value="ageatyearling" name="option28">Age at Yearling<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Reproduction</h4>
+									<br>
+										<input type="checkbox" class="herdchangeinput" value="breeding" name="option1">Breeding<br> 
+										<input type="checkbox" class="herdchangeinput" value="pregnancy" name="option2">Pregnancy<br>
+										<input type="checkbox" class="herdchangeinput" value="pasturenumberreproduction" name="option33">Pasture Number Reproduction<br>
+										<input type="checkbox" class="herdchangeinput" value="calfatside" name="option19">Calf at Side<br>
+										<input type="checkbox" class="herdchangeinput" value="totalcalves" name="option20">Total Calves<br>
+										<input type="checkbox" class="herdchangeinput" value="previouscalf" name="option21">Previous Calf<br> 
+										<input type="checkbox" class="herdchangeinput" value="damageatbirth" name="option22">Dam Age at Birth.<br> 
+										<input type="checkbox" class="herdchangeinput" value="currentcalf" name="option10">Current Calf<br>
+										<input type="checkbox" class="herdchangeinput" value="calfdob" name="option3">DOB<br> 
+										<input type="checkbox" class="herdchangeinput" value="calfsex" name="option4">Calf Sex<br> 
+										<input type="checkbox" class="herdchangeinput" value="calfbirthweight" name="option5">Calf Birth Weight<br> 
+										<input type="checkbox" class="herdchangeinput" value="damcalvingdisposition" name="option6">Dam Calving Disposition<br> 
+										<input type="checkbox" class="herdchangeinput" value="calvingease" name="option7">Calving Ease<br> 
+										<input type="checkbox" class="herdchangeinput" value="udderscore" name="option9">Udder Score<br>  
+										<input type="checkbox" class="herdchangeinput" value="comments" name="option8">Comments<br>
+										<input type="checkbox" class="herdchangeinput" value="damdisposition" name="option11">Dam Disposition<br>
+										<input type="checkbox" class="herdchangeinput" value="cowframescore" name="option24">Cow Frame Score<br>
+										<input type="checkbox" class="herdchangeinput" value="cowwtbreeding" name="option12">Cow Wt Breeding<br> 
+										<input type="checkbox" class="herdchangeinput" value="cowhtbreeding" name="option13">Cow Ht Breeding<br> 
+										<input type="checkbox" class="herdchangeinput" value="cowwtweaning" name="option14">Cow Wt Weaning<br> 
+										<input type="checkbox" class="herdchangeinput" value="cowhtweaning" name="option15">Cow Ht Weaning<br>
+										<input type="checkbox" class="herdchangeinput" value="cowwtcalving" name="option16">Cow Wt Calving<br>
+										<input type="checkbox" class="herdchangeinput" value="cowhtcalving" name="option17">Cow Ht Calving<br> 
+										<input type="checkbox" class="herdchangeinput" value="bcsweaning" name="option18">B.C.S Weaning<br> 
+										<input type="checkbox" class="herdchangeinput" value="bcscalving" name="option19">B.C.S Calving<br>
+										<input type="checkbox" class="herdchangeinput" value="bcsbreeding" name="option20">B.C.S Breeding<br>
+										<input type="checkbox" class="herdchangeinput" value="customcowwt" name="option26">Custom Cow Wt<br>
+										<input type="checkbox" class="herdchangeinput" value="customcowht" name="option27">Custom Cow Ht<br> 
+										<input type="checkbox" class="herdchangeinput" value="bulldisposition" name="option28">Bull Disposition<br>
+										<input type="checkbox" class="herdchangeinput" value="bullframescore" name="option25">Bull Frame Score<br> 
+										<input type="checkbox" class="herdchangeinput" value="bullwtprebreeding" name="option29">Bull Wt Pre-Breeding<br> 
+										<input type="checkbox" class="herdchangeinput" value="bullhtprebreeding" name="option30">Bull Ht Pre-Breeding<br>
+										<input type="checkbox" class="herdchangeinput" value="fertility" name="option31">Fertility<br>
+										<input type="checkbox" class="herdchangeinput" value="mobility" name="option32">Mobility<br> 
+										<input type="checkbox" class="herdchangeinput" value="conc" name="option18">Conc.<br> 
+										<input type="checkbox" class="herdchangeinput" value="deadabnormal" name="option23">Dead/Abnormal<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Medical</h4>
+									<br>
+										<input type="checkbox" class="herdchangeinput" value="reasonforprocedure" name="option1">Reason for Procedure<br>
+										<input type="checkbox" class="herdchangeinput" value="notificationofvmo" name="option2">Notification of VMO<br> 
+										<input type="checkbox" class="herdchangeinput" value="recommendationofvmo" name="option3">Recommendation of VMO<br> 
+										<input type="checkbox" class="herdchangeinput" value="treatmentprotocol" name="option4">Treatment Protocol<br> 
+										<input type="checkbox" class="herdchangeinput" value="animallocationpreresolution" name="option5">Animal Location Pre-Resolution<br> 
+										<input type="checkbox" class="herdchangeinput" value="followupexam" name="option6">Follow-up Exam<br> 
+										<input type="checkbox" class="herdchangeinput" value="resolution" name="option7">Resolution<br> 
+										<input type="checkbox" class="herdchangeinput" value="dateoffollowupexam" name="option8">Date of follow-up Exam<br> 
+										<input type="checkbox" class="herdchangeinput" value="animallocation" name="option9">Animal Location<br> 
+										<input type="checkbox" class="herdchangeinput" value="dateofaction" name="option10">Date of Action<br>
+								</div>
+							</div>
+							<div class="col-xs-2">
+								<div class="form-control">
+									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Grazing</h4>
+									<br>
+										<input type="checkbox" class="herdchangeinput" value="pastureacres" name="option1">Pasture Acres<br>
+										<input type="checkbox" class="herdchangeinput" value="animalspresent" name="option2">Animals Present<br> 
+										<input type="checkbox" class="herdchangeinput" value="datein" name="option3">Date In<br> 
+										<input type="checkbox" class="herdchangeinput" value="dateout" name="option4">Date Out<br> 
+										<input type="checkbox" class="herdchangeinput" value="stockingrate" name="option5">Stocking Rate<br><br><br><br>
+										<a href="#" id="submit_newherdchange"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Create</button></a>
+								</div>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/newherdchangescripts.js')}}"></script>
+
+
+{% endblock %}

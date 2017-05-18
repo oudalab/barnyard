@@ -1,7 +1,9 @@
 {% extends "header.html" %}
 {% block body %}
 <html>
-
+<head>
+	<title>Search Page</title>
+</head>
 
 <body>
 	<div id="Notification area"></div>
@@ -10,13 +12,19 @@
 		  <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
 		</div>
 		<div class="row text-center">
-		  <div class="col-lg-6 col-lg-offset-3" style="margin-bottom:50px;">
-			<div class="input-group" style="margin:auto;">
+		  <div class="col-xs-8 col-xs-offset-2" style="margin-bottom:50px;">
+			<div class="input-group" style="margin auto;">
+			  <span class="input-group-addon" name="searchradios">
+				  <input type="radio" name="type" value="cownumber" checked="checked"> Cow Number
+				  <input type="radio" name="type" value="eid"> EID
+				  <input type="radio" name="type" value="groupnumber"> Group Number
+				  <input type="radio" name="type" value="eartag"> Ear Tag
+			  </span>
 			  <input type="text" class="form-control" id="cowSearch" name="cowsearch" placeholder="Cow Number">
 			  <span class="input-group-btn"><input type="submit" class="btn" value="Search" id ="search"></span>
 			</div><!-- /input-group -->
-		  </div><!-- /.col-lg-6 -->
-		</div><!-- /.row -->	
+		  </div><!-- /.col-xs-8 -->
+		</div><!-- /.row -->		
 		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
 			<div class="btn-group" role="group">
 				<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Cow</button></a>
@@ -42,7 +50,7 @@
 				<a href = "/inspectionreport" id = "inspectionreport"><button type="button" class="btn btn-default">Inspection Report</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a><button type="button" class="btn btn-default">Coming Soon</button></a>
+				<a href = "/newherdchange" id = "newherdchange"><button type="button" class="btn btn-default">Herd Change</button></a>
 			</div>
 		</div>
 	</form>

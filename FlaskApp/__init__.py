@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group
+    table_grazing, table_group, table_herd_change
 from secrets import whole_string, short_string
 import config
 import logging
@@ -12,6 +12,8 @@ from logging.handlers import RotatingFileHandler
 from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
 import syslog, sys
+import json
+from models import *
 
 
 
@@ -43,6 +45,7 @@ api.add_resource(table_grazing, '/api/grazing/<cownumber>')
 api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
 api.add_resource(table_group, '/api/group/<groupnumber>')
 api.add_resource(table_group, '/api/group/', endpoint = "7")
+api.add_resource(table_herd_change, '/api/herd_change/')
 
 #Login Manager
 login_manager = LoginManager()
@@ -83,25 +86,50 @@ def searchpage():
 def groupadd():
     return render_template("newexperimentpage.html")
 
+@app.route('/newherdchange')
+@login_required
+def newherdchange():
+    return render_template("newherdchange.html")
+
+@app.route('/herdchange')
+@login_required
+def herdchange():
+    return render_template("herdchange.html")
+
 @app.route('/experiment')
-#@login_required
+@login_required
 def cowgroup():
     return render_template("experiment.html")
-    #if request.method == 'POST':
-    #groupnumber = "G1"
-    #schemaGroup = Group_Schema()
-    #group_query = Group.query.filter_by(groupnumber=groupnumber).order_by(Group.ts.desc())
-    #results = schemaGroup.dump(group_query, many=True).data
-    #print >> sys.stderr, "This is the results of the get request from Group {}".format(results)
-    #return render_template("Groupmanage.html")
-    #return render_template("Groupmanage.html",results = results)
-    #else
-        #return render_template("search.html")
+
+@app.route('/experimentupdate', methods = ['GET','POST'])
+@login_required
+def experimentupdate():
+    #necessary schemas for all tables
+    schemaMaster = Master_animal_Schema()
+    schemaMedical = Medical_Inventory_Schema()
+    schemaAnimal = Animal_Inventory_Schema()
+    schemaExperiment = Experiment_Schema()
+    schemaReproduction = Reproduction_Schema()
+    schemaAnimalMedical = Medical_Schema()
+    schemaGrazing = Grazing_Schema()
+    schemaGroup = Group_Schema()
+
+    data = request.get_json(force = True)
+    print >> sys.stderr, "This is the data comming through {}".format(data)
+    master_animal_query = Master_animal.query.filter_by(cownumber=data["cownumber"]).order_by(Master_animal.ts.desc()).limit(1)
+    result = schemaMaster.dump(master_animal_query, many=True).data
+    print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
+
+
+
+    #print >> sys.stderr, "Another method {}".format(__dict__(Group.query.filter_by(groupnumber=data["groupnumber"]).order_by(Group.ts.desc()).limit(1)))
+    return "Success" ,200
+
 
 @app.route('/test')
 @login_required
 def test():
-    return render_template("test.html")
+    return render_template("fileupload.html")
  
 @app.route('/dashboard', methods = ['GET','POST'])
 @login_required
@@ -162,6 +190,7 @@ def signup():
 @login_required
 def iacuc():
     return render_template("IACUC.html")
+
 
 
 if __name__ == '__main__':

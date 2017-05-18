@@ -1,35 +1,39 @@
-	$(function groupaddchecks() {
-		$('#submit_newexperimentadd').click(function(e) {
+	$(function newherdchange() {
+		$('#submit_newherdchange').click(function(e) {
 			var jsonattributes = [];	
 			var newattributes;			
-			$(".groupaddinput").each(function(i, elem){
+			$(".herdchangeinput").each(function(i, elem){
 				if($(this).is(":checked")){
 					newattributes = $(elem).val();
 					jsonattributes.push(newattributes);
 				}
 			});
-			
 			var attributes = JSON.stringify(jsonattributes);
+			
 			var groupnumber = $('#groupnumber').val();
-			var cownumber1 = $('#cownumber').val().split(",");
-			var cownumber = JSON.stringify(cownumber1);
-			var group = {
+			var cownumber = $('#cownumber').val().split(",");
+			var cownumber = JSON.stringify(cownumber);
+			var eid = $('#eid').val().split(",");
+			var eid = JSON.stringify(eid);
+			var eartag = $('#eartag').val().split(",");
+			var eartag = JSON.stringify(eartag);
+			var herdchange = {
 				cownumber : cownumber,
 				attributes : attributes,
-				groupname : $('#groupname').val(),
-				groupnumber : $('#groupnumber').val(),
-				groupdescription : $('#groupdescription').val()
+				eid : eid,
+				eartag : eartag,
+				groupnumber : $('#groupnumber').val()
 			};
 			$.ajax({
-				url: '/api/group/',
-				data: group,
+				url: '/api/herd_change/',
+				data: herdchange,
 				datatype: 'json',
 				type: 'POST',
 				success: function(response) {
 					console.log(response);
 					$.notify("Group Add data saved", "info");
 					setTimeout(function() {
-						window.location.href = '/experiment?groupnumber='+groupnumber
+						window.location.href = '/herdchange'
 					}, 2000); 
 				},
 				error: function(error) {

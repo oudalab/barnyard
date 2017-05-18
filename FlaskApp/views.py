@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
-    Grazing, Grazing_Schema, Group, Group_Schema
+    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
@@ -18,14 +18,15 @@ schemaReproduction = Reproduction_Schema()
 schemaAnimalMedical = Medical_Schema()
 schemaGrazing = Grazing_Schema()
 schemaGroup = Group_Schema()
+schemaHerd = Herd_Change_Schema()
 
 # master_animal table
 class table_basics(Resource):
 
     def get(self, cownumber):
-        master_animal_query = Master_animal.query.filter_by(cownumber = cownumber).order_by(Master_animal.ts.desc())
+        master_animal_query = Master_animal.query.filter_by(cownumber = cownumber).order_by(Master_animal.ts.desc()).first_or_404()
         #Serialize the query results in the JSON API format
-        result = schemaMaster.dump(master_animal_query, many = True).data
+        result = schemaMaster.dump(master_animal_query, many = False).data
         print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
         return result
 
@@ -503,23 +504,37 @@ class table_group(Resource):
             resp.status_code = 403
             return resp
 
-    def patch(self, groupnumber):
-        group_query = Group.query.get_or_404(cownumber)
+
+class table_herd_change(Resource):
+
+    def get(self):
+        herd_query = Herd_Change.query.order_by(Group.ts.desc()).limit(1)
+        result = schemaGroup.dump(herd_query,many = True).data
+        return result
+
+    def post(self):
         raw_dict = request.form
+        # master_dict = raw_dict['data']['attributes']
         try:
+            # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
-            for key, value in raw_dict.items():
-                setattr(group_query, key, value)
-            group_query.update()
-            return self.get(cownumber)
+            # Create a master object with the API data received
+            herd = Herd_Change(uid = None, ts = None, cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
+                             eid=raw_dict['eid'], eartag=raw_dict['eartag'],
+                             attributes = raw_dict['attributes'])
+            herd.add(herd)
+            query = Herd_Change.query.all()
+            results = schemaGroup.dump(query, many=True).data
+            return results, 201
+
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
-            resp.status_code = 401
+            resp.status_code = 403
             return resp
 
         except SQLAlchemyError as e:
             db.session.rollback()
             resp = jsonify({"error": str(e)})
-            resp.status_code = 401
+            resp.status_code = 403
             return resp

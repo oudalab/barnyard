@@ -147,9 +147,8 @@ class Master_animal_Schema(Schema):
 
 
 
-trig_ddl = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(cownumber)+1 from master_animal) WHERE cownumber = -1; END;''')
-tbl = Master_animal.__table__
-event.listen(tbl, 'after_create', trig_ddl)
+trig_ddl_1 = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(cownumber)+1 from master_animal) WHERE cownumber = -1; END;''')
+
 
 class Medical_Inventory(db.Model, CRUD):
 	__tablename__ = 'medical_inventory'
@@ -630,7 +629,6 @@ class Group(db.Model, CRUD):
 		self.groupnumber = groupnumber
 		self.groupname = groupname
 		self.groupdescription = groupdescription
-		print >> sys.stderr, "This is the results of the attributes from Group {}".format(attributes)
 		self.attributes = str(attributes)
 		self.ts = ts
 
@@ -656,3 +654,45 @@ class Group_Schema(Schema):
 	class Meta:
 		type_ = 'group'
 
+class Herd_Change(db.Model, CRUD):
+	__tablename__ = 'herd_change'
+	uid = db.Column(db.Integer, primary_key=True, autoincrement=True, default = -1)
+	cownumber = db.Column(db.Text)
+	eid = db.Column(db.Text)
+	groupnumber = db.Column(db.Integer)
+	eartag = db.Column(db.Text)
+	attributes = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+
+	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid):
+		self.cownumber = cownumber
+		self.groupnumber = groupnumber
+		self.eid = eid
+		self.eartag = eartag
+		self.attributes = str(attributes)
+		self.ts = ts
+		self.uid = uid
+
+trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herd_change BEGIN update herd_change set uid = (select max(rowid)+1 from herd_change) WHERE uid = -1; END;''')
+
+
+class Herd_Change_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate=not_blank)
+	groupnumber = fields.Integer(validate=not_blank)
+	eid = fields.String(validate=not_blank)
+	eartag = fields.String(validate=not_blank)
+	attributes = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate = not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/herd_change/"
+		else:
+			self_link = "/herd_change/{}".format(data['attributes'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'herd_change'

@@ -20,6 +20,7 @@
 				url: '/api/master_animal/',
 				data: basic,
 				datatype: 'json',
+				// Patch becasue we are using the second version of posting basic data (Has a cow number)
 				type: 'PATCH',
 				success: function(response) {
 					console.log(response);

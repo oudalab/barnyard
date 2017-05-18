@@ -87,17 +87,17 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var height = data.data[0].attributes.height;
-						var weight = data.data[0].attributes.weight;
-						var eartag = data.data[0].attributes.eartag;
-						var eid = data.data[0].attributes.eid;
-						var sex = data.data[0].attributes.sex;
-						var pasturenumber = data.data[0].attributes.pasturenumber;
-						var breed = data.data[0].attributes.breed;
-						var status = data.data[0].attributes.status;
-						var trial = data.data[0].attributes.trial;
-						var herd = data.data[0].attributes.herd;
-						var animaltype = data.data[0].attributes.animaltype;
+						var height = data.data.attributes.height;
+						var weight = data.data.attributes.weight;
+						var eartag = data.data.attributes.eartag;
+						var eid = data.data.attributes.eid;
+						var sex = data.data.attributes.sex;
+						var pasturenumber = data.data.attributes.pasturenumber;
+						var breed = data.data.attributes.breed;
+						var status = data.data.attributes.status;
+						var trial = data.data.attributes.trial;
+						var herd = data.data.attributes.herd;
+						var animaltype = data.data.attributes.animaltype;
 						$('#cownumber').val(variable);
 						$('#height').val(height);
 						$('#weight').val(weight);

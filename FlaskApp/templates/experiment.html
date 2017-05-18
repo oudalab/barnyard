@@ -1,5 +1,9 @@
 {% extends "header.html" %}
 {% block body %}
+<html>
+<head>
+	<title>Experiment Lookup</title>
+</head>
 <body>
 	<div class="col-xs-2 sidebar-nav">  
 		<div style="margin-bottom:30px;max-height:400px;overflow-y:scroll;">
@@ -9,11 +13,11 @@
 			</ul>
 		</div>
 		<div class="col-xs-2 sidebar-nav">
-			<button id="basic_update" method="POST" class='btn btn-default'>Update</button></a>
+			<button id="experiment_update" method="POST" class='btn btn-default'>Update</button></a>
 		</div>
 	</div>
 	<div class="col-xs-10">
-		<form>
+		<form id = "basicexperimentform">
 			<h3>Welcome to the edits page</h3>
 			<div class="form-group">
 				<label for="groupnumber" class="control-label col-xs-1">Group Number</label>
@@ -31,10 +35,12 @@
 				<br>
 				<br>
 			</div>
+		</form>
+		<form id = "experimentform">
 			<div class="form-group">
 				<label for="groupdescription" class="control-label col-xs-1">Group Description</label>
 				<div class="col-xs-6">
-					<input type="text" class="form-control" id="groupdescription" name="groupdescription" placeholder="Group Description">
+					<input type="text" class="form-control" id="groupdescription" placeholder="Group Description">
 				</div>
 				<br>
 				<br>
@@ -48,6 +54,8 @@
 		</form>
 	</div>
 </body>
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/dictionary.js')}}"></script>
 <script type = "text/javascript" src="{{url_for('static', filename= 'js/experimentscripts.js')}}"></script>
+</html>
 {% endblock %}
  

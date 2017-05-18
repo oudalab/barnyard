@@ -251,15 +251,15 @@
 	};
 	$(function retriveCowNumber () {
 		$('#search').click(function(e) {
-			var cownumber = $('#cowSearch').val();
-			var boollean = $.isNumeric(cownumber);
-			if (boollean == true){
+			var searchboxvalue = $('#cowSearch').val();
+			var radioValue = $("input[name='type']:checked").val();
+			if(radioValue == "cownumber"){
 				$.ajax({
-					url: '/api/master_animal/'+cownumber,
+					url: '/api/master_animal/'+searchboxvalue,
 					data: $('form').serialize(),
 					type: 'GET',
 					success: function(data) {
-						window.location.href = '/dashboard?cownumber='+cownumber
+						window.location.href = '/dashboard?cownumber='+searchboxvalue
 						console.log(data);
 					},
 					error: function(error) {
@@ -268,13 +268,43 @@
 					}
 				});
 			}
-			else {
+			else if(radioValue == "groupnumber") {
 				$.ajax({
-					url: '/api/group/'+cownumber,
+					url: '/api/group/'+searchboxvalue,
 					data: $('form').serialize(),
 					type: 'GET',
 					success: function(data) {
-						window.location.href = '/experiment?groupnumber='+cownumber
+						window.location.href = '/experiment?groupnumber='+searchboxvalue
+						console.log(data);
+					},
+					error: function(error) {
+						console.log(error);
+						$.notify("Group number doesnt exist", "danger");
+					}
+				});
+			}
+			else if(radioValue == "eid") {
+				$.ajax({
+					url: '/api/master_animal/'+searchboxvalue,
+					data: $('form').serialize(),
+					type: 'GET',
+					success: function(data) {
+						window.location.href = '/experiment?groupnumber='+searchboxvalue
+						console.log(data);
+					},
+					error: function(error) {
+						console.log(error);
+						$.notify("Group number doesnt exist", "danger");
+					}
+				});
+			}
+			else {
+				$.ajax({
+					url: '/api/master_animal/'+searchboxvalue,
+					data: $('form').serialize(),
+					type: 'GET',
+					success: function(data) {
+						window.location.href = '/experiment?groupnumber='+searchboxvalue
 						console.log(data);
 					},
 					error: function(error) {

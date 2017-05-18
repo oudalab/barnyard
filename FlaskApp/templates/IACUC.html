@@ -1,32 +1,154 @@
 {% extends "header.html" %}
 {% block body %}
-<html>
 <head>
-<link rel="stylesheet" media="screen" href = "static/css/bootstrap.min.css">
+	<title>IACUC</title>
 </head>
-
 <body>
 	<form class = "form-horizontal">
 		<ul class="nav nav-tabs nav-justified">
-			<li role="presentation"><a href="#documentation" aria-controls="documentation" role="tab" data-toggle="tab">Documentation</a></li>
-			<li role="presentation"><a href="sop" aria-controls="sop" role="tab" data-toggle="tab">SOP</a></li>
-			<li role="presentation"><a href="#researchprotocol" aria-controls="researchprotocol" role="tab" data-toggle="tab">Research Protocol</a></li>
-			<li role="presentation"><a href="researchprotocol" aria-controls="animaldocs" role="tab" data-toggle="tab">Animal Welfare Act Docs</a></li>
+			<li role="presentation"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
+			<li role="presentation"><a href="#meeting" aria-controls="meeting" role="tab" data-toggle="tab">Meeting</a></li>
+			<li role="presentation"><a href="#protocolrequestform" aria-controls="protocolrequestform" role="tab" data-toggle="tab">Protocol Request Form</a></li>
+			<li role="presentation"><a href="#sop" aria-controls="sop" role="tab" data-toggle="tab">SOPs</a></li>
+			<li role="presentation"><a href="#workersafety" aria-controls="workersafety" role="tab" data-toggle="tab">Worker Safety</a></li>
+			<li role="presentation"><a href="#contactinformation" aria-controls="contactinformation" role="tab" data-toggle="tab">Contact Information</a></li>
+			<li role="presentation"><a href="#pestrodentcontrol" aria-controls="pestrodentcontrol" role="tab" data-toggle="tab">Pest/Rodent Control</a></li>
 		</ul>
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane fade in active" id="documentation"> 
-				<form class="form-horizontal" style="margin-top:15px;">
-					<div class="form-group">
-					<a href ="/tmp/Cow.pdf" target='_blank' download >Download</a>
-					</div>
+			<div role="tabpanel" class="tab-pane fade in active" id="members"> 
+				<form class="form-horizontal" style="margin-top:25px;">
+					<br>
+					<h3>Welcome to the Members page</h3>
+					<p>Data to be entered soon</p>
 				</form>
 			</div>
-			<div role="tabpanel" class="tab-pane fade" id="sop">....</div>
-			<div role="tabpanel" class="tab-pane fade" id="researchprotocol">....</div>
-			<div role="tabpanel" class="tab-pane fade" id="animaldocs">....</div>
+			<div role="tabpanel" class="tab-pane fade" id="meeting">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation"><a href="#meetingagenda" aria-controls="meetingagenda" role="tab" data-toggle="tab">Agenda</a></li>
+					<li role="presentation"><a href="#meetingminutes" aria-controls="meetingminutes" role="tab" data-toggle="tab">Minutes</a></li>
+					<li role="presentation"><a href="#meetingfacilityinspectionreports" aria-controls="meetingfacilityinspectionreports" role="tab" data-toggle="tab">Facility Inspection Reports</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="meetingagenda"> 
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Meeting Agenda</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="meetingminutes">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Meeting Minutes</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="meetingfacilityinspectionreports">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Facility Inspection reports</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="protocolrequestform">
+				<form class="form-horizontal" style="margin-top:25px;">
+					<br>
+					<h3>Welcome to the Protocol Request Form</h3>
+					<p>PDFs available soon</p>
+				</form>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="sop">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation"><a href="#sopherdhealth" aria-controls="sopherdhealth" role="tab" data-toggle="tab">Herd Health</a></li>
+					<li role="presentation"><a href="#sopprogramofanimalcare" aria-controls="sopprogramofanimalcare" role="tab" data-toggle="tab">Program of Animal Care</a></li>
+					<li role="presentation"><a href="#sopprogramofveterinarycare" aria-controls="sopprogramofveterinarycare" role="tab" data-toggle="tab">Program of Veterinary Care</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="sopherdhealth"> 
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the SOP Herd Health</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="sopprogramofanimalcare">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the SOP Animal Care</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="sopprogramofveterinarycare">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the SOP Veterinary Care</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="workersafety">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation"><a href="#workersafetytraining" aria-controls="sopherdhealth" role="tab" data-toggle="tab">Worker/Staff Training</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="sopherdhealth"> 
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Worker Safety Training</h3>
+							<p>PDFs available soon</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="contactinformation">
+				<ul class="nav nav-tabs nav-justified">
+					<li role="presentation"><a href="#contactinformationveterinarian" aria-controls="contactinformationveterinarian" role="tab" data-toggle="tab">Veterinarian</a></li>
+					<li role="presentation"><a href="#contactinformationgrlstaff" aria-controls="contactinformationgrlstaff" role="tab" data-toggle="tab">GRL Staff</a></li>
+					<li role="presentation"><a href="#contactinformationemergency" aria-controls="contactinformationemergency" role="tab" data-toggle="tab">Emergency Contact Information</a></li>
+					<li role="presentation"><a href="#contactinformationanimalwelfarereporting" aria-controls="contactinformationanimalwelfarereporting" role="tab" data-toggle="tab">Animal Welfare Reporting</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="contactinformationveterinarian"> 
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Veterinarian Contact Information</h3>
+							<p>Data will be available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="contactinformationgrlstaff">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the GRL Staff Contact Information</h3>
+							<p>Data will be available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="contactinformationemergency">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Emergency Contact Information</h3>
+							<p>Data will be available soon</p>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="contactinformationanimalwelfarereporting">
+						<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Animal Welfare Reporting Contact Information</h3>
+							<p>Data will be available soon</p>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="pestrodentcontrol">
+				<form class="form-horizontal" style="margin-top:25px;">
+							<br>
+							<h3>Welcome to the Pest/Rodent Control</h3>
+							<p>Data will be available soon</p>
+						</form>
+			</div>
 		</div>
 	</form>
 </body>
-
-</html>
 {% endblock %}
