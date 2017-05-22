@@ -508,7 +508,7 @@ class table_group(Resource):
 class table_herd_change(Resource):
 
     def get(self):
-        herd_query = Herd_Change.query.order_by(Group.ts.desc()).limit(1)
+        herd_query = Herd_Change.query.order_by(Herd_Change.ts.desc()).limit(1)
         result = schemaGroup.dump(herd_query,many = True).data
         return result
 

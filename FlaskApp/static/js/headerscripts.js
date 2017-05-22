@@ -9,6 +9,9 @@
             autoclose: true,
         })
     });
+	$('body').on('focus',".datepicker_recurring_start", function(){
+		$(this).datepicker();
+	});
 	function getQueryVariable(variable)
 	{
 	   var query = window.location.search.substring(1);

@@ -106,7 +106,7 @@
 					success: function(data) {
 						console.log(data);	
 						var masterData = {
-							cownumber : cownumber,
+							cownumber : variable,
 							brand : data.data[0].attributes.brand,
 							brandlocation : data.data[0].attributes.brandlocation,
 							tattooleft : data.data[0].attributes.tattooleft,
@@ -171,7 +171,7 @@
 					success: function(data) {
 						console.log(data);
 						var masterData = {
-							cownumber : cownumber,
+							cownumber : variable,
 							birthweight : data.data[0].attributes.birthweight,
 							damframescore : data.data[0].attributes.damframescore,
 							sireframescore : data.data[0].attributes.sireframescore,
@@ -248,7 +248,7 @@
 					success: function(data) {
 						console.log(data);
 						var masterData = {
-							cownumber : cownumber,
+							cownumber : variable,
 							breeding : data.data[0].attributes.breeding,
 							pregnancy : data.data[0].attributes.pregnancy,
 							calfatside : data.data[0].attributes.calfatside,
@@ -474,8 +474,8 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for="+elem+" class='control-label col-xs-2'>"+elem+"</label>";
-								toappend += "<div class='col-xs-2'><input class='form-control' placeholder='MM/DD/YYYY' name='date' type='text' id="+elem+"></div>";
+								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
 								$(toappend).appendTo("#newfields");
 							}
 							else{	
@@ -494,8 +494,8 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for="+elem+" class='control-label col-xs-2'>"+elem+"</label>";
-								toappend += "<div class='col-xs-2'><input class='form-control' placeholder='MM/DD/YYYY' name='date' type='text' id="+elem+"></div>";
+								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
 								$(toappend).appendTo("#newfields");
 							}
 							else{							
@@ -512,8 +512,8 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for="+elem+" class='control-label col-xs-2'>"+elem+"</label>";
-								toappend += "<div class='col-xs-2'><input class='form-control' placeholder='MM/DD/YYYY' name='date' type='text' id="+elem+"></div>";
+								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
 								$(toappend).appendTo("#newfields");
 							}
 							else{
