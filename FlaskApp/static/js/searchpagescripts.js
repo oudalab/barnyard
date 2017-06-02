@@ -1,5 +1,25 @@
 	// SCRIPTS FOR SEARCH PAGE
-
+	var callbackreturn;
+	function callback(response){
+		callbackreturn = response;
+	}
+	function getEID(eid){
+		$.ajax({
+			url: '/api/eid/'+eid,
+			data: {},
+			type: 'GET',
+			datatype : 'json',
+			success: function(data) {
+				var cownumber = data.data.attributes.cownumber;
+				callback(cownumber);
+			}
+			,
+			error: function(error) {
+				console.log(error);
+				$.notify("EID does not exist", "danger");
+			}	
+		});
+	};
 	function inputDataBasic() {
 		// $(document).ready(function(e) {
 			var basic = {
@@ -253,6 +273,7 @@
 		$('#search').click(function(e) {
 			var searchboxvalue = $('#cowSearch').val();
 			var radioValue = $("input[name='type']:checked").val();
+			getEID(searchboxvalue);
 			if(radioValue == "cownumber"){
 				$.ajax({
 					url: '/api/master_animal/'+searchboxvalue,
@@ -284,19 +305,23 @@
 				});
 			}
 			else if(radioValue == "eid") {
-				$.ajax({
-					url: '/api/master_animal/'+searchboxvalue,
-					data: $('form').serialize(),
-					type: 'GET',
-					success: function(data) {
-						window.location.href = '/experiment?groupnumber='+searchboxvalue
-						console.log(data);
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Group number doesnt exist", "danger");
-					}
-				});
+				getEID(searchboxvalue);
+				var cownumber1 = callbackreturn;
+				if (cownumber1 != 0){
+					$.ajax({
+						url: '/api/master_animal/'+cownumber1,
+						data: $('form').serialize(),
+						type: 'GET',
+						success: function(data) {
+							window.location.href = '/dashboard?cownumber='+cownumber
+							console.log(data);
+						},
+						error: function(error) {
+							console.log(error);
+							$.notify("Group number doesnt exist", "danger");
+						}
+					});
+				}
 			}
 			else {
 				$.ajax({

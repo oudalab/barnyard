@@ -20,6 +20,14 @@ schemaGrazing = Grazing_Schema()
 schemaGroup = Group_Schema()
 schemaHerd = Herd_Change_Schema()
 
+
+class table_eid(Resource):
+
+    def get(self, eid):
+        master_animal_query = Master_animal.query.filter_by(eid = eid).order_by(Master_animal.ts.desc()).first_or_404()
+        result = schemaMaster.dump(master_animal_query, many = False).data
+        return result
+
 # master_animal table
 class table_basics(Resource):
 

@@ -5,7 +5,13 @@
 	<title>Search Page</title>
 </head>
 
-<body>
+<body
+	{% if current_user.is_authenticated %}
+		<h5> 
+		Hi {{ current_user.email }}!
+		</h5>
+	{% endif %}
+	
 	<div id="Notification area"></div>
 	<form class = "form-horizontal" method="POST">
 		<div class="row text-center" style="margin-bottom:20px;">

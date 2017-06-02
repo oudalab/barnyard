@@ -45,7 +45,7 @@ class Users(db.Model, CRUD):
 	pwdhash = db.Column(db.Text)
 
 	def is_authenticated(self):
-		return self.is_authenticated
+		return self.authenticated
 
 	def set_password(self,password):
 		self.pwdhash = bcrypt.generate_password_hash(password)
@@ -58,7 +58,7 @@ class Users(db.Model, CRUD):
 		return True
 
 	def get_id(self):
-		return self.firstname
+		return self.email
 
 	def __init__(self, firstname, lastname, email, password):
 		self.firstname = firstname

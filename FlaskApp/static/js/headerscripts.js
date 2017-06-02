@@ -79,6 +79,7 @@
 		medicalget(cownumber);
 		grazingget(cownumber);
 	};
+	
 	// Code to Load Data 
 	function basicget( variable) 
 	{
