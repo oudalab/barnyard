@@ -14,6 +14,13 @@
 			status : $('#status option:selected').text(),
 			trial : $('#trial option:selected').text(),
 			herd : $('#herd').val(),
+			animalname : $('#animalname').val(),
+			animalgroup : $('#animalgroup').val(),
+			breeder : $('#breeder').val(),
+			currentframescore : $('#currentframescore').val(),
+			damframescore : $('#damframescore').val(),
+			comments : $('#damframescore').val(),
+			species : $('#species').val(),
 			animaltype : $('#animaltype option:selected').text()
 			}
 			$.ajax({
@@ -55,7 +62,14 @@
 			dateacquired : $('#dateacquired').val(),
 			howdisposed : $('#howdisposed option:selected').text(),
 			datedisposed : $('#datedisposed').val(),
-			disposalreason : $('#disposalreason').val()
+			disposalreason : $('#disposalreason').val(),
+			herdnumberlocation : $('#herdnumberlocation').val(),
+			herdstatus: $('#herdstatus').val(),
+			howconceived: $('#howconceived').val(),
+			managementcode: $('#managementcode').val(),
+			ownerID : $('#ownerID').val(),
+			springfall: $('#springfall option:selected').text(),
+			includeinlookups: $('#includeinlookups option:selected').text()
 			}
 			$.ajax({
 				url: '/api/animal_inventory/',
@@ -68,7 +82,7 @@
 				},
 				error: function(error) {
 					console.log(error)
-					$.notify("Check Error log", "error")
+					$.notify("Inventory Fail! Check Error log", "error")
 				}
 			});
 			e.preventDefault();
@@ -83,12 +97,22 @@
 			dam : $('#damexperiment').val(),
 			sire : $('#sireexperiment').val(),
 			birthweight : $('#birthweight').val(),
-			damframescore : $('#damframescore').val(),
+			birthweightadj: $('#birthweightadj').val(),
 			sireframescore : $('#sireframescore').val(),
+			conditionscoreweaning2015: $('#conditionscoreweaning2015').val(),
+			conditionscoreweaning2016: $('#conditionscoreweaning2016').val(),
 			dob : $('#dobexperiment').val(),
+			bcsrecent: $('#bcsrecent').val(),
+			bcsprevious: $('#bcsprevious').val(),
+			bcsdifference: $('#bcsdifference').val(),
+			damwtatwean: $('#damwtatwean').val(),
 			weanheight : $('#weanheight').val(),
 			weanweight : $('#weanweight').val(),
 			weandate : $('#weandate').val(),
+			weangpd: $('#weangpd').val(),
+			weanweightdate: $('#weanweightdate').val(),
+			weanhipht: $('#weanhipht').val(),
+			weanwda: $('#weanwda').val(),
 			adj205w : $('#adj205w').val(),
 			adj205h : $('#adj205h').val(),
 			weanframescore : $('#weanframescore').val(),
@@ -100,6 +124,9 @@
 			adjyearlingw : $('#adjyearlingw').val(),
 			yearlingframescore : $('#yearlingframescore').val(),
 			ageatyearling : $('#ageatyearling').val(),
+			currentwtcow: $('#currentwtcow').val(),
+			currentwtheifer: $('#currentwtheifer').val(),
+			adj365dht: $('#adj365dht').val(),
 			customweight : $('#customweight').val(),
 			customheight : $('#customheight').val(),
 			customheightdate : $('#customheightdate').val(),
@@ -144,7 +171,10 @@
 			damcalvingdisposition : $('#damcalvingdisposition option:selected').text(),
 			calvingease : $('#calvingease option:selected').text(),
 			udderscore: $('#udderscore').val(),
-			comments: $('#comments').val(),
+			siblingcode: $('#siblingcode option:selected').text(),
+			hiphtbreeding2016: $('#hiphtbreeding2016').val(),
+			hiphtweaning2015: $('#hiphtweaning2015').val(),
+			hiphtweaning2016: $('#hiphtweaning2016').val(),
 			damdisposition: $('#damdisposition option:selected').text(),
 			cowframescore : $('#cowframescore').val(),
 			cowwtbreeding : $('#cowwtbreeding').val(),

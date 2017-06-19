@@ -9,7 +9,7 @@
 	<div class="row-fluid">
 		<div class="col-xs-2 sidebar-nav">  
 			<div style="margin-bottom:30px;max-height:400px;overflow-y:scroll;">
-                <h4 style="margin:0px auto; padding-bottom:5px;" align="center">Cow Numbers</h4>
+                <h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Numbers</h4>
 				<ul id="latestcow" class=" scrollable-menu">					
                 </ul>
 			</div>
@@ -20,13 +20,13 @@
 		<div class="col-xs-10">
 			<div style="margin-bottom:100px;">
 				<div class="form-group" >
-					<label for="cownumber" class="control-label col-xs-1">Cow Number</label>
+					<label for="cownumber" class="control-label col-xs-1">Animal Number</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Cow Number">
+						<input type="text" class="form-control" id="cownumber" name="cownumber" placeholder="Animal Number">
 					</div>
-					<label for="cowname" class="control-label col-xs-1">Cow Name</label>
+					<label for="animalname" class="control-label col-xs-1">Animal Name</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="cowname" placeholder="Cow Name">
+						<input type="text" class="form-control" id="animalname" placeholder="Animal Name">
 					</div>
 					<label for="eartag" class="control-label col-xs-1">Ear Tag</label>
 					<div class="col-xs-2">
@@ -39,16 +39,6 @@
 				</div>
 				<hr width="50%" size="8" align="center">
 				<div class="form-group">
-					<label for="sex" class="control-label col-xs-1">Sex</label>
-						<div class="col-xs-2">
-						  <select class="form-control" id="sex">
-							<option></option>
-							<option>Steer</option>
-							<option>Heifer</option>
-							<option>Bull</option>
-							<option>Cow</option>
-						  </select>
-						</div>
 					<label for="pasturenumber" class="control-label col-xs-1">Pasture Number</label>
 					<div class="col-xs-2">
 					  <select class="form-control" id="pasturenumber">
@@ -61,6 +51,10 @@
 						<option>6</option>
 						<option>7</option>
 					  </select>
+					</div>
+					<label for="herd" class="control-label col-xs-1">Herd</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="herd" placeholder="Herd">
 					</div>
 					<label for="trial" class="control-label col-xs-1">Trial</label>
 					<div class="col-xs-2">
@@ -75,9 +69,10 @@
 						<option>7</option>
 					  </select>
 					</div>
-					<label for="herd" class="control-label col-xs-1">Herd</label>
+					
+					<label for="animalgroup" class="control-label col-xs-1">Animal Group</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="herd" placeholder="Herd">
+						<input type="text" class="form-control" id="animalgroup" placeholder="Animal Group">
 					</div>
 				</div>
 			</div>
@@ -108,8 +103,20 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="breed" placeholder="Breed">
 							</div>
+							<label for="breeder" class="control-label col-xs-1">Breeder</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="breeder" placeholder="Breeder">
+							</div>
 						</div>
 						<div class= "form-group">
+							<label for="sex" class="control-label col-xs-1">Sex</label>
+							<div class="col-xs-2">
+							  <select class="form-control" id="sex">
+								<option></option>
+								<option>Female</option>
+								<option>Male</option>
+							  </select>
+							</div>
 							<label for="animaltype" class="control-label col-xs-1">Animal Type</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="animaltype">
@@ -129,15 +136,26 @@
 								<option>Inactive</option>
 							  </select>
 							</div>
-						</div>
-						<fieldset disabled>
-						  <div class="form-group">
-							<label for="currentframescore" class="col-xs-1 control-label">Frame Score</label>
-							<div class="col-xs-4">
+							<label for="currentframescore" class="col-xs-1 control-label">Current Frame Score</label>
+							<div class="col-xs-2">
 							  <input type="text" id="currentframescore" class="form-control" placeholder="Current Frame Score">
 							</div>
-						  </div>
-						</fieldset>
+							
+						</div>
+						<div class="form-group">
+							<label for="species" class="control-label col-xs-1">Species</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="species" placeholder="Species">
+							</div>
+							<label for="damframescore" class="control-label col-xs-1">Dam Frame Score</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="damframescore" placeholder="Dam Frame Score">
+							</div>
+							<label for="comments" class="col-xs-1 control-label">Comments</label>
+							<div class="col-xs-5">
+								<input type="text" id="comments" class="form-control" placeholder="Comments">
+							</div>
+						</div>
 					</form>
 				</div>
 				<div role="tabpanel" class="tab-pane fade" id="calf_inventory">
@@ -241,6 +259,46 @@
 								<input type="text" class="form-control" id="disposalreason" placeholder="Disposal Reason ">
 							</div>
 						</div>
+						<div class="form-group">
+							<label for="herdnumberlocation" class="control-label col-xs-1">Herd Number Location</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="herdnumberlocation" placeholder="Herd Number Location">
+							</div>
+							<label for="herdstatus" class="control-label col-xs-1">Herd Status</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="herdstatus" placeholder="Herd Status">
+							</div>
+							<label for="howconceived" class="control-label col-xs-1">How Conceived</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="howconceived" placeholder="How Conceived">
+							</div>
+							<label for="managementcode" class="control-label col-xs-1">Management Code</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="managementcode" placeholder="Management Code">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="ownerid" class="control-label col-xs-1">Owner ID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="ownerID" placeholder="Owner ID">
+							</div>
+							<label for="springfall" class="control-label col-xs-1">Spring/Fall</label>
+							<div class="col-xs-2">
+							  <select class="form-control" id="springfall">
+								<option></option>
+								<option>Spring</option>
+								<option>Fall</option>
+							  </select>
+							</div>
+							<label for="includeinlookups" class="control-label col-xs-1">Include in Lookups</label>
+							<div class="col-xs-2">
+							  <select class="form-control" id="includeinlookups">
+								<option></option>
+								<option>Yes</option>
+								<option>No</option>
+							  </select>
+							</div>
+						</div>
 					</form>
 				</div>
 				<div role="tabpanel" class="tab-pane fade" id="calf_experiment">
@@ -258,15 +316,23 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="birthweight" placeholder="Birth Weight">
 							</div>
+							<label for="birthweightadj" class="control-label col-xs-1">Birth Weight Adj</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="birthweightadj" placeholder="Birth Weight Adj">
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="damframescore" class="control-label col-xs-1">Dam Frame Score</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="damframescore" placeholder="Dam Frame Score">
-							</div>
 							<label for="sireframescore" class="control-label col-xs-1">Sire Frame Score</label>
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="sireframescore" placeholder="Sire Frame Score">
+							</div>
+							<label for="conditionscoreweaning2015" class="control-label col-xs-1">Condition Score Weaning 2015</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="conditionscoreweaning2015" placeholder="Condition Score Weaning 2015">
+							</div>
+							<label for="conditionscoreweaning2016" class="control-label col-xs-1">Condition Score Weaning 2016</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="conditionscoreweaning2016" placeholder="Condition Score Weaning 2016">
 							</div>
 							<label class="control-label col-xs-1" for="date">D.O.B</label>
 							<div class="input-group col-xs-2">
@@ -274,6 +340,24 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="bcsrecent" class="control-label col-xs-1">BCS Recent</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="bcsrecent" placeholder="BCS Recent">
+							</div>
+							<label for="bcsprevious" class="control-label col-xs-1">BCS Previous</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="bcsprevious" placeholder="BCS Previous">
+							</div>
+							<label for="bcsdifference" class="control-label col-xs-1">BCS Difference</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="bcsdifference" placeholder="BCS Difference">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="damwtatwean" class="control-label col-xs-1">Dam Wt at Wean</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="damwtatwean" placeholder="Dam Wt at Wean">
+							</div>
 							<label for="weanheight" class="control-label col-xs-1">Wean Height</label>
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="weanheight" placeholder="Wean Height">
@@ -285,6 +369,24 @@
 							<label class="control-label col-xs-1" for="date">Wean Date</label>
 							<div class="input-group col-xs-2">
 							   <input class="form-control" id="weandate" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="weangpd" class="col-xs-1 control-label">Wean GPD</label>
+							<div class="col-xs-2">
+								<input type="text" id="weangpd" class="form-control" placeholder="Wean GPD">
+							</div>
+							<label for="weanhipht" class="col-xs-1 control-label">Wean Hip ht</label>
+							<div class="col-xs-2">
+								<input type="text" id="weanhipht" class="form-control" placeholder="Wean Hip ht">
+							</div>
+							<label for="weanwda" class="col-xs-1 control-label">Wean WDA</label>
+							<div class="col-xs-2">
+								<input type="text" id="weanwda" class="form-control" placeholder="Wean WDA">
+							</div>
+							<label for="weanweightdate" class="col-xs-1 control-label">Wean Weight Date</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="weanweightdate" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
 						</div>
 						<fieldset disabled>
@@ -342,6 +444,14 @@
 							</div>
 						</fieldset>
 						<div class="form-group">
+							<label for="currentwtcow" class="col-xs-1 control-label">Current Wt Cow</label>
+							<div class="col-xs-2">
+								<input type="text" id="currentwtcow" class="form-control" placeholder="Current Wt Cow">
+							</div>
+							<label for="adj365dht" class="col-xs-1 control-label">Adj 365d Height</label>
+							<div class="col-xs-2">
+								<input type="text" id="adj365dht" class="form-control" placeholder="Adj 365d Height">
+							</div>
 							<label for="customweight" class="col-xs-1 control-label">Custom Weight</label>
 							<div class="col-xs-2">
 								<input type="text" id="customweight" class="form-control" placeholder="Custom Weight">
@@ -352,6 +462,10 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="currentwtheifer" class="col-xs-1 control-label">Current Wt Heifer</label>
+							<div class="col-xs-2">
+								<input type="text" id="currentwtheifer" class="form-control" placeholder="Current Wt Heifer">
+							</div>
 							<label for="customheight" class="col-xs-1 control-label">Custom Height</label>
 							<div class="col-xs-2">
 								<input type="text" id="customheight" class="form-control" placeholder="Custom Height">
@@ -385,36 +499,26 @@
 								<input type="text" id="replicate" class="form-control" placeholder="Replicate">
 							</div>
 						</div>
-						<div class="container">
-						  <h2>Table1</h2>
-						  <p>The hover state on table rows:</p>
-						  <table class="table table-hover">
+						<table id="experiment_table" class="display" cellspacing="0" width="90%">
 							<thead>
-							  <tr>
-								<th>Firstname</th>
-								<th>Lastname</th>
-								<th>Email</th>
-							  </tr>
+								<tr>
+									<th>Cownumber</th>
+									<th>DOB</th>
+									<th>Dam</th>
+									<th>Sire</th>
+									<th>Birth Weight</th>
+								</tr>
 							</thead>
-							<tbody>
-							  <tr>
-								<td>John</td>
-								<td>Doe</td>
-								<td>john@example.com</td>
-							  </tr>
-							  <tr>
-								<td>Mary</td>
-								<td>Moe</td>
-								<td>mary@example.com</td>
-							  </tr>
-							  <tr>
-								<td>July</td>
-								<td>Dooley</td>
-								<td>july@example.com</td>
-							  </tr>
-							</tbody>
-						  </table>
-						</div>
+							<tfoot>
+								<tr>
+									<th>Cownumber</th>
+									<th>DOB</th>
+									<th>Dam</th>
+									<th>Sire</th>
+									<th>Birth Weight</th>
+								</tr>
+							</tfoot>
+						</table>
 					</form>
 				</div>
 				<div role="tabpanel" class="tab-pane fade" id="calf_reproduction">
@@ -444,6 +548,14 @@
 							<label for="pasturenumberreproduction" class="col-xs-1 control-label">Pasture Number Reproduction</label>
 							<div class="col-xs-2">
 								<input type="text" id="pasturenumberreproduction" class="form-control" placeholder="Pasture Number Reproduction">
+							</div>
+							<label for="siblingcode" class="control-label col-xs-1">Sibling Code</label>
+							<div class="col-xs-2">
+							  <select class="form-control" id="siblingcode">
+								<option></option>
+								<option>Single</option>
+								<option>Twin</option>
+							  </select>
 							</div>
 						</div>
 						<fieldset disabled>
@@ -517,11 +629,23 @@
 								<div class="col-xs-2">
 									<input type="text" id="udderscore" class="form-control" placeholder="Udder Score">
 								</div>
+								<label for="conditionscorecalving2016" class="control-label col-xs-1">Condition Score Calving 2016</label>
+								<div class="col-xs-2">
+									<input type="text" class="form-control" id="conditionscorecalving2016" placeholder="Condition Score Calving 2016">
+								</div>
 							</div>
 							<div class="form-group">
-								<label for="comments" class="col-xs-1 control-label">Comments</label>
-								<div class="col-xs-6">
-									<input type="text" id="comments" class="form-control" placeholder="Comments">
+								<label for="hiphtweaning2015" class="control-label col-xs-1">Hip Ht Weaning 2015</label>
+								<div class="col-xs-2">
+									<input type="text" class="form-control" id="hiphtweaning2015" placeholder="Hip Ht Weaning 2015">
+								</div>
+								<label for="hiphtweaning2016" class="control-label col-xs-1">Hip Ht Weaning 2016</label>
+								<div class="col-xs-2">
+									<input type="text" class="form-control" id="conditionscorecalving2016" placeholder="Hip Ht Weaning 2016">
+								</div>
+								<label for="hiphtbreeding2016" class="control-label col-xs-1">Hip Ht Breeding 2016</label>
+								<div class="col-xs-2">
+									<input type="text" class="form-control" id="hiphtbreeding2016" placeholder="Hip Ht Breeding 2016">
 								</div>
 							</div>
 							<br>

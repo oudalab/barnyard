@@ -102,6 +102,13 @@
 						var trial = data.data.attributes.trial;
 						var herd = data.data.attributes.herd;
 						var animaltype = data.data.attributes.animaltype;
+						var animalname = data.data.attributes.animalname;
+						var animalgroup = data.data.attributes.animalgroup;
+						var breeder = data.data.attributes.breeder;
+						var currentframescore = data.data.attributes.currentframescore;
+						var damframescore = data.data.attributes.damframescore;
+						var comments = data.data.attributes.comments;
+						var species = data.data.attributes.species;
 						$('#cownumber').val(variable);
 						$('#height').val(height);
 						$('#weight').val(weight);
@@ -114,6 +121,13 @@
 						$('#trial option:selected').text(trial);
 						$('#herd').val(herd);
 						$('#animaltype option:selected').text(animaltype);
+						$('#animalname').val(animalname);
+						$('#animalgroup').val(animalgroup);
+						$('#breeder').val(breeder);
+						$('#currentframescore').val(currentframescore);
+						$('#damframescore').val(damframescore);
+						$('#comments').val(comments);
+						$('#species').val(species);
 					},
 					error: function(error) {
 						console.log(error)
@@ -150,6 +164,13 @@
 						var howdisposed  = data.data[0].attributes.howdisposed;
 						var datedisposed  = data.data[0].attributes.datedisposed;
 						var disposalreason  = data.data[0].attributes.disposalreason;
+						var herdnumberlocation = data.data[0].attributes.herdnumberlocation;
+						var herdstatus = data.data[0].attributes.herdstatus;
+						var howconceived = data.data[0].attributes.howconceived;
+						var managementcode = data.data[0].attributes.managementcode;
+						var ownerID = data.data[0].attributes.ownerID;
+						var springfall = data.data[0].attributes.springfall;
+						var includeinlookups = data.data[0].attributes.includeinlookups;
 						$('#brand').val(brand);
 						$('#brandlocation option:selected').text(brandlocation);
 						$('#tattooleft').val(tattooleft);
@@ -163,6 +184,13 @@
 						$('#howdisposed option:selected').text(howdisposed);
 						$('#datedisposed').val(datedisposed);
 						$('#disposalreason').val(disposalreason);
+						$('#springfall option:selected').text(springfall);
+						$('#includeinlookups option:selected').text(includeinlookups);
+						$('#herdnumberlocation').val(herdnumberlocation);
+						$('#herdstatus').val(herdstatus);
+						$('#managementcode').val(managementcode);
+						$('#ownerID').val(ownerID);
+						$('#howconceived').val(howconceived);
 					},
 					error: function(error) {
 						console.log(error)
@@ -184,8 +212,18 @@
 						console.log(data);
 						
 						var birthweight = data.data[0].attributes.birthweight;
-						var damframescore = data.data[0].attributes.damframescore;
+						var birthweightadj = data.data[0].attributes.birthweightadj;
 						var sireframescore = data.data[0].attributes.sireframescore;
+						var conditionscoreweaning2015 = data.data[0].attributes.conditionscoreweaning2015;
+						var conditionscoreweaning2016 = data.data[0].attributes.conditionscoreweaning2016;
+						var bcsrecent = data.data[0].attributes.bcsrecent;
+						var bcsprevious = data.data[0].attributes.bcsprevious;
+						var bcsdifference = data.data[0].attributes.bcsdifference;
+						var damwtatwean = data.data[0].attributes.damwtatwean;
+						var weangpd = data.data[0].attributes.weangpd;
+						var weanhipht = data.data[0].attributes.weanhipht;
+						var weanwda = data.data[0].attributes.weanwda;
+						var weanweightdate = data.data[0].attributes.weanweightdate;
 						var weanheight = data.data[0].attributes.weanheight;
 						var weanweight = data.data[0].attributes.weanweight;
 						var weandate = data.data[0].attributes.weandate;
@@ -200,6 +238,9 @@
 						var adjyearlingh  = data.data[0].attributes.adjyearlingh;
 						var yearlingframescore  = data.data[0].attributes.yearlingframescore;
 						var ageatyearling  = data.data[0].attributes.ageatyearling;
+						var currentwtcow = data.data[0].attributes.currentwtcow;
+						var currentwtheifer = data.data[0].attributes.currentwtheifer;
+						var adj365dht = data.data[0].attributes.adj365dht;
 						var customweight  = data.data[0].attributes.customweight;
 						var customheight  = data.data[0].attributes.customheight;
 						var customweightdate  = data.data[0].attributes.customweightdate;
@@ -212,7 +253,6 @@
 						var sire  = data.data[0].attributes.sire;
 						var dob  = data.data[0].attributes.dob;						
 						$('#birthweight').val(birthweight);
-						$('#damframescore').val(damframescore);
 						$('#sireframescore').val(sireframescore);
 						$('#weanheight').val(weanheight);
 						$('#weanweight').val(weanweight);
@@ -243,6 +283,20 @@
 						$('#sireexperiment').val(sire);
 						$('#dobexperiment').val(dob);
 						$('#treatment option:selected').text(treatment);
+						$('#birthweightadj').val(birthweightadj);
+						$('#conditionscoreweaning2015').val(conditionscoreweaning2015);
+						$('#conditionscoreweaning2016').val(conditionscoreweaning2016);
+						$('#bcsrecent').val(bcsrecent);
+						$('#bcsprevious').val(bcsprevious);
+						$('#bcsdifference').val(bcsdifference);
+						$('#damwtatwean').val(damwtatwean);
+						$('#weangpd').val(weangpd);
+						$('#weanhipht').val(weanhipht);
+						$('#weanwda').val(weanwda);
+						$('#weanweightdate').val(weanweightdate);
+						$('#currentwtcow').val(currentwtcow);
+						$('#currentwtheifer').val(currentwtheifer);
+						$('#adj365dht').val(adj365dht);
 					},
 					error: function(error) {
 						console.log(error)
@@ -276,7 +330,10 @@
 						var damcalvingdisposition = data.data[0].attributes.damcalvingdisposition;
 						var calvingease = data.data[0].attributes.calvingease;
 						var udderscore = data.data[0].attributes.udderscore;
-						var comments = data.data[0].attributes.comments;
+						var siblingcode = data.data[0].attributes.siblingcode;
+						var hiphtbreeding2016 = data.data[0].attributes.hiphtbreeding2016;
+						var hiphtweaning2015 = data.data[0].attributes.hiphtweaning2015;
+						var hiphtweaning2016 = data.data[0].attributes.hiphtweaning2016;
 						var damdisposition = data.data[0].attributes.damdisposition;
 						var cowframescore = data.data[0].attributes.cowframescore;
 						var cowwtbreeding = data.data[0].attributes.cowwtbreeding;
@@ -312,7 +369,10 @@
 						$('#damcalvingdisposition option:selected').text(damcalvingdisposition);
 						$('#calvingease option:selected').text(calvingease);
 						$('#udderscore').val(udderscore);
-						$('#comments').val(comments);
+						$('#siblingcode option:selected').text(siblingcode);
+						$('#hiphtweaning2015').val(hiphtweaning2015);
+						$('#hiphtweaning2016').val(hiphtweaning2016);
+						$('#hiphtbreeding2016').val(hiphtbreeding2016);
 						$('#damdisposition option:selected').text(damdisposition);
 						$('#cowframescore').val(cowframescore);
 						$('#cowwtbreeding').val(cowwtbreeding);

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, request, url_for, redirect,session,jsonify, g
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
@@ -153,7 +153,7 @@ def login_page():
             login_user(user)
             flash("Logged in Successfully")
             session['logged_in'] = True
-            return redirect(url_for('searchpage'))
+            return render_template ('search.html', user = current_user.email)
         else:
             flash("Incorrect Email/Password combination")
             return redirect(url_for('login_page'))

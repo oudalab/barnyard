@@ -101,12 +101,26 @@ class Master_animal(db.Model, CRUD):
 	trial = db.Column(db.Text)
 	herd = db.Column(db.Text)
 	animaltype = db.Column(db.Text)
+	animalname = db.Column(db.Text)
+	animalgroup = db.Column(db.Text)
+	breeder = db.Column(db.Text)
+	currentframescore = db.Column(db.Integer)
+	damframescore = db.Column(db.Integer)
+	comments = db.Column(db.Text)
+	species = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 	
-	def __init__(self, cownumber,ts, height, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
+	def __init__(self, cownumber,ts, height,animalname,comments,breeder,currentframescore,damframescore,animalgroup,species, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
 		self.cownumber = cownumber
 		self.height = height
 		self.weight = weight
+		self.animalname = animalname
+		self.animalgroup = animalgroup
+		self.breeder = breeder
+		self.currentframescore = currentframescore
+		self.damframescore = damframescore
+		self.comments = comments
+		self.species = species
 		self.eartag = eartag
 		self.eid = eid
 		self.sex = sex
@@ -134,6 +148,13 @@ class Master_animal_Schema(Schema):
 	trial = fields.String(validate = not_blank)
 	herd = fields.String(validate = not_blank)
 	animaltype = fields.String(validate = not_blank)
+	animalname = fields.String(validate = not_blank)
+	animalgroup = fields.String(validate = not_blank)
+	breeder = fields.String(validate = not_blank)
+	currentframescore = fields.String(validate = not_blank)
+	damframescore = fields.String(validate = not_blank)
+	comments = fields.String(validate = not_blank)
+	species = fields.String(validate = not_blank)
 	ts = fields.DateTime(validate = not_blank)
 	# self links
 	def get_top_level_links(self, data, many):
@@ -207,10 +228,17 @@ class Animal_Inventory(db.Model, CRUD):
 	howdisposed = db.Column(db.Text)
 	datedisposed = db.Column(db.Text)
 	disposalreason = db.Column(db.Text)
+	herdnumberlocation = db.Column(db.Text)
+	herdstatus = db.Column(db.Text)
+	howconceived = db.Column(db.Text)
+	managementcode = db.Column(db.Text)
+	ownerID = db.Column(db.Text)
+	springfall = db.Column(db.Text)
+	includeinlookups = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
-				 howacquired, dateacquired,howdisposed, datedisposed, disposalreason):
+	def __init__(self, cownumber,ts,herdnumberlocation,herdstatus, howconceived, managementcode, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
+				 howacquired, dateacquired,howdisposed,ownerID,springfall, includeinlookups, datedisposed, disposalreason):
 		self.cownumber = cownumber
 		self.brand = brand
 		self.brandlocation = brandlocation
@@ -228,6 +256,13 @@ class Animal_Inventory(db.Model, CRUD):
 		self.howdisposed = howdisposed
 		self.datedisposed = datedisposed
 		self.disposalreason = disposalreason
+		self.herdnumberlocation = herdnumberlocation
+		self.herdstatus = herdstatus
+		self.howconceived = howconceived
+		self.managementcode = managementcode
+		self.ownerID = ownerID
+		self.springfall = springfall
+		self.includeinlookups = includeinlookups
 		self.ts= ts
 
 
@@ -251,6 +286,13 @@ class Animal_Inventory_Schema(Schema):
 	howdisposed = fields.String(validate=not_blank)
 	datedisposed = fields.String(validate=not_blank)
 	disposalreason = fields.String(validate=not_blank)
+	herdnumberlocation = fields.String(validate=not_blank)
+	herdstatus = fields.String(validate=not_blank)
+	howconceived = fields.String(validate=not_blank)
+	managementcode = fields.String(validate=not_blank)
+	ownerID = fields.String(validate=not_blank)
+	springfall = fields.String(validate=not_blank)
+	includeinlookups = fields.String(validate=not_blank)
 	ts = fields.DateTime(validate= not_blank)
 
 	# self links
@@ -270,11 +312,21 @@ class Experiment(db.Model, CRUD):
 	dam = db.Column(db.Text)
 	sire = db.Column(db.Text)
 	birthweight = db.Column(db.Text)
-	damframescore = db.Column(db.Float)
+	birthweightadj = db.Column(db.Text)
 	sireframescore = db.Column(db.Float)
+	conditionscoreweaning2015 = db.Column(db.Text)
+	conditionscoreweaning2016 = db.Column(db.Text)
+	bcsrecent = db.Column(db.Text)
+	bcsprevious = db.Column(db.Text)
+	bcsdifference = db.Column(db.Text)
+	damwtatwean = db.Column(db.Integer)
 	weanheight = db.Column(db.Float)
 	weanweight = db.Column(db.Float)
 	weandate = db.Column(db.Text)
+	weangpd = db.Column(db.Text)
+	weanhipht = db.Column(db.Text)
+	weanwda = db.Column(db.Text)
+	weanweightdate = db.Column(db.Text)
 	adj205w = db.Column(db.Float)
 	adj205h = db.Column(db.Float)
 	dob = db.Column(db.Text)
@@ -291,24 +343,41 @@ class Experiment(db.Model, CRUD):
 	customweightdate = db.Column(db.Text)
 	customheight = db.Column(db.Float)
 	customheightdate = db.Column(db.Text)
+	currentwtcow = db.Column(db.Text)
+	adj365dht = db.Column(db.Text)
+	currentwtheifer = db.Column(db.Text)
 	backfat = db.Column(db.Float)
 	treatment = db.Column(db.Text)
 	blockpen = db.Column(db.Text)
 	replicate = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts, dam, sire, birthweight, damframescore, sireframescore, weanheight, weanweight, weandate, adj205w, adj205h, dob,
-				 weanframescore, ageatwean,yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh, yearlingframescore, ageatyearling,
-				 customweight, customweightdate, customheight, customheightdate, backfat, treatment, blockpen, replicate):
+	def __init__(self, cownumber,ts, dam, sire, birthweight,birthweightadj,
+				 sireframescore, weanheight,conditionscoreweaning2015,conditionscoreweaning2016,
+				 bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
+				 adj205h, dob,weanframescore,weangpd,weanhipht,weanwda,weanweightdate, ageatwean,
+				 yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh,
+				 yearlingframescore, ageatyearling,customweight, customweightdate, customheight,
+				 customheightdate,currentwtcow,adj365dht,currentwtheifer, backfat, treatment, blockpen, replicate):
 		self.cownumber = cownumber
 		self.dam = dam
 		self.sire = sire
 		self.birthweight = birthweight
-		self.damframescore = damframescore
+		self.birthweightadj = birthweightadj
+		self.conditionscoreweaning2015 = conditionscoreweaning2015
+		self.conditionscoreweaning2016 = conditionscoreweaning2016
+		self.bcsrecent = bcsrecent
+		self.bcsprevious = bcsprevious
+		self.bcsdifference = bcsdifference
+		self.damwtatwean = damageatwean
 		self.sireframescore = sireframescore
 		self.weanheight = weanheight
 		self.weanweight = weanweight
 		self.weandate = weandate
+		self.weangpd = weangpd
+		self.weanhipht = weanhipht
+		self.weanwda = weanwda
+		self.weanweightdate = weanweightdate
 		self.adj205w = adj205w
 		self.adj205h = adj205h
 		self.dob = dob
@@ -321,6 +390,9 @@ class Experiment(db.Model, CRUD):
 		self.adjyearlingh = adjyearlingh
 		self.yearlingframescore = yearlingframescore
 		self.ageatyearling = ageatyearling
+		self.currentwtcow = currentwtcow
+		self.currentwtheifer = currentwtheifer
+		self.adj365dht = adj365dht
 		self.customweight = customweight
 		self.customweightdate = customweightdate
 		self.customheight = customheight
@@ -339,11 +411,21 @@ class Experiment_Schema(Schema):
 	dam = fields.String(validate=not_blank)
 	sire = fields.String(validate=not_blank)
 	birthweight = fields.Float(validate=not_blank)
-	damframescore = fields.Float(validate=not_blank)
+	birthweightadj = fields.String(validate=not_blank)
+	conditionscoreweaning2015 = fields.String(validate=not_blank)
+	conditionscoreweaning2016 = fields.String(validate=not_blank)
+	bcsrecent = fields.String(validate=not_blank)
+	bcsprevious = fields.String(validate=not_blank)
+	bcsdifference = fields.String(validate=not_blank)
+	damwtatwean = fields.Float(validate=not_blank)
 	sireframescore = fields.Float(validate=not_blank)
 	weanheight = fields.Float(validate=not_blank)
 	weanweight = fields.Float(validate=not_blank)
 	weandate = fields.String(validate=not_blank)
+	weangpd = fields.String(validate=not_blank)
+	weanhipht = fields.String(validate=not_blank)
+	weanwda = fields.String(validate=not_blank)
+	weanweightdate = fields.String(validate=not_blank)
 	adj205w = fields.Float(validate=not_blank)
 	adj205h = fields.Float(validate=not_blank)
 	dob = fields.String(validate=not_blank)
@@ -360,6 +442,9 @@ class Experiment_Schema(Schema):
 	customweightdate = fields.String(validate=not_blank)
 	customheight = fields.Float(validate=not_blank)
 	customheightdate = fields.String(validate=not_blank)
+	currentwtcow = fields.String(validate=not_blank)
+	currentwtheifer = fields.String(validate=not_blank)
+	adj365dheight = fields.String(validate=not_blank)
 	backfat = fields.Float(validate=not_blank)
 	treatment = fields.String(validate=not_blank)
 	blockpen = fields.String(validate=not_blank)
@@ -382,6 +467,7 @@ class Reproduction(db.Model, CRUD):
 	cownumber = db.Column(db.Integer, primary_key=True)
 	breeding = db.Column(db.Text)
 	pregnancy = db.Column(db.Text)
+	siblingcode = db.Column(db.Text)
 	calfatside = db.Column(db.Text)
 	totalcalves = db.Column(db.Float)
 	previouscalf = db.Column(db.Text)
@@ -394,7 +480,10 @@ class Reproduction(db.Model, CRUD):
 	damcalvingdisposition = db.Column(db.Text)
 	calvingease = db.Column(db.Text)
 	udderscore = db.Column(db.Float)
-	comments = db.Column(db.Text)
+	conditionscorecalving = db.Column(db.Float)
+	hiphtweaning2015 = db.Column(db.Float)
+	hiphtweaning2016 = db.Column(db.Float)
+	hiphtbreeding2016 = db.Column(db.Float)
 	damdisposition = db.Column(db.Text)
 	cowframescore = db.Column(db.Float)
 	cowwtbreeding = db.Column(db.Float)
@@ -418,13 +507,14 @@ class Reproduction(db.Model, CRUD):
 	deadabnormal = db.Column(db.Float)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts, breeding, pregnancy, calfatside, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
-				 damcalvingdisposition, calvingease,udderscore, comments, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
+	def __init__(self, cownumber,ts, breeding, pregnancy, calfatside,siblingcode, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
+				 damcalvingdisposition, calvingease,udderscore, conditionscorecalving, hiphtweaning2015, hiphtweaning2016, hiphtbreeding2016, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
 				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldisposition, bullframescore,
 				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal):
 		self.cownumber = cownumber
 		self.breeding = breeding
 		self.pregnancy = pregnancy
+		self.siblingcode = siblingcode
 		self.calfatside = calfatside
 		self.totalcalves = totalcalves
 		self.previouscalf = previouscalf
@@ -437,7 +527,10 @@ class Reproduction(db.Model, CRUD):
 		self.damcalvingdisposition = damcalvingdisposition
 		self.calvingease = calvingease
 		self.udderscore = udderscore
-		self.comments = comments
+		self.conditionscorecalving = conditionscorecalving
+		self.hiphtbreeding2016 = hiphtbreeding2016
+		self.hiphtweaning2015 = hiphtweaning2015
+		self.hiphtweaning2016 = hiphtweaning2016
 		self.damdisposition = damdisposition
 		self.cowframescore = cowframescore
 		self.cowwtbreeding = cowwtbreeding
@@ -468,6 +561,7 @@ class Reproduction_Schema(Schema):
 	cownumber = fields.Integer(validate=not_blank)
 	breeding = fields.String(validate=not_blank)
 	pregnancy = fields.String(validate=not_blank)
+	siblingcode = fields.String(validate=not_blank)
 	calfatside = fields.String(validate=not_blank)
 	totalcalves = fields.Float(validate=not_blank)
 	previouscalf = fields.String(validate=not_blank)
@@ -480,7 +574,10 @@ class Reproduction_Schema(Schema):
 	damcalvingdisposition = fields.String(validate=not_blank)
 	calvingease = fields.String(validate=not_blank)
 	udderscore = fields.Float(validate=not_blank)
-	comments = fields.String(validate=not_blank)
+	conditionscorecalving = fields.Float(validate=not_blank)
+	hiphtweaning2015 = fields.Float(validate=not_blank)
+	hiphtweaning2016 = fields.Float(validate=not_blank)
+	hiphtbreeding2016 = fields.Float(validate=not_blank)
 	damdisposition = fields.String(validate=not_blank)
 	cowframescore = fields.Float(validate=not_blank)
 	cowwtbreeding = fields.Float(validate=not_blank)

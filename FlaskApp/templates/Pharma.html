@@ -2,27 +2,7 @@
 {% block body %}
 <html>
 <head>
-
-	<title>Parmaceutical Inventory</title>
-
-   <!--Import jQuery before export.js-->
-	<script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
-
-    <!--Data Table-->
-    <script type="text/javascript"  src=" //cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"  src=" //cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-
-    <!--Export table buttons-->
-    <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js" ></script>
-    <script type="text/javascript"  src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
-
-	<!--Export table button CSS-->
-
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+<title>Parmaceutical Inventory</title>
 <script type = "text/javascript">
 	$(function inputDataPharma() {
 
@@ -117,25 +97,25 @@
 			<button id="submit_button_pharma" method="POST" class='btn btn-default'>Submit</button></a>
 		</div>
 		<table id="myTable" class="display" cellspacing="0" width="90%">
-        <thead>
-            <tr>
-                <th>Medication</th>
-                <th>Medication Quantity</th>
-                <th>Mediaction Cost</th>
-                <th>Purchase Date</th>
-                <th>Expire Date</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>Medication</th>
-                <th>Medication Quantity</th>
-                <th>Mediaction Cost</th>
-                <th>Purchase Date</th>
-                <th>Expire Date</th>
-            </tr>
-        </tfoot>
-    </table>
+			<thead>
+				<tr>
+					<th>Medication</th>
+					<th>Medication Quantity</th>
+					<th>Mediaction Cost</th>
+					<th>Purchase Date</th>
+					<th>Expire Date</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Medication</th>
+					<th>Medication Quantity</th>
+					<th>Mediaction Cost</th>
+					<th>Purchase Date</th>
+					<th>Expire Date</th>
+				</tr>
+			</tfoot>
+		</table>
 
 	</form>
 </body>

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 2b29992255b1
+Revision ID: a24d29393815
 Revises: 
-Create Date: 2017-04-24 19:49:10.063657
+Create Date: 2017-06-19 02:00:34.833038
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2b29992255b1'
+revision = 'a24d29393815'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,19 +36,45 @@ def upgrade():
     sa.Column('howdisposed', sa.Text(), nullable=True),
     sa.Column('datedisposed', sa.Text(), nullable=True),
     sa.Column('disposalreason', sa.Text(), nullable=True),
+    sa.Column('herdnumberlocation', sa.Text(), nullable=True),
+    sa.Column('herdstatus', sa.Text(), nullable=True),
+    sa.Column('howconceived', sa.Text(), nullable=True),
+    sa.Column('managementcode', sa.Text(), nullable=True),
+    sa.Column('ownerID', sa.Text(), nullable=True),
+    sa.Column('springfall', sa.Text(), nullable=True),
+    sa.Column('includeinlookups', sa.Text(), nullable=True),
     sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('cownumber', 'ts')
+    )
+    op.create_table('cowgroup',
+    sa.Column('cownumber', sa.Text(), nullable=True),
+    sa.Column('groupnumber', sa.Integer(), nullable=False),
+    sa.Column('groupname', sa.Text(), nullable=True),
+    sa.Column('groupdescription', sa.Text(), nullable=True),
+    sa.Column('attributes', sa.Text(), nullable=True),
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('groupnumber', 'ts')
     )
     op.create_table('experiment',
     sa.Column('cownumber', sa.Integer(), nullable=False),
     sa.Column('dam', sa.Text(), nullable=True),
     sa.Column('sire', sa.Text(), nullable=True),
     sa.Column('birthweight', sa.Text(), nullable=True),
-    sa.Column('damframescore', sa.Float(), nullable=True),
+    sa.Column('birthweightadj', sa.Text(), nullable=True),
     sa.Column('sireframescore', sa.Float(), nullable=True),
+    sa.Column('conditionscoreweaning2015', sa.Text(), nullable=True),
+    sa.Column('conditionscoreweaning2016', sa.Text(), nullable=True),
+    sa.Column('bcsrecent', sa.Text(), nullable=True),
+    sa.Column('bcsprevious', sa.Text(), nullable=True),
+    sa.Column('bcsdifference', sa.Text(), nullable=True),
+    sa.Column('damwtatwean', sa.Integer(), nullable=True),
     sa.Column('weanheight', sa.Float(), nullable=True),
     sa.Column('weanweight', sa.Float(), nullable=True),
     sa.Column('weandate', sa.Text(), nullable=True),
+    sa.Column('weangpd', sa.Text(), nullable=True),
+    sa.Column('weanhipht', sa.Text(), nullable=True),
+    sa.Column('weanwda', sa.Text(), nullable=True),
+    sa.Column('weanweightdate', sa.Text(), nullable=True),
     sa.Column('adj205w', sa.Float(), nullable=True),
     sa.Column('adj205h', sa.Float(), nullable=True),
     sa.Column('dob', sa.Text(), nullable=True),
@@ -65,6 +91,9 @@ def upgrade():
     sa.Column('customweightdate', sa.Text(), nullable=True),
     sa.Column('customheight', sa.Float(), nullable=True),
     sa.Column('customheightdate', sa.Text(), nullable=True),
+    sa.Column('currentwtcow', sa.Text(), nullable=True),
+    sa.Column('adj365dht', sa.Text(), nullable=True),
+    sa.Column('currentwtheifer', sa.Text(), nullable=True),
     sa.Column('backfat', sa.Float(), nullable=True),
     sa.Column('treatment', sa.Text(), nullable=True),
     sa.Column('blockpen', sa.Text(), nullable=True),
@@ -82,6 +111,16 @@ def upgrade():
     sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
+    op.create_table('herd_change',
+    sa.Column('uid', sa.Integer(), nullable=False),
+    sa.Column('cownumber', sa.Text(), nullable=True),
+    sa.Column('eid', sa.Text(), nullable=True),
+    sa.Column('groupnumber', sa.Integer(), nullable=True),
+    sa.Column('eartag', sa.Text(), nullable=True),
+    sa.Column('attributes', sa.Text(), nullable=True),
+    sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
+    sa.PrimaryKeyConstraint('uid', 'ts')
+    )
     op.create_table('master_animal',
     sa.Column('cownumber', sa.Integer(), nullable=False),
     sa.Column('height', sa.Float(), nullable=True),
@@ -95,6 +134,13 @@ def upgrade():
     sa.Column('trial', sa.Text(), nullable=True),
     sa.Column('herd', sa.Text(), nullable=True),
     sa.Column('animaltype', sa.Text(), nullable=True),
+    sa.Column('animalname', sa.Text(), nullable=True),
+    sa.Column('animalgroup', sa.Text(), nullable=True),
+    sa.Column('breeder', sa.Text(), nullable=True),
+    sa.Column('currentframescore', sa.Integer(), nullable=True),
+    sa.Column('damframescore', sa.Integer(), nullable=True),
+    sa.Column('comments', sa.Text(), nullable=True),
+    sa.Column('species', sa.Text(), nullable=True),
     sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
@@ -113,10 +159,20 @@ def upgrade():
     sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
+    op.create_table('medical_inventory',
+    sa.Column('uid', sa.Integer(), nullable=False),
+    sa.Column('medication', sa.Text(), nullable=True),
+    sa.Column('quantity', sa.Float(), nullable=True),
+    sa.Column('cost', sa.Float(), nullable=True),
+    sa.Column('purchasedate', sa.Text(), nullable=True),
+    sa.Column('expirydate', sa.Text(), nullable=True),
+    sa.PrimaryKeyConstraint('uid')
+    )
     op.create_table('reproduction',
     sa.Column('cownumber', sa.Integer(), nullable=False),
     sa.Column('breeding', sa.Text(), nullable=True),
     sa.Column('pregnancy', sa.Text(), nullable=True),
+    sa.Column('siblingcode', sa.Text(), nullable=True),
     sa.Column('calfatside', sa.Text(), nullable=True),
     sa.Column('totalcalves', sa.Float(), nullable=True),
     sa.Column('previouscalf', sa.Text(), nullable=True),
@@ -129,7 +185,10 @@ def upgrade():
     sa.Column('damcalvingdisposition', sa.Text(), nullable=True),
     sa.Column('calvingease', sa.Text(), nullable=True),
     sa.Column('udderscore', sa.Float(), nullable=True),
-    sa.Column('comments', sa.Text(), nullable=True),
+    sa.Column('conditionscorecalving', sa.Float(), nullable=True),
+    sa.Column('hiphtweaning2015', sa.Float(), nullable=True),
+    sa.Column('hiphtweaning2016', sa.Float(), nullable=True),
+    sa.Column('hiphtbreeding2016', sa.Float(), nullable=True),
     sa.Column('damdisposition', sa.Text(), nullable=True),
     sa.Column('cowframescore', sa.Float(), nullable=True),
     sa.Column('cowwtbreeding', sa.Float(), nullable=True),
@@ -154,15 +213,28 @@ def upgrade():
     sa.Column('ts', sa.DateTime(timezone=True), server_default=sa.text(u'CURRENT_TIMESTAMP'), nullable=False),
     sa.PrimaryKeyConstraint('cownumber', 'ts')
     )
+    op.create_table('users',
+    sa.Column('uid', sa.Integer(), nullable=False),
+    sa.Column('firstname', sa.Text(), nullable=True),
+    sa.Column('lastname', sa.Text(), nullable=True),
+    sa.Column('email', sa.Text(), nullable=True),
+    sa.Column('pwdhash', sa.Text(), nullable=True),
+    sa.PrimaryKeyConstraint('uid'),
+    sa.UniqueConstraint('email')
+    )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('users')
     op.drop_table('reproduction')
+    op.drop_table('medical_inventory')
     op.drop_table('medical')
     op.drop_table('master_animal')
+    op.drop_table('herd_change')
     op.drop_table('grazing')
     op.drop_table('experiment')
+    op.drop_table('cowgroup')
     op.drop_table('animal_inventory')
     # ### end Alembic commands ###

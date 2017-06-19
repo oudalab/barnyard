@@ -45,7 +45,7 @@ class table_basics(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber= None,ts = None,weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= None,ts = None, animalname = raw_dict['animalname'],animalgroup=raw_dict['animalgroup'],breeder=raw_dict['breeder'],currentframescore=raw_dict['currentframescore'],damframescore=raw_dict['damframescore'],comments=raw_dict['comments'],species=raw_dict['species'],weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
                 master.add(master)
                 print >> sys.stderr, "data for basic post {}".format(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
@@ -75,7 +75,7 @@ class table_basics(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber= raw_dict['cownumber'],ts = None,weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= raw_dict['cownumber'],ts = None, animalname=raw_dict['animalname'], animalgroup=raw_dict['animalgroup'], breeder=raw_dict['breeder'], currentframescore=raw_dict['currentframescore'], damframescore=raw_dict['damframescore'], comments=raw_dict['comments'], species=raw_dict['species'], weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
                 master.add(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
@@ -112,8 +112,8 @@ class table_animal_inventory(Resource):
                 schemaAnimal.validate(raw_dict)
                 #Create a master object with the API data recieved
                 animal = Animal_Inventory(cownumber= raw_dict['cownumber'],ts = None, brand=raw_dict['brand'], brandlocation=raw_dict['brandlocation'],tattooleft=raw_dict['tattooleft'],tattooright=raw_dict['tattooright'],alternativeid=raw_dict['alternativeid'],
-                                       registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],
-                                       dateacquired = raw_dict['dateacquired'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
+                                       registration=raw_dict['registration'],color=raw_dict['color'],hornstatus=raw_dict['hornstatus'],dam=raw_dict['dam'],sire=raw_dict['sire'],dob= raw_dict['dob'],howacquired=raw_dict['howacquired'],includeinlookups=raw_dict['includeinlookups'],
+                                       dateacquired = raw_dict['dateacquired'], herdnumberlocation=raw_dict['herdnumberlocation'], herdstatus=raw_dict['herdstatus'], howconceived=raw_dict['howconceived'], managementcode=raw_dict['managecode'], ownerID=raw_dict['ownerID'], springfall=raw_dict['springfall'], howdisposed = raw_dict['howdisposed'], datedisposed = raw_dict['datedisposed'], disposalreason = raw_dict['disposalreason'])
                 animal.add(animal)
                 query = Animal_Inventory.query.all()
                 results = schemaAnimal.dump(query, many = True).data
@@ -204,7 +204,17 @@ class table_experiment(Resource):
             # Create a master object with the API data recieved
             experiment = Experiment(cownumber=raw_dict['cownumber'],ts = None, dam=raw_dict['dam'], sire=raw_dict['sire'],
                                     birthweight=raw_dict['birthweight'],
-                                    damframescore=raw_dict['damframescore'],
+                                    birthweightadj=raw_dict['birthweightadj'],
+                                    conditionscoreweaning2015=raw_dict['conditionscoreweaning2015'],
+                                    conditionscoreweaning2016=raw_dict['conditionscoreweaning2016'],
+                                    bcsrecent=raw_dict['bcsrecent'],
+                                    bcsprevious=raw_dict['bcsprevious'],
+                                    bcsdifference=raw_dict['bcsdifference'],
+                                    damwtatwan=raw_dict['damageatwean'],
+                                    weangpd=raw_dict['weangpd'],
+                                    weanhipht=raw_dict['weanhipht'],
+                                    weanwda=raw_dict['weanwda'],
+                                    weanweightdate=raw_dict['weanweightdate'],
                                     sireframescore=raw_dict['sireframescore'],
                                     weanheight=raw_dict['weanheight'], weanweight=raw_dict['weanweight'],
                                     adj205w=raw_dict['adj205w'], weandate=raw_dict['weandate'],
@@ -217,6 +227,9 @@ class table_experiment(Resource):
                                     adjyearlingh=raw_dict['adjyearlingh'],
                                     yearlingframescore=raw_dict['yearlingframescore'],
                                     ageatyearling=raw_dict['ageatyearling'],
+                                    currentwtcow=raw_dict['currentwtcow'],
+                                    currentwtheifer=raw_dict['currentwtheifer'],
+                                    adj365dht=raw_dict['adj365dht'],
                                     customweight=raw_dict['customweight'],
                                     customweightdate=raw_dict['customweightdate'],
                                     customheight=raw_dict['customheight'],
@@ -279,6 +292,7 @@ class table_reproduction(Resource):
             reproduction = Reproduction(cownumber=raw_dict['cownumber'],ts = None,
                                         breeding=raw_dict['breeding'],
                                         pregnancy=raw_dict['pregnancy'],
+                                        siblingcode=raw_dict['siblingcode'],
                                         calfatside=raw_dict['calfatside'],
                                         totalcalves=raw_dict['totalcalves'],
                                         previouscalf=raw_dict['previouscalf'],
@@ -291,7 +305,10 @@ class table_reproduction(Resource):
                                         damcalvingdisposition=raw_dict['damcalvingdisposition'],
                                         calvingease=raw_dict['calvingease'],
                                         udderscore=raw_dict['udderscore'],
-                                        comments=raw_dict['comments'],
+                                        conditionscorecalving = raw_dict['conditionscorecalving'],
+                                        hiphtweaning2015=raw_dict['hiphtweaning2015'],
+                                        hiphtwewaning2016=raw_dict['hiphtweaning2016'],
+                                        hiphtbreeding2016=raw_dict['hiphtbreeding2016'],
                                         damdisposition=raw_dict['damdisposition'],
                                         cowframescore=raw_dict['cowframescore'],
                                         cowwtbreeding=raw_dict['cowwtbreeding'],
