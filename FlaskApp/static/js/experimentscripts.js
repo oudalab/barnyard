@@ -45,16 +45,23 @@
 						var masterData = {
 							cownumber : variable,
 							height : data.data.attributes.height,
-							weight :data.data.attributes.weight,
-							eartag :data.data.attributes.eartag,
+							weight : data.data.attributes.weight,
+							eartag : data.data.attributes.eartag,
 							eid : data.data.attributes.eid,
 							sex : data.data.attributes.sex,
-							pasturenumber :data.data.attributes.pasturenumber,
-							breed :data.data.attributes.breed,
-							status :data.data.attributes.status,
-							trial :data.data.attributes.trial,
-							herd :data.data.attributes.herd,
-							animaltype :data.data.attributes.animaltype
+							pasturenumber : data.data.attributes.pasturenumber,
+							breed : data.data.attributes.breed,
+							status : data.data.attributes.status,
+							trial : data.data.attributes.trial,
+							herd : data.data.attributes.herd,
+							animaltype : data.data.attributes.animaltype,
+							animalname : data.data.attributes.animalname,
+							animalgroup : data.data.attributes.animalgroup,
+							breeder : data.data.attributes.breeder,
+							currentframescore : data.data.attributes.currentframescore,
+							damframescore : data.data.attributes.damframescore,
+							comments : data.data.attributes.comments,
+							species : data.data.attributes.species
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -122,7 +129,14 @@
 							dateacquired  : data.data[0].attributes.dateacquired,
 							howdisposed  : data.data[0].attributes.howdisposed,
 							datedisposed  : data.data[0].attributes.datedisposed,
-							disposalreason  : data.data[0].attributes.disposalreason
+							disposalreason  : data.data[0].attributes.disposalreason,
+							herdnumberlocation : data.data[0].attributes.herdnumberlocation,
+							herdstatus : data.data[0].attributes.herdstatus,
+							howconceived : data.data[0].attributes.howconceived,
+							managementcode : data.data[0].attributes.managementcode,
+							ownerID : data.data[0].attributes.ownerID,
+							springfall : data.data[0].attributes.springfall,
+							includeinlookups : data.data[0].attributes.includeinlookups
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -173,8 +187,18 @@
 						var masterData = {
 							cownumber : variable,
 							birthweight : data.data[0].attributes.birthweight,
-							damframescore : data.data[0].attributes.damframescore,
+							birthweightadj : data.data[0].attributes.birthweightadj,
 							sireframescore : data.data[0].attributes.sireframescore,
+							conditionscoreweaning2015 : data.data[0].attributes.conditionscoreweaning2015,
+							conditionscoreweaning2016 : data.data[0].attributes.conditionscoreweaning2016,
+							bcsrecent : data.data[0].attributes.bcsrecent,
+							bcsprevious : data.data[0].attributes.bcsprevious,
+							bcsdifference : data.data[0].attributes.bcsdifference,
+							damwtatwean : data.data[0].attributes.damwtatwean,
+							weangpd : data.data[0].attributes.weangpd,
+							weanhipht : data.data[0].attributes.weanhipht,
+							weanwda : data.data[0].attributes.weanwda,
+							weanweightdate : data.data[0].attributes.weanweightdate,
 							weanheight : data.data[0].attributes.weanheight,
 							weanweight : data.data[0].attributes.weanweight,
 							weandate : data.data[0].attributes.weandate,
@@ -189,6 +213,9 @@
 							adjyearlingh  : data.data[0].attributes.adjyearlingh,
 							yearlingframescore  : data.data[0].attributes.yearlingframescore,
 							ageatyearling  : data.data[0].attributes.ageatyearling,
+							currentwtcow : data.data[0].attributes.currentwtcow,
+							currentwtheifer : data.data[0].attributes.currentwtheifer,
+							adj365dht : data.data[0].attributes.adj365dht,
 							customweight  : data.data[0].attributes.customweight,
 							customheight  : data.data[0].attributes.customheight,
 							customweightdate  : data.data[0].attributes.customweightdate,
@@ -199,7 +226,7 @@
 							replicate  : data.data[0].attributes.replicate,
 							dam  : data.data[0].attributes.dam,
 							sire  : data.data[0].attributes.sire,
-							dob  : data.data[0].attributes.dob
+							dob  : data.data[0].attributes.dob	
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -263,7 +290,11 @@
 							damcalvingdisposition : data.data[0].attributes.damcalvingdisposition,
 							calvingease : data.data[0].attributes.calvingease,
 							udderscore : data.data[0].attributes.udderscore,
-							comments : data.data[0].attributes.comments,
+							siblingcode : data.data[0].attributes.siblingcode,
+							conditionscorecalving : data.data[0].attributes.conditionscorecalving,
+							hiphtbreeding2016 : data.data[0].attributes.hiphtbreeding2016,
+							hiphtweaning2015 : data.data[0].attributes.hiphtweaning2015,
+							hiphtweaning2016 : data.data[0].attributes.hiphtweaning2016,
 							damdisposition : data.data[0].attributes.damdisposition,
 							cowframescore : data.data[0].attributes.cowframescore,
 							cowwtbreeding : data.data[0].attributes.cowwtbreeding,
@@ -402,7 +433,23 @@
 							animalspresent : data.data[0].attributes.animalspresent,
 							datein : data.data[0].attributes.datein,
 							dateout : data.data[0].attributes.dateout,
-							stockingrate : data.data[0].attributes.stockingrate
+							stockingrate : data.data[0].attributes.stockingrate,
+							pasturenumbergrazing : data.data[0].attributes.pasturenumbergrazing ,
+							sample : data.data[0].attributes.sample ,
+							biomass : data.data[0].attributes.biomass ,
+							DMavailable : data.data[0].attributes.DMavailable ,
+							cp : data.data[0].attributes.cp ,
+							cp1 : data.data[0].attributes.cp1 ,
+							cp2 : data.data[0].attributes.cp2 ,
+							cp3 : data.data[0].attributes.cp3 ,
+							cp4 : data.data[0].attributes.cp4 ,
+							pasturenumberburning : data.data[0].attributes.pasturenumberburning ,
+							dateburned : data.data[0].attributes.dateburned ,
+							qualityofburn : data.data[0].attributes.qualityofburn ,
+							pasturenumberpesticide : data.data[0].attributes.pasturenumberpesticide ,
+							chemicalname : data.data[0].attributes.chemicalname ,
+							applicationrate : data.data[0].attributes.applicationrate ,
+							applicationdate : data.data[0].attributes.applicationdate
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){

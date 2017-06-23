@@ -629,9 +629,9 @@
 								<div class="col-xs-2">
 									<input type="text" id="udderscore" class="form-control" placeholder="Udder Score">
 								</div>
-								<label for="conditionscorecalving2016" class="control-label col-xs-1">Condition Score Calving 2016</label>
+								<label for="conditionscorecalving" class="control-label col-xs-1">Condition Score Calving</label>
 								<div class="col-xs-2">
-									<input type="text" class="form-control" id="conditionscorecalving2016" placeholder="Condition Score Calving 2016">
+									<input type="text" class="form-control" id="conditionscorecalving" placeholder="Condition Score Calving 2016">
 								</div>
 							</div>
 							<div class="form-group">
@@ -641,7 +641,7 @@
 								</div>
 								<label for="hiphtweaning2016" class="control-label col-xs-1">Hip Ht Weaning 2016</label>
 								<div class="col-xs-2">
-									<input type="text" class="form-control" id="conditionscorecalving2016" placeholder="Hip Ht Weaning 2016">
+									<input type="text" class="form-control" id="hiphtweaning2016" placeholder="Hip Ht Weaning 2016">
 								</div>
 								<label for="hiphtbreeding2016" class="control-label col-xs-1">Hip Ht Breeding 2016</label>
 								<div class="col-xs-2">
@@ -888,31 +888,102 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="animalspresent" placeholder="Animals Present">
 							</div>
-						</div>
-						<div class="form-group">
 							<label class="control-label col-xs-1" for="date">Date In</label>
 							<div class="input-group col-xs-2">
 							   <input class="form-control" id="datein" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
+							
+							
 						</div>
 						<div class="form-group">
+							<label for="stockingrate" class="control-label col-xs-1">Stocking Rate</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="stockingrate" placeholder="Stocking Rate">
+							</div>
 							<label class="control-label col-xs-1" for="date">Date Out</label>
 							<div class="input-group col-xs-2">
 							   <input class="form-control" id="dateout" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
 						</div>
+						<h2>P Sampling</h2>
 						<div class="form-group">
-							<fieldset disabled>
-								<label for="stockingrate" class="control-label col-xs-1">Stocking Rate</label>
-								<div class="col-xs-2">
-									<input type="text" class="form-control" id="stockingrate" placeholder="Stocking Rate">
-								</div>
-							</fieldset>
+							<label for="pasturenumbergrazing" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumbergrazing" placeholder="Pasture Number">
+							</div>
+							<label for="sample" class="control-label col-xs-1">Sample</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="sample" placeholder="Sample">
+							</div>
+							<label for="biomass" class="control-label col-xs-1">BioMass</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="biomass" placeholder="Bio Mass">
+							</div>
+							<label for="DMavailable" class="control-label col-xs-1">DM Available</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="DMavailable" placeholder="DM Available">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="cp" class="control-label col-xs-1">CP</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="cp" placeholder="CP">
+							</div>
+							<label for="cp1" class="control-label col-xs-1">1</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp1" placeholder="1">
+							</div>
+							<label for="cp2" class="control-label col-xs-1">2</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp2" placeholder="2">
+							</div>
+							<label for="cp3" class="control-label col-xs-1">3</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp3" placeholder="3">
+							</div>
+							<label for="cp4" class="control-label col-xs-1">4</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp4" placeholder="4">
+							</div>
+						</div>
+						<h2>Burning</h2>
+						<div class="form-group">
+							<label for="pasturenumberburning" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumberburning" placeholder="Pasture Number">
+							</div>
+							<label for="qualityofburn" class="control-label col-xs-1">Quality of Burn</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="qualityofburn" placeholder="Quality of Burn">
+							</div>
+							<label class="control-label col-xs-1" for="date">Date Burned</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="dateburned" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							</div>
+						</div>
+						<h2>Herbicide/Pesticide</h2>
+						<div class="form-group">
+							<label for="pasturenumberpesticide" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumberpesticide" placeholder="Pasture Number">
+							</div>
+							<label for="chemicalname" class="control-label col-xs-1">Chemical Name</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="chemicalname" placeholder="Chemical Name">
+							</div>
+							<label for="applicationrate" class="control-label col-xs-1">Application Rate</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="applicationrate" placeholder="Application Rate">
+							</div>
+							<label class="control-label col-xs-1" for="date">Application Date</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="applicationdate" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							</div>
 						</div>
 						<div class="form-group">
 							<div class="container">
 							  <h2>P Sampling</h2>
-							  <table class="table table-hover">
+							  <table id="table_P_sampling" class="display" cellspacing="0" width="90%">
 								<thead>
 								  <tr>
 									<th>Pasture Number</th>
@@ -926,26 +997,13 @@
 									<th>4</th>
 								  </tr>
 								</thead>
-								<tbody>
-								  <tr>
-									<td>123</td>
-									<td>sample No.34</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-									<td>-</td>
-								  </tr>
-								</tbody>
 							  </table>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="container">
 							  <h2>Burning</h2>
-							  <table class="table table-hover">
+							  <table id="table_burning" class="display" cellspacing="0" width="90%">
 								<thead>
 								  <tr>
 									<th>Pasture Number</th>
@@ -953,20 +1011,13 @@
 									<th>Quality of Burn</th>
 								  </tr>
 								</thead>
-								<tbody>
-								  <tr>
-									<td>123</td>
-									<td>MM/DD/YYYY</td>
-									<td>75%</td>
-								  </tr>
-								</tbody>
 							  </table>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="container">
 							  <h2>Herbicide/Pesticide</h2>
-							  <table class="table table-hover">
+							  <table id="table_pesticide" class="display" cellspacing="0" width="90%">
 								<thead>
 								  <tr>
 									<th>Pasture Number</th>
@@ -975,14 +1026,6 @@
 									<th>Application Date</th>
 								  </tr>
 								</thead>
-								<tbody>
-								  <tr>
-									<td>123</td>
-									<td>xyz</td>
-									<td>2acres/hour</td>
-									<td>MM/DD/YYYY</td>
-								  </tr>
-								</tbody>
 							  </table>
 							</div>
 						</div>

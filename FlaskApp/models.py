@@ -219,8 +219,8 @@ class Animal_Inventory(db.Model, CRUD):
 	alternativeid = db.Column(db.Text)
 	registration = db.Column(db.Text)
 	color = db.Column(db.Text)
-	dam = db.Column(db.Text)
 	hornstatus = db.Column(db.Text)
+	dam = db.Column(db.Text)
 	sire = db.Column(db.Text)
 	dob = db.Column(db.Text)
 	howacquired = db.Column(db.Text)
@@ -237,8 +237,9 @@ class Animal_Inventory(db.Model, CRUD):
 	includeinlookups = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts,herdnumberlocation,herdstatus, howconceived, managementcode, brand, brandlocation, tattooleft, tattooright, alternativeid, registration, color, dam, hornstatus, sire, dob,
-				 howacquired, dateacquired,howdisposed,ownerID,springfall, includeinlookups, datedisposed, disposalreason):
+	def __init__(self, cownumber,ts,brand,brandlocation,tattooleft,tattooright,alternativeid,registration,color,
+				 hornstatus,dam,sire,dob,howacquired,dateacquired,howdisposed,datedisposed,disposalreason,
+				 herdnumberlocation,herdstatus,howconceived,managementcode,ownerID,springfall,includeinlookups):
 		self.cownumber = cownumber
 		self.brand = brand
 		self.brandlocation = brandlocation
@@ -277,8 +278,8 @@ class Animal_Inventory_Schema(Schema):
 	alternativeid = fields.String(validate=not_blank)
 	registration = fields.String(validate=not_blank)
 	color = fields.String(validate=not_blank)
+	hornstatus = fields.String(validate =not_blank)
 	dam = fields.String(validate=not_blank)
-	hornstatus = fields.String(validate=not_blank)
 	sire = fields.String(validate=not_blank)
 	dob = fields.String(validate=not_blank)
 	howacquired = fields.String(validate=not_blank)
@@ -369,7 +370,7 @@ class Experiment(db.Model, CRUD):
 		self.bcsrecent = bcsrecent
 		self.bcsprevious = bcsprevious
 		self.bcsdifference = bcsdifference
-		self.damwtatwean = damageatwean
+		self.damwtatwean = damwtatwean
 		self.sireframescore = sireframescore
 		self.weanheight = weanheight
 		self.weanweight = weanweight
@@ -444,7 +445,7 @@ class Experiment_Schema(Schema):
 	customheightdate = fields.String(validate=not_blank)
 	currentwtcow = fields.String(validate=not_blank)
 	currentwtheifer = fields.String(validate=not_blank)
-	adj365dheight = fields.String(validate=not_blank)
+	adj365dht = fields.String(validate=not_blank)
 	backfat = fields.Float(validate=not_blank)
 	treatment = fields.String(validate=not_blank)
 	blockpen = fields.String(validate=not_blank)
@@ -678,15 +679,50 @@ class Grazing(db.Model, CRUD):
 	datein = db.Column(db.Text)
 	dateout = db.Column(db.Text)
 	stockingrate = db.Column(db.Text)
+	pasturenumbergrazing = db.Column(db.Text)
+	sample = db.Column(db.Text)
+	biomass = db.Column(db.Text)
+	DMavailable = db.Column(db.Text)
+	cp = db.Column(db.Text)
+	cp1 = db.Column(db.Text)
+	cp2 = db.Column(db.Text)
+	cp3 = db.Column(db.Text)
+	cp4 = db.Column(db.Text)
+	pasturenumberburning = db.Column(db.Text)
+	dateburned = db.Column(db.Text)
+	qualityofburn = db.Column(db.Text)
+	pasturenumberpesticide = db.Column(db.Text)
+	chemicalname = db.Column(db.Text)
+	applicationrate = db.Column(db.Text)
+	applicationdate = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts, pastureacres, animalspresent, datein, dateout, stockingrate):
+	def __init__(self, cownumber,ts, pastureacres, animalspresent, datein, dateout, stockingrate,
+				 pasturenumbergrazing,sample,biomass,DMavailable,cp,cp1,cp2,cp3,cp4,
+				 pasturenumberburning,dateburned,qualityofburn,
+				 pasturenumberpesticide,chemicalname,applicationrate, applicationdate):
 		self.cownumber = cownumber
 		self.pastureacres = pastureacres
 		self.animalspresent = animalspresent
 		self.datein = datein
 		self.dateout = dateout
 		self.stockingrate = stockingrate
+		self.pasturenumbergrazing = pasturenumbergrazing
+		self.sample = sample
+		self.biomass = biomass
+		self.DMavailable = DMavailable
+		self.cp = cp
+		self.pasturenumberburning = pasturenumberburning
+		self.pasturenumberpesticide = pasturenumberpesticide
+		self.dateburned = dateburned
+		self.qualityofburn = qualityofburn
+		self.chemicalname = chemicalname
+		self.applicationrate = applicationrate
+		self.applicationdate = applicationdate
+		self.cp1 = cp1
+		self.cp2 = cp2
+		self.cp3 = cp3
+		self.cp4 = cp4
 		self.ts = ts
 
 
@@ -699,6 +735,22 @@ class Grazing_Schema(Schema):
 	datein = fields.String(validate=not_blank)
 	dateout = fields.String(validate=not_blank)
 	stockingrate = fields.String(validate=not_blank)
+	pasturenumbergrazing = fields.String(validate=not_blank)
+	sample = fields.String(validate=not_blank)
+	biomass = fields.String(validate=not_blank)
+	DMavailable = fields.String(validate=not_blank)
+	cp = fields.String(validate=not_blank)
+	cp1 = fields.String(validate=not_blank)
+	cp2 = fields.String(validate=not_blank)
+	cp3 = fields.String(validate=not_blank)
+	cp4 = fields.String(validate=not_blank)
+	pasturenumberburning = fields.String(validate=not_blank)
+	dateburned = fields.String(validate=not_blank)
+	qualityofburn = fields.String(validate=not_blank)
+	pasturenumberpesticide = fields.String(validate=not_blank)
+	chemicalname = fields.String(validate=not_blank)
+	applicationrate = fields.String(validate=not_blank)
+	applicationdate = fields.String(validate=not_blank)
 	ts = fields.DateTime(validate = not_blank)
 
 	# self links

@@ -198,6 +198,7 @@
 				calvingease : 0,
 				udderscore : 0,
 				siblingcode : 0,
+				conditionscorecalving : 0,
 				hiphtweaning2015 : 0,
 				hiphtweaning2016 : 0,
 				hiphtbreeding2016 : 0,
@@ -280,8 +281,24 @@
 				animalspresent : 0,
 				datein : 0,
 				dateout : 0,
-				stockingrate : 0
-			}
+				stockingrate : 0,
+				pasturenumbergrazing : 0,
+				sample : 0,
+				biomass : 0,
+				DMavailable : 0,
+				cp : 0,
+				cp1 : 0,
+				cp2 : 0,
+				cp3 : 0,
+				cp4 : 0,
+				pasturenumberburning : 0,
+				dateburned : 0,
+				qualityofburn : 0,
+				pasturenumberpesticide : 0,
+				chemicalname : 0,
+				applicationrate : 0,
+				applicationdate : 0
+				}
 			$.ajax({
 				url: '/api/grazing/',
 				data: grazing,
@@ -303,7 +320,6 @@
 		$('#search').click(function(e) {
 			var searchboxvalue = $('#cowSearch').val();
 			var radioValue = $("input[name='type']:checked").val();
-			getEID(searchboxvalue);
 			if(radioValue == "cownumber"){
 				$.ajax({
 					url: '/api/master_animal/'+searchboxvalue,

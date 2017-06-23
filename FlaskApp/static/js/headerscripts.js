@@ -1,4 +1,5 @@
     // SCRIPTS FROM HEADER
+	var allaroundcownumber = getQueryVariable("cownumber");
 	$(document).ready(function(){
         var date_input=$('input[name="date"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -9,6 +10,13 @@
             autoclose: true,
         })
     });
+	function difference2days(date1,date2){
+		var a = moment(date2, 'MM/DD/YYYY');
+		var b = moment(date1, 'MM/DD/YYYY');
+		var days = b.diff(a, 'days');
+		console.log(days);
+	return false;
+	}
 	$('body').on('focus',".datepicker_recurring_start", function(){
 		$(this).datepicker();
 	});
@@ -39,6 +47,7 @@
 					reproductionget(val.text);
 					medicalget(val.text);
 					grazingget(val.text);
+					datatablescall(val.text);
 					$.notify("Cow number "+cownumber+" is already on the list", "info");
 					$('#headerSearchbox').val('');
 					// break;
@@ -78,6 +87,7 @@
 		reproductionget(cownumber);
 		medicalget(cownumber);
 		grazingget(cownumber);
+		datatablescall(cownumber);
 	};
 	
 	// Code to Load Data 
@@ -251,7 +261,8 @@
 						var replicate  = data.data[0].attributes.replicate;
 						var dam  = data.data[0].attributes.dam;
 						var sire  = data.data[0].attributes.sire;
-						var dob  = data.data[0].attributes.dob;						
+						var dob  = data.data[0].attributes.dob;
+						difference2days(weandate,dob);						
 						$('#birthweight').val(birthweight);
 						$('#sireframescore').val(sireframescore);
 						$('#weanheight').val(weanheight);
@@ -331,6 +342,7 @@
 						var calvingease = data.data[0].attributes.calvingease;
 						var udderscore = data.data[0].attributes.udderscore;
 						var siblingcode = data.data[0].attributes.siblingcode;
+						var conditionscorecalving = data.data[0].attributes.conditionscorecalving;
 						var hiphtbreeding2016 = data.data[0].attributes.hiphtbreeding2016;
 						var hiphtweaning2015 = data.data[0].attributes.hiphtweaning2015;
 						var hiphtweaning2016 = data.data[0].attributes.hiphtweaning2016;
@@ -370,6 +382,7 @@
 						$('#calvingease option:selected').text(calvingease);
 						$('#udderscore').val(udderscore);
 						$('#siblingcode option:selected').text(siblingcode);
+						$('#conditionscorecalving').val(conditionscorecalving);
 						$('#hiphtweaning2015').val(hiphtweaning2015);
 						$('#hiphtweaning2016').val(hiphtweaning2016);
 						$('#hiphtbreeding2016').val(hiphtbreeding2016);
@@ -459,6 +472,37 @@
 						var datein = data.data[0].attributes.datein;
 						var dateout = data.data[0].attributes.dateout;
 						var stockingrate = data.data[0].attributes.stockingrate;
+						var pasturenumbergrazing = data.data[0].attributes.pasturenumbergrazing ;
+						var sample = data.data[0].attributes.sample ;
+						var biomass = data.data[0].attributes.biomass ;
+						var DMavailable = data.data[0].attributes.DMavailable ;
+						var cp = data.data[0].attributes.cp ;
+						var cp1 = data.data[0].attributes.cp1 ;
+						var cp2 = data.data[0].attributes.cp2 ;
+						var cp3 = data.data[0].attributes.cp3 ;
+						var cp4 = data.data[0].attributes.cp4 ;
+						var pasturenumberburning = data.data[0].attributes.pasturenumberburning ;
+						var dateburned = data.data[0].attributes.dateburned ;
+						var qualityofburn = data.data[0].attributes.qualityofburn ;
+						var pasturenumberpesticide = data.data[0].attributes.pasturenumberpesticide ;
+						var chemicalname = data.data[0].attributes.chemicalname ;
+						var applicationrate = data.data[0].attributes.applicationrate ;
+						var applicationdate = data.data[0].attributes.applicationdate ;
+						pasturenumbergrazing: $('#pasturenumbergrazing').val(pasturenumbergrazing);
+						sample: $('#sample').val(sample);
+						biomass: $('#biomass').val(biomass);
+						DMavailable: $('#DMavailable').val(DMavailable);
+						cp: $('#cp').val(cp);
+						cp1: $('#cp1').val(cp1);
+						cp2: $('#cp2').val(cp2);
+						cp3: $('#cp3').val(cp3);
+						cp4: $('#cp4').val(cp4);
+						pasturenumberburning: $('#pasturenumberburning').val(pasturenumberburning);
+						dateburned: $('#dateburned').val(dateburned);
+						qualityofburn: $('#qualityofburn').val(qualityofburn);
+						pasturenumberpesticide: $('#pasturenumberpesticide').val(pasturenumberpesticide);
+						chemicalname: $('#chemicalname').val(chemicalname);
+						applicationrate: $('#applicationrate').val(applicationrate);
 						pastureacres: $('#pastureacres').val(pastureacres);
 						animalspresent : $('#animalspresent').val(animalspresent);
 						datein : $('#datein').val(datein);
@@ -474,5 +518,95 @@
 		});
 	return false;
 	};
+	function datatablescall( variable) 
+	{
+		$(document).ready(function () {
+			$.ajax({
+				url : '/api/grazing/'+variable,
+				type : 'GET',
+				dataType : 'json',
+				success : function(data) {
+					assignToEventsColumns1(data);
+				}
+			});
+			function assignToEventsColumns1(data) {
+				var table = $('#table_P_sampling').dataTable({
+					"bAutoWidth" : false,
+					data : data.data,
+					"columns" : [ {
+						"data" : "attributes.pasturenumbergrazing"
+					}, {
+						"data" : "attributes.sample"
+					}, {
+						"data" : "attributes.biomass"
+					}, {
+						"data" : "attributes.DMavailable"
+					}, {
+						"data" : "attributes.cp"
+					}, {
+						"data" : "attributes.cp1"
+					}, {
+						"data" : "attributes.cp2"
+					}, {
+						"data" : "attributes.cp3"
+					}, {
+						"data" : "attributes.cp4"
+					} ]
+				})
+			}
+			
+		});
+	return false;
+	};
+	$(document).ready(function () {
+		$.ajax({
+            url : '/api/grazing/'+allaroundcownumber,
+            type : 'GET',
+            dataType : 'json',
+            success : function(data) {
+                assignToEventsColumns2(data);
+            }
+        });
+        function assignToEventsColumns2(data) {
+            var table = $('#table_burning').dataTable({
+                "bAutoWidth" : false,
+                data : data.data,
+                "columns" : [ {
+                    "data" : "attributes.pasturenumberburning"
+                }, {
+                    "data" : "attributes.dateburned"
+                }, {
+                    "data" : "attributes.qualityofburn"
+                } ]
+            });
+        }
+		
+	});
+	$(document).ready(function () {
+		$.ajax({
+            url : '/api/grazing/'+allaroundcownumber,
+            type : 'GET',
+            dataType : 'json',
+            success : function(data) {
+                assignToEventsColumns3(data);
+            }
+        });
+        function assignToEventsColumns3(data) {
+            var table = $('#table_pesticide').dataTable({
+                "bAutoWidth" : false,
+                data : data.data,
+				//order: [ 1, 'desc' ],
+                "columns" : [ {
+                    "data" : "attributes.pasturenumberpesticide"
+                }, {
+                    "data" : "attributes.chemicalname"
+                }, {
+                    "data" : "attributes.applicationrate"
+                }, {
+                    "data" : "attributes.applicationdate"
+                } ]
+            });
+        }	
+	});	
 
 
