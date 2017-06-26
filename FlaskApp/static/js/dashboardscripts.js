@@ -134,7 +134,8 @@
 			backfat : $('#backfat').val(),
 			treatment : $('#treatment').val(),
 			blockpen : $('#blockpen').val(),
-			replicate : $('#replicate').val()
+			replicate : $('#replicate').val(),
+			animaltype : $('#animaltype option:selected').text()
 			}
 			$.ajax({
 				url: '/api/experiment/',

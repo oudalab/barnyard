@@ -25,7 +25,13 @@ class table_eid(Resource):
 
     def get(self, eid):
         master_animal_query = Master_animal.query.filter_by(eid = eid).order_by(Master_animal.ts.desc()).first_or_404()
-        result = schemaMaster.dump(master_animal_query, many = False).data
+        result = schemaMaster.dump(master_animal_query, many=False).data
+        return result
+
+class table_animalname(Resource):
+    def get(self, animalname):
+        master_animal_query = Master_animal.query.filter_by(animalname=animalname).order_by(Master_animal.ts.desc()).first_or_404()
+        result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
 # master_animal table
@@ -233,6 +239,7 @@ class table_experiment(Resource):
                                     dam=raw_dict['dam'],
                                     sire=raw_dict['sire'],
                                     birthweight=raw_dict['birthweight'],
+                                    animaltype=raw_dict['animaltype'],
                                     birthweightadj=raw_dict['birthweightadj'],
                                     conditionscoreweaning2015=raw_dict['conditionscoreweaning2015'],
                                     conditionscoreweaning2016=raw_dict['conditionscoreweaning2016'],

@@ -1,5 +1,10 @@
     // SCRIPTS FROM HEADER
 	var allaroundcownumber = getQueryVariable("cownumber");
+	var cownamenumber = "";
+	function variablesave(variable){
+		cownamenumber = variable;
+	}
+	
 	$(document).ready(function(){
         var date_input=$('input[name="date"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -14,9 +19,83 @@
 		var a = moment(date2, 'MM/DD/YYYY');
 		var b = moment(date1, 'MM/DD/YYYY');
 		var days = b.diff(a, 'days');
-		console.log(days);
+		return days;
 	return false;
 	}
+	function adjusted205wtandht(data,days){
+		var answer = (data/days)*205;
+		return answer;
+	}
+	function adjusted365wtandht(data,days){
+		var answer = (data/days)*365;
+		return answer;
+	}
+	function framescorecalculate(days,hipht,animaltype){
+		if(days >=150 && days <=650){
+			if(animaltype == "bull" || animaltype == "Bull"){
+				var framescore = -11.548+((0.4878*(hipht +1)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht+1)*days)));
+				return framescore;
+			} else if(animaltype == "steer" || animaltype == "Steer"){
+				var framescore = -11.548+((0.4878*(hipht)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht)*days)));
+				return framescore;
+			} else if(animaltype == "heifer" || animaltype == "Heifer"){
+				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
+				return framescore;
+			} else if(animaltype == "cow" || animaltype == "Cow"){
+				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
+				return framescore;
+			} else{
+				console.log("Invalid Selection");
+			}
+		} else{
+			if(days>=651 && days<=1095){
+				var framescore = (-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.4;
+				return framescore;
+			}
+			else if(days>=1096 && days<=1460){
+				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.9;
+				return framescore;
+			}
+			else{
+				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-1.1;
+				return framescore;
+			}
+		}
+	}
+	function framescoreget(variable){
+		$.ajax({
+			url: '/api/animalname/'+variable,
+			data: {},
+			type: 'GET',
+			datatype : 'json',
+			success: function(data) {
+				var cownumber = data.data.attributes.cownumber;
+				console.log(cownumber);
+				$.ajax({
+					url: '/api/master_animal/'+cownumber,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						var currentframescore = data.data.attributes.currentframescore;
+						document.getElementById('sireframescore').value=currentframescore;
+						console.log(currentframescore);
+					}
+					,
+					error: function(error) {
+						console.log(error);
+						document.getElementById('sireframescore').value='0';
+						$.notify("Current Frame Score doesnt Exist does not exist", "danger");
+					}	
+				});
+			}
+			,
+			error: function(error) {
+				console.log(error);
+				$.notify("Cowname does not exist", "danger");
+			}	
+		});
+	};
 	$('body').on('focus',".datepicker_recurring_start", function(){
 		$(this).datepicker();
 	});
@@ -262,26 +341,28 @@
 						var dam  = data.data[0].attributes.dam;
 						var sire  = data.data[0].attributes.sire;
 						var dob  = data.data[0].attributes.dob;
-						difference2days(weandate,dob);						
+						var animaltype = data.data[0].attributes.animaltype;
+						//var framescoregot = framescoreget(dam);
+						var weandays = difference2days(weandate,dob);
+						var yearlingdays = difference2days(yearlingdate,dob);
 						$('#birthweight').val(birthweight);
-						$('#sireframescore').val(sireframescore);
+						$('#sireframescore').val(framescoreget(sire));
 						$('#weanheight').val(weanheight);
 						$('#weanweight').val(weanweight);
 						$('#weandate').val(weandate);
-						$('#adj205w').val(adj205w);
-						$('#adj205h').val(adj205h);
-						$('#weanframescore').val(weanframescore);
-						$('#ageatwean').val(ageatwean);
+						$('#adj205w').val(adjusted205wtandht(weanweight,weandays));
+						$('#adj205h').val(adjusted205wtandht(weanhipht,weandays));
+						$('#weanframescore').val(framescorecalculate(weandays,weanhipht,animaltype));
+						$('#ageatwean').val(difference2days(weandate,dob));
 						$('#yearlingheight').val(yearlingheight);
 						$('#yearlingweight').val(yearlingweight);
 						$('#yearlingdate').val(yearlingdate);
-						$('#adjyearlingh').val(adjyearlingh);
-						$('#adjyearlingw').val(adjyearlingw);
-						$('#yearlingframescore').val(yearlingframescore);
+						$('#adjyearlingh').val(adjusted365wtandht(yearlingheight,yearlingdays));
+						$('#adjyearlingw').val(adjusted365wtandht(yearlingweight,yearlingdays));
+						$('#yearlingframescore').val(framescorecalculate(yearlingdays,yearlingheight,animaltype));
 						$('#ageatyearling').val(ageatyearling);
 						$('#customweight').val(customweight);
 						$('#customheight').val(customheight);
-						$('#weanframescore').val(weanframescore);
 						$('#customheightdate').val(customheightdate);
 						$('#customweightdate').val(customweightdate);
 						$('#backfat').val(backfat);

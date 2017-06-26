@@ -312,6 +312,7 @@ class Experiment(db.Model, CRUD):
 	cownumber = db.Column(db.Integer, primary_key=True)
 	dam = db.Column(db.Text)
 	sire = db.Column(db.Text)
+	animaltype = db.Column(db.Text)
 	birthweight = db.Column(db.Text)
 	birthweightadj = db.Column(db.Text)
 	sireframescore = db.Column(db.Float)
@@ -353,7 +354,7 @@ class Experiment(db.Model, CRUD):
 	replicate = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
 
-	def __init__(self, cownumber,ts, dam, sire, birthweight,birthweightadj,
+	def __init__(self, cownumber,ts, dam, sire, birthweight,birthweightadj,animaltype,
 				 sireframescore, weanheight,conditionscoreweaning2015,conditionscoreweaning2016,
 				 bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
 				 adj205h, dob,weanframescore,weangpd,weanhipht,weanwda,weanweightdate, ageatwean,
@@ -363,6 +364,7 @@ class Experiment(db.Model, CRUD):
 		self.cownumber = cownumber
 		self.dam = dam
 		self.sire = sire
+		self.animaltype = animaltype
 		self.birthweight = birthweight
 		self.birthweightadj = birthweightadj
 		self.conditionscoreweaning2015 = conditionscoreweaning2015
@@ -411,6 +413,7 @@ class Experiment_Schema(Schema):
 	cownumber = fields.Integer(validate=not_blank)
 	dam = fields.String(validate=not_blank)
 	sire = fields.String(validate=not_blank)
+	animaltype = fields.String(validate=not_blank)
 	birthweight = fields.Float(validate=not_blank)
 	birthweightadj = fields.String(validate=not_blank)
 	conditionscoreweaning2015 = fields.String(validate=not_blank)
