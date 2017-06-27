@@ -189,11 +189,6 @@ def signup():
         elif request.method == "GET":
                 return render_template(("signup.html"), form= form)
 
-@app.route('/iacuc')
-@login_required
-def iacuc():
-    return render_template("IACUC.html")
-
 
 
 if __name__ == '__main__':
