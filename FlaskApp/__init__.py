@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_eid, table_animalname
+    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall
 from secrets import whole_string, short_string
 import config
 import logging
@@ -48,6 +48,7 @@ api.add_resource(table_group, '/api/group/', endpoint = "7")
 api.add_resource(table_herd_change, '/api/herd_change/')
 api.add_resource(table_eid, '/api/eid/<eid>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
+api.add_resource(table_groupall, '/api/groupall/')
 
 #Login Manager
 login_manager = LoginManager()
@@ -102,6 +103,11 @@ def herdchange():
 @login_required
 def cowgroup():
     return render_template("experiment.html")
+
+@app.route('/allexperimentpage')
+@login_required
+def allexperiment():
+    return render_template("allexperimentpage.html")
 
 @app.route('/experimentupdate', methods = ['GET','POST'])
 @login_required

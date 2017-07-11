@@ -39,6 +39,7 @@ var dictionary = {
 		"disposalreason" : {type: "text", values:[""], table:"animal_inventory"},
 		"dam" : {type: "text", values:[""], table:"experiment"},
 		"sire" : {type: "text", values:[""], table:"experiment"},
+		"animaltype" : {type: "drop", values:["Cow","Steer","Heifer","Calf","Bull"], table:"experiment"},
 		"sireframescore" : {type: "text", values:[""], table:"experiment"},
 		"dobexperiment" : {type: "date", values:[""], table:"experiment"},
 		"weanheight" : {type: "text", values:[""], table:"exeriment"},

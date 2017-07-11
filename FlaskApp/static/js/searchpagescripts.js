@@ -1,25 +1,4 @@
 	// SCRIPTS FOR SEARCH PAGE
-	var callbackreturn;
-	function callback(response){
-		callbackreturn = response;
-	}
-	function getEID(eid){
-		$.ajax({
-			url: '/api/eid/'+eid,
-			data: {},
-			type: 'GET',
-			datatype : 'json',
-			success: function(data) {
-				var cownumber = data.data.attributes.cownumber;
-				callback(cownumber);
-			}
-			,
-			error: function(error) {
-				console.log(error);
-				$.notify("EID does not exist", "danger");
-			}	
-		});
-	};
 	function inputDataBasic() {
 		// $(document).ready(function(e) {
 			var basic = {
@@ -158,7 +137,8 @@
 				backfat : 0,
 				treatment : 0,
 				blockpen : 0,
-				replicate : 0
+				replicate : 0,
+				animaltype : 0
 			}
 			$.ajax({
 				url: '/api/experiment/',
@@ -335,43 +315,68 @@
 					}
 				});
 			}
-			else if(radioValue == "groupnumber") {
+			else if(radioValue == "animalname") {
+				var searchboxvalue = $('#cowSearch').val();
 				$.ajax({
-					url: '/api/group/'+searchboxvalue,
-					data: $('form').serialize(),
-					type: 'GET',
-					success: function(data) {
-						window.location.href = '/experiment?groupnumber='+searchboxvalue
-						console.log(data);
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Group number doesnt exist", "danger");
-					}
-				});
-			}
-			else if(radioValue == "eid") {
-				getEID(searchboxvalue);
-				var cownumber1 = callbackreturn;
-				if (cownumber1 != 0){
-					$.ajax({
-						url: '/api/master_animal/'+cownumber1,
-						data: $('form').serialize(),
+						url: '/api/animalname/'+searchboxvalue,
+						data: {},
 						type: 'GET',
+						datatype : 'json',
 						success: function(data) {
-							window.location.href = '/dashboard?cownumber='+cownumber
-							console.log(data);
+							var cownumber = data.data.attributes.cownumber;
+							$.ajax({
+								url: '/api/master_animal/'+cownumber,
+								data: $('form').serialize(),
+								type: 'GET',
+								success: function(data) {
+									window.location.href = '/dashboard?cownumber='+cownumber
+									console.log(data);
+								},
+								error: function(error) {
+									console.log(error);
+									$.notify("Animal number doesnt exist", "danger");
+								}
+							});
 						},
 						error: function(error) {
 							console.log(error);
-							$.notify("Group number doesnt exist", "danger");
+							$.notify("Cow number doesnt exist", "danger");
 						}
 					});
-				}
+			}
+			else if(radioValue == "eid") {
+				var searchboxvalue = $('#cowSearch').val();
+				$.ajax({
+						url: '/api/eid/'+searchboxvalue,
+						data: {},
+						type: 'GET',
+						datatype : 'json',
+						success: function(data) {
+							var cownumber = data.data.attributes.cownumber;
+								$.ajax({
+									url: '/api/master_animal/'+cownumber,
+									data: $('form').serialize(),
+									type: 'GET',
+									success: function(data) {
+										window.location.href = '/dashboard?cownumber='+cownumber
+										console.log(data);
+									},
+									error: function(error) {
+										console.log(error);
+										$.notify("Group number doesnt exist", "danger");
+									}
+								});
+						},
+						error: function(error) {
+							console.log(error);
+							$.notify("EID does not exist", "danger");
+						}	
+				});
 			}
 			else {
+				var searchboxvalue = $('#cowSearch').val();
 				$.ajax({
-					url: '/api/master_animal/'+searchboxvalue,
+					url: '/api/group/'+searchboxvalue,
 					data: $('form').serialize(),
 					type: 'GET',
 					success: function(data) {

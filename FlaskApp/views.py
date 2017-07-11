@@ -34,6 +34,13 @@ class table_animalname(Resource):
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
+class table_groupall(Resource):
+    def get(self):
+        group_query = Group.query.all()
+        result = schemaGroup.dump(group_query, many=True).data
+        # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
+        return result
+
 # master_animal table
 class table_basics(Resource):
 

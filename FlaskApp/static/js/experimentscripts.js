@@ -187,6 +187,7 @@
 						var masterData = {
 							cownumber : variable,
 							birthweight : data.data[0].attributes.birthweight,
+							animaltype : data.data[0].attributes.animaltype,
 							birthweightadj : data.data[0].attributes.birthweightadj,
 							sireframescore : data.data[0].attributes.sireframescore,
 							conditionscoreweaning2015 : data.data[0].attributes.conditionscoreweaning2015,
@@ -499,15 +500,28 @@
 				datatype : 'json',
 				success: function(data) {
 					console.log(data);
-					var attributes = $.parseJSON(data[0].attributes);
-					var groupname = data[0].groupname;
-					var cownumber = $.parseJSON(data[0].cownumber);
-					var groupdescription = data[0].groupdescription;
+					var attributes = $.parseJSON(data.data[0].attributes.attributes);
+					var groupnumber = data.data[0].attributes.groupnumber;
+					var groupname = data.data[0].attributes.groupname;
+					var animalname = $.parseJSON(data.data[0].attributes.cownumber);
+					var groupdescription = data.data[0].attributes.groupdescription;
 					$('#groupnumber').val(groupnumber);
 					$('#groupname').val(groupname);
 					$('#groupdescription').val(groupdescription);
-					$(cownumber).each(function(i,elem){
-						$("<li><a onclick='callall("+elem+")'> "+elem+"</a></li>").appendTo("#cowlist");
+					$(animalname).each(function(i,elem){
+						$.ajax({
+								url: '/api/animalname/'+elem,
+								data: {},
+								type: 'GET',
+								datatype : 'json',
+								success: function(data) {
+									var cownumber = data.data.attributes.cownumber;
+									$("<li><a onclick='callall("+cownumber+")'>"+elem+" - "+cownumber+"</a></li>").appendTo("#cowlist");
+								},
+								error: function(error){
+									console.log(error)
+								}
+						});
 					});
 					$(attributes).each(function(i,elem){
 						if(i == 0){

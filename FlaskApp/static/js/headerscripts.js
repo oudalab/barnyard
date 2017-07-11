@@ -1,9 +1,5 @@
     // SCRIPTS FROM HEADER
 	var allaroundcownumber = getQueryVariable("cownumber");
-	var cownamenumber = "";
-	function variablesave(variable){
-		cownamenumber = variable;
-	}
 	
 	$(document).ready(function(){
         var date_input=$('input[name="date"]'); //our date input has the name "date"
@@ -92,7 +88,7 @@
 			,
 			error: function(error) {
 				console.log(error);
-				$.notify("Cowname does not exist", "danger");
+				$.notify("Sire Frame Score does not exist", "danger");
 			}	
 		});
 	};
@@ -115,46 +111,71 @@
 		});
 	$(document).ready(function(){	
 		$('#headersearch').click(function(){
-			var cownumber = $('#headerSearchbox').val();
-			var exists = false;
-			$("#latestcow li a").each(function( i, val ) {
-				if ($.trim(val.text) == cownumber){ 
-					exists = true;
-					basicget(val.text);
-					animal_inventoryget(val.text);
-					experimentget(val.text);
-					reproductionget(val.text);
-					medicalget(val.text);
-					grazingget(val.text);
-					datatablescall(val.text);
-					$.notify("Cow number "+cownumber+" is already on the list", "info");
-					$('#headerSearchbox').val('');
-					// break;
-				}
-			});
-			if (exists == false)
-			{
-				$.ajax({
-					url: '/api/master_animal/'+cownumber,
-					data: $('form').serialize(),
+			var searchboxvalue = $('#headerSearchbox').val();
+			$.ajax({
+					url: '/api/animalname/'+searchboxvalue,
+					data: {},
 					type: 'GET',
-					success: function(response) {
-						basicget(cownumber);
-						animal_inventoryget(cownumber);
-						experimentget(cownumber);
-						reproductionget(cownumber);
-						medicalget(cownumber);
-						grazingget(cownumber);
-						console.log("this is the cownumber" +response);
-						$("<li><a onclick='callall("+cownumber+")'> "+cownumber+"</a></li>").prependTo("#latestcow");
-						$('#headerSearchbox').val('');
+					datatype : 'json',
+					success: function(data) {
+						var cownumber = data.data.attributes.cownumber;
+						$.ajax({
+							url: '/api/master_animal/'+cownumber,
+							data: $('form').serialize(),
+							type: 'GET',
+							success: function(data) {
+								var exists = false;
+								$("#latestcow li a").each(function( i, val ) {
+									if ($.trim(val.text) == searchboxvalue){ 
+										exists = true;
+										basicget(val.text);
+										animal_inventoryget(val.text);
+										experimentget(val.text);
+										reproductionget(val.text);
+										medicalget(val.text);
+										grazingget(val.text);
+										datatablescall(val.text);
+										$.notify("Cow number "+searchboxvalue+" - "+cownumber+" is already on the list", "info");
+										$('#headerSearchbox').val('');
+										// break;
+									}
+								});
+								if (exists == false)
+								{
+									$.ajax({
+										url: '/api/master_animal/'+cownumber,
+										data: $('form').serialize(),
+										type: 'GET',
+										success: function(response) {
+											var animalname = response.data.attributes.animalname;
+											basicget(cownumber);
+											animal_inventoryget(cownumber);
+											experimentget(cownumber);
+											reproductionget(cownumber);
+											medicalget(cownumber);
+											grazingget(cownumber);
+											console.log("this is the cownumber" +response);
+											$("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
+											$('#headerSearchbox').val('');
+										},
+										error: function(error) {
+											console.log(error);
+											$.notify("Cow number doesnt exist", "danger");
+										}	
+									})
+								}
+							},
+							error: function(error) {
+								console.log(error);
+								$.notify("Animal number doesnt exist", "danger");
+							}
+						});
 					},
 					error: function(error) {
 						console.log(error);
-						$.notify("Cow number doesnt exist", "danger");
-					}	
-				})
-			}
+						$.notify("Animal Name doesnt exist", "danger");
+					}
+			});
 			return false;
 		});
 	});

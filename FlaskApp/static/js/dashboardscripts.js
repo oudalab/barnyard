@@ -296,12 +296,24 @@
 	});
 	$(document).ready(function(){
 		var cownumber = getQueryVariable("cownumber")
-		basicget(cownumber);
-		animal_inventoryget(cownumber);
-		experimentget(cownumber);
-		reproductionget(cownumber);
-		medicalget(cownumber);
-		grazingget(cownumber);
-		$("<li><a onclick='callall("+cownumber+")'> "+cownumber+"</a></li>").prependTo( "#latestcow");
+		$.ajax({
+				url: '/api/master_animal/'+cownumber,
+				data: $('form').serialize(),
+				type: 'GET',
+				success: function(response) {
+					var animalname = response.data.attributes.animalname;
+					basicget(cownumber);
+					animal_inventoryget(cownumber);
+					experimentget(cownumber);
+					reproductionget(cownumber);
+					medicalget(cownumber);
+					grazingget(cownumber);
+					$("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
+				},
+				error: function(error) {
+					console.log(error);
+					$.notify("Cow number doesnt exist", "danger");
+				}	
+		});
 	});
 	
