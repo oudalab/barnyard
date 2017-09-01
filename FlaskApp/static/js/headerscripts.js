@@ -40,6 +40,9 @@
 			} else if(animaltype == "cow" || animaltype == "Cow"){
 				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
 				return framescore;
+			} else if(animaltype == "calf" || animaltype == "Calf"){
+				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
+				return framescore;
 			} else{
 				console.log("Invalid Selection");
 			}
@@ -710,5 +713,28 @@
             });
         }	
 	});	
-
+	$(document).ready(function () {
+		$.ajax({
+            url : '/api/experiment/'+allaroundcownumber,
+            type : 'GET',
+            dataType : 'json',
+            success : function(data) {
+                assignToEventsColumns4(data);
+            }
+        });
+        function assignToEventsColumns4(data) {
+            var table = $('#experiment_table').dataTable({
+                "bAutoWidth" : false,
+                data : data.data,
+				//order: [ 1, 'desc' ],
+                "columns" : [ {
+                    "data" : "attributes.cownumber"
+                }, {
+                    "data" : "attributes.weandate"
+                }, {
+                    "data" : "attributes.weanframescore"
+                } ]
+            });
+        }	
+	});
 

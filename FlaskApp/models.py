@@ -73,7 +73,7 @@ class UsersSchema(Schema):
 	email = fields.Email(validate=not_blank)
 	password = fields.String(validate=not_blank)
 	firstname = fields.String(validate=not_blank)
-	lasttname = fields.String(validate=not_blank)
+	lastname = fields.String(validate=not_blank)
 	
     # self links
 	def get_top_level_links(self, data, many):
@@ -767,6 +767,7 @@ class Grazing_Schema(Schema):
 	class Meta:
 		type_ = 'grazing'
 
+#Linked to cowgroup table and group all api call
 class Group(db.Model, CRUD):
 	__tablename__ = 'cowgroup'
 	cownumber = db.Column(db.Text)

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from models import UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
+from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
     Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema
 from flask_restful import Api, Resource
@@ -19,7 +19,16 @@ schemaAnimalMedical = Medical_Schema()
 schemaGrazing = Grazing_Schema()
 schemaGroup = Group_Schema()
 schemaHerd = Herd_Change_Schema()
+schemaUsers = UsersSchema()
 
+class table_users_roles(Resource):
+
+    def get(self):
+        #users_query = Users.query.all()
+        users_query = Users.query.with_entities(Users.lastname, Users.email, Users.firstname)
+        result = schemaUsers.dump(users_query, many= True).data
+        print >> sys.stderr, "This is query for user roles{}".format(result)
+        return result
 
 class table_eid(Resource):
 
@@ -34,6 +43,7 @@ class table_animalname(Resource):
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
+# Used for all experiments page
 class table_groupall(Resource):
     def get(self):
         group_query = Group.query.all()
