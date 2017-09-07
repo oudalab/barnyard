@@ -18,6 +18,12 @@ app.config['SQLALCHEMY_TRACK_MODOFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 db = SQLAlchemy(app)
 
+# triggers for database
+trig_ddl_1 = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(cownumber)+1 from master_animal) WHERE cownumber = -1; END;''')
+
+trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herd_change BEGIN update herd_change set uid = (select max(rowid)+1 from herd_change) WHERE uid = -1; END;''')
+
+trig_ddl_3 = DDL('''CREATE TRIGGER userid_trigger AFTER INSERT ON users BEGIN update users set userid = (select max(userid)+1 from users) WHERE userid = -1; END;''')
 
 #Class to add, update and delete data via SQLALchemy sessions
 class CRUD():   
@@ -38,11 +44,15 @@ class CRUD():
 #Our Users Models, which will inherit Flask-SQLAlchemy Model class and the CRUD class defined above
 class Users(db.Model, CRUD):
 	__tablename__ = 'users'
-	uid = db.Column(db.Integer,primary_key = True)
+	uid = db.Column(db.Integer)
 	firstname = db.Column(db.Text)
 	lastname = db.Column(db.Text)
 	email = db.Column(db.Text, unique = True)
 	pwdhash = db.Column(db.Text)
+	roles = db.Column(db.Text, default = "UNASSIGNED")
+	userid = db.Column(db.Integer, primary_key=True, default = -1)
+	registered_at = db.Column(DateTime(timezone=True), server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), server_default=func.now())
 
 	def is_authenticated(self):
 		return self.authenticated
@@ -60,11 +70,15 @@ class Users(db.Model, CRUD):
 	def get_id(self):
 		return self.email
 
-	def __init__(self, firstname, lastname, email, password):
+	def __init__(self, firstname, lastname, email, password, roles, userid, registered_at,ts):
 		self.firstname = firstname
 		self.lastname = lastname
 		self.email = email
 		self.set_password(password)
+		self.roles = roles
+		self.userid = userid
+		self.registered_at = registered_at
+		self.ts = ts
 
 
 class UsersSchema(Schema):
@@ -74,13 +88,17 @@ class UsersSchema(Schema):
 	password = fields.String(validate=not_blank)
 	firstname = fields.String(validate=not_blank)
 	lastname = fields.String(validate=not_blank)
+	roles = fields.String(validate = not_blank)
+	userid = fields.Integer(validate = not_blank)
+	registered_at = fields.DateTime(validate=not_blank)
+	ts = fields.DateTime(validate=not_blank)
 	
     # self links
 	def get_top_level_links(self, data, many):
 		if many:
 			self_link = "/users/"
 		else:
-			self_link = "/users/{}".format(data['uid'])
+			self_link = "/users/{}".format(data['userid'])
 		return {'self': self_link}
 		
 	class Meta:
@@ -166,9 +184,6 @@ class Master_animal_Schema(Schema):
 	class Meta:
 		type_ = 'master_animal'
 
-
-
-trig_ddl_1 = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(cownumber)+1 from master_animal) WHERE cownumber = -1; END;''')
 
 
 class Medical_Inventory(db.Model, CRUD):
@@ -826,7 +841,6 @@ class Herd_Change(db.Model, CRUD):
 		self.ts = ts
 		self.uid = uid
 
-trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herd_change BEGIN update herd_change set uid = (select max(rowid)+1 from herd_change) WHERE uid = -1; END;''')
 
 
 class Herd_Change_Schema(Schema):

@@ -1,3 +1,7 @@
+	// imported into experiment.html
+	
+	
+	
 	$('#experiment_update').click(function(e){
 		var cownumber = $('#cownumber').val();
 		callAllExperiment(cownumber);

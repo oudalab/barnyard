@@ -21,14 +21,70 @@ schemaGroup = Group_Schema()
 schemaHerd = Herd_Change_Schema()
 schemaUsers = UsersSchema()
 
-class table_users_roles(Resource):
 
+class table_users_a(Resource):
+# "a" for all (All users)
+# this api is specifically used to pull all of the users to populate the list on the left on user_management.html
     def get(self):
-        #users_query = Users.query.all()
-        users_query = Users.query.with_entities(Users.lastname, Users.email, Users.firstname)
+        users_query = Users.query.all()
+        #users_query = Users.query.with_entities(Users.lastname, Users.email, Users.firstname, Users.roles, Users.uid)
         result = schemaUsers.dump(users_query, many= True).data
         print >> sys.stderr, "This is query for user roles{}".format(result)
         return result
+
+class table_users_s(Resource):
+# "s" for specific (specific user)
+    def get(self,userid):
+        print >> sys.stderr, "This is the results of the get request from Users_S {}".format(userid)
+
+    def post(self):
+        raw_dict = request.form
+        try:
+            # Validate the data or raise a Validation error if
+            schemaUsers.validate(raw_dict)
+            # Create a master object with the API data recieved
+            users = Users(firstname=raw_dict['firstname'], lastname=raw_dict['lastname'], email = raw_dict['email'], password=raw_dict['password'], roles = "UNASSIGNED",userid = None, registered_at=None, ts=None)
+            users.add(users)
+            query = Users.query.all()
+            results = schemaUsers.dump(query, many=True).data
+            return jsonify(results)
+            # return results, 201
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+    def patch(self, userid):
+        users_query = Users.query.get_or_404(userid)
+        print >> sys.stderr, "This is the start of the patch Users_S {}".format(userid)
+        raw_dict = request.form
+        try:
+            schemaUsers.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(users_query, key, value)
+
+            users_query.update()
+            print >> sys.stderr, "This is the results of PATCH Users_S {}".format(userid)
+            return self.get(userid)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
+
 
 class table_eid(Resource):
 
@@ -608,7 +664,6 @@ class table_herd_change(Resource):
 
     def post(self):
         raw_dict = request.form
-        # master_dict = raw_dict['data']['attributes']
         try:
             # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)

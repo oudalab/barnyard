@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_roles
+    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s
 from secrets import whole_string, short_string
 import config
 import logging
@@ -49,7 +49,11 @@ api.add_resource(table_herd_change, '/api/herd_change/')
 api.add_resource(table_eid, '/api/eid/<eid>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
 api.add_resource(table_groupall, '/api/groupall/')
-api.add_resource(table_users_roles, '/api/users/')
+# "a" for all (All users)
+api.add_resource(table_users_a, '/api/users_a/')
+# "s" for all (Single user)
+api.add_resource(table_users_s, '/api/users_s/', endpoint = "8")
+api.add_resource(table_users_s, '/api/users_s/<userid>')
 
 #Login Manager
 login_manager = LoginManager()
@@ -112,6 +116,7 @@ def allexperiment():
 
 @app.route('/experimentupdate', methods = ['GET','POST'])
 @login_required
+# route used to make POST call in experimentscript.js
 def experimentupdate():
     #necessary schemas for all tables
     schemaMaster = Master_animal_Schema()
@@ -178,6 +183,10 @@ def signout():
 @app.errorhandler(404)
 def page_not_found(e):
         return render_template("404.html")
+@app.route('/signup2', methods = ['GET', 'POST'])
+def signup2():
+    return render_template("signup2.html")
+
 
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
@@ -197,10 +206,10 @@ def signup():
                 return render_template(("signup.html"), form= form)
 
 #Admin management of users and roles
-@app.route('/user_management', methods = ['GET', 'POST'])
+@app.route('/users_management', methods = ['GET', 'POST'])
 @login_required
-def user_management():
-    return render_template("user_management.html")
+def users_management():
+    return render_template("users_management.html")
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)
