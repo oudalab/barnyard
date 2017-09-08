@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
-    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema
+    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
@@ -20,6 +20,7 @@ schemaGrazing = Grazing_Schema()
 schemaGroup = Group_Schema()
 schemaHerd = Herd_Change_Schema()
 schemaUsers = UsersSchema()
+schemaDrugDic = Drug_Inventory_Dic_Schema()
 
 
 class table_users_a(Resource):
@@ -35,8 +36,9 @@ class table_users_a(Resource):
 class table_users_s(Resource):
 # "s" for specific (specific user)
     def get(self,userid):
-        print >> sys.stderr, "This is the results of the get request from Users_S {}".format(userid)
-
+        users_query = Users.query.filter_by(userid=userid).first()
+        result = schemaUsers.dump(users_query, many=False).data
+        return result
     def post(self):
         raw_dict = request.form
         try:
@@ -676,6 +678,40 @@ class table_herd_change(Resource):
             results = schemaGroup.dump(query, many=True).data
             return results, 201
 
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+class table_drug_inventory_dic_a(Resource):
+# "a" for all (All drugs)
+    def get(self):
+        drug_dic_query = Drug_Inventory_Dic.query.all()
+        result = schemaDrugDic.dump(drug_dic_query, many= True).data
+        return result
+
+class table_drug_inventory_dic_s(Resource):
+# "s" for specific (specific user)
+    def get(self,drug):
+        drug_dic_query = Drug_Inventory_Dic.query.filter_by(drug=drug).first()
+        result = schemaDrugDic.dump(drug_dic_query, many=False).data
+        return result
+    def post(self):
+        raw_dict = request.form
+        try:
+            schemaDrugDic.validate(raw_dict)
+            drug_dic = Drug_Inventory_Dic(drug=raw_dict['drug'], location=raw_dict['location'], roa = raw_dict['roa'], vialsize=raw_dict['vialsize'], units = raw_dict['units'])
+            drug_dic.add(drug_dic)
+            query = Drug_Inventory_Dic.query.all()
+            results = schemaDrugDic.dump(query, many=True).data
+            return jsonify(results)
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})

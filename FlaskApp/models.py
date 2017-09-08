@@ -98,7 +98,7 @@ class UsersSchema(Schema):
 		if many:
 			self_link = "/users/"
 		else:
-			self_link = "/users/{}".format(data['userid'])
+			self_link = "/users/{}".format(data['attributes']['userid'])
 		return {'self': self_link}
 		
 	class Meta:
@@ -863,3 +863,39 @@ class Herd_Change_Schema(Schema):
 
 	class Meta:
 		type_ = 'herd_change'
+
+class Drug_Inventory_Dic(db.Model, CRUD):
+	__tablename__ = 'drug_inventory_dic'
+	drug = db.Column(db.Text, primary_key=True)
+	location = db.Column(db.Text)
+	roa= db.Column(db.Text)
+	vialsize = db.Column(db.Float)
+	units = db.Column(db.Text)
+
+	def __init__(self, drug, location, roa, vialsize, units):
+		self.drug = drug
+		self.location = location
+		self.roa = roa
+		self.vialsize = vialsize
+		self.units = units
+
+
+class Drug_Inventory_Dic_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)
+	drug = fields.String(validate=not_blank)
+	location = fields.String(validate=not_blank)
+	roa = fields.String(validate=not_blank)
+	vialsize = fields.Float(validate=not_blank)
+	units  = fields.String(validate=not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/drug_inventory_dic/"
+		else:
+			self_link = "/drug_inventory_dic/{}".format(data['attributes']['drug'])
+		return {'self': self_link}
+
+	class Meta:
+		type_ = 'drug_inventory_dic'
