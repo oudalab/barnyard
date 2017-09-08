@@ -183,27 +183,15 @@ def signout():
 @app.errorhandler(404)
 def page_not_found(e):
         return render_template("404.html")
-@app.route('/signup2', methods = ['GET', 'POST'])
-def signup2():
-    return render_template("signup2.html")
-
 
 @app.route('/signup', methods = ['GET', 'POST'])
 def signup():
+    return render_template("signup.html")
 
-        form = SignupForm()
+@app.route('/pharma_addnew', methods = ['GET', 'POST'])
+def pharma_addnew():
+    return render_template("newmedication.html")
 
-        if request.method == "POST":
-                if form.validate() == False:
-                        return render_template("signup.html", form=form)
-                else:
-                        newuser = Users(form.firstname.data, form.lastname.data, form.email.data, form.password.data)
-                        db.session.add(newuser)
-                        db.session.commit()
-                        return redirect(url_for('login_page'))
-
-        elif request.method == "GET":
-                return render_template(("signup.html"), form= form)
 
 #Admin management of users and roles
 @app.route('/users_management', methods = ['GET', 'POST'])
