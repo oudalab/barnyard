@@ -3,7 +3,8 @@ from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s
+    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s, table_drug_inventory_dic_s, \
+    table_drug_inventory_dic_a
 from secrets import whole_string, short_string
 import config
 import logging
@@ -54,6 +55,11 @@ api.add_resource(table_users_a, '/api/users_a/')
 # "s" for all (Single user)
 api.add_resource(table_users_s, '/api/users_s/', endpoint = "8")
 api.add_resource(table_users_s, '/api/users_s/<userid>')
+# "a" for all (All Data in the dictionary)
+api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
+# "s" for all (Single Row Data in the dictionary)
+api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint = "9")
+api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
 #Login Manager
 login_manager = LoginManager()
