@@ -23,7 +23,10 @@ trig_ddl_1 = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_anim
 
 trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herd_change BEGIN update herd_change set uid = (select max(rowid)+1 from herd_change) WHERE uid = -1; END;''')
 
+#creates 6 digit number for Users ids
 trig_ddl_3 = DDL('''CREATE TRIGGER userid_trigger AFTER INSERT ON users BEGIN update users set userid = (select max(userid)+1 from users) WHERE userid = -1; END;''')
+
+trig_ddl_4 = DDL('''CREATE TRIGGER uid_report_trigger AFTER INSERT ON reports BEGIN update reports set uid = (select max(rowid)+1 from reports) WHERE uid = -1; END;''')
 
 #Class to add, update and delete data via SQLALchemy sessions
 class CRUD():   
@@ -66,6 +69,9 @@ class Users(db.Model, CRUD):
 	def is_active(self):
 		#true, as all users are active
 		return True
+
+	def is_anonymous(self):
+		return False
 
 	def get_id(self):
 		return self.email
@@ -899,3 +905,54 @@ class Drug_Inventory_Dic_Schema(Schema):
 
 	class Meta:
 		type_ = 'drug_inventory_dic'
+
+class Create_Report(db.Model, CRUD):
+	__tablename__ = 'reports'
+	uid = db.Column(db.Integer, primary_key=True, autoincrement=True, default = -1)
+	cownumber = db.Column(db.Text)
+	eid = db.Column(db.Text)
+	groupnumber = db.Column(db.Integer)
+	eartag = db.Column(db.Text)
+	attributes = db.Column(db.Text)
+	users = db.Column(db.Text)
+	start_date = db.Column(db.Text)
+	end_date = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+
+	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid,users,start_date,end_date):
+		self.cownumber = cownumber
+		self.groupnumber = groupnumber
+		self.eid = eid
+		self.eartag = eartag
+		self.attributes = str(attributes)
+		self.ts = ts
+		self.uid = uid
+		self.users = users
+		self.start_date = start_date
+		self.end_date = end_date
+
+
+
+class Create_Report_Schema(Schema):
+	not_blank = validate.Length(min=1, error='Field cannot be blank')
+	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
+	cownumber = fields.String(validate=not_blank)
+	groupnumber = fields.Integer(validate=not_blank)
+	eid = fields.String(validate=not_blank)
+	eartag = fields.String(validate=not_blank)
+	attributes = fields.String(validate=not_blank)
+	users = fields.String(validate=not_blank)
+	start_date = fields.String(validate=not_blank)
+	end_date = fields.String(validate=not_blank)
+	ts = fields.DateTime(validate = not_blank)
+
+	# self links
+	def get_top_level_links(self, data, many):
+		if many:
+			self_link = "/herd_change/"
+		else:
+			self_link = "/herd_change/{}".format(data['attributes'])
+		return {"self": self_link}
+
+	class Meta:
+		type_ = 'reports'

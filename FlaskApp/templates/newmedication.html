@@ -1,0 +1,65 @@
+{% extends "header.html" %}
+{% block body %}
+<title>Add new medication to Pharma Inventory</title>
+<html>
+<script type = "text/javascript">
+	$('#submit_button_pharma').click(function(e) {
+		var drug = $('#drug').val();
+		var pharma = {
+			drug : $('#drug').val(),
+			location: $('#location').val(),
+			roa : $('#roa').val(),
+			vialsize : $('#vialsize').val(),
+			units : $('#units').val()
+			}
+			$.ajax({
+				url: '/api/drug_inventory_dic_s/'+drug,
+				data: pharma,
+				datatype: 'json',
+				type: 'POST',
+				success: function(pharma) {
+					console.log(pharma);
+					alert("Data saved")
+					location.reload()
+				},
+				error: function(error) {
+					console.log(error)
+					alert("This med already exist");
+				}
+			});
+			e.preventDefault();
+	});
+</script>
+<body>
+	<form class = "form-horizontal" style="margin-top:15px;">
+		<div class="form-group">
+			<label for="drug" class="control-label col-xs-1">Drug</label>
+			<div class="col-xs-2">
+				<input type="text" class="form-control" id="drug" placeholder="Drug">
+			</div>
+			<label for="location" class="control-label col-xs-1">Location</label>
+			<div class="col-xs-2">
+				<input type="text" class="form-control" id="location" placeholder="Location">
+			</div>						
+			<label for="roa" class="control-label col-xs-1">Route of Administration</label>
+			<div class="col-xs-2">
+				<input type="text" class="form-control" id="roa" placeholder="Route of Administration">
+			</div>
+		</div>
+		<div class="form-group" style="margin-top:15px;">
+			<label for="roa" class="control-label col-xs-1">Vial Size</label>
+			<div class="col-xs-2">
+				<input type="text" class="form-control" id="roa" placeholder="Route of Administration">
+			</div>
+			<label for="roa" class="control-label col-xs-1">Route of Administration</label>
+			<div class="col-xs-2">
+				<input type="text" class="form-control" id="roa" placeholder="Route of Administration">
+			</div>
+		</div>
+		<a id = "submit_button_pharma"><button type="button" method="POST" class="btn btn-default">Submit</button></a>
+	</form>
+</body>
+</html>
+
+
+{% endblock %}

@@ -5,15 +5,15 @@
         var date_input=$('input[name="date"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
-            format: 'mm/dd/yyyy',
+            format: 'yyyy-mm-dd',
             container: container,
             todayHighlight: true,
             autoclose: true,
         })
     });
 	function difference2days(date1,date2){
-		var a = moment(date2, 'MM/DD/YYYY');
-		var b = moment(date1, 'MM/DD/YYYY');
+		var a = moment(date2, 'yyyy-mm-dd');
+		var b = moment(date1, 'yyyy-mm-dd');
 		var days = b.diff(a, 'days');
 		return days;
 	return false;
@@ -370,7 +370,8 @@
 						var weandays = difference2days(weandate,dob);
 						var yearlingdays = difference2days(yearlingdate,dob);
 						$('#birthweight').val(birthweight);
-						$('#sireframescore').val(framescoreget(sire));
+						//$('#sireframescore').val(framescoreget(sire));
+						$('#sireframescore').val('0');
 						$('#weanheight').val(weanheight);
 						$('#weanweight').val(weanweight);
 						$('#weandate').val(weandate);

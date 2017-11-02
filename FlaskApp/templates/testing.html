@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+<html>
+<body>
+{% block body %}
+
+<p>Hi {{ current_user.id }}!</p>
+<p>Hi {{ current_user.name }}!</p>
+<p>Hi {{ current_user.firstname }}!</p>
+<p>Hi {{ current_user.email }}!</p>
+
+{% if session['logged_in'] %}
+<p>you are logged in as {{session['email']}}</p>
+{% else %}
+<p>you are not logged in</p>
+{% endif %}
+</body>
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/testing.js')}}"></script>
+</html>
+{% endblock %}
+

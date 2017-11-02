@@ -116,32 +116,31 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);	
-						var masterData = {
-							cownumber : variable,
-							brand : data.data[0].attributes.brand,
-							brandlocation : data.data[0].attributes.brandlocation,
-							tattooleft : data.data[0].attributes.tattooleft,
-							tattooright : data.data[0].attributes.tattooright,
-							alternativeid : data.data[0].attributes.alternativeid,
-							registration : data.data[0].attributes.registration,
-							color  : data.data[0].attributes.color,
-							hornstatus  : data.data[0].attributes.hornstatus,
-							dam  : data.data[0].attributes.dam,
-							sire  : data.data[0].attributes.sire,
-							dob  : data.data[0].attributes.dob,
-							howacquired  : data.data[0].attributes.howacquired,
-							dateacquired  : data.data[0].attributes.dateacquired,
-							howdisposed  : data.data[0].attributes.howdisposed,
-							datedisposed  : data.data[0].attributes.datedisposed,
-							disposalreason  : data.data[0].attributes.disposalreason,
-							herdnumberlocation : data.data[0].attributes.herdnumberlocation,
-							herdstatus : data.data[0].attributes.herdstatus,
-							howconceived : data.data[0].attributes.howconceived,
-							managementcode : data.data[0].attributes.managementcode,
-							ownerID : data.data[0].attributes.ownerID,
-							springfall : data.data[0].attributes.springfall,
-							includeinlookups : data.data[0].attributes.includeinlookups
-						};
+						var masterData = [
+							{cownumber : variable},
+								{brand : data.data[0].attributes.brand},
+									{brandlocation : data.data[0].attributes.brandlocation},
+										{tattooleft : data.data[0].attributes.tattooleft},
+											{tattooright : data.data[0].attributes.tattooright},
+												{alternativeid : data.data[0].attributes.alternativeid},
+													{registration : data.data[0].attributes.registration},
+														{color  : data.data[0].attributes.color},
+															{hornstatus  : data.data[0].attributes.hornstatus},
+																{dam  : data.data[0].attributes.dam},
+																	{sire  : data.data[0].attributes.sire},
+																		{dob  : data.data[0].attributes.dob},
+																			{howacquired  : data.data[0].attributes.howacquired},
+																				{dateacquired  : data.data[0].attributes.dateacquired},
+																					{howdisposed  : data.data[0].attributes.howdisposed},
+																						{datedisposed  : data.data[0].attributes.datedisposed},
+																							{disposalreason  : data.data[0].attributes.disposalreason},
+																								{herdnumberlocation : data.data[0].attributes.herdnumberlocation},
+																									{herdstatus : data.data[0].attributes.herdstatus},
+																										{howconceived : data.data[0].attributes.howconceived},
+																											{managementcode : data.data[0].attributes.managementcode},
+																												{ownerID : data.data[0].attributes.ownerID},
+																													{springfall : data.data[0].attributes.springfall},
+																														{includeinlookups : data.data[0].attributes.includeinlookups}];
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
 							// This line checks if the elemenent name is within the dictionary data table
@@ -528,6 +527,7 @@
 						});
 					});
 					$(attributes).each(function(i,elem){
+						console.log(elem);
 						if(i == 0){
 							$("<div class='form-group'>").appendTo("#newfields");
 							if(dictionary[elem].type == "drop"){
@@ -559,7 +559,7 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
+								var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+elem+"</label>";
 								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
 								$(toappend).appendTo("#newfields");
 							}
@@ -569,7 +569,7 @@
 						}
 						else{
 							if(dictionary[elem].type == "drop"){
-								var toappend = "<label for="+elem+" class='control-label col-xs-2'>"+elem+"</label>";
+								var toappend = "<label for="+elem+" class='control-label col-xs-2' style='align-right'>"+elem+"</label>";
 								toappend += "<div class='col-xs-2'><select name='"+elem+"' class='form-control' id="+elem+">";
 								toappend += "<option></option>";
 								toappend += elemvalues(elem);
@@ -577,12 +577,12 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
+								var toappend = "<label for='date' class='control-label col-xs-2' style=' align-right'>"+elem+"</label>";
 								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
 								$(toappend).appendTo("#newfields");
 							}
 							else{
-								$("<label for="+ elem +" class='control-label col-xs-2'>"+elem +"</label><div class='col-xs-2'><input type='text' class='form-control' id="+ elem +" name="+ elem +"></div>").appendTo("#newfields");
+								$("<label for="+ elem +" class='control-label col-xs-2' style='align-right'>"+elem +"</label><div class='col-xs-2'><input type='text' class='form-control' id="+ elem +" name="+ elem +"></div>").appendTo("#newfields");
 							}
 						}
 						$("</div>").appendTo("#newfields");

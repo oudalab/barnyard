@@ -38,10 +38,23 @@
 		  
 		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
 			<h5>
-				<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>      
+				{% if session['logged_in'] %}
+				<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session['email']}} &nbsp;<span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="/UserInfo">User Info</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a href="/ChangePassword">Change Password</a></li>
+				  </ul>
+				<li><a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a></li>
+				{% else %}
+				<li><a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a></li>
+				{% endif %}
 			</h5>
+			
 
-					  
+
+
+			
 		  </div>
 		</div>
 	  </div>

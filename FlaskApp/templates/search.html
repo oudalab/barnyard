@@ -33,7 +33,7 @@
 				<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-warning">New Experiment</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href="#" id="readtag"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button></a>
+				<a><button type="button" class="btn btn-default" data-toggle="modal" data-target="#readRFID"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button></a>
 			</div>
 			<div class="btn-group" role="group">
 				<a href="#" id="quit"><button type="button" class="btn btn-danger">Quit to Windows</button></a>
@@ -57,8 +57,29 @@
 			<div class="btn-group" role="group">
 				<a href="/allexperimentpage" id="allexperiments"><button type="button" class="btn btn-info">All Experiments</button></a>
 			</div>
+			<div class="btn-group" role="group">
+				<a href = "/create_report" id = "reports"><button type="button" class="btn btn-info">Create Report</button></a>
+			</div>
 		</div>
 	</form>
+	<!-- Modal Function -->
+	<!-- Modal -->
+	  <div class="modal fade" id="readRFID" role="dialog">
+		<div class="modal-dialog modal-lg">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Read RFID</h4>
+			</div>
+			<div class="modal-body">
+			  <p>Click on the EID and "click" on the search bar before scanning</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 	
 </body>
 	<script type = "text/javascript" src="{{url_for('static', filename= 'js/searchpagescripts.js')}}"></script>

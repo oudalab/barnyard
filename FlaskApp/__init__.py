@@ -4,7 +4,8 @@ from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
     table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s, table_drug_inventory_dic_s, \
-    table_drug_inventory_dic_a
+    table_drug_inventory_dic_a, table_reporting,table_report_basic, table_report_animal_inventory, \
+    table_report_experiment, table_report_reproduction, table_report_medical, table_report_grazing
 from secrets import whole_string, short_string
 import config
 import logging
@@ -61,6 +62,16 @@ api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint = "9")
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
+#Api for reporting
+#end point to hold intended attribute chnages
+api.add_resource(table_reporting, '/api/reporting/', endpoint = "10")
+api.add_resource(table_report_basic, '/api/report_basic/<cownumber>/<start_date>/<end_date>', endpoint = "11")
+api.add_resource(table_report_animal_inventory, '/api/report_animal_inventory/<cownumber>/<start_date>/<end_date>', endpoint = "12")
+api.add_resource(table_report_experiment, '/api/report_experiment/<cownumber>/<start_date>/<end_date>', endpoint = "13")
+api.add_resource(table_report_reproduction, '/api/report_reproduction/<cownumber>/<start_date>/<end_date>', endpoint = "14")
+api.add_resource(table_report_medical, '/api/report_medical/<cownumber>/<start_date>/<end_date>', endpoint = "15")
+api.add_resource(table_report_grazing, '/api/report_grazing/<cownumber>/<start_date>/<end_date>', endpoint = "16")
+
 #Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -80,6 +91,10 @@ def login_required(f):
 @login_manager.user_loader
 def load_user(userid):
     return Users.query.get(userid)
+
+@app.before_request
+def get_current_user():
+    g.user = current_user
 
 @app.route('/inspectionreport')
 def inspectionreport():
@@ -115,6 +130,18 @@ def herdchange():
 def cowgroup():
     return render_template("experiment.html")
 
+#Used to provide user interface to build query for reporting
+@app.route('/create_report')
+@login_required
+def create_report():
+    return render_template("create_report.html")
+
+#Used to display results of query
+@app.route('/reporting')
+@login_required
+def reporting():
+    return render_template("reporting.html")
+
 @app.route('/allexperimentpage')
 @login_required
 def allexperiment():
@@ -149,7 +176,7 @@ def experimentupdate():
 @app.route('/test')
 @login_required
 def test():
-    return render_template("fileupload.html")
+    return render_template("testing.html")
  
 @app.route('/dashboard', methods = ['GET','POST'])
 @login_required
@@ -172,6 +199,9 @@ def login_page():
             login_user(user)
             flash("Logged in Successfully")
             session['logged_in'] = True
+            session['email'] = formLogin.email.data
+            #session['firstname'] = formLogin.firstname.data
+            #session['lastname'] = formLogin.lastname.data
             return render_template ('search.html', user = current_user.email)
         else:
             flash("Incorrect Email/Password combination")
@@ -204,6 +234,18 @@ def pharma_addnew():
 @login_required
 def users_management():
     return render_template("users_management.html")
+
+#User Information
+@app.route('/UserInfo')
+@login_required
+def userinfo():
+    return render_template("UserInfo.html")
+
+#User Change Password
+@app.route('/Change_Password', methods = ['GET', 'POST'])
+@login_required
+def password_change():
+    return render_template("ChangePassword.html")
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

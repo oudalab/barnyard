@@ -90,4 +90,9 @@ ENV/
 
 
 # Secret file
-/secrets.py
+FlaskApp/secrets.py
+
+#other files to ignore
+FlaskApp/Mappings.xlsx
+FlaskApp/OUdatafreeplay.xlsx
+FlaskApp/Personal_Barnyard_Log.xlsx

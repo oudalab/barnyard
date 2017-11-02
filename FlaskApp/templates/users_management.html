@@ -1,0 +1,66 @@
+{% extends "header.html" %}
+{% block body %}
+<head>
+	<title>User Management</title>
+</head>
+<html>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="col-xs-3 sidebar-nav">  
+			<div style="margin-top:50px;margin-bottom:30px;max-height:400px;overflow-y:scroll;">
+                <h4 style="margin:0px auto; padding-bottom:5px;" align="center">Users</h4>
+				<ul id="userslist" class=" scrollable-menu">					
+                </ul>
+			</div>
+			<div class="col-xs-2 sidebar-nav">
+				<button id="user_update" method="POST" class='btn btn-default'>Update</button></a>
+			</div>
+		</div>
+</div>
+<div class="col-xs-8">
+<h2>User Management</h2>
+	<div style="margin-bottom:100px;">
+		<div class="form-group" >
+			<label for="firstname" class="control-label col-xs-2" align="right">First Name</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
+				</div>
+			<label for="lastname" class="control-label col-xs-2" align="right">Last Name</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" id="lastname" placeholder="Last Name">
+				</div>
+		</div>
+	</div>
+	<div style="margin-bottom:100px;">
+		<div class="form-group" >
+			<label for="email" class="control-label col-xs-2" align="right">Email</label>
+				<div class="col-xs-4">
+					<input type="text" class="form-control" id="email" placeholder="Email">
+				</div>
+			<label for="roles" class="control-label col-xs-2" align="right">Roles</label>
+				<div class="col-xs-4">
+				  <select class="form-control" id="roles">
+					<option></option>
+					<option>UNASSIGNED</option>
+					<option>ADMIN</option>
+					<option>COW INVENTORY</option>
+					<option>IACUC</option>
+					<option>INSPECTION REPORT</option>
+					<option>MEDICAL</option>
+				  </select>
+				</div>
+		</div>
+	</div>
+	<div style="margin-bottom:100px;">
+		<div class="form-group" >
+			<label for="userid" class="control-label col-xs-2" align="right">USER ID</label>
+			<div class="col-xs-4">
+				<input type="text" class="form-control" id="userid" placeholder="User ID">
+			</div>
+		</div>
+	</div>
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/users_managementpagescript.js')}}"></script>
+</html>
+
+{% endblock %}

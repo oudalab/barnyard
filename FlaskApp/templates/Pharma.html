@@ -3,36 +3,6 @@
 <html>
 <head>
 <title>Parmaceutical Inventory</title>
-<script type = "text/javascript">
-	$(function inputDataPharma() {
-
-	$('#submit_button_pharma').click(function(e) {
-		var pharma = {
-			drug : $('#drug').val(),
-			location: $('#location').val(),
-			roa : $('#roa').val(),
-			vialsize : $('#vialsize').val(),
-			units : $('#units').val()
-			}
-			$.ajax({
-				url: '/api/drug_inventory_dic_s/'+medication,
-				data: pharma,
-				datatype: 'json',
-				type: 'POST',
-				success: function(pharma) {
-					console.log(pharma);
-					alert("Data saved")
-					location.reload()
-				},
-				error: function(error) {
-					console.log(error)
-					alert("This med already exist");
-				}
-			});
-			e.preventDefault();
-		});
-	});
-</script>
 <script>
 	$(document).ready(function () {
 		$.ajax({
@@ -49,7 +19,7 @@
             var table = $('#myTable').dataTable({
                 "bAutoWidth" : false,
                 data : data.data,
-				order: [ 3, 'desc' ],
+				order: [ 1, 'asc' ],
                 "columns" : [ {
                     "data" : "attributes.drug"
                 }, {
@@ -66,7 +36,6 @@
 	});
 </script>	
 </head>
-
 <body>
 
 	<form class = "form-horizontal" style="margin-top:15px; margin-left: 100px;margin-right: 100px;">
@@ -80,20 +49,20 @@
 		<table id="myTable" class="display" cellspacing="0" width="90%">
 			<thead>
 				<tr>
-					<th>Medication</th>
-					<th>Medication Quantity</th>
-					<th>Mediaction Cost</th>
-					<th>Purchase Date</th>
-					<th>Expire Date</th>
+					<th>Drug</th>
+					<th>Location</th>
+					<th>ROA</th>
+					<th>Vial Size</th>
+					<th>Unit</th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<th>Medication</th>
-					<th>Medication Quantity</th>
-					<th>Mediaction Cost</th>
-					<th>Purchase Date</th>
-					<th>Expire Date</th>
+					<th>Drug</th>
+					<th>Location</th>
+					<th>ROA</th>
+					<th>Vial Size</th>
+					<th>Unit</th>
 				</tr>
 			</tfoot>
 		</table>
@@ -149,5 +118,6 @@
 		  </div>
 		</div>
 </body>
+	<script type = "text/javascript" src="{{url_for('static', filename= 'js/pharmapagescripts.js')}}"></script>
 </html>
 {% endblock %}

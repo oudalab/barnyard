@@ -260,7 +260,7 @@
 			datein : $('#datein').val(),
 			dateout : $('#dateout').val(),
 			stockingrate : $('#stockingrate').val(),
-			pasturenumbergrazing: $('#pasturenumbergrazing').val(),
+			pasturenumbergrazing: $('#pasturenumber').val(),
 			sample: $('#sample').val(),
 			biomass: $('#biomass').val(),
 			DMavailable: $('#DMavailable').val(),

@@ -1,17 +1,20 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
-    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema
+    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema, Create_Report, \
+    Create_Report_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
-from sqlalchemy import desc
+from sqlalchemy import desc, and_, create_engine
+from sqlalchemy.orm import sessionmaker
+from secrets import whole_string,short_string
 import sys
 import json
+import sqlite3
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
-schemaMedical = Medical_Inventory_Schema()
 schemaAnimal = Animal_Inventory_Schema()
 schemaExperiment = Experiment_Schema()
 schemaReproduction = Reproduction_Schema()
@@ -21,7 +24,9 @@ schemaGroup = Group_Schema()
 schemaHerd = Herd_Change_Schema()
 schemaUsers = UsersSchema()
 schemaDrugDic = Drug_Inventory_Dic_Schema()
-
+schemaReport = Create_Report_Schema()
+#Medicine page
+schemaMedical = Medical_Inventory_Schema()
 
 class table_users_a(Resource):
 # "a" for all (All users)
@@ -116,7 +121,7 @@ class table_basics(Resource):
         master_animal_query = Master_animal.query.filter_by(cownumber = cownumber).order_by(Master_animal.ts.desc()).first_or_404()
         #Serialize the query results in the JSON API format
         result = schemaMaster.dump(master_animal_query, many = False).data
-        #print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
+        print >> sys.stderr, "This is proof that the call has been made{}".format(result)
         return result
 
     def post(self):
@@ -496,7 +501,6 @@ class table_medical(Resource):
         medical_query = Medical.query.filter_by(cownumber = cownumber).order_by(Medical.ts.desc())
         # Serialize the query results in the JSON API format
         result = schemaAnimalMedical.dump(medical_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from medical {}".format(result)
         return result
 
     def post(self):
@@ -723,3 +727,100 @@ class table_drug_inventory_dic_s(Resource):
             resp = jsonify({"error": str(e)})
             resp.status_code = 403
             return resp
+
+class table_reporting(Resource):
+
+    def get(self):
+        report_query = Create_Report.query.order_by(Create_Report.ts.desc()).limit(1)
+        result = schemaReport.dump(report_query,many = True).data
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        try:
+            # Validate the data or raise a Validation error if
+            schemaReport.validate(raw_dict)
+            # Create a master object with the API data received
+            report = Create_Report(uid = None, ts = None, cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
+                             eid=raw_dict['eid'], eartag=raw_dict['eartag'],
+                             attributes = raw_dict['attributes'], start_date = raw_dict['start_date'], end_date = raw_dict['end_date'], users = None)
+            report.add(report)
+            query = Create_Report.query.all()
+            results = schemaReport.dump(query, many=True).data
+            return results, 201
+
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 403
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 403
+            return resp
+
+#Tables below will be used for reporting only
+#Due to strugles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
+class table_report_basic(Resource):
+    def get(self,cownumber,start_date, end_date):
+
+        engine = create_engine(whole_string)
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        users = session.query(Users).all()
+        result = schemaUsers.dump(users,many=True).data
+        #master_animal_query = Master_animal.query.filter(and_(Master_animal.cownumber == cownumber, Master_animal.ts >= start_date, Master_animal.ts <= end_date)).order_by(Master_animal.ts.desc())
+        #result = schemaMaster.dump(master_animal_query, many=True).data
+        return result
+
+
+
+class table_report_animal_inventory(Resource):
+    def get(self, cownumber,start_date, end_date):
+        def dict_factory(cursor, row):
+            d = {}
+            for idx, col in enumerate(cursor.description):
+                d[col[0]] = row[idx]
+            return d
+        conn = sqlite3.connect(short_string)
+        conn.row_factory = dict_factory
+        cur = conn.cursor()
+        cur.execute("Select * from users")
+
+        rows = cur.fetchall()
+        #animal_inventory_query = Animal_Inventory.query.filter(and_(Animal_Inventory.cownumber == cownumber, Animal_Inventory.ts >= start_date, Animal_Inventory.ts <= end_date)).order_by(Animal_Inventory.ts.desc())
+        #result = schemaUsers.dump(rows,many = True).data
+        columns = [i[0] for i in cur.description]
+        result = [{columns[index][0]: column for index, column in enumerate(value)} for value in cur.fetchall()]
+        print >> sys.stderr, "This is the output for results{}".format(rows)
+        return rows
+
+class table_report_experiment(Resource):
+    def get(self, cownumber,start_date, end_date):
+        experiment_query = Experiment.query.filter(and_(Experiment.cownumber == cownumber, Experiment.ts >= start_date,
+                                                        Experiment.ts <= end_date)).order_by(Experiment.ts.desc())
+        result = schemaExperiment.dump(experiment_query,many = True).data
+        return result
+
+class table_report_reproduction(Resource):
+    def get(self, cownumber,start_date, end_date):
+        reproduction_query = Reproduction.query.filter(and_(Reproduction.cownumber == cownumber, Reproduction.ts >= start_date,
+                                                            Reproduction.ts <= end_date)).order_by(Reproduction.ts.desc())
+        result = schemaReproduction.dump(reproduction_query,many = True).data
+        return result
+
+class table_report_medical(Resource):
+    def get(self, cownumber,start_date, end_date):
+        medical_query = Medical.query.filter(and_(Medical.cownumber == cownumber, Medical.ts >= start_date,
+                                                  Medical.ts <= end_date)).order_by(Medical.ts.desc())
+        result = schemaAnimalMedical.dump(medical_query,many = True).data
+        return result
+
+class table_report_grazing(Resource):
+    def get(self, cownumber,start_date, end_date):
+        grazing_query = Grazing.query.filter(and_(Grazing.cownumber == cownumber, Grazing.ts >= start_date,
+                                                  Grazing.ts <= end_date)).order_by(Grazing.ts.desc())
+        result = schemaGrazing.dump(grazing_query,many = True).data
+        return result
