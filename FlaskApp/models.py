@@ -10,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import Column, Integer, DateTime, event, DDL
 from sqlalchemy.sql import func
+from datetime import datetime,timedelta
 
 
 app = Flask(__name__)
@@ -54,8 +55,8 @@ class Users(db.Model, CRUD):
 	pwdhash = db.Column(db.Text)
 	roles = db.Column(db.Text, default = "UNASSIGNED")
 	userid = db.Column(db.Integer, primary_key=True, default = -1)
-	registered_at = db.Column(DateTime(timezone=True), server_default=func.now())
-	ts = db.Column(DateTime(timezone=True), server_default=func.now())
+	registered_at = db.Column(DateTime(timezone=True), default=datetime.now() - timedelta(hours=5))
+	ts = db.Column(DateTime(timezone=True), default=datetime.now() - timedelta(hours=5))
 
 	def is_authenticated(self):
 		return self.authenticated
@@ -132,7 +133,7 @@ class Master_animal(db.Model, CRUD):
 	damframescore = db.Column(db.Integer)
 	comments = db.Column(db.Text)
 	species = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 	
 	def __init__(self, cownumber,ts, height,animalname,comments,breeder,currentframescore,damframescore,animalgroup,species, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
 		self.cownumber = cownumber
@@ -256,7 +257,7 @@ class Animal_Inventory(db.Model, CRUD):
 	ownerID = db.Column(db.Text)
 	springfall = db.Column(db.Text)
 	includeinlookups = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts,brand,brandlocation,tattooleft,tattooright,alternativeid,registration,color,
 				 hornstatus,dam,sire,dob,howacquired,dateacquired,howdisposed,datedisposed,disposalreason,
@@ -373,7 +374,7 @@ class Experiment(db.Model, CRUD):
 	treatment = db.Column(db.Text)
 	blockpen = db.Column(db.Text)
 	replicate = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, dam, sire, birthweight,birthweightadj,animaltype,
 				 sireframescore, weanheight,conditionscoreweaning2015,conditionscoreweaning2016,
@@ -530,7 +531,7 @@ class Reproduction(db.Model, CRUD):
 	mobility = db.Column(db.Float)
 	conc = db.Column(db.Float)
 	deadabnormal = db.Column(db.Float)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, breeding, pregnancy, calfatside,siblingcode, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
 				 damcalvingdisposition, calvingease,udderscore, conditionscorecalving, hiphtweaning2015, hiphtweaning2016, hiphtbreeding2016, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
@@ -651,7 +652,7 @@ class Medical(db.Model, CRUD):
 	dateoffollowup = db.Column(db.Text)
 	animallocation = db.Column(db.Text)
 	dateofaction = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber, ts,reasonforprocedure, notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
 		self.cownumber = cownumber
@@ -719,7 +720,7 @@ class Grazing(db.Model, CRUD):
 	chemicalname = db.Column(db.Text)
 	applicationrate = db.Column(db.Text)
 	applicationdate = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, pastureacres, animalspresent, datein, dateout, stockingrate,
 				 pasturenumbergrazing,sample,biomass,DMavailable,cp,cp1,cp2,cp3,cp4,
@@ -796,7 +797,7 @@ class Group(db.Model, CRUD):
 	groupname = db.Column(db.Text)
 	groupdescription = db.Column(db.Text)
 	attributes = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, groupnumber, groupname, groupdescription, attributes):
 		self.cownumber = cownumber
@@ -836,7 +837,7 @@ class Herd_Change(db.Model, CRUD):
 	groupnumber = db.Column(db.Integer)
 	eartag = db.Column(db.Text)
 	attributes = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid):
 		self.cownumber = cownumber
@@ -917,7 +918,7 @@ class Create_Report(db.Model, CRUD):
 	users = db.Column(db.Text)
 	start_date = db.Column(db.Text)
 	end_date = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, server_default=func.now())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=datetime.now() - timedelta(hours=5))
 
 	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid,users,start_date,end_date):
 		self.cownumber = cownumber

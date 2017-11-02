@@ -92,6 +92,12 @@ class table_users_s(Resource):
             resp.status_code = 401
             return resp
 
+class table_users_s_email(Resource):
+# "s" for specific (specific user)
+    def get(self,email):
+        users_query = Users.query.filter_by(email=email).first()
+        result = schemaUsers.dump(users_query, many=False).data
+        return result
 
 class table_eid(Resource):
 

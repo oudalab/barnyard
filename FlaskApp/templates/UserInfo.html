@@ -1,7 +1,31 @@
 {% extends "header.html" %}
 
 {% block body %}
-
+<html>
+<script>
+    var emaillabel = '{{session["email"]}}';
+	$(document).ready(function(e){
+			$.ajax({
+					url: '/api/users_s_email/'+emaillabel,
+					data: {},
+					type: 'GET',
+					datatype : 'json',
+					success: function(data) {
+						console.log(data);
+						var userid = data.attributes.userid;
+						var firstname = data.attributes.firstname;
+						var lastname = data.attributes.lastname;
+					},
+					error: function(error) {
+						console.log(error)
+						$.notify("User Info get Failed", "error")
+					}
+				});
+		});
+</script>
+</head>
 <h2>User Info Page</h2>
 
+
+</html>
 {% endblock %}

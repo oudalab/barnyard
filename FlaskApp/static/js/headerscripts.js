@@ -609,6 +609,7 @@
 						pasturenumberpesticide: $('#pasturenumberpesticide').val(pasturenumberpesticide);
 						chemicalname: $('#chemicalname').val(chemicalname);
 						applicationrate: $('#applicationrate').val(applicationrate);
+						applicationdate: $('#applicationdate').val(applicationdate);
 						pastureacres: $('#pastureacres').val(pastureacres);
 						animalspresent : $('#animalspresent').val(animalspresent);
 						datein : $('#datein').val(datein);

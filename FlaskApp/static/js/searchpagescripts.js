@@ -26,6 +26,7 @@
 				data: basic,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(response, basic) {
 					console.log(response)
 					var cownumber = response.data[0].attributes.cownumber
@@ -37,7 +38,7 @@
 					$.notify("Basic Data Saved", "success");
 					setTimeout(function() {
 						window.location.href = '/dashboard?cownumber='+cownumber
-					}, 2000); 
+					}, 3000); 
 				},
 				error: function(error) {
 					console.log(error)
@@ -80,6 +81,7 @@
 				data: animal_inventory,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(animal_inventory) {
 					$.notify("Animal Inventory Data Saved", "success");
 					console.log(animal_inventory)
@@ -145,6 +147,7 @@
 				data: experiment,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(experiment) {
 					$.notify("Experiment Data Saved", "success");
 					console.log(experiment)
@@ -209,6 +212,7 @@
 				data: reproduction,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(reproduction) {
 					$.notify("Reproduction Data Saved", "success");
 					console.log(reproduction)
@@ -242,6 +246,7 @@
 				data: medical,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(response, medical) {
 					$.notify("Medical Data Saved", "success");
 				},
@@ -284,6 +289,7 @@
 				data: grazing,
 				datatype: 'json',
 				type: 'POST',
+				async: false,
 				success: function(response, grazing) {
 					$.notify("Grazing Data Saved", "success");
 

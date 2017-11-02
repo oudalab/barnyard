@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s, table_drug_inventory_dic_s, \
+    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting,table_report_basic, table_report_animal_inventory, \
     table_report_experiment, table_report_reproduction, table_report_medical, table_report_grazing
 from secrets import whole_string, short_string
@@ -56,6 +56,8 @@ api.add_resource(table_users_a, '/api/users_a/')
 # "s" for all (Single user)
 api.add_resource(table_users_s, '/api/users_s/', endpoint = "8")
 api.add_resource(table_users_s, '/api/users_s/<userid>')
+# "s" for all (Single user) with email
+api.add_resource(table_users_s_email, '/api/users_s_email/<email>')
 # "a" for all (All Data in the dictionary)
 api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 # "s" for all (Single Row Data in the dictionary)
