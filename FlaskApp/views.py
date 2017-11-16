@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
     Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema, Create_Report, \
-    Create_Report_Schema
+    Create_Report_Schema, Herdchange, Herdchange_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
@@ -25,6 +25,7 @@ schemaHerd = Herd_Change_Schema()
 schemaUsers = UsersSchema()
 schemaDrugDic = Drug_Inventory_Dic_Schema()
 schemaReport = Create_Report_Schema()
+schemaHerdchange = Herdchange_Schema()
 #Medicine page
 schemaMedical = Medical_Inventory_Schema()
 
@@ -112,6 +113,12 @@ class table_animalname(Resource):
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
+class table_eartag(Resource):
+    def get(self, eartag):
+        master_animal_query = Master_animal.query.filter_by(eartag=eartag).order_by(Master_animal.ts.desc()).first_or_404()
+        result = schemaMaster.dump(master_animal_query, many=False).data
+        return result
+
 # Used for all experiments page
 class table_groupall(Resource):
     def get(self):
@@ -142,8 +149,6 @@ class table_basics(Resource):
                 #print >> sys.stderr, "data for basic post {}".format(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
-                #print >> sys.stderr, "This is print master {}".format(master)
-                #print >> sys.stderr, "This is query {}".format(results)
                 return jsonify(results)
                 #return results, 201
 
@@ -231,7 +236,7 @@ class table_animal_inventory(Resource):
                 animal.add(animal)
                 query = Animal_Inventory.query.all()
                 results = schemaAnimal.dump(query, many = True).data
-                return results, 201
+                return 201
 
 
         except ValidationError as err:
@@ -315,11 +320,9 @@ class table_experiment(Resource):
 
     def post(self):
         raw_dict = request.form
-        print >> sys.stderr, "This is Start of experiment {}".format(raw_dict)
         try:
             # Validate the data or raise a Validation error if
             schemaExperiment.validate(raw_dict)
-            print >> sys.stderr, "This is experiment after validation {}".format(raw_dict)
             # Create a master object with the API data recieved
             experiment = Experiment(cownumber=raw_dict['cownumber'],ts = None,
                                     dam=raw_dict['dam'],
@@ -364,13 +367,12 @@ class table_experiment(Resource):
                                     treatment=raw_dict['treatment'],
                                     blockpen=raw_dict['blockpen'],
                                     replicate=raw_dict['replicate'])
-            print >> sys.stderr, "This is experiment stack {}".format(experiment)
             experiment.add(experiment)
             query = Experiment.query.all()
-            print >> sys.stderr, "This is query of experiment {}".format(query)
             results = schemaExperiment.dump(query, many=True).data
             print >> sys.stderr, "This is result of experiment {}".format(results)
-            return results, 201
+            return 201
+            #return results, 201
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -464,8 +466,8 @@ class table_reproduction(Resource):
             reproduction.add(reproduction)
             query = Reproduction.query.all()
             results = schemaReproduction.dump(query, many=True).data
-            #print >> sys.stderr, "THIS IS at thee end {}".format(results)
-            return results, 201
+            print >> sys.stderr, "This is reproduction {}".format(results)
+            return 201
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -527,7 +529,7 @@ class table_medical(Resource):
             medical.add(medical)
             query = Medical.query.all()
             results = schemaAnimalMedical.dump(query, many=True).data
-            return results, 201
+            return 201
 
 
         except ValidationError as err:
@@ -591,7 +593,7 @@ class table_grazing(Resource):
             grazing.add(grazing)
             query = Grazing.query.all()
             results = schemaGrazing.dump(query, many=True).data
-            return results, 201
+            return 201
 
 
         except ValidationError as err:
@@ -641,14 +643,9 @@ class table_group(Resource):
         try:
             # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
-            # Create a master object with the API data received
-            #print >> sys.stderr, "This is the results of the POST request from Group {}".format(raw_dict)
-            #print >> sys.stderr, "attributes[] --> {}".format(raw_dict.getlist('attributes[]'))
-            #attributes = json.dumps(raw_dict.getlist('attributes[]'))
             group = Group(cownumber=raw_dict['cownumber'], ts=None, groupnumber=raw_dict['groupnumber'],
                              groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],
                              attributes = raw_dict['attributes'])
-            #attributes = raw_dict.getlist('attributes[]')
             group.add(group)
             query = Group.query.all()
             results = schemaGroup.dump(query, many=True).data
@@ -670,7 +667,8 @@ class table_group(Resource):
 class table_herd_change(Resource):
 
     def get(self):
-        herd_query = Herd_Change.query.order_by(Herd_Change.ts.desc()).limit(1)
+        #herd_query = Herd_Change.query.order_by(Herd_Change.ts.desc()).limit(1)
+        herd_query = Herd_Change.query.all()
         result = schemaGroup.dump(herd_query,many = True).data
         return result
 
@@ -686,6 +684,7 @@ class table_herd_change(Resource):
             herd.add(herd)
             query = Herd_Change.query.all()
             results = schemaGroup.dump(query, many=True).data
+            print >> sys.stderr, "Post from herd_change {}".format(results)
             return results, 201
 
 
@@ -699,6 +698,39 @@ class table_herd_change(Resource):
             resp = jsonify({"error": str(e)})
             resp.status_code = 403
             return resp
+
+class table_herdchange(Resource):
+
+    def get(self):
+        herdchange_query = Herdchange.query.order_by(Herdchange.ts.desc()).limit(1)
+        result = schemaHerdchange.dump(herdchange_query, many = True).data
+        return result
+
+    def post(self):
+        raw_dict = request.form
+        try:
+                schemaHerdchange.validate(raw_dict)
+                #Create a master object with the API data recieved
+                herdchange = Herdchange(ts = None, cownumber=raw_dict['cownumber'],
+                                     attributes = raw_dict['attributes'],
+                                     identifier = raw_dict['identifier'],
+                                     user = raw_dict['user'])
+                herdchange.add(herdchange)
+                query = Herdchange.query.all()
+                results = schemaHerdchange.dump(query, many = True).data
+                return results, 201
+
+
+        except ValidationError as err:
+                resp = jsonify({"error": err.messages})
+                resp.status_code = 403
+                return resp
+
+        except SQLAlchemyError as e:
+                db.session.rollback()
+                resp = jsonify({"error": str(e)})
+                resp.status_code = 403
+                return resp
 
 class table_drug_inventory_dic_a(Resource):
 # "a" for all (All drugs)

@@ -305,7 +305,7 @@
 	$(function retriveCowNumber () {
 		$('#search').click(function(e) {
 			var searchboxvalue = $('#cowSearch').val();
-			var radioValue = $("input[name='type']:checked").val();
+			var radioValue = $("input[name='identifier']:checked").val();
 			if(radioValue == "cownumber"){
 				$.ajax({
 					url: '/api/master_animal/'+searchboxvalue,

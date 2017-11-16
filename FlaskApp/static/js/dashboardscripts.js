@@ -12,7 +12,7 @@
 			pasturenumber : $('#pasturenumber option:selected').text(),
 			breed : $('#breed').val(),
 			status : $('#status option:selected').text(),
-			trial : $('#trial option:selected').text(),
+			trial : $('#trial').val(),
 			herd : $('#herd').val(),
 			animalname : $('#animalname').val(),
 			animalgroup : $('#animalgroup').val(),
@@ -142,8 +142,8 @@
 				data: experiment,
 				datatype: 'json',
 				type: 'POST',
-				success: function(experiment) {
-					console.log(experiment)
+				success: function(response) {
+					console.log(response)
 					$.notify("Experiment Data Saved", "info");
 				},
 				error: function(error) {

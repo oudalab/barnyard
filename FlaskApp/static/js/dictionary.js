@@ -7,7 +7,7 @@ var dictionary = {
 		"animaltype" : {type: "drop", values:["Cow","Steer","Heifer","Calf","Bull"], table:"master_animal"},
 		"status" : {type: "drop", values:["Active","Inactive"], table:"master_animal"},
 		"herd" : {type: "text", values:[""], table:"master_animal"},
-		"trial" : {type: "drop", values:["1","2","3","4","5","6","7"], table:"master_animal"},
+		"trial" : {type: "text", values:[""], table:"master_animal"},
 		"animalname" : {type: "text", values:[""],table:"master_animal"},
 		"animalgroup" : {type: "text", values:[""],table:"master_animal"},
 		"breeder" : {type: "text", values:[""],table:"master_animal"},

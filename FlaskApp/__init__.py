@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_eid, table_animalname, table_groupall, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
+    table_grazing, table_group, table_herd_change, table_herdchange, table_eid, table_animalname,table_eartag, table_groupall, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting,table_report_basic, table_report_animal_inventory, \
     table_report_experiment, table_report_reproduction, table_report_medical, table_report_grazing
 from secrets import whole_string, short_string
@@ -48,7 +48,9 @@ api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
 api.add_resource(table_group, '/api/group/<groupnumber>')
 api.add_resource(table_group, '/api/group/', endpoint = "7")
 api.add_resource(table_herd_change, '/api/herd_change/')
+api.add_resource(table_herdchange, '/api/herdchange/', endpoint="17")
 api.add_resource(table_eid, '/api/eid/<eid>')
+api.add_resource(table_eartag, '/api/eartag/<eartag>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
 api.add_resource(table_groupall, '/api/groupall/')
 # "a" for all (All users)
@@ -117,10 +119,10 @@ def searchpage():
 def groupadd():
     return render_template("newexperimentpage.html")
 
-@app.route('/newherdchange')
+@app.route('/createherdchange')
 @login_required
 def newherdchange():
-    return render_template("newherdchange.html")
+    return render_template("createherdchange.html")
 
 @app.route('/herdchange')
 @login_required
@@ -209,6 +211,10 @@ def login_page():
             flash("Incorrect Email/Password combination")
             return redirect(url_for('login_page'))
     return render_template('login.html', form=formLogin)
+
+@app.route('/user_email', methods = ['GET', 'POST'])
+def user_email():
+    return session['email']
 
 @app.route('/signout')
 @login_required

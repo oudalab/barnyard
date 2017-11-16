@@ -2,26 +2,21 @@ $(document).ready(function(e){
 		// var herdattributes = herdchangeparse("string");
 		// var variable = groupnumber;
 		$.ajax({
-				url: '/api/herd_change/',
+				url: '/api/herdchange/',
 				data: {},
 				type: 'GET',
 				datatype : 'json',
 				success: function(data) {
 					console.log(data);
-					var attributes = $.parseJSON(data[0].attributes);
-					var groupnumber = data[0].groupnumber;
-					var eid = data[0].eid
-					var cownumber = data[0].cownumber
-					var cownumberlist = $.parseJSON(data[0].cownumber);
-					var eartag = data[0].eartag;
-					$('#groupnumber').val(groupnumber);
-					$('#eid').val(eid);
-					$('#eartag').val(eartag);
-					$('#cownumber').val(cownumber);
-					
-					$(cownumberlist).each(function(i,elem){
+					var attributes_list = data.data[0].attributes.attributes;
+					var attributes = $.parseJSON(attributes_list)
+					var cownumberlist = data.data[0].attributes.cownumber;
+					var cownumber = $.parseJSON(cownumberlist);
+					$(cownumber).each(function(i,elem){
 						$("<li> "+elem+"</li>").appendTo("#cowlist");
 					});
+					
+					
 					$(attributes).each(function(i,elem){
 						if(i == 0){
 							$("<div class='form-group'>").appendTo("#herdnewfields");

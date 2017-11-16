@@ -2,30 +2,54 @@
 
 {% block body %}
 <html>
-<script>
-    var emaillabel = '{{session["email"]}}';
-	$(document).ready(function(e){
-			$.ajax({
-					url: '/api/users_s_email/'+emaillabel,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						console.log(data);
-						var userid = data.attributes.userid;
-						var firstname = data.attributes.firstname;
-						var lastname = data.attributes.lastname;
-					},
-					error: function(error) {
-						console.log(error)
-						$.notify("User Info get Failed", "error")
-					}
-				});
-		});
-</script>
-</head>
 <h2>User Info Page</h2>
+<div class="container-fluid">
+	<div class="row-fluid">
+	  <!-- Nav tabs -->
+				<ul class="nav nav-tabs nav-justified">
+			<li role="presentation" class="active"><a href="#userinfo" aria-controls="userinfo" role="tab" data-toggle="tab">User Info</a></li>
+			<li role="presentation"><a href="#password_change" aria-controls="password_change" role="tab" data-toggle="tab">Password Change</a></li>
+		</ul>
+	  <!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="userinfo">
+				<form id="userinfo" method="POST" class="form-horizontal" style="margin-top:15px;">
+					<div class="form-group">
+						<label for="firstname" class="control-label col-xs-1">First Name</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="lastname" class="control-label col-xs-1">last Name</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="control-label col-xs-1">Email</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="email" placeholder="Email">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="userid" class="control-label col-xs-1">User ID</label>
+						<div class="col-xs-2">
+							<input type="text" class="form-control" id="userid" placeholder="User ID">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="password_change">
+				<form id="password_change" method="POST" class="form-horizontal" style="margin-top:15px;">
+					<div class="form-group">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>	
 
-
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/userinfo.js')}}"></script>	
 </html>
 {% endblock %}

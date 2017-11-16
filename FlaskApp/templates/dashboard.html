@@ -58,21 +58,18 @@
 					</div>
 					<label for="trial" class="control-label col-xs-1">Trial</label>
 					<div class="col-xs-2">
-					  <select class="form-control" id="trial">
-						<option></option>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-						<option>6</option>
-						<option>7</option>
-					  </select>
+						<input type="text" class="form-control" id="trial" placeholder="Trial">
 					</div>
-					
-					<label for="animalgroup" class="control-label col-xs-1">Animal Group</label>
+					<label for="animaltype" class="control-label col-xs-1">Animal Type</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="animalgroup" placeholder="Animal Group">
+					  <select class="form-control" id="animaltype">
+						<option></option>
+						<option>Cow</option>
+						<option>Bull</option>
+						<option>Calf</option>
+						<option>Steer</option>
+						<option>Heifer</option>
+					  </select>
 					</div>
 				</div>
 			</div>
@@ -117,16 +114,9 @@
 								<option>Male</option>
 							  </select>
 							</div>
-							<label for="animaltype" class="control-label col-xs-1">Animal Type</label>
+							<label for="animalgroup" class="control-label col-xs-1">Animal Group</label>
 							<div class="col-xs-2">
-							  <select class="form-control" id="animaltype">
-								<option></option>
-								<option>Cow</option>
-								<option>Bull</option>
-								<option>Calf</option>
-								<option>Steer</option>
-								<option>Heifer</option>
-							  </select>
+								<input type="text" class="form-control" id="animalgroup" placeholder="Animal Group">
 							</div>
 							<label for="status" class="control-label col-xs-1">Status</label>
 							<div class="col-xs-2">
@@ -211,11 +201,11 @@
 							</div>
 							<label for="dam" class="control-label col-xs-1">Dam</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="dam" placeholder="Dam">
+								<input type="text" class="form-control" id="dam" placeholder="Dam" disabled>
 							</div>
 							<label for="sire" class="control-label col-xs-1">Sire</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="sire" placeholder="Sire">
+								<input type="text" class="form-control" id="sire" placeholder="Sire" disabled>
 							</div>
 							<label class="control-label col-xs-1" for="date">D.O.B</label>
 							<div class="input-group col-xs-2">
@@ -305,13 +295,15 @@
 					<form class="form-horizontal" style="margin-top:15px;">
 						<div class="form-group">
 							<label for="dam" class="control-label col-xs-1">Dam</label>
-							<div class="col-xs-2">
+							<div class="col-xs-5">
 								<input type="text" class="form-control" id="damexperiment" placeholder="Dam">
 							</div>
 							<label for="sire" class="control-label col-xs-1">Sire</label>
-							<div class="col-xs-2">
+							<div class="col-xs-5">
 								<input type="text" class="form-control" id="sireexperiment" placeholder="Sire">
 							</div>
+						</div>
+						<div class="form-group">
 							<label for="birthweight" class="control-label col-xs-1">Birth Weight</label>
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="birthweight" placeholder="Birth Weight">

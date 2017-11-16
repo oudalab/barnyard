@@ -12,9 +12,10 @@
         })
     });
 	function difference2days(date1,date2){
-		var a = moment(date2, 'yyyy-mm-dd');
-		var b = moment(date1, 'yyyy-mm-dd');
+		var a = moment(date2);
+		var b = moment(date1);
 		var days = b.diff(a, 'days');
+		console.log(days);
 		return days;
 	return false;
 	}
@@ -60,6 +61,24 @@
 				return framescore;
 			}
 		}
+	}
+	function get_email(){
+		var email = "";
+		$.ajax({
+			url: '/user_email',
+			data: {},
+			type: 'GET',
+			datatype : 'json',
+			async: false,
+			success: function(data) {
+				email = data;
+			},
+			error: function(error) {
+				console.log(error)
+				return error;
+			}
+		});
+		return email;
 	}
 	function framescoreget(variable){
 		$.ajax({
@@ -231,7 +250,7 @@
 						$('#pasturenumber option:selected').text(pasturenumber);
 						$('#breed').val(breed);
 						$('#status option:selected').text(status);
-						$('#trial option:selected').text(trial);
+						$('#trial').val(trial);
 						$('#herd').val(herd);
 						$('#animaltype option:selected').text(animaltype);
 						$('#animalname').val(animalname);
@@ -323,7 +342,6 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						
 						var birthweight = data.data[0].attributes.birthweight;
 						var birthweightadj = data.data[0].attributes.birthweightadj;
 						var sireframescore = data.data[0].attributes.sireframescore;
@@ -385,7 +403,7 @@
 						$('#adjyearlingh').val(adjusted365wtandht(yearlingheight,yearlingdays));
 						$('#adjyearlingw').val(adjusted365wtandht(yearlingweight,yearlingdays));
 						$('#yearlingframescore').val(framescorecalculate(yearlingdays,yearlingheight,animaltype));
-						$('#ageatyearling').val(ageatyearling);
+						$('#ageatyearling').val(difference2days(yearlingdate,dob));
 						$('#customweight').val(customweight);
 						$('#customheight').val(customheight);
 						$('#customheightdate').val(customheightdate);
