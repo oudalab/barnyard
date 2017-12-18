@@ -1,7 +1,8 @@
 // SCRIPTS FOR DASHBOARD
 	$(function postBasic() {
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var basic = {
 			cownumber : $('#cownumber').val(),
 			height: $('#height').val(),
@@ -15,13 +16,13 @@
 			trial : $('#trial').val(),
 			herd : $('#herd').val(),
 			animalname : $('#animalname').val(),
-			animalgroup : $('#animalgroup').val(),
 			breeder : $('#breeder').val(),
 			currentframescore : $('#currentframescore').val(),
 			damframescore : $('#damframescore').val(),
 			comments : $('#damframescore').val(),
 			species : $('#species').val(),
-			animaltype : $('#animaltype option:selected').text()
+			animaltype : $('#animaltype option:selected').text(),
+			user : emaillabel
 			}
 			$.ajax({
 				url: '/api/master_animal/',
@@ -44,7 +45,8 @@
 	$(function postAnimalInventory() {
 
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var animal_inventory = {
 			cownumber : $('#cownumber').val(),
 			brand : $('#brand').val(),
@@ -55,9 +57,9 @@
 			registration : $('#registration').val(),
 			color : $('#color').val(),
 			hornstatus : $('#hornstatus option:selected').text(),
-			dam : $('#damexperiment').val(),
-			sire : $('#sireexperiment').val(),
-			dob  : $('#dobexperiment').val(),
+			dam : $('#dam').val(),
+			sire : $('#sire').val(),
+			dob  : $('#dob').val(),
 			howacquired : $('#howacquired option:selected').text(),
 			dateacquired : $('#dateacquired').val(),
 			howdisposed : $('#howdisposed option:selected').text(),
@@ -69,7 +71,8 @@
 			managementcode : $('#managementcode').val(),
 			ownerID : $('#ownerID').val(),
 			springfall : $('#springfall option:selected').text(),
-			includeinlookups : $('#includeinlookups option:selected').text()
+			includeinlookups : $('#includeinlookups option:selected').text(),
+			user : emaillabel
 			}
 			$.ajax({
 				url: '/api/animal_inventory/',
@@ -91,51 +94,50 @@
 	$(function postExperiment() {
 
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var experiment = {
-			cownumber : $('#cownumber').val(),
-			dam : $('#damexperiment').val(),
-			sire : $('#sireexperiment').val(),
-			birthweight : $('#birthweight').val(),
-			birthweightadj : $('#birthweightadj').val(),
-			sireframescore : $('#sireframescore').val(),
-			conditionscoreweaning2015 : $('#conditionscoreweaning2015').val(),
-			conditionscoreweaning2016 : $('#conditionscoreweaning2016').val(),
-			dob : $('#dobexperiment').val(),
-			bcsrecent : $('#bcsrecent').val(),
-			bcsprevious : $('#bcsprevious').val(),
-			bcsdifference : $('#bcsdifference').val(),
-			damwtatwean : $('#damwtatwean').val(),
-			weanheight : $('#weanheight').val(),
-			weanweight : $('#weanweight').val(),
-			weandate : $('#weandate').val(),
-			weangpd : $('#weangpd').val(),
-			weanhipht : $('#weanhipht').val(),
-			weanwda : $('#weanwda').val(),
-			weanweightdate : $('#weanweightdate').val(),
-			adj205w : $('#adj205w').val(),
-			adj205h : $('#adj205h').val(),
-			weanframescore : $('#weanframescore').val(),
-			ageatwean : $('#ageatwean').val(),
-			yearlingweight : $('#yearlingweight').val(),
-			yearlingheight : $('#yearlingheight').val(),
-			yearlingdate : $('#yearlingdate').val(),
-			adjyearlingw : $('#adjyearlingw').val(),
-			adjyearlingh : $('#adjyearlingh').val(),
-			yearlingframescore : $('#yearlingframescore').val(),
-			ageatyearling : $('#ageatyearling').val(),
-			currentwtcow : $('#currentwtcow').val(),
-			adj365dht : $('#adj365dht').val(),
-			customweight : $('#customweight').val(),
-			customheight : $('#customheight').val(),
-			customweightdate : $('#customweightdate').val(),
-			customheightdate : $('#customheightdate').val(),
-			currentwtheifer : $('#currentwtheifer').val(),
-			backfat : $('#backfat').val(),
-			treatment : $('#treatment').val(),
-			blockpen : $('#blockpen').val(),
-			replicate : $('#replicate').val(),
-			animaltype : $('#animaltype option:selected').text()
+			cownumber : $('#cownumber').val(),//1
+			birthweight : $('#birthweight').val(),//2
+			birthweightadj : $('#birthweightadj').val(),//3
+			sireframescore : $('#sireframescore').val(),//4
+			conditionscoreweaning2015 : $('#conditionscoreweaning2015').val(),//5
+			conditionscoreweaning2016 : $('#conditionscoreweaning2016').val(),//6
+			bcsrecent : $('#bcsrecent').val(),//7
+			bcsprevious : $('#bcsprevious').val(),//8
+			bcsdifference : $('#bcsdifference').val(),//9
+			damwtatwean : $('#damwtatwean').val(),//10
+			weanheight : $('#weanheight').val(),//11
+			weanweight : $('#weanweight').val(),//12
+			weandate : $('#weandate').val(),//13
+			weangpd : $('#weangpd').val(),//14
+			weanhipht : $('#weanhipht').val(),//15
+			weanwda : $('#weanwda').val(),//16
+			weanweightdate : $('#weanweightdate').val(),//17
+			adj205w : $('#adj205w').val(),//18
+			adj205h : $('#adj205h').val(),//19
+			weanframescore : $('#weanframescore').val(),//20
+			ageatwean : $('#ageatwean').val(),//21
+			yearlingweight : $('#yearlingweight').val(),//22
+			yearlingheight : $('#yearlingheight').val(),//23
+			yearlingdate : $('#yearlingdate').val(),//24
+			adjyearlingw : $('#adjyearlingw').val(),//25
+			adjyearlingh : $('#adjyearlingh').val(),//26
+			yearlingframescore : $('#yearlingframescore').val(),//27
+			ageatyearling : $('#ageatyearling').val(),//28
+			currentwtcow : $('#currentwtcow').val(),//29
+			adj365dht : $('#adj365dht').val(),//30
+			customweight : $('#customweight').val(),//31
+			customheight : $('#customheight').val(),//32
+			customweightdate : $('#customweightdate').val(),//33
+			customheightdate : $('#customheightdate').val(),//34
+			currentwtheifer : $('#currentwtheifer').val(),//35
+			backfat : $('#backfat').val(),//36
+			treatment : $('#treatment').val(),//37
+			blockpen : $('#blockpen').val(),//38
+			replicate : $('#replicate').val(),//39
+			animaltype : $('#animaltype option:selected').text(),//40
+			user : emaillabel//41
 			}
 			$.ajax({
 				url: '/api/experiment/',
@@ -156,7 +158,8 @@
 	});
 	$(function postReproduction() {
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var reproduction = {
 			cownumber : $('#cownumber').val(),
 			breeding: $('#breeding option:selected').text(),
@@ -198,7 +201,8 @@
 			mobility: $('#mobility').val(),
 			conc: $('#conc').val(),
 			pasturenumberreproduction: $('#pasturenumberreproduction').val(),
-			deadabnormal: $('#deadabnormal').val()
+			deadabnormal: $('#deadabnormal').val(),
+			user : emaillabel
 			}
 			$.ajax({
 				url: '/api/reproduction/',
@@ -219,7 +223,8 @@
 	});
 	$(function postMedical() {
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var medical = {
 			cownumber : $('#cownumber').val(),
 			reasonforprocedure: $('#reasonforprocedure').val(),
@@ -231,7 +236,8 @@
 			resolution : $('#resolution').val(),
 			dateoffollowup : $('#dateoffollowup').val(),
 			animallocation : $('#animallocation').val(),
-			dateofaction : $('#dateofaction').val()
+			dateofaction : $('#dateofaction').val(),
+			user : emaillabel
 			}
 			$.ajax({
 				url: '/api/medical/',
@@ -252,7 +258,8 @@
 	});
 	$(function postGrazing() {
 	$('#basic_update').click(function(e) {
-		var cownumber = $('#cownumber').val()
+		var cownumber = $('#cownumber').val();
+		var emaillabel = get_email();
 		var grazing = {
 			cownumber : $('#cownumber').val(),
 			pastureacres: $('#pastureacres').val(),
@@ -275,7 +282,8 @@
 			pasturenumberpesticide: $('#pasturenumberpesticide').val(),
 			chemicalname: $('#chemicalname').val(),
 			applicationrate: $('#applicationrate').val(),
-			applicationdate: $('#applicationdate').val()
+			applicationdate: $('#applicationdate').val(),
+			user : emaillabel
 			}
 			$.ajax({
 				url: '/api/grazing/',

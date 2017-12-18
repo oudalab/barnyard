@@ -13,19 +13,23 @@
 				<div style="margin-bottom:100px;">
 					<form>
 						<span class="input-group-addon" name="herdsearchradios">
-							<input type="radio" name="type" value="animalnumber" checked="checked"> Animal Number
+							<input type="radio" name="type" value="animalname" checked="checked"> Animal Name
 							<input type="radio" name="type" value="eid"> EID
 							<input type="radio" name="type" value="groupnumber"> Group Number
 							<input type="radio" name="type" value="eartag"> Ear Tag
 						</span>
 						<div class="form-group"  style="margin-top:10px;">
-							<label for="animalnumber" class="control-label col-xs-1" style="align-right">Animal Numbers</label>
+							<label for="animalname" class="control-label col-xs-1" style="align-right">Animal Name</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="cownumber" name="animalnumber" placeholder="Animal Numbers">
+								<input type="text" class="form-control" id="animalname" name="animalname" placeholder="Animal Name">
 							</div>
 							<label for="eid" class="control-label col-xs-1" style="align-right">EID</label>
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="eid" placeholder="EID">
+							</div>
+							<label for="report_number" class="control-label col-xs-1" style="align-right">Report Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="report_number" name="report_number" placeholder="Report Number">
 							</div>
 							<label class="control-label col-xs-1" for="date" style="align-right">Start Date</label>
 							<div class="input-group col-xs-2">
@@ -42,7 +46,7 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="groupnumber" placeholder="Group Number">
 							</div>
-							<label class="control-label col-xs-1" for="date" style="align-right">End Date</label>
+							<label class="control-label col-xs-4" for="date" align="right">End Date</label>
 							<div class="input-group col-xs-2">
 							   <input class="form-control" id="end_date" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
@@ -89,11 +93,9 @@
 								<div class="form-control">
 									<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Experiment</h4>
 									<br>
-										<input type="checkbox" class="createreportinput" value="dam" name="option1">Dam<br> 
-										<input type="checkbox" class="createreportinput" value="sire" name="option2">Sire<br>
+
 										<input type="checkbox" class="createreportinput" value="damframescore" name="option10">Dam Frame Score<br>
 										<input type="checkbox" class="createreportinput" value="sireframescore" name="option3">Sire Frame Score<br> 
-										<input type="checkbox" class="createreportinput" value="dobexperiment" name="option4">DOB<br> 
 										<input type="checkbox" class="createreportinput" value="weanheight" name="option5">Wean Height<br> 
 										<input type="checkbox" class="createreportinput" value="weanweight" name="option6">Wean Weight<br> 
 										<input type="checkbox" class="createreportinput" value="weandate" name="option7">Wean Date<br> 

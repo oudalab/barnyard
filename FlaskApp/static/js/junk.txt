@@ -1,265 +1,154 @@
-    // SCRIPTS FROM HEADER
-	var allaroundcownumber = getQueryVariable("cownumber");
-	
-	$(document).ready(function(){
-        var date_input=$('input[name="date"]'); //our date input has the name "date"
-        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-        date_input.datepicker({
-            format: 'yyyy-mm-dd',
-            container: container,
-            todayHighlight: true,
-            autoclose: true,
-        })
-    });
-	function difference2days(date1,date2){
-		var a = moment(date2);
-		var b = moment(date1);
-		var days = b.diff(a, 'days');
-		console.log(days);
-		return days;
-	return false;
-	}
-	function adjusted205wtandht(data,days){
-		var answer = (data/days)*205;
-		return answer;
-	}
-	function adjusted365wtandht(data,days){
-		var answer = (data/days)*365;
-		return answer;
-	}
-	function framescorecalculate(days,hipht,animaltype){
-		if(days >=150 && days <=650){
-			if(animaltype == "bull" || animaltype == "Bull"){
-				var framescore = -11.548+((0.4878*(hipht +1)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht+1)*days)));
-				return framescore;
-			} else if(animaltype == "steer" || animaltype == "Steer"){
-				var framescore = -11.548+((0.4878*(hipht)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht)*days)));
-				return framescore;
-			} else if(animaltype == "heifer" || animaltype == "Heifer"){
-				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
-			} else if(animaltype == "cow" || animaltype == "Cow"){
-				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
-			} else if(animaltype == "calf" || animaltype == "Calf"){
-				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
-			} else{
-				console.log("Invalid Selection");
-			}
-		} else{
-			if(days>=651 && days<=1095){
-				var framescore = (-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.4;
-				return framescore;
-			}
-			else if(days>=1096 && days<=1460){
-				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.9;
-				return framescore;
-			}
-			else{
-				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-1.1;
-				return framescore;
-			}
-		}
-	}
-	function get_email(){
-		var email = "";
+//Connected to Reporting.html
+
+//Necessary global variables to bring informations into several functions 
+var attributes="";
+var start_date = "";
+var end_date = "";
+var table_create= "";
+
+//GET request to get the latest submitted create_report request
+$(document).ready(function(e){
 		$.ajax({
-			url: '/user_email',
-			data: {},
-			type: 'GET',
-			datatype : 'json',
-			async: false,
-			success: function(data) {
-				email = data;
-			},
-			error: function(error) {
-				console.log(error)
-				return error;
-			}
+				url: '/api/reporting/',
+				data: {},
+				type: 'GET',
+				datatype : 'json',
+				success: function(data) {
+					console.log(data);
+					attributes = $.parseJSON(data[0].attributes);
+					createHeaderandFooter(attributes);
+					start_date = data[0].start_date;
+					end_date = data[0].end_date;
+					var cownumber = data[0].cownumber;
+					var cownumberlist = $.parseJSON(data[0].cownumber);
+					//Redo the ParseJSON for EID and EARTAG later.
+					//Already Done
+					var eartag = data[0].eartag;
+					var eartaglist = $.parseJSON(data[0].eartag);
+					var eid = data[0].eid;
+					var eidlist = $.parseJSON(data[0].eid);
+					$('#cownumber').val(cownumberlist);
+					$('#eartag').val(eartaglist);
+					$('#eid').val(eidlist);
+					$('#attributes').val(attributes);
+					callallReporting(cownumberlist);
+					
+				},
+				error: function(error) {
+					console.log(error)
+					$.notify("Master_Animal Failed", "error")
+					
+				}
+			});
+	});
+	//Code to excute GET statements from API 
+	function callallReporting(cownumberlist){
+		$(cownumberlist).each(function(i,elem){
+			basicgetreporting(elem);
+			animal_inventorygetreporting(elem);
+			experimentgetreporting(elem);
+			reproductiongetreporting(elem);
+			medicalgetreporting(elem);
+			grazinggetreporting(elem);
 		});
-		return email;
-	}
-	function framescoreget(variable){
-		$.ajax({
-			url: '/api/animalname/'+variable,
-			data: {},
-			type: 'GET',
-			datatype : 'json',
-			success: function(data) {
-				var cownumber = data.data.attributes.cownumber;
-				console.log(cownumber);
-				$.ajax({
-					url: '/api/master_animal/'+cownumber,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						var currentframescore = data.data.attributes.currentframescore;
-						document.getElementById('sireframescore').value=currentframescore;
-						console.log(currentframescore);
-					}
-					,
-					error: function(error) {
-						console.log(error);
-						document.getElementById('sireframescore').value='0';
-						$.notify("Current Frame Score doesnt Exist does not exist", "danger");
-					}	
-				});
+
+	};
+	
+	function createHeaderandFooter(inputattributes){
+		$(document).ready(function(e){
+			var toappend = "<tr>";
+			toappend += addattributes(inputattributes);
+			toappend += "</tr>";
+			$(toappend).appendTo("#reporttableheader");
+			$(toappend).appendTo("#reporttablefooter");	
+		});
+		$(document).ready( function () {
+			table_create = $('#report_table').DataTable(
+			{
+				"columns": addAttributesColumns(attributes)
+			});
+		});
+	};
+	
+
+	//Add data to the DataTable called below
+	function fnClickAddRow(data){
+		console.log(attributes);
+		var emptydictionary={};
+		$(attributes).each(function(i,elem){
+			if(typeof data[elem] === 'undefined') {
+				//do nothing
 			}
-			,
-			error: function(error) {
-				console.log(error);
-				$.notify("Sire Frame Score does not exist", "danger");
+			else {
+				// does exist
+				emptydictionary[elem]={name: elem , value: data[elem]};
+				console.log(emptydictionary);
 			}	
 		});
-	};
-	$('body').on('focus',".datepicker_recurring_start", function(){
-		$(this).datepicker();
-	});
-	function getQueryVariable(variable)
-	{
-	   var query = window.location.search.substring(1);
-	   var vars = query.split("&");
-	   for (var i=0;i<vars.length;i++) {
-			   var pair = vars[i].split("=");
-			   if(pair[0] == variable){return pair[1];}
-	   }
-	   return false;
-	};	
-	jQuery(document).ready(function()
-		{
-			jQuery('.alert').delay(3000).fadeOut();
+		$(attributes).each(function(i,elem){
+			console.log(emptydictionary[elem].name, ":" ,emptydictionary[elem].value);
+			table_create.rows.add( {
+				"height" : "0",
+				"weight" : "0"
+			} ).draw();
 		});
-	$(document).ready(function(){	
-		$('#headersearch').click(function(){
-			var searchboxvalue = $('#headerSearchbox').val();
-			$.ajax({
-					url: '/api/animalname/'+searchboxvalue,
-					data: {},
-					type: 'GET',
-					datatype : 'json',
-					success: function(data) {
-						var cownumber = data.data.attributes.cownumber;
-						$.ajax({
-							url: '/api/master_animal/'+cownumber,
-							data: $('form').serialize(),
-							type: 'GET',
-							success: function(data) {
-								var exists = false;
-								$("#latestcow li a").each(function( i, val ) {
-									if ($.trim(val.text) == searchboxvalue){ 
-										exists = true;
-										basicget(val.text);
-										animal_inventoryget(val.text);
-										experimentget(val.text);
-										reproductionget(val.text);
-										medicalget(val.text);
-										grazingget(val.text);
-										datatablescall(val.text);
-										$.notify("Cow number "+searchboxvalue+" - "+cownumber+" is already on the list", "info");
-										$('#headerSearchbox').val('');
-										// break;
-									}
-								});
-								if (exists == false)
-								{
-									$.ajax({
-										url: '/api/master_animal/'+cownumber,
-										data: $('form').serialize(),
-										type: 'GET',
-										success: function(response) {
-											var animalname = response.data.attributes.animalname;
-											basicget(cownumber);
-											animal_inventoryget(cownumber);
-											experimentget(cownumber);
-											reproductionget(cownumber);
-											medicalget(cownumber);
-											grazingget(cownumber);
-											console.log("this is the cownumber" +response);
-											$("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
-											$('#headerSearchbox').val('');
-										},
-										error: function(error) {
-											console.log(error);
-											$.notify("Cow number doesnt exist", "danger");
-										}	
-									})
-								}
-							},
-							error: function(error) {
-								console.log(error);
-								$.notify("Animal number doesnt exist", "danger");
-							}
-						});
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Animal Name doesnt exist", "danger");
-					}
-			});
-			return false;
-		});
-	});
-	function callall(cownumber){
-		console.log("this is the cownumber" +cownumber);
-		basicget(cownumber);
-		animal_inventoryget(cownumber);
-		experimentget(cownumber);
-		reproductionget(cownumber);
-		medicalget(cownumber);
-		grazingget(cownumber);
-		datatablescall(cownumber);
+		var emptydictionary={};
+		
 	};
 	
+	function addattributes(inputattributes){
+		var options="";
+		$(inputattributes).each(function(i,elem){
+			options += "<th>"+elem+"</th>";
+			
+		});
+		return options;
+		
+	};
+	//called from table initalization to creates the column names
+	function addAttributesColumns(inputattributes){
+		var options= [];
+		$(inputattributes).each(function(i,elem){
+			options.push({'"data"': ""+elem+""})
+		});
+		console.log(options);
+		return options;
+		
+	};
 	// Code to Load Data 
-	function basicget( variable) 
+	function basicgetreporting(identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/master_animal/'+variable,
+					url: '/api/report_basic/' +identifier+'/'+start_date +'/'+end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
-						var height = data.data.attributes.height;
-						var weight = data.data.attributes.weight;
-						var eartag = data.data.attributes.eartag;
-						var eid = data.data.attributes.eid;
-						var sex = data.data.attributes.sex;
-						var pasturenumber = data.data.attributes.pasturenumber;
-						var breed = data.data.attributes.breed;
-						var status = data.data.attributes.status;
-						var trial = data.data.attributes.trial;
-						var herd = data.data.attributes.herd;
-						var animaltype = data.data.attributes.animaltype;
-						var animalname = data.data.attributes.animalname;
-						var animalgroup = data.data.attributes.animalgroup;
-						var breeder = data.data.attributes.breeder;
-						var currentframescore = data.data.attributes.currentframescore;
-						var damframescore = data.data.attributes.damframescore;
-						var comments = data.data.attributes.comments;
-						var species = data.data.attributes.species;
-						$('#cownumber').val(variable);
-						$('#height').val(height);
-						$('#weight').val(weight);
-						$('#eartag').val(eartag);
-						$('#eid').val(eid);
-						$('#sex option:selected').text(sex);
-						$('#pasturenumber option:selected').text(pasturenumber);
-						$('#breed').val(breed);
-						$('#status option:selected').text(status);
-						$('#trial').val(trial);
-						$('#herd').val(herd);
-						$('#animaltype option:selected').text(animaltype);
-						$('#animalname').val(animalname);
-						$('#animalgroup').val(animalgroup);
-						$('#breeder').val(breeder);
-						$('#currentframescore').val(currentframescore);
-						$('#damframescore').val(damframescore);
-						$('#comments').val(comments);
-						$('#species').val(species);
+						var masterDataProcessed = {
+							cownumber: data.data[0].attributes.cownumber,
+							animalgroup: data.data[0].attributes.animalgroup,
+							animalname: data.data[0].attributes.animalname,
+							animaltype : data.data[0].attributes.animaltype,
+							breed: data.data[0].attributes.breed,
+							breeder : data.data[0].attributes.breeder,
+							comments : data.data[0].attributes.comments,
+							currentframescore  : data.data[0].attributes.currentframescore,
+							damframescore  : data.data[0].attributes.damframescore,
+							eartag : data.data[0].attributes.eartag,
+							eid  : data.data[0].attributes.eid,
+							height  : data.data[0].attributes.height,
+							herd  : data.data[0].attributes.herd,
+							pasturenumber  : data.data[0].attributes.pasturenumber,
+							sex  : data.data[0].attributes.sex,
+							species  : data.data[0].attributes.species,
+							status  : data.data[0].attributes.status,
+							trial : data.data[0].attributes.trial,
+							ts : data.data[0].attributes.ts,
+							weight : data.data[0].attributes.weight
+							};
+						fnClickAddRow(masterDataProcessed);
 					},
 					error: function(error) {
 						console.log(error)
@@ -270,11 +159,12 @@
 		});
 	return false;
 	};
-	function animal_inventoryget(variable) 
+	
+	function animal_inventorygetreporting(identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/animal_inventory/'+variable,
+					url: '/api/report_animal_inventory/' +identifier +'/' +start_date +'/' +end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
@@ -291,9 +181,6 @@
 						var dam  = data.data[0].attributes.dam;
 						var sire  = data.data[0].attributes.sire;
 						var dob  = data.data[0].attributes.dob;
-						var damexperiment  = data.data[0].attributes.dam;
-						var sireexperiment  = data.data[0].attributes.sire;
-						var dobexperiment  = data.data[0].attributes.dob;
 						var howacquired  = data.data[0].attributes.howacquired;
 						var dateacquired  = data.data[0].attributes.dateacquired;
 						var howdisposed  = data.data[0].attributes.howdisposed;
@@ -313,12 +200,6 @@
 						$('#alternativeid').val(alternativeid);
 						$('#registration').val(registration);
 						$('#color').val(color);
-						$('#dam').val(dam);
-						$('#sire').val(sire);
-						$('#dob').val(dob);
-						$('#damexperiment').val(damexperiment);
-						$('#sireexperiment').val(sireexperiment);
-						$('#dobexperiment').val(dobexperiment);
 						$('#hornstatus option:selected').text(hornstatus);
 						$('#howacquired option:selected').text(howacquired);
 						$('#dateacquired').val(dateacquired);
@@ -341,16 +222,17 @@
 		});
 
 	};
-	function experimentget(variable) 
+	function experimentgetreporting(identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/experiment/'+variable,
+					url: '/api/report_experiment/' +identifier +'/' +start_date +'/' +end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);
+						
 						var birthweight = data.data[0].attributes.birthweight;
 						var birthweightadj = data.data[0].attributes.birthweightadj;
 						var sireframescore = data.data[0].attributes.sireframescore;
@@ -389,6 +271,9 @@
 						var treatment  = data.data[0].attributes.treatment;
 						var blockpen  = data.data[0].attributes.blockpen;
 						var replicate  = data.data[0].attributes.replicate;
+						var dam  = data.data[0].attributes.dam;
+						var sire  = data.data[0].attributes.sire;
+						var dob  = data.data[0].attributes.dob;
 						var animaltype = data.data[0].attributes.animaltype;
 						//var framescoregot = framescoreget(dam);
 						var weandays = difference2days(weandate,dob);
@@ -409,7 +294,7 @@
 						$('#adjyearlingh').val(adjusted365wtandht(yearlingheight,yearlingdays));
 						$('#adjyearlingw').val(adjusted365wtandht(yearlingweight,yearlingdays));
 						$('#yearlingframescore').val(framescorecalculate(yearlingdays,yearlingheight,animaltype));
-						$('#ageatyearling').val(difference2days(yearlingdate,dob));
+						$('#ageatyearling').val(ageatyearling);
 						$('#customweight').val(customweight);
 						$('#customheight').val(customheight);
 						$('#customheightdate').val(customheightdate);
@@ -417,6 +302,9 @@
 						$('#backfat').val(backfat);
 						$('#blockpen').val(blockpen);
 						$('#replicate').val(replicate);
+						$('#dam').val(dam);
+						$('#sire').val(sire);
+						$('#dob').val(dob);
 						$('#damexperiment').val(dam);
 						$('#sireexperiment').val(sire);
 						$('#dobexperiment').val(dob);
@@ -444,11 +332,11 @@
 		});
 
 	};
-	function reproductionget( variable) 
+	function reproductiongetreporting( identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/reproduction/'+variable,
+					url: '/api/report_reproduction/'+identifier+'/'+start_date+'/'+end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
@@ -542,13 +430,13 @@
 					}
 				});
 		});
-	return false;
+		return false;
 	};
-	function medicalget( variable) 
+	function medicalgetreporting( identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/medical/'+variable,
+					url: '/api/report_medical/' +identifier +'/' +start_date +'/' +end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
@@ -584,11 +472,11 @@
 		});
 	return false;
 	};
-	function grazingget( variable) 
+	function grazinggetreporting( identifier) 
 	{
 		$(document).ready(function(e){
 			$.ajax({
-					url: '/api/grazing/'+variable,
+					url: '/api/report_grazing/' +identifier +'/' +start_date +'/' +end_date,
 					data: {},
 					type: 'GET',
 					datatype : 'json',
@@ -630,7 +518,6 @@
 						pasturenumberpesticide: $('#pasturenumberpesticide').val(pasturenumberpesticide);
 						chemicalname: $('#chemicalname').val(chemicalname);
 						applicationrate: $('#applicationrate').val(applicationrate);
-						applicationdate: $('#applicationdate').val(applicationdate);
 						pastureacres: $('#pastureacres').val(pastureacres);
 						animalspresent : $('#animalspresent').val(animalspresent);
 						datein : $('#datein').val(datein);
@@ -646,118 +533,6 @@
 		});
 	return false;
 	};
-	function datatablescall( variable) 
-	{
-		$(document).ready(function () {
-			$.ajax({
-				url : '/api/grazing/'+variable,
-				type : 'GET',
-				dataType : 'json',
-				success : function(data) {
-					assignToEventsColumns1(data);
-				}
-			});
-			function assignToEventsColumns1(data) {
-				var table = $('#table_P_sampling').dataTable({
-					"bAutoWidth" : false,
-					data : data.data,
-					"columns" : [ {
-						"data" : "attributes.pasturenumbergrazing"
-					}, {
-						"data" : "attributes.sample"
-					}, {
-						"data" : "attributes.biomass"
-					}, {
-						"data" : "attributes.DMavailable"
-					}, {
-						"data" : "attributes.cp"
-					}, {
-						"data" : "attributes.cp1"
-					}, {
-						"data" : "attributes.cp2"
-					}, {
-						"data" : "attributes.cp3"
-					}, {
-						"data" : "attributes.cp4"
-					} ]
-				})
-			}
-			
-		});
-	return false;
-	};
-	$(document).ready(function () {
-		$.ajax({
-            url : '/api/grazing/'+allaroundcownumber,
-            type : 'GET',
-            dataType : 'json',
-            success : function(data) {
-                assignToEventsColumns2(data);
-            }
-        });
-        function assignToEventsColumns2(data) {
-            var table = $('#table_burning').dataTable({
-                "bAutoWidth" : false,
-                data : data.data,
-                "columns" : [ {
-                    "data" : "attributes.pasturenumberburning"
-                }, {
-                    "data" : "attributes.dateburned"
-                }, {
-                    "data" : "attributes.qualityofburn"
-                } ]
-            });
-        }
-		
-	});
-	$(document).ready(function () {
-		$.ajax({
-            url : '/api/grazing/'+allaroundcownumber,
-            type : 'GET',
-            dataType : 'json',
-            success : function(data) {
-                assignToEventsColumns3(data);
-            }
-        });
-        function assignToEventsColumns3(data) {
-            var table = $('#table_pesticide').dataTable({
-                "bAutoWidth" : false,
-                data : data.data,
-				//order: [ 1, 'desc' ],
-                "columns" : [ {
-                    "data" : "attributes.pasturenumberpesticide"
-                }, {
-                    "data" : "attributes.chemicalname"
-                }, {
-                    "data" : "attributes.applicationrate"
-                }, {
-                    "data" : "attributes.applicationdate"
-                } ]
-            });
-        }	
-	});	
-	$(document).ready(function () {
-		$.ajax({
-            url : '/api/experiment/'+allaroundcownumber,
-            type : 'GET',
-            dataType : 'json',
-            success : function(data) {
-                assignToEventsColumns4(data);
-            }
-        });
-        function assignToEventsColumns4(data) {
-            var table = $('#experiment_table').dataTable({
-                "bAutoWidth" : false,
-                data : data.data,
-				//order: [ 1, 'desc' ],
-                "columns" : [ {
-                    "data" : "attributes.cownumber"
-                }, {
-                    "data" : "attributes.weandate"
-                }, {
-                    "data" : "attributes.weanframescore"
-                } ]
-            });
-        }	
-	});
-
+	
+	
+	

@@ -1,7 +1,5 @@
 	// imported into experiment.html
 	
-	
-	
 	$('#experiment_update').click(function(e){
 		var cownumber = $('#cownumber').val();
 		callAllExperiment(cownumber);
@@ -506,24 +504,24 @@
 					var attributes = $.parseJSON(data.data[0].attributes.attributes);
 					var groupnumber = data.data[0].attributes.groupnumber;
 					var groupname = data.data[0].attributes.groupname;
-					var animalname = $.parseJSON(data.data[0].attributes.cownumber);
+					var cownumbers = $.parseJSON(data.data[0].attributes.cownumber);
 					var groupdescription = data.data[0].attributes.groupdescription;
 					$('#groupnumber').val(groupnumber);
 					$('#groupname').val(groupname);
 					$('#groupdescription').val(groupdescription);
-					$(animalname).each(function(i,elem){
+					$(cownumbers).each(function(i,elem){
 						$.ajax({
-								url: '/api/animalname/'+elem,
-								data: {},
+								url: '/api/master_animal/'+elem,
+								data: $('form').serialize(),
 								type: 'GET',
-								datatype : 'json',
-								success: function(data) {
-									var cownumber = data.data.attributes.cownumber;
-									$("<li><a onclick='callall("+cownumber+")'>"+elem+" - "+cownumber+"</a></li>").appendTo("#cowlist");
+								success: function(response) {
+									var animalname = response.data.attributes.animalname;
+									$("<li><a onclick='callall("+elem+")'> "+animalname+" - "+elem+"</a></li>").prependTo("#cowlist");
 								},
-								error: function(error){
-									console.log(error)
-								}
+								error: function(error) {
+									console.log(error);
+									$.notify("Cow number doesnt exist", "danger");
+								}	
 						});
 					});
 					$(attributes).each(function(i,elem){

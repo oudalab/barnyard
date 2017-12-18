@@ -114,10 +114,6 @@
 								<option>Male</option>
 							  </select>
 							</div>
-							<label for="animalgroup" class="control-label col-xs-1">Animal Group</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="animalgroup" placeholder="Animal Group">
-							</div>
 							<label for="status" class="control-label col-xs-1">Status</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="status">
@@ -187,6 +183,20 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="color" placeholder="Color">
 							</div>
+							<label class="control-label col-xs-1" for="date">D.O.B</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="dob" name="date" placeholder="MM/DD/YYYY" type="text">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="dam" class="control-label col-xs-1">Dam</label>
+							<div class="col-xs-5">
+								<input type="text" class="form-control" id="dam" placeholder="Dam">
+							</div>
+							<label for="sire" class="control-label col-xs-1">Sire</label>
+							<div class="col-xs-5">
+								<input type="text" class="form-control" id="sire" placeholder="Sire">
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="hornstatus" class="control-label col-xs-1">Horn Status</label>
@@ -199,20 +209,6 @@
 								<option>De-horned</option>
 							  </select>
 							</div>
-							<label for="dam" class="control-label col-xs-1">Dam</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="dam" placeholder="Dam" disabled>
-							</div>
-							<label for="sire" class="control-label col-xs-1">Sire</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="sire" placeholder="Sire" disabled>
-							</div>
-							<label class="control-label col-xs-1" for="date">D.O.B</label>
-							<div class="input-group col-xs-2">
-							   <input class="form-control" id="dob" name="date" placeholder="MM/DD/YYYY" type="text">
-							</div>
-						</div>
-						<div class="form-group">
 							<label for="acquiredinfo" class="control-label col-xs-1">How Acquired</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="howacquired">
@@ -228,6 +224,10 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="disposalreason" class="control-label col-xs-1">Disposal Reason</label>
+							<div class="col-xs-5">
+								<input type="text" class="form-control" id="disposalreason" placeholder="Disposal Reason ">
+							</div>
 							<label for="disposedinfo" class="control-label col-xs-1">How Disposed</label>
 							<div class="col-xs-2">
 							  <select class="form-control" id="howdisposed">
@@ -244,10 +244,7 @@
 							</div>
 						</div>
 						<div class="form-group">	
-							<label for="disposalreason" class="control-label col-xs-1">Disposal Reason</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="disposalreason" placeholder="Disposal Reason ">
-							</div>
+							
 						</div>
 						<div class="form-group">
 							<label for="herdnumberlocation" class="control-label col-xs-1">Herd Number Location</label>
@@ -296,11 +293,11 @@
 						<div class="form-group">
 							<label for="dam" class="control-label col-xs-1">Dam</label>
 							<div class="col-xs-5">
-								<input type="text" class="form-control" id="damexperiment" placeholder="Dam">
+								<input type="text" class="form-control" id="damexperiment" placeholder="Dam" disabled>
 							</div>
 							<label for="sire" class="control-label col-xs-1">Sire</label>
 							<div class="col-xs-5">
-								<input type="text" class="form-control" id="sireexperiment" placeholder="Sire">
+								<input type="text" class="form-control" id="sireexperiment" placeholder="Sire" disabled>
 							</div>
 						</div>
 						<div class="form-group">
@@ -328,7 +325,7 @@
 							</div>
 							<label class="control-label col-xs-1" for="date">D.O.B</label>
 							<div class="input-group col-xs-2">
-							   <input class="form-control" id="dobexperiment" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							   <input class="form-control" id="dobexperiment" name="date" placeholder="MM/DD/YYYY" type="text" disabled>
 							</div>
 						</div>
 						<div class="form-group">
@@ -571,9 +568,9 @@
 								<div class="col-xs-2">
 									<input type="text" id="currentcalf" class="form-control" placeholder="Current Calf">
 								</div>
-								<label for="calfdob" class="col-xs-1 control-label">D.O.B</label>
+								<label for="calfdob" class="col-xs-1 control-label">Calf DOB</label>
 								<div class="col-xs-2">
-									<input type="text" id="calfdob" class="form-control" name="date" placeholder="D.O.B">
+									<input type="text" id="calfdob" class="form-control" name="date" placeholder="Calf DOB">
 								</div>
 								<label for="calfsex" class="col-xs-1 control-label">Calf Sex</label>
 								<div class="col-xs-2">

@@ -379,6 +379,22 @@
 						}	
 				});
 			}
+			else if(radioValue == "reportnumber"){
+				var reportnumber = $('#cowSearch').val();
+				$.ajax({
+					url: '/api/reporting/'+reportnumber,
+					data: $('form').serialize(),
+					type: 'GET',
+					success: function(data) {
+						window.location.href = '/reporting?reportnumber='+reportnumber;
+						console.log(data);
+					},
+					error: function(error) {
+						console.log(error);
+						$.notify("Group number doesnt exist", "danger");
+					}
+				});
+			}
 			else {
 				var searchboxvalue = $('#cowSearch').val();
 				$.ajax({
@@ -395,7 +411,8 @@
 					}
 				});
 			}
-			return false;	
+			
+				
 		});
 		
 	});
