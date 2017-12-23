@@ -302,117 +302,112 @@
 		// <!-- }); -->
 		return false;
 	};
-	$(function retriveCowNumber () {
-		$('#search').click(function(e) {
-			var searchboxvalue = $('#cowSearch').val();
-			var radioValue = $("input[name='identifier']:checked").val();
-			if(radioValue == "cownumber"){
-				$.ajax({
-					url: '/api/master_animal/'+searchboxvalue,
-					data: $('form').serialize(),
-					type: 'GET',
-					success: function(data) {
-						window.location.href = '/dashboard?cownumber='+searchboxvalue
-						console.log(data);
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Cow number doesnt exist", "danger");
-					}
-				});
+	
+	
+$('#search').click(function(e) {
+	var searchboxvalue = $('#cowSearch').val();
+	var radioValue = $("input[name='identifier']:checked").val();
+	if(radioValue == "animalname"){
+		console.log("This is working AnimalName");
+	}
+	else{
+		console.log("This is not working AnimalName");
+	}
+	if(radioValue == "cownumber"){
+		$.ajax({
+			url: '/api/master_animal/'+searchboxvalue,
+			data: $('form').serialize(),
+			type: 'GET',
+			async: false,
+			success: function(data) {
+				window.location.href = '/dashboard?cownumber='+searchboxvalue;
+				console.log(data);
+			},
+			error: function(error) {
+				console.log(error);
+				$.notify("Cow number doesnt exist", "danger");
 			}
-			else if(radioValue == "animalname") {
-				var searchboxvalue = $('#cowSearch').val();
-				$.ajax({
-						url: '/api/animalname/'+searchboxvalue,
-						data: {},
-						type: 'GET',
-						datatype : 'json',
-						success: function(data) {
-							var cownumber = data.data.attributes.cownumber;
-							$.ajax({
-								url: '/api/master_animal/'+cownumber,
-								data: $('form').serialize(),
-								type: 'GET',
-								success: function(data) {
-									window.location.href = '/dashboard?cownumber='+cownumber
-									console.log(data);
-								},
-								error: function(error) {
-									console.log(error);
-									$.notify("Animal number doesnt exist", "danger");
-								}
-							});
-						},
-						error: function(error) {
-							console.log(error);
-							$.notify("Cow number doesnt exist", "danger");
-						}
-					});
-			}
-			else if(radioValue == "eid") {
-				var searchboxvalue = $('#cowSearch').val();
-				$.ajax({
-						url: '/api/eid/'+searchboxvalue,
-						data: {},
-						type: 'GET',
-						datatype : 'json',
-						success: function(data) {
-							var cownumber = data.data.attributes.cownumber;
-								$.ajax({
-									url: '/api/master_animal/'+cownumber,
-									data: $('form').serialize(),
-									type: 'GET',
-									success: function(data) {
-										window.location.href = '/dashboard?cownumber='+cownumber
-										console.log(data);
-									},
-									error: function(error) {
-										console.log(error);
-										$.notify("Group number doesnt exist", "danger");
-									}
-								});
-						},
-						error: function(error) {
-							console.log(error);
-							$.notify("EID does not exist", "danger");
-						}	
-				});
-			}
-			else if(radioValue == "reportnumber"){
-				var reportnumber = $('#cowSearch').val();
-				$.ajax({
-					url: '/api/reporting/'+reportnumber,
-					data: $('form').serialize(),
-					type: 'GET',
-					success: function(data) {
-						window.location.href = '/reporting?reportnumber='+reportnumber;
-						console.log(data);
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Group number doesnt exist", "danger");
-					}
-				});
-			}
-			else {
-				var searchboxvalue = $('#cowSearch').val();
-				$.ajax({
-					url: '/api/group/'+searchboxvalue,
-					data: $('form').serialize(),
-					type: 'GET',
-					success: function(data) {
-						window.location.href = '/experiment?groupnumber='+searchboxvalue
-						console.log(data);
-					},
-					error: function(error) {
-						console.log(error);
-						$.notify("Group number doesnt exist", "danger");
-					}
-				});
-			}
-			
-				
 		});
-		
-	});
+	}
+	else if(radioValue == "animalname") {
+		var searchboxvalue = $('#cowSearch').val();
+		$.ajax({
+				url: '/api/animalname/'+searchboxvalue,
+				data: {},
+				type: 'GET',
+				datatype : 'json',
+				async: false,
+				success: function(data) {
+					var cownumber = data.data.attributes.cownumber;
+					window.location.href = '/dashboard?cownumber='+cownumber;
+				},
+				error: function(error) {
+					console.log(error);
+					$.notify("Cow number doesnt exist", "danger");
+				}
+			});
+	}
+	else if(radioValue == "eid") {
+		var searchboxvalue = $('#cowSearch').val();
+		$.ajax({
+				url: '/api/eid/'+searchboxvalue,
+				data: {},
+				type: 'GET',
+				datatype : 'json',
+				async: false,
+				success: function(data) {
+					var cownumber = data.data.attributes.cownumber;
+						$.ajax({
+							url: '/api/master_animal/'+cownumber,
+							data: $('form').serialize(),
+							type: 'GET',
+							success: function(data) {
+								window.location.href = '/dashboard?cownumber='+cownumber;
+								console.log(data);
+							},
+							error: function(error) {
+								console.log(error);
+								$.notify("Group number doesnt exist", "danger");
+							}
+						});
+				},
+				error: function(error) {
+					console.log(error);
+					$.notify("EID does not exist", "danger");
+				}	
+		});
+	}
+	else if(radioValue == "reportnumber"){
+		var reportnumber = $('#cowSearch').val();
+		$.ajax({
+			url: '/api/reporting/'+reportnumber,
+			data: $('form').serialize(),
+			type: 'GET',
+			async: false,
+			success: function(data) {
+				window.location.href = '/reporting?reportnumber='+reportnumber;
+				console.log(data);
+			},
+			error: function(error) {
+				console.log(error);
+				$.notify("Group number doesnt exist", "danger");
+			}
+		});
+	}
+	else {
+		var searchboxvalue = $('#cowSearch').val();
+		$.ajax({
+			url: '/api/group/'+searchboxvalue,
+			data: $('form').serialize(),
+			type: 'GET',
+			success: function(data) {
+				window.location.href = '/experiment?groupnumber='+searchboxvalue;
+				console.log(data);
+			},
+			error: function(error) {
+				console.log(error);
+				$.notify("Group number doesnt exist", "danger");
+			}
+		});
+	}
+});

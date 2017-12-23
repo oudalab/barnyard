@@ -165,9 +165,6 @@ def experimentupdate():
     result = schemaMaster.dump(master_animal_query, many=True).data
     print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
 
-
-
-    #print >> sys.stderr, "Another method {}".format(__dict__(Group.query.filter_by(groupnumber=data["groupnumber"]).order_by(Group.ts.desc()).limit(1)))
     return "Success" ,200
 
 

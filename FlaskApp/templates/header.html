@@ -6,32 +6,60 @@
 	<script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 
-	<meta charset="utf-8">
 	<title>Barnyard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="{{url_for('static', filename='cow.ico')}}">
+	
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+</head>
+<body>
+
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
       </button>
       <a class="navbar-brand" href="/searchpage">
-	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}">
-	  </a>
+	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}"></a>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-      </ul>
+    <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-		  
-		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
+        <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
 			<h5>
 				{% if session['logged_in'] %}
 				<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session['email']}} &nbsp;<span class="caret"></span></a>
@@ -44,20 +72,65 @@
 				{% else %}
 				<a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a>
 				{% endif %}
-			</h5>
-
-					  
+			</h5>		  
 		  </div>
-		</div>
-	  </div>
       </ul>
-	</ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-</head>
+    </div>
+  </div>
+</nav>	
+	
+	
+	
+	
+	
+	
+	
+<!-- <nav class="navbar navbar-default navbar-fixed-top"> -->
+  <!-- <div class="container-fluid"> -->
+    <!-- <!-- Brand and toggle get grouped for better mobile display --> -->
+    <!-- <div class="navbar-header"> -->
+      <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> -->
+        <!-- <span class="sr-only">Toggle navigation</span> -->
+        <!-- <span class="icon-bar"></span> -->
+        <!-- <span class="icon-bar"></span> -->
+        <!-- <span class="icon-bar"></span> -->
+      <!-- </button> -->
+      <!-- <a class="navbar-brand" href="/searchpage"> -->
+	  <!-- <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}"> -->
+	  <!-- </a> -->
+    <!-- </div> -->
 
-<body>
+    <!-- <!-- Collect the nav links, forms, and other content for toggling --> -->
+    <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
+      <!-- <ul class="nav navbar-nav"> -->
+      <!-- </ul> -->
+      <!-- <ul class="nav navbar-nav navbar-right"> -->
+		  
+		  <!-- <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid"> -->
+			<!-- <h5> -->
+				<!-- {% if session['logged_in'] %} -->
+				<!-- <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session['email']}} &nbsp;<span class="caret"></span></a> -->
+				  <!-- <ul class="dropdown-menu"> -->
+					<!-- <li><a href="/UserInfo">User Info</a></li> -->
+					<!-- <li role="separator" class="divider"></li> -->
+					<!-- <li><a href="/ChangePassword">Change Password</a></li> -->
+				  <!-- </ul> -->
+				<!-- <a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a> -->
+				<!-- {% else %} -->
+				<!-- <a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a> -->
+				<!-- {% endif %} -->
+			<!-- </h5>		   -->
+		  <!-- </div> -->
+		<!-- </div> -->
+	  <!-- </div> -->
+      <!-- </ul> -->
+	<!-- </ul> -->
+    <!-- </div><!-- /.navbar-collapse --> -->
+  <!-- </div><!-- /.container-fluid --> -->
+<!-- </nav> -->
+<!-- </head> -->
+
+<!-- <body> -->
 
 	<div class="container-fluid" style="min-height:100%; width:100%; margin-top:80px;">
 		{% block body %}{% endblock %}

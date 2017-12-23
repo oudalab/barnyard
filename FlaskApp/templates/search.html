@@ -2,15 +2,15 @@
 {% block body %}
 <html>
 <head>
-	<title>Search Page</title>
+	
 </head>
 
 <body>
 	<div id="Notification area"></div>
-	<form class = "form-horizontal" method="POST">
 		<div class="row text-center" style="margin-bottom:20px;">
 		  <img class="img-responsive center-block" src="/static/images/mainscreen.jpeg" alt="Chania" width="460" height="345">
 		</div>
+
 		<div class="row text-center">
 		  <div class="col-xs-8 col-xs-offset-2" style="margin-bottom:50px;">
 			<div class="input-group" style="margin auto;">
@@ -26,19 +26,20 @@
 			  <span class="input-group-btn"><input type="submit" class="btn" value="Search" id ="search"></span>
 			</div><!-- /input-group -->
 		  </div><!-- /.col-xs-8 -->
-		</div><!-- /.row -->		
+		</div><!-- /.row -->
+		<form class = "form-horizontal">
 		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
 			<div class="btn-group" role="group">
 				<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Animal</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-warning">New Experiment</button></a>
+				<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-default">New Experiment</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a><button type="button" class="btn btn-default" data-toggle="modal" data-target="#readRFID"><span class="glyphicon glyphicon-barcode"></span>Read RFID Tag</button></a>
+				<a href="/inspectionreport" id="allexperiments"><button type="button" class="btn btn-info">All Experiments</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href="#" id="quit"><button type="button" class="btn btn-danger">Quit to Windows</button></a>
+				<a href = "/pharma" id = "reports"><button type="button" class="btn btn-default">Create Report</button></a>
 			</div>
 		</div>
 		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%; margin-top:10px">
@@ -46,23 +47,16 @@
 				<a href="https://162.243.13.216/owncloud" id="iacuc"><button type="button" class="btn btn-default">IACUC</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href="/pharma" id="pharma"><button type="button" class="btn btn-default">Pharma Inventory</button></a>
+				<a href="/pharma" id="pharma"><button type="button" class="btn btn-info">Pharma Inventory</button></a>
 			</div>
 			<div class="btn-group" role="group">
 				<a href = "/inspectionreport" id = "inspectionreport"><button type="button" class="btn btn-default">Inspection Report</button></a>
 			</div>
 			<div class="btn-group" role="group">
-				<a href = "/createherdchange" id = "createherdchange"><button type="button" class="btn btn-default">Herd Change</button></a>
+				<a href = "/createherdchange" id = "createherdchange"><button type="button" class="btn btn-info">Herd Change</button></a>
 			</div>
 		</div>
-		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%; margin-top:10px">
-			<div class="btn-group" role="group">
-				<a href="/allexperimentpage" id="allexperiments"><button type="button" class="btn btn-info">All Experiments</button></a>
-			</div>
-			<div class="btn-group" role="group">
-				<a href = "/create_report" id = "reports"><button type="button" class="btn btn-info">Create Report</button></a>
-			</div>
-		</div>
+		
 	</form>
 	<!-- Modal Function -->
 	<!-- Modal -->

@@ -354,7 +354,7 @@ class table_experiment(Resource):
     def get(self, cownumber):
         experiment_query = Experiment.query.filter_by(cownumber = cownumber).order_by(Experiment.ts.desc())
         result = schemaExperiment.dump(experiment_query,many = True).data
-        print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
+        #print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
         return result
 
     def post(self):
