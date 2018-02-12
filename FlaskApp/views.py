@@ -70,7 +70,6 @@ class table_users_s(Resource):
 
     def patch(self, userid):
         users_query = Users.query.get_or_404(userid)
-        print >> sys.stderr, "This is the start of the patch Users_S {}".format(userid)
         raw_dict = request.form
         try:
             schemaUsers.validate(raw_dict)
@@ -78,7 +77,6 @@ class table_users_s(Resource):
                 setattr(users_query, key, value)
 
             users_query.update()
-            print >> sys.stderr, "This is the results of PATCH Users_S {}".format(userid)
             return self.get(userid)
 
         except ValidationError as err:
@@ -704,6 +702,28 @@ class table_group(Resource):
             resp.status_code = 403
             return resp
 
+    def patch(self, groupnumber):
+        group_query = Group.query.get_or_404(groupnumber)
+        raw_dict = request.form
+        try:
+            schemaGroup.validate(raw_dict)
+            for key, value in raw_dict.items():
+                setattr(group_query, key, value)
+
+            group_query.update()
+
+            return self.get(groupnumber)
+
+        except ValidationError as err:
+            resp = jsonify({"error": err.messages})
+            resp.status_code = 401
+            return resp
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            resp = jsonify({"error": str(e)})
+            resp.status_code = 401
+            return resp
 
 class table_herdchange(Resource):
 

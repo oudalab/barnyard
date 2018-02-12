@@ -18,7 +18,6 @@ var emptylist=[];
 				datatype : 'json',
 				async: false,
 				success: function(data) {
-					console.log(data);
 					attributes = $.parseJSON(data.data[0].attributes.attributes);
 					createHeaderandFooter(attributes);
 					start_date = data.data[0].attributes.start_date;
@@ -104,7 +103,6 @@ var emptylist=[];
 				}	
 			});
 			emptylist.push(attributelist);
-			console.log(emptylist);
 		});
 		
 	};	
@@ -118,7 +116,7 @@ function initTable () {
  return table_create = $('#report_table').DataTable({
 				"bSort": false,
 				"retrieve": true,
-				"bAutoWidth" : false,
+				"bAutoWidth" : true,
 				dom: 'Bfrtip',
 				buttons: [
 					'copyHtml5',
@@ -126,6 +124,7 @@ function initTable () {
 					'csvHtml5',
 					'pdfHtml5'
 				],
+				"lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"]],
 				"columns": addAttributesColumns(attributes)
 			});
 }

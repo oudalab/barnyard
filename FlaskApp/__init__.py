@@ -44,9 +44,13 @@ api.add_resource(table_medical, '/api/medical/<cownumber>')
 api.add_resource(table_medical, '/api/medical/', endpoint = "5")
 api.add_resource(table_grazing, '/api/grazing/<cownumber>')
 api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
+#Table GETs and POSTs are done here.
+
 api.add_resource(table_group, '/api/group/<groupnumber>')
 api.add_resource(table_group, '/api/group/', endpoint = "7")
 api.add_resource(table_herdchange, '/api/herdchange/', endpoint="17")
+
+#Get Cownumber from providing either of the identifications
 api.add_resource(table_eid, '/api/eid/<eid>')
 api.add_resource(table_eartag, '/api/eartag/<eartag>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
@@ -144,6 +148,11 @@ def reporting():
 @login_required
 def allexperiment():
     return render_template("allexperimentpage.html")
+
+@app.route('/experimentedit')
+@login_required
+def experimentedit():
+    return render_template("ExperimentEdit.html")
 
 @app.route('/experimentupdate', methods = ['GET','POST'])
 @login_required

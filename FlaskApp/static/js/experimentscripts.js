@@ -520,7 +520,7 @@
 								},
 								error: function(error) {
 									console.log(error);
-									$.notify("Cow number doesnt exist", "danger");
+									$.notify("Cow number doesn't exist", "danger");
 								}	
 						});
 					});

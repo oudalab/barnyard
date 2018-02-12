@@ -90,44 +90,44 @@
 	
 	
 	
-function groupaddchecks(parsed_list) {
-			var jsonattributes = [];	
-			var newattributes;			
-			$(".groupaddinput").each(function(i, elem){
-				if($(this).is(":checked")){
-					newattributes = $(elem).val();
-					jsonattributes.push(newattributes);
-				}
-			});
-			var groupname1 = $('#groupname').val();
-			var	groupnumber1 = $('#groupnumber').val();
-			var	groupdescription1 = $('#groupdescription').val();
-			var attributes = JSON.stringify(jsonattributes);
-			var emaillabel = get_email();	
-			var cownumbers = JSON.stringify(parsed_list);
-			var group = {
-				cownumber : cownumbers,
-				attributes : attributes,
-				user : emaillabel,
-				groupname : groupname1,
-				groupnumber : groupnumber1,
-				groupdescription : groupdescription1
-			};
-			$.ajax({
-				url: '/api/group/',
-				data: group,
-				datatype: 'json',
-				type: 'POST',
-				success: function(response) {
-					console.log(response);
-					$.notify("Group Add data saved", "info");
-					setTimeout(function() {
-						window.location.href = '/experiment?groupnumber='+groupnumber1
-					}, 2000); 
-				},
-				error: function(error) {
-					console.log(error)
-					$.notify("Group Add is facing some Issues", "danger");
-				}
-			});
+function groupaddchecks(parsed_list){
+	var jsonattributes = [];	
+	var newattributes;			
+	$(".groupaddinput").each(function(i, elem){
+		if($(this).is(":checked")){
+			newattributes = $(elem).val();
+			jsonattributes.push(newattributes);
+		}
+	});
+	var groupname1 = $('#groupname').val();
+	var	groupnumber1 = $('#groupnumber').val();
+	var	groupdescription1 = $('#groupdescription').val();
+	var attributes = JSON.stringify(jsonattributes);
+	var emaillabel = get_email();	
+	var cownumbers = JSON.stringify(parsed_list);
+	var group = {
+		cownumber : cownumbers,
+		attributes : attributes,
+		user : emaillabel,
+		groupname : groupname1,
+		groupnumber : groupnumber1,
+		groupdescription : groupdescription1
+	};
+	$.ajax({
+		url: '/api/group/',
+		data: group,
+		datatype: 'json',
+		type: 'POST',
+		success: function(response) {
+			console.log(response);
+			$.notify("Group Add data saved", "info");
+			setTimeout(function() {
+				window.location.href = '/experiment?groupnumber='+groupnumber1
+			}, 2000); 
+		},
+		error: function(error) {
+			console.log(error)
+			$.notify("Group Add is facing some Issues", "danger");
+		}
+	});
 };
