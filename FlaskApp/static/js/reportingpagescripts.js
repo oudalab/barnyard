@@ -18,6 +18,8 @@ var emptylist=[];
 				datatype : 'json',
 				async: false,
 				success: function(data) {
+					console.log(data);
+					console.log(data);
 					attributes = $.parseJSON(data.data[0].attributes.attributes);
 					createHeaderandFooter(attributes);
 					start_date = data.data[0].attributes.start_date;

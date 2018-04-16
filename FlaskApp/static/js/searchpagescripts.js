@@ -401,7 +401,7 @@ $('#search').click(function(e) {
 			data: $('form').serialize(),
 			type: 'GET',
 			success: function(data) {
-				window.location.href = '/experiment?groupnumber='+searchboxvalue;
+				window.location.href = '/experimentedit?groupnumber='+searchboxvalue;
 				console.log(data);
 			},
 			error: function(error) {

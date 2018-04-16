@@ -366,8 +366,6 @@ class table_experiment(Resource):
                                     birthweight=raw_dict['birthweight'],
                                     animaltype=raw_dict['animaltype'],
                                     birthweightadj=raw_dict['birthweightadj'],
-                                    conditionscoreweaning2015=raw_dict['conditionscoreweaning2015'],
-                                    conditionscoreweaning2016=raw_dict['conditionscoreweaning2016'],
                                     bcsrecent=raw_dict['bcsrecent'],
                                     bcsprevious=raw_dict['bcsprevious'],
                                     bcsdifference=raw_dict['bcsdifference'],
@@ -671,9 +669,8 @@ class table_grazing(Resource):
 class table_group(Resource):
 
     def get(self, groupnumber):
-        group_query = Group.query.filter_by(groupnumber = groupnumber).order_by(Group.ts.desc())
+        group_query = Group.query.filter_by(groupnumber = groupnumber)
         result = schemaGroup.dump(group_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
         return result
 
     def post(self):
@@ -682,7 +679,7 @@ class table_group(Resource):
         try:
             # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
-            group = Group(cownumber=raw_dict['cownumber'], ts=None, groupnumber=raw_dict['groupnumber'],
+            group = Group(cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
                              groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],user=raw_dict['user'],
                              attributes = raw_dict['attributes'])
             group.add(group)
@@ -711,7 +708,6 @@ class table_group(Resource):
                 setattr(group_query, key, value)
 
             group_query.update()
-
             return self.get(groupnumber)
 
         except ValidationError as err:

@@ -10,7 +10,7 @@
 			eartag : $('#eartag').val(),
 			eid : $('#eid').val(),
 			sex : $('#sex option:selected').text(),
-			pasturenumber : $('#pasturenumber option:selected').text(),
+			pasturenumber : $('#pasturenumber').val(),
 			breed : $('#breed').val(),
 			status : $('#status option:selected').text(),
 			trial : $('#trial').val(),
@@ -101,8 +101,6 @@
 			birthweight : $('#birthweight').val(),//2
 			birthweightadj : $('#birthweightadj').val(),//3
 			sireframescore : $('#sireframescore').val(),//4
-			conditionscoreweaning2015 : $('#conditionscoreweaning2015').val(),//5
-			conditionscoreweaning2016 : $('#conditionscoreweaning2016').val(),//6
 			bcsrecent : $('#bcsrecent').val(),//7
 			bcsprevious : $('#bcsprevious').val(),//8
 			bcsdifference : $('#bcsdifference').val(),//9

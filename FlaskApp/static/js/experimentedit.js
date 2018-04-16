@@ -27,7 +27,7 @@
 									var animalname = response.data.attributes.animalname;
 									var eid = response.data.attributes.eid;
 									var eartag = response.data.attributes.eartag;
-									if(i==1){
+									if(i==0){
 										$('#animalname').val(animalname);
 										$('#eid').val(eid);
 										$('#eartag').val(eartag);
@@ -157,6 +157,7 @@
 			});
 			var groupname1 = $('#groupname').val();
 			var	groupnumber1 = $('#groupnumber').val();
+			var groupnumber2 = JSON.parse(groupnumber1);
 			var	groupdescription1 = $('#groupdescription').val();
 			var attributes = JSON.stringify(jsonattributes);
 			var emaillabel = get_email();	
@@ -166,11 +167,11 @@
 				attributes : attributes,
 				user : emaillabel,
 				groupname : groupname1,
-				groupnumber : groupnumber1,
+				groupnumber : groupnumber2,
 				groupdescription : groupdescription1
 			};
 			$.ajax({
-				url: '/api/group/'+groupnumber,
+				url: '/api/group/'+groupnumber2,
 				data: group,
 				datatype: 'json',
 				type: 'PATCH',
@@ -178,7 +179,7 @@
 					console.log(response);
 					$.notify("Group Add data saved", "info");
 					setTimeout(function() {
-						window.location.href = '/experiment?groupnumber='+groupnumber1
+						window.location.href = '/experiment?groupnumber='+groupnumber2
 					}, 2000); 
 				},
 				error: function(error) {

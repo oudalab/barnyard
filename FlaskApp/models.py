@@ -342,8 +342,6 @@ class Experiment(db.Model, CRUD):
 	birthweight = db.Column(db.Text)
 	birthweightadj = db.Column(db.Text)
 	sireframescore = db.Column(db.Float)
-	conditionscoreweaning2015 = db.Column(db.Text)
-	conditionscoreweaning2016 = db.Column(db.Text)
 	bcsrecent = db.Column(db.Text)
 	bcsprevious = db.Column(db.Text)
 	bcsdifference = db.Column(db.Text)
@@ -381,8 +379,7 @@ class Experiment(db.Model, CRUD):
 	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
 	def __init__(self, cownumber,ts, birthweight,birthweightadj,animaltype,
-				 sireframescore, weanheight,conditionscoreweaning2015,conditionscoreweaning2016,
-				 bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
+				 sireframescore, weanheight, bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
 				 adj205h,weanframescore,weangpd,weanhipht,weanwda,weanweightdate, ageatwean,
 				 yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh,
 				 yearlingframescore, ageatyearling,customweight, customweightdate, customheight,
@@ -391,8 +388,6 @@ class Experiment(db.Model, CRUD):
 		self.animaltype = animaltype
 		self.birthweight = birthweight
 		self.birthweightadj = birthweightadj
-		self.conditionscoreweaning2015 = conditionscoreweaning2015
-		self.conditionscoreweaning2016 = conditionscoreweaning2016
 		self.bcsrecent = bcsrecent
 		self.bcsprevious = bcsprevious
 		self.bcsdifference = bcsdifference
@@ -438,8 +433,6 @@ class Experiment_Schema(Schema):
 	animaltype = fields.String()
 	birthweight = fields.Float()
 	birthweightadj = fields.String()
-	conditionscoreweaning2015 = fields.String()
-	conditionscoreweaning2016 = fields.String()
 	bcsrecent = fields.String()
 	bcsprevious = fields.String()
 	bcsdifference = fields.String()
@@ -807,15 +800,13 @@ class Group(db.Model, CRUD):
 	groupdescription = db.Column(db.Text)
 	attributes = db.Column(db.Text)
 	user = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
-	def __init__(self, cownumber,ts, groupnumber, groupname, groupdescription, attributes,user):
+	def __init__(self, cownumber, groupnumber, groupname, groupdescription, attributes,user):
 		self.cownumber = cownumber
 		self.groupnumber = groupnumber
 		self.groupname = groupname
 		self.groupdescription = groupdescription
 		self.attributes = str(attributes)
-		self.ts = ts
 		self.user = user
 
 
@@ -827,7 +818,6 @@ class Group_Schema(Schema):
 	groupname = fields.String()
 	groupdescription = fields.String()
 	attributes = fields.String()
-	ts = fields.DateTime(validate = not_blank)
 	user = fields.String()
 
 	# self links

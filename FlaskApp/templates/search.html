@@ -28,36 +28,35 @@
 		  </div><!-- /.col-xs-8 -->
 		</div><!-- /.row -->
 		<form class = "form-horizontal">
-		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
-			<div class="btn-group" role="group">
-				<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Animal</button></a>
+			<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%">
+				<div class="btn-group" role="group">
+					<a href="" id="newcow"><button type="button" class="btn btn-info" onclick = "inputDataBasic(); return false;">New Animal</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-default">New Experiment</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href="/allexperimentpage" id="allexperiments"><button type="button" class="btn btn-info">All Experiments</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href = "/create_report" id = "reports"><button type="button" class="btn btn-default">Create Report</button></a>
+				</div>
 			</div>
-			<div class="btn-group" role="group">
-				<a href="/newexperimentpage" id="newexperimentbutton"><button type="button" class="btn btn-default">New Experiment</button></a>
+			<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%; margin-top:10px">
+				<div class="btn-group" role="group">
+					<a href="https://162.243.13.216/owncloud" id="iacuc"><button type="button" class="btn btn-default">IACUC</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href="/pharma" id="pharma"><button type="button" class="btn btn-info">Pharma Inventory</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href = "/inspectionreport" id = "inspectionreport"><button type="button" class="btn btn-default">Inspection Report</button></a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href = "/createherdchange" id = "createherdchange"><button type="button" class="btn btn-info">Herd Change</button></a>
+				</div>
 			</div>
-			<div class="btn-group" role="group">
-				<a href="/allexperimentpage" id="allexperiments"><button type="button" class="btn btn-info">All Experiments</button></a>
-			</div>
-			<div class="btn-group" role="group">
-				<a href = "/create_report" id = "reports"><button type="button" class="btn btn-default">Create Report</button></a>
-			</div>
-		</div>
-		<div class="btn-group btn-group-justified" role="group" aria-label="Everything" style="margin:auto; width:70%; margin-top:10px">
-			<div class="btn-group" role="group">
-				<a href="https://162.243.13.216/owncloud" id="iacuc"><button type="button" class="btn btn-default">IACUC</button></a>
-			</div>
-			<div class="btn-group" role="group">
-				<a href="/pharma" id="pharma"><button type="button" class="btn btn-info">Pharma Inventory</button></a>
-			</div>
-			<div class="btn-group" role="group">
-				<a href = "/inspectionreport" id = "inspectionreport"><button type="button" class="btn btn-default">Inspection Report</button></a>
-			</div>
-			<div class="btn-group" role="group">
-				<a href = "/createherdchange" id = "createherdchange"><button type="button" class="btn btn-info">Herd Change</button></a>
-			</div>
-		</div>
-		
-	</form>
+		</form>
 	<!-- Modal Function -->
 	<!-- Modal -->
 	  <div class="modal fade" id="readRFID" role="dialog">

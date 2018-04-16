@@ -14,7 +14,7 @@
 	function difference2days(date1,date2){
 		var a = moment(date2);
 		var b = moment(date1);
-		var days = b.diff(a, 'days');
+		var days = a.diff(b, 'days');
 		console.log(days);
 		return days;
 	return false;
@@ -247,7 +247,7 @@
 						$('#eartag').val(eartag);
 						$('#eid').val(eid);
 						$('#sex option:selected').text(sex);
-						$('#pasturenumber option:selected').text(pasturenumber);
+						$('#pasturenumber').val(pasturenumber);
 						$('#breed').val(breed);
 						$('#status option:selected').text(status);
 						$('#trial').val(trial);
@@ -354,8 +354,6 @@
 						var birthweight = data.data[0].attributes.birthweight;
 						var birthweightadj = data.data[0].attributes.birthweightadj;
 						var sireframescore = data.data[0].attributes.sireframescore;
-						var conditionscoreweaning2015 = data.data[0].attributes.conditionscoreweaning2015;
-						var conditionscoreweaning2016 = data.data[0].attributes.conditionscoreweaning2016;
 						var bcsrecent = data.data[0].attributes.bcsrecent;
 						var bcsprevious = data.data[0].attributes.bcsprevious;
 						var bcsdifference = data.data[0].attributes.bcsdifference;
@@ -417,13 +415,8 @@
 						$('#backfat').val(backfat);
 						$('#blockpen').val(blockpen);
 						$('#replicate').val(replicate);
-						$('#damexperiment').val(dam);
-						$('#sireexperiment').val(sire);
-						$('#dobexperiment').val(dob);
 						$('#treatment option:selected').text(treatment);
 						$('#birthweightadj').val(birthweightadj);
-						$('#conditionscoreweaning2015').val(conditionscoreweaning2015);
-						$('#conditionscoreweaning2016').val(conditionscoreweaning2016);
 						$('#bcsrecent').val(bcsrecent);
 						$('#bcsprevious').val(bcsprevious);
 						$('#bcsdifference').val(bcsdifference);
