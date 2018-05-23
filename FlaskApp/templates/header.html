@@ -10,110 +10,85 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="{{url_for('static', filename='cow.ico')}}">
 	
-  <style>
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
+  <!-- <style> -->
+    <!-- /* Remove the navbar's default margin-bottom and rounded borders */  -->
+    <!-- .navbar { -->
+      <!-- margin-bottom: 0; -->
+      <!-- border-radius: 0; -->
+    <!-- } -->
     
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
+    <!-- /* Set height of the grid so .sidenav can be 100% (adjust as needed) */ -->
+    <!-- .row.content {height: 450px} -->
     
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 100%;
-    }
+    <!-- /* Set gray background color and 100% height */ -->
+    <!-- .sidenav { -->
+      <!-- padding-top: 20px; -->
+      <!-- background-color: #f1f1f1; -->
+      <!-- height: 100%; -->
+    <!-- } -->
     
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
+    <!-- /* Set black background color, white text and some padding */ -->
+    <!-- footer { -->
+      <!-- background-color: #555; -->
+      <!-- color: white; -->
+      <!-- padding: 15px; -->
+    <!-- } -->
     
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
-    }
+    <!-- /* On small screens, set height to 'auto' for sidenav and grid */ -->
+    <!-- @media screen and (max-width: 767px) { -->
+      <!-- .sidenav { -->
+        <!-- height: auto; -->
+        <!-- padding: 15px; -->
+      <!-- } -->
+      <!-- .row.content {height:auto;}  -->
+    <!-- } -->
+	<!-- </style> -->
+	<style>
+		.sidenav {
+			height: 100%; /* Full-height: remove this if you want "auto" height */
+			width: auto; /* Set the width of the sidebar */
+			position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+			z-index: 1; /* Stay on top */
+			top: 50px; /* Stay at the top */
+			left: 0;
+			background-color: #f8f8f8; /* Black */
+			overflow-x: hidden; /* Disable horizontal scroll */
+			padding-top: 20px;
+		}
+
+		/* The navigation menu links */
+		.sidenav a {
+			padding: 6px 8px 6px 16px;
+			text-decoration: none;
+			font-size: 18px;
+			color: #818181;
+			display: block;
+		}
+
+		/* When you mouse over the navigation links, change their color */
+		.sidenav a:hover {
+			color: #333;
+		}
+
+		/* Style page content */
+		.main {
+			margin-left: 200px; /* Same as the width of the sidebar */
+			padding: 0px 10px;
+		}
+
+		/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+		@media screen and (max-height: 450px) {
+			.sidenav {padding-top: 15px;}
+			.sidenav a {font-size: 20px;}
+		}
 	</style>
-	<style>	
 	
-				/* The side navigation menu */
-			.sidenav {
-				height: 100%; /* 100% Full-height */
-				width: 0; /* 0 width - change this with JavaScript */
-				position: fixed; /* Stay in place */
-				z-index: 1; /* Stay on top */
-				top: 0; /* Stay at the top */
-				left: 0;
-				background-color: #111; /* Black*/
-				overflow-x: hidden; /* Disable horizontal scroll */
-				padding-top: 60px; /* Place content 60px from the top */
-				transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-			}
-
-			/* The navigation menu links */
-			.sidenav a {
-				padding: 8px 8px 8px 32px;
-				text-decoration: none;
-				font-size: 25px;
-				color: #818181;
-				display: block;
-				transition: 0.3s;
-			}
-
-			/* When you mouse over the navigation links, change their color */
-			.sidenav a:hover {
-				color: #f1f1f1;
-			}
-
-			/* Position and style the close button (top right corner) */
-			.sidenav .closebtn {
-				position: absolute;
-				top: 0;
-				right: 25px;
-				font-size: 36px;
-				margin-left: 50px;
-			}
-
-			/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-			#main {
-				transition: margin-left .5s;
-				padding: 20px;
-			}
-
-			/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-			@media screen and (max-height: 450px) {
-				.sidenav {padding-top: 15px;}
-				.sidenav a {font-size: 18px;}
-			}
-  </style>
-  
-  <script>
-	  function openNav() {
-		document.getElementById("mySidenav").style.width = "250px";
-		document.getElementById("main").style.marginLeft = "250px";
-	}
-
-	/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-	function closeNav() {
-		document.getElementById("mySidenav").style.width = "0";
-		document.getElementById("main").style.marginLeft = "0";
-	}
-  </script>
 </head>
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
-  
+	
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
@@ -122,7 +97,6 @@
       </button>
       <a class="navbar-brand" href="/searchpage">
 	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}"></a>
-	  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -145,59 +119,28 @@
     </div>
   </div>
 </nav>	
-	
-	
-	
-	
-	
-	
-	
-<!-- <nav class="navbar navbar-default navbar-fixed-top"> -->
-  <!-- <div class="container-fluid"> -->
-    <!-- <!-- Brand and toggle get grouped for better mobile display --> -->
-    <!-- <div class="navbar-header"> -->
-      <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> -->
-        <!-- <span class="sr-only">Toggle navigation</span> -->
-        <!-- <span class="icon-bar"></span> -->
-        <!-- <span class="icon-bar"></span> -->
-        <!-- <span class="icon-bar"></span> -->
-      <!-- </button> -->
-      <!-- <a class="navbar-brand" href="/searchpage"> -->
-	  <!-- <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}"> -->
-	  <!-- </a> -->
-    <!-- </div> -->
 
-    <!-- <!-- Collect the nav links, forms, and other content for toggling --> -->
-    <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
-      <!-- <ul class="nav navbar-nav"> -->
-      <!-- </ul> -->
-      <!-- <ul class="nav navbar-nav navbar-right"> -->
-		  
-		  <!-- <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid"> -->
-			<!-- <h5> -->
-				<!-- {% if session['logged_in'] %} -->
-				<!-- <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session['email']}} &nbsp;<span class="caret"></span></a> -->
-				  <!-- <ul class="dropdown-menu"> -->
-					<!-- <li><a href="/UserInfo">User Info</a></li> -->
-					<!-- <li role="separator" class="divider"></li> -->
-					<!-- <li><a href="/ChangePassword">Change Password</a></li> -->
-				  <!-- </ul> -->
-				<!-- <a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a> -->
-				<!-- {% else %} -->
-				<!-- <a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a> -->
-				<!-- {% endif %} -->
-			<!-- </h5>		   -->
-		  <!-- </div> -->
-		<!-- </div> -->
-	  <!-- </div> -->
-      <!-- </ul> -->
-	<!-- </ul> -->
-    <!-- </div><!-- /.navbar-collapse --> -->
-  <!-- </div><!-- /.container-fluid --> -->
-<!-- </nav> -->
-<!-- </head> -->
 
-<!-- <body> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<div class="container-fluid" style="min-height:100%; width:100%; margin-top:80px;">
 		{% block body %}{% endblock %}
@@ -253,19 +196,21 @@
 
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
-<body>
-	<div style="margin-top:35px;" id="mySidenav" class="sidenav">
-	  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	  <a href="" id="newcow" onclick = "inputDataBasic(); return false;">New Animal</a>
-	  <a href="/newexperimentpage" id="newexperimentbutton">New Experiment</a>
-	  <a href="/allexperimentpage" id="allexperiments">All Experiments</a>
-	  <a href = "/create_report" id = "reports">Create Report</a>
-	  <a href="https://162.243.13.216/owncloud" id="iacuc">IACUC</a>
-	  <a href="/pharma" id="pharma">Pharma Inventory</a>
-	  <a href = "/inspectionreport" id = "inspectionreport">Inspection Report</a>
-	  <a href = "/createherdchange" id = "createherdchange">Herd Change</a>
-	</div>
-</body>
+
+	
+<!-- <body> -->
+	<!-- <div style="margin-top:35px;" id="mySidenav" class="sidenav"> -->
+	  <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+	  <!-- <a href="" id="newcow" onclick = "inputDataBasic(); return false;">New Animal</a> -->
+	  <!-- <a href="/newexperimentpage" id="newexperimentbutton">New Experiment</a> -->
+	  <!-- <a href="/allexperimentpage" id="allexperiments">All Experiments</a> -->
+	  <!-- <a href = "/create_report" id = "reports">Create Report</a> -->
+	  <!-- <a href="https://162.243.13.216/owncloud" id="iacuc">IACUC</a> -->
+	  <!-- <a href="/pharma" id="pharma">Pharma Inventory</a> -->
+	  <!-- <a href = "/inspectionreport" id = "inspectionreport">Inspection Report</a> -->
+	  <!-- <a href = "/createherdchange" id = "createherdchange">Herd Change</a> -->
+	<!-- </div> -->
+<!-- </body> -->
 
 
 
