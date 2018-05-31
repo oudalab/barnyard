@@ -2,9 +2,10 @@ from flask import Flask, render_template, flash, request, url_for, redirect,sess
 from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
-from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herdchange, table_eid, table_animalname,table_eartag, table_groupall, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
-    table_drug_inventory_dic_a, table_reporting,table_report_view
+from views import table_basics, table_medical_inventory, table_animal_inventory, table_experiment, table_reproduction, \
+    table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
+    table_group_all, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
+    table_drug_inventory_dic_a, table_reporting, table_report_view
 from secrets import whole_string, short_string
 import config
 import logging
@@ -47,14 +48,14 @@ api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
 #Table GETs and POSTs are done here.
 
 api.add_resource(table_group, '/api/group/<groupnumber>')
-api.add_resource(table_group, '/api/group/', endpoint = "7")
+api.add_resource(table_group, '/api/group/', endpoint="7")
 api.add_resource(table_herdchange, '/api/herdchange/', endpoint="17")
 
 #Get Cownumber from providing either of the identifications
 api.add_resource(table_eid, '/api/eid/<eid>')
 api.add_resource(table_eartag, '/api/eartag/<eartag>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
-api.add_resource(table_groupall, '/api/groupall/')
+api.add_resource(table_group_all, '/api/groupall/')
 # "a" for all (All users)
 api.add_resource(table_users_a, '/api/users_a/')
 # "s" for all (Single user)
@@ -127,7 +128,7 @@ def newherdchange():
 def herdchange():
     return render_template("herdchange.html")
 
-@app.route('/experiment')
+@app.route('/experiment', methods = ['GET','POST'])
 @login_required
 def cowgroup():
     return render_template("experiment.html")
@@ -168,13 +169,13 @@ def experimentupdate():
     schemaGrazing = Grazing_Schema()
     schemaGroup = Group_Schema()
 
-    data = request.get_json(force = True)
-    print >> sys.stderr, "This is the data comming through {}".format(data)
+    data = request.get_json(force=True)
+    print >> sys.stderr, "This is the data coming through {}".format(data)
     master_animal_query = Master_animal.query.filter_by(cownumber=data["cownumber"]).order_by(Master_animal.ts.desc()).limit(1)
     result = schemaMaster.dump(master_animal_query, many=True).data
     print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
 
-    return "Success" ,200
+    return "Success", 200
 
 
 @app.route('/test')

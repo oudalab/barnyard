@@ -1,33 +1,24 @@
 	$(document).ready(function () {
 		$.ajax({
             url : '/api/groupall/',
+			data:{},
             type : 'GET',
             dataType : 'json',
             success : function(data) {
                 assignToEventsColumns(data);
             }
         });
-        function assignToEventsColumns(data) {
-            var table = $('#table_allexperiment').dataTable({
-                "bAutoWidth" : false,
-                data : data,
-				dom: 'Bfrtip',
-				//order: [ 1, 'desc' ],
-				buttons: [
-					'copyHtml5',
-					'excelHtml5',
-					'csvHtml5',
-					'pdfHtml5'
-				],
-                "columns" : [ {
-                    "data" : "groupname"
-                }, {
-                    "data" : "groupdescription"
-                }, {
-                    "data" : "groupnumber"
-                }, {
-                    "data" : "cownumber"
-                }]
-            });
-        }	
+	
+	
+		function assignToEventsColumns(data) {
+			$('#table_allexperiment').DataTable( {
+				data: data.data,
+				columns: [
+					{ "data": "attributes.groupname" },
+					{ "data": "attributes.groupdescription" },
+					{ "data": "attributes.groupnumber" },
+					{ "data": "attributes.cownumber" }
+				]
+			});
+		};
 	});

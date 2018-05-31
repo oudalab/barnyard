@@ -12,6 +12,7 @@ from secrets import whole_string,short_string
 import sys
 import json
 import sqlite3
+import pdb;
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
@@ -116,13 +117,6 @@ class table_eartag(Resource):
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
-# Used for all experiments page
-class table_groupall(Resource):
-    def get(self):
-        group_query = Group.query.all()
-        result = schemaGroup.dump(group_query, many=True).data
-        # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
-        return result
 
 # master_animal table
 class table_basics(Resource):
@@ -135,6 +129,7 @@ class table_basics(Resource):
         return result
 
     def post(self):
+
         raw_dict = request.form
         #master_dict = raw_dict['data']['attributes']
         try:
@@ -665,6 +660,13 @@ class table_grazing(Resource):
             resp.status_code = 401
             return resp
 
+# Used for all experiments page
+class table_group_all(Resource):
+    def get(self):
+        group_query = Group.query.all()
+        result = schemaGroup.dump(group_query, many=True).data
+        # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
+        return result
 
 class table_group(Resource):
 

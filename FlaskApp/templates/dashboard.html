@@ -71,7 +71,8 @@
 				<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
 				<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
 				<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>
-				<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Grazing</a></li>
+				<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Pasture</a></li>
+				<li role="presentation"><a href="#episode" aria-controls="episode" role="tab" data-toggle="tab">Episode</a></li>
 			</ul>
 
 		  <!-- Tab panes -->
@@ -997,6 +998,47 @@
 							  </table>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane fade" id="episode">
+					<div class="form-horizontal" style="margin-top:15px;">
+						<div class="form-group">
+							<label for="episodeid" class="control-label col-xs-1">Episode ID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="episodeid" placeholder="Episode ID">
+							</div>
+							<label for="type" class="control-label col-xs-1">Type</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="type" placeholder="Type">
+							</div>
+							<label for="animal_id" class="control-label col-xs-1">Animal ID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="animal_id" placeholder="Animal ID">
+							</div>
+							<label for="start_date" class="control-label col-xs-1">Start Date</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="start_date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="procedure_id" class="control-label col-xs-1">Procedure ID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="procedure_id" placeholder="Procedure ID">
+							</div>
+							<label for="med_id" class="control-label col-xs-1">Med ID</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="med_id" placeholder="Med ID">
+							</div>
+							<label for="experiment_number" class="control-label col-xs-1">Experiment Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="experiment_number" placeholder="Experiment Number">
+							</div>
+							<label for="end_date" class="control-label col-xs-1">End Date</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="end_date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							</div>
+						</div>
+						<h2>Documents</h2>
 					</div>
 				</div>
 			</div>

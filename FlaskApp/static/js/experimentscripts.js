@@ -1,4 +1,43 @@
+
+	
 	// imported into experiment.html
+		function get_email_experiment(){
+		var email = "";
+		$.ajax({
+			url: '/user_email',
+			data: {},
+			type: 'GET',
+			datatype : 'json',
+			async: false,
+			success: function(data) {
+				email = data;
+			},
+			error: function(error) {
+				console.log(error)
+				return error;
+			}
+		});
+		return email;
+	}
+	var user = get_email_experiment();
+	
+
+	
+	
+	// DatePicker
+	$(document).ready(function(){
+        var date_input=$('input[name="date"]'); //our date input has the name "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        })
+    });
+	$('body').on('focus',".datepicker_recurring_start", function(){
+		$(this).datepicker();
+	});
 	
 	$('#experiment_update').click(function(e){
 		var cownumber = $('#cownumber').val();
@@ -34,9 +73,10 @@
 		grazingexperiment(cownumber);
 	};
 	// Code to Load Data 
-	function basicexperiment( variable) 
+	function basicexperiment(variable) 
 	{
 		$(document).ready(function(e){
+			var animalgroup= $('#groupnumber').val();
 			$.ajax({
 					url: '/api/master_animal/'+variable,
 					data: {},
@@ -58,12 +98,12 @@
 							herd : data.data.attributes.herd,
 							animaltype : data.data.attributes.animaltype,
 							animalname : data.data.attributes.animalname,
-							animalgroup : data.data.attributes.animalgroup,
 							breeder : data.data.attributes.breeder,
 							currentframescore : data.data.attributes.currentframescore,
 							damframescore : data.data.attributes.damframescore,
 							comments : data.data.attributes.comments,
-							species : data.data.attributes.species
+							species : data.data.attributes.species,
+							user: user
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -90,7 +130,7 @@
 							},
 							error: function(error) {
 								console.log(error)
-								$.notify("Cow number already exist", "danger");
+								$.notify("Basic Data Failed", "danger");
 							}
 						});
 						return false;
@@ -114,31 +154,32 @@
 					datatype : 'json',
 					success: function(data) {
 						console.log(data);	
-						var masterData = [
-							{cownumber : variable},
-								{brand : data.data[0].attributes.brand},
-									{brandlocation : data.data[0].attributes.brandlocation},
-										{tattooleft : data.data[0].attributes.tattooleft},
-											{tattooright : data.data[0].attributes.tattooright},
-												{alternativeid : data.data[0].attributes.alternativeid},
-													{registration : data.data[0].attributes.registration},
-														{color  : data.data[0].attributes.color},
-															{hornstatus  : data.data[0].attributes.hornstatus},
-																{dam  : data.data[0].attributes.dam},
-																	{sire  : data.data[0].attributes.sire},
-																		{dob  : data.data[0].attributes.dob},
-																			{howacquired  : data.data[0].attributes.howacquired},
-																				{dateacquired  : data.data[0].attributes.dateacquired},
-																					{howdisposed  : data.data[0].attributes.howdisposed},
-																						{datedisposed  : data.data[0].attributes.datedisposed},
-																							{disposalreason  : data.data[0].attributes.disposalreason},
-																								{herdnumberlocation : data.data[0].attributes.herdnumberlocation},
-																									{herdstatus : data.data[0].attributes.herdstatus},
-																										{howconceived : data.data[0].attributes.howconceived},
-																											{managementcode : data.data[0].attributes.managementcode},
-																												{ownerID : data.data[0].attributes.ownerID},
-																													{springfall : data.data[0].attributes.springfall},
-																														{includeinlookups : data.data[0].attributes.includeinlookups}];
+						var masterData = {
+							cownumber : variable,
+							brand : data.data[0].attributes.brand,
+							brandlocation : data.data[0].attributes.brandlocation,
+							tattooleft : data.data[0].attributes.tattooleft,
+							tattooright : data.data[0].attributes.tattooright,
+							alternativeid : data.data[0].attributes.alternativeid,
+							registration : data.data[0].attributes.registration,
+							color  : data.data[0].attributes.color,
+							hornstatus  : data.data[0].attributes.hornstatus,
+							dam  : data.data[0].attributes.dam,
+							sire  : data.data[0].attributes.sire,
+							dob  : data.data[0].attributes.dob,
+							howacquired  : data.data[0].attributes.howacquired,
+							dateacquired  : data.data[0].attributes.dateacquired,
+							howdisposed  : data.data[0].attributes.howdisposed,
+							datedisposed  : data.data[0].attributes.datedisposed,
+							disposalreason  : data.data[0].attributes.disposalreason,
+							herdnumberlocation : data.data[0].attributes.herdnumberlocation,
+							herdstatus : data.data[0].attributes.herdstatus,
+							howconceived : data.data[0].attributes.howconceived,
+							managementcode : data.data[0].attributes.managementcode,
+							ownerID : data.data[0].attributes.ownerID,
+							springfall : data.data[0].attributes.springfall,
+							includeinlookups : data.data[0].attributes.includeinlookups,
+							user: user};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
 							// This line checks if the elemenent name is within the dictionary data table
@@ -191,8 +232,6 @@
 							animaltype : data.data[0].attributes.animaltype,
 							birthweightadj : data.data[0].attributes.birthweightadj,
 							sireframescore : data.data[0].attributes.sireframescore,
-							conditionscoreweaning2015 : data.data[0].attributes.conditionscoreweaning2015,
-							conditionscoreweaning2016 : data.data[0].attributes.conditionscoreweaning2016,
 							bcsrecent : data.data[0].attributes.bcsrecent,
 							bcsprevious : data.data[0].attributes.bcsprevious,
 							bcsdifference : data.data[0].attributes.bcsdifference,
@@ -228,7 +267,8 @@
 							replicate  : data.data[0].attributes.replicate,
 							dam  : data.data[0].attributes.dam,
 							sire  : data.data[0].attributes.sire,
-							dob  : data.data[0].attributes.dob	
+							dob  : data.data[0].attributes.dob,
+							user: user
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -317,7 +357,8 @@
 							fertility : data.data[0].attributes.fertility,
 							mobility : data.data[0].attributes.mobility,
 							conc : data.data[0].attributes.conc,
-							deadabnormal : data.data[0].attributes.deadabnormal
+							deadabnormal : data.data[0].attributes.deadabnormal,
+							user: user
 							
 						};
 						var datadata = $("#experimentform").serializeArray();
@@ -379,7 +420,8 @@
 							resolution : data.data[0].attributes.resolution,
 							dateoffollowup : data.data[0].attributes.dateoffollowup,
 							animallocation : data.data[0].attributes.animallocation,
-							dateofaction : data.data[0].attributes.dateofaction
+							dateofaction : data.data[0].attributes.dateofaction,
+							user: user
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -451,7 +493,8 @@
 							pasturenumberpesticide : data.data[0].attributes.pasturenumberpesticide ,
 							chemicalname : data.data[0].attributes.chemicalname ,
 							applicationrate : data.data[0].attributes.applicationrate ,
-							applicationdate : data.data[0].attributes.applicationdate
+							applicationdate : data.data[0].attributes.applicationdate,
+							user: user
 						};
 						var datadata = $("#experimentform").serializeArray();
 						$(datadata).each(function(i,pageelement){
@@ -537,8 +580,9 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for='date' class='control-label col-xs-2'>"+elem+"</label>";
-								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
+								var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+elem+"</label>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-control' id="+elem+" name="+elem+" placeholder='YYYY-MM-DD' type='text'/></div>";
+								toappend += "<script>$(function () { $('#"+elem+"').flatpickr();});	</script>"
 								$(toappend).appendTo("#newfields");
 							}
 							else{	
@@ -558,7 +602,8 @@
 							}
 							else if(dictionary[elem].type == "date"){
 								var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+elem+"</label>";
-								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-control' id="+elem+" name="+elem+" placeholder='YYYY-MM-DD' type='text'/></div>";
+								toappend += "<script>$(function () { $('#"+elem+"').flatpickr();});	</script>"
 								$(toappend).appendTo("#newfields");
 							}
 							else{							
@@ -575,8 +620,9 @@
 								$(toappend).appendTo("#newfields");
 							}
 							else if(dictionary[elem].type == "date"){
-								var toappend = "<label for='date' class='control-label col-xs-2' style=' align-right'>"+elem+"</label>";
-								toappend += "<div class='input-group col-xs-2'><input class='form-group datepicker_recurring_start' id='"+elem+"' name='date' placeholder='MM/DD/YYYY'  type='text' /></div>";
+								var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+elem+"</label>";
+								toappend += "<div class='input-group col-xs-2'><input class='form-control' id="+elem+" name="+elem+" placeholder='YYYY-MM-DD' type='text'/></div>";
+								toappend += "<script>$(function () { $('#"+elem+"').flatpickr();});	</script>"
 								$(toappend).appendTo("#newfields");
 							}
 							else{

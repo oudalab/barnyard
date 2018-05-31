@@ -176,7 +176,7 @@
 											reproductionget(cownumber);
 											medicalget(cownumber);
 											grazingget(cownumber);
-											console.log("this is the cownumber" +response);
+											console.log("this is the cownumber " +animalname);
 											$("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
 											$('#headerSearchbox').val('');
 										},
