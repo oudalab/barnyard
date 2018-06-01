@@ -121,10 +121,18 @@ function initTable () {
 				"bAutoWidth" : true,
 				dom: 'Bfrtip',
 				buttons: [
-					'copyHtml5',
-					'excelHtml5',
-					'csvHtml5',
-					'pdfHtml5'
+					{
+						extend: 'copyHtml5',
+						exportOptions: { orthogonal: 'export' }
+					},
+					{
+						extend: 'excelHtml5',
+						exportOptions: { orthogonal: 'export' }
+					},
+					{
+						extend: 'pdfHtml5',
+						exportOptions: { orthogonal: 'export' }
+					}
 				],
 				"lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"]],
 				"columns": addAttributesColumns(attributes)
