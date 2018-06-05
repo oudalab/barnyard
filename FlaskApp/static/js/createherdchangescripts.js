@@ -1,11 +1,10 @@
 	$(function retriveCowNumber () {
 		$('#submit_newherdchange').click(function(e) {
 			var radioValue = $("input[name='type']:checked").val();
-			if(radioValue == "animalnumber"){
-				var cownumber_split = $('#cownumber').val().split(",");
-				//var cownumber = JSON.stringify(cownumber_split);
+			if(radioValue == "animalname"){
+				var animalname_split = $('#animalname').val().split(",");
 				var parsed_list = [];
-				$(cownumber_split).each(function(i, elem){
+				$(animalname_split).each(function(i, elem){
 					$.ajax({
 						url: '/api/animalname/'+elem,
 						data: $('form').serialize(),
@@ -86,8 +85,6 @@
 	function newherdchange(parsed_list) {
 		var jsonattributes = [];	
 		var newattributes;	
-		var emaillabel = get_email();	
-		var cownumbers = JSON.stringify(parsed_list)
 		var checked_item = $("input[name='type']:checked").val();		
 		$(".herdchangeinput").each(function(i, elem){
 			if($(this).is(":checked")){
@@ -96,6 +93,8 @@
 			}
 		});
 		var attributes = JSON.stringify(jsonattributes);
+		var emaillabel = get_email();	
+		var cownumbers = JSON.stringify(parsed_list)
 		var herdchange = {
 			cownumber : cownumbers,
 			attributes : attributes,

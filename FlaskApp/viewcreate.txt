@@ -1,18 +1,18 @@
-CREATE VIEW testview
-AS SELECT a.animalname,a.animaltype,a.cownumber,a.breed,a.breeder,a.comments,a.weight,a.eartag,a.eid,a.currentframescore,a.damframescore,a.sex,a.herd,a.height,a.pasturenumber,a.species,a.animalgroup,a.status,a.trial,a.ts,
-b.brandlocation,b.dateacquired,b.datedisposed,b.dob,b.herdnumberlocation,b.herdstatus,b.brand,b.hornstatus,b.howacquired,b.howconceived,b.howdisposed,b.includeinlookups,b.managementcode,b.ownerID,b.springfall,b.tattooleft,b.tattooright,b.registration,b.color,b.dam,b.Sire,b.disposalreason,b.alternativeid,
-c.adj205w,c.adjyearlingw,c.ageatwean,c.ageatyearling,c.birthweight,c.birthweightadj,c.conditionscoreweaning2015,c.conditionscoreweaning2016,c.currentwtcow,c.currentwtheifer,c.damwtatwean,c.adj205h,c.adj365dht,c.weandate,c.weangpd,c.weanhipht,c.weanwda,c.weanweightdate,c.weanweight,c.bcsrecent,c.yearlingheight,c.yearlingdate,c.yearlingweight,c.bcsprevious,c.bcsdifference,c.sireframescore,c.weanheight,c.weanframescore,c.yearlingdate,c.adjyearlingh,c.yearlingframescore,c.customweight,c.customweightdate,c.customheight,c.customheightdate,c.backfat,c.treatment,c.blockpen,c.replicate,c.animaltype,c.dob,
+CREATE VIEW alltables
+AS SELECT a.animalname,a.animaltype,a.cownumber,a.breed,a.breeder,a.comments,a.weight,a.eartag,a.eid,a.currentframescore,a.damframescore,a.sex,a.herd,a.height,a.pasturenumber,a.species,a.status,a.trial,a.ts,
+b.brandlocation,b.dateacquired,b.datedisposed,b.dob,b.herdnumberlocation,b.herdstatus,b.brand,b.hornstatus,b.howacquired,b.howconceived,b.howdisposed,b.includeinlookups,b.managementcode,b.ownerID,b.springfall,b.tattooleft,b.tattooright,b.registration,b.color,b.dam,b.sire,b.disposalreason,b.alternativeid,
+c.adj205w,c.adjyearlingw,c.ageatwean,c.ageatyearling,c.birthweight,c.birthweightadj,c.currentwtcow,c.currentwtheifer,c.damwtatwean,c.adj205h,c.adj365dht,c.weandate,c.weangpd,c.weanhipht,c.weanwda,c.weanweightdate,c.weanweight,c.bcsrecent,c.yearlingheight,c.yearlingdate,c.yearlingweight,c.bcsprevious,c.bcsdifference,c.sireframescore,c.weanheight,c.weanframescore,c.yearlingdate,c.adjyearlingh,c.yearlingframescore,c.customweight,c.customweightdate,c.customheight,c.customheightdate,c.backfat,c.treatment,c.blockpen,c.replicate,c.animaltype,
 d.calfsex,d.calvingease,d.breeding,d.damageatbirth,d.bcscalving,d.damcalvingdisposition,d.hiphtbreeding2016,d.hiphtweaning2015,d.hiphtweaning2016,d.udderscore,d.bcsweaning,d.pregnancy,d.siblingcode,d.calfatside,d.totalcalves,d.previouscalf,d.currentcalf,d.calfbirthweight,d.pasturenumberreproduction,d.calfdob,d.conditionscorecalving,d.damdisposition,d.cowframescore,d.cowwtbreeding,d.cowhtbreeding,d.cowwtweaning,d.cowhtweaning,d.cowwtcalving,d.cowhtcalving,d.bcsbreeding,d.customcowwt,d.customcowht,d.bulldisposition,d.bullframescore,d.bullwtprebreeding,d.bullhtprebreeding,d.fertility,d.mobility,d.conc,d.deadabnormal,
 e.reasonforprocedure,e.notificationofvmo,e.recommendationofvmo,e.treatmentprotocol,e.animallocationpreresolution,e.followupexam,e.resolution,e.dateoffollowup,e.animallocation,e.dateofaction,
 f.pastureacres,f.animalspresent,f.datein,f.dateout,f.stockingrate,f.DMavailable,f.applicationdate,f.applicationrate,f.biomass,f.chemicalname,f.cp,f.cp1,f.cp2,f.cp3,f.cp4,f.dateburned,f.pasturenumberburning,f.pasturenumbergrazing,f.pasturenumberpesticide,f.qualityofburn,f.sample
-FROM master_animal a, animal_inventory b, experiment c, reproduction d, medical e, grazing f
-WHERE a.cownumber=b.cownumber
-AND a.ts=b.ts
-AND a.cownumber=c.cownumber
-AND a.ts=c.ts
-AND a.cownumber=d.cownumber
-AND a.ts=d.ts
-AND a.cownumber=e.cownumber
-AND a.ts=e.ts
-AND a.cownumber=f.cownumber
-AND a.ts=f.ts;
+FROM master_animal a
+JOIN animal_inventory b ON a.cownumber = b.cownumber
+                       AND abs(strftime('%s', a.ts) - strftime('%s', b.ts)) <= 120
+JOIN experiment c       ON a.cownumber = c.cownumber
+                       AND abs(strftime('%s', a.ts) - strftime('%s', c.ts)) <= 120
+JOIN reproduction d     ON a.cownumber = d.cownumber
+                       AND abs(strftime('%s', a.ts) - strftime('%s', d.ts)) <= 120
+JOIN medical e     ON a.cownumber = e.cownumber
+                       AND abs(strftime('%s', a.ts) - strftime('%s', e.ts)) <= 120
+JOIN grazing f     ON a.cownumber = f.cownumber
+                       AND abs(strftime('%s', a.ts) - strftime('%s', f.ts)) <= 120;

@@ -7,14 +7,16 @@
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="col-xs-3 sidebar-nav">  
-			<div style="margin-top:50px;margin-bottom:30px;max-height:400px;overflow-y:scroll;">
+		<div class="col-xs-4 sidebar-nav">  
+			<div style="margin-top:50px;margin-left:250px;margin-bottom:30px;max-height:400px;overflow-y:scroll;">
                 <h4 style="margin:0px auto; padding-bottom:5px;" align="center">Users</h4>
 				<ul id="userslist" class=" scrollable-menu">					
                 </ul>
 			</div>
 			<div class="col-xs-2 sidebar-nav">
+				<div style="margin-left:250px;">
 				<button id="user_update" method="POST" class='btn btn-default'>Update</button></a>
+				</div>
 			</div>
 		</div>
 </div>
@@ -23,11 +25,11 @@
 	<div style="margin-bottom:100px;">
 		<div class="form-group" >
 			<label for="firstname" class="control-label col-xs-2" align="right">First Name</label>
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 					<input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
 				</div>
 			<label for="lastname" class="control-label col-xs-2" align="right">Last Name</label>
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 					<input type="text" class="form-control" id="lastname" placeholder="Last Name">
 				</div>
 		</div>
@@ -35,11 +37,11 @@
 	<div style="margin-bottom:100px;">
 		<div class="form-group" >
 			<label for="email" class="control-label col-xs-2" align="right">Email</label>
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 					<input type="text" class="form-control" id="email" placeholder="Email">
 				</div>
 			<label for="roles" class="control-label col-xs-2" align="right">Roles</label>
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 				  <select class="form-control" id="roles">
 					<option></option>
 					<option>UNASSIGNED</option>
@@ -55,7 +57,7 @@
 	<div style="margin-bottom:100px;">
 		<div class="form-group" >
 			<label for="userid" class="control-label col-xs-2" align="right">USER ID</label>
-			<div class="col-xs-4">
+			<div class="col-xs-3">
 				<input type="text" class="form-control" id="userid" placeholder="User ID">
 			</div>
 		</div>

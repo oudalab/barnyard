@@ -3,7 +3,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-
 	<meta charset="utf-8">
 	<title>Barnyard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +17,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/searchpage">
-	  <img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}">
+	  <a class="navbar-brand" href="/searchpage"><img style="max-width:120px;" src="{{url_for('static', filename='images/mainlogo.png')}}">
 	  </a>
     </div>
 
@@ -29,7 +27,7 @@
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group col-xs-offset-2" style="margin:auto;">
-			<input type="text" class="form-control" placeholder="Cow Number" id="headerSearchbox" style="width: 250px;">
+			<input type="text" class="form-control" placeholder="Cow Name" id="headerSearchbox" style="width: 250px;">
 			<button type="submit" class="btn btn-danger" id = "headersearch">Search</button>
 		</div>
         
@@ -50,11 +48,6 @@
 				<li><a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a></li>
 				{% endif %}
 			</h5>
-			
-
-
-
-			
 		  </div>
 		</div>
 	  </div>

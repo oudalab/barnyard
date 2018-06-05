@@ -2,10 +2,10 @@ from flask import Flask, render_template, flash, request, url_for, redirect,sess
 from flask_login import LoginManager, login_user, logout_user, current_user
 from models import db, Users, Group, Group_Schema
 from forms import SignupForm, LoginForm
-from views import table_basics, table_medical_inventory,table_animal_inventory, table_experiment, table_reproduction, table_medical, \
-    table_grazing, table_group, table_herd_change, table_herdchange, table_eid, table_animalname,table_eartag, table_groupall, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
-    table_drug_inventory_dic_a, table_reporting,table_report_basic, table_report_animal_inventory, \
-    table_report_experiment, table_report_reproduction, table_report_medical, table_report_grazing
+from views import table_basics, table_medical_inventory, table_animal_inventory, table_experiment, table_reproduction, \
+    table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
+    table_group_all, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
+    table_drug_inventory_dic_a, table_reporting, table_report_view, table_test
 from secrets import whole_string, short_string
 import config
 import logging
@@ -45,14 +45,17 @@ api.add_resource(table_medical, '/api/medical/<cownumber>')
 api.add_resource(table_medical, '/api/medical/', endpoint = "5")
 api.add_resource(table_grazing, '/api/grazing/<cownumber>')
 api.add_resource(table_grazing, '/api/grazing/', endpoint = "6")
+#Table GETs and POSTs are done here.
+
 api.add_resource(table_group, '/api/group/<groupnumber>')
-api.add_resource(table_group, '/api/group/', endpoint = "7")
-api.add_resource(table_herd_change, '/api/herd_change/')
+api.add_resource(table_group, '/api/group/', endpoint="7")
 api.add_resource(table_herdchange, '/api/herdchange/', endpoint="17")
+
+#Get Cownumber from providing either of the identifications
 api.add_resource(table_eid, '/api/eid/<eid>')
 api.add_resource(table_eartag, '/api/eartag/<eartag>')
 api.add_resource(table_animalname, '/api/animalname/<animalname>')
-api.add_resource(table_groupall, '/api/groupall/')
+api.add_resource(table_group_all, '/api/groupall/')
 # "a" for all (All users)
 api.add_resource(table_users_a, '/api/users_a/')
 # "s" for all (Single user)
@@ -66,17 +69,16 @@ api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint = "9")
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
-#Api for reporting
-#end point to hold intended attribute chnages
-api.add_resource(table_reporting, '/api/reporting/', endpoint = "10")
-api.add_resource(table_report_basic, '/api/report_basic/<cownumber>/<start_date>/<end_date>', endpoint = "11")
-api.add_resource(table_report_animal_inventory, '/api/report_animal_inventory/<cownumber>/<start_date>/<end_date>', endpoint = "12")
-api.add_resource(table_report_experiment, '/api/report_experiment/<cownumber>/<start_date>/<end_date>', endpoint = "13")
-api.add_resource(table_report_reproduction, '/api/report_reproduction/<cownumber>/<start_date>/<end_date>', endpoint = "14")
-api.add_resource(table_report_medical, '/api/report_medical/<cownumber>/<start_date>/<end_date>', endpoint = "15")
-api.add_resource(table_report_grazing, '/api/report_grazing/<cownumber>/<start_date>/<end_date>', endpoint = "16")
+# Api for reporting
+# end point to hold intended attribute chnages
+api.add_resource(table_reporting, '/api/reporting/', endpoint="10")
+api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
+api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint = "11")
 
-#Login Manager
+# Testing for the new MYSQL db connection
+api.add_resource(table_test, '/api/test/', endpoint="18")
+
+# Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -129,7 +131,7 @@ def newherdchange():
 def herdchange():
     return render_template("herdchange.html")
 
-@app.route('/experiment')
+@app.route('/experiment', methods = ['GET','POST'])
 @login_required
 def cowgroup():
     return render_template("experiment.html")
@@ -151,6 +153,11 @@ def reporting():
 def allexperiment():
     return render_template("allexperimentpage.html")
 
+@app.route('/experimentedit')
+@login_required
+def experimentedit():
+    return render_template("ExperimentEdit.html")
+
 @app.route('/experimentupdate', methods = ['GET','POST'])
 @login_required
 # route used to make POST call in experimentscript.js
@@ -165,16 +172,13 @@ def experimentupdate():
     schemaGrazing = Grazing_Schema()
     schemaGroup = Group_Schema()
 
-    data = request.get_json(force = True)
-    print >> sys.stderr, "This is the data comming through {}".format(data)
+    data = request.get_json(force=True)
+    print >> sys.stderr, "This is the data coming through {}".format(data)
     master_animal_query = Master_animal.query.filter_by(cownumber=data["cownumber"]).order_by(Master_animal.ts.desc()).limit(1)
     result = schemaMaster.dump(master_animal_query, many=True).data
     print >> sys.stderr, "This is the results of the get request from master animal {}".format(result)
 
-
-
-    #print >> sys.stderr, "Another method {}".format(__dict__(Group.query.filter_by(groupnumber=data["groupnumber"]).order_by(Group.ts.desc()).limit(1)))
-    return "Success" ,200
+    return "Success", 200
 
 
 @app.route('/test')
@@ -249,11 +253,11 @@ def users_management():
 def userinfo():
     return render_template("UserInfo.html")
 
-#User Change Password
-@app.route('/Change_Password', methods = ['GET', 'POST'])
+@app.route('/change-password')
 @login_required
-def password_change():
+def changepassword():
     return render_template("ChangePassword.html")
+
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

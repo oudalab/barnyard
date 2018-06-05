@@ -14,7 +14,7 @@
 	function difference2days(date1,date2){
 		var a = moment(date2);
 		var b = moment(date1);
-		var days = b.diff(a, 'days');
+		var days = a.diff(b, 'days');
 		console.log(days);
 		return days;
 	return false;
@@ -176,7 +176,7 @@
 											reproductionget(cownumber);
 											medicalget(cownumber);
 											grazingget(cownumber);
-											console.log("this is the cownumber" +response);
+											console.log("this is the cownumber " +animalname);
 											$("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
 											$('#headerSearchbox').val('');
 										},
@@ -247,7 +247,7 @@
 						$('#eartag').val(eartag);
 						$('#eid').val(eid);
 						$('#sex option:selected').text(sex);
-						$('#pasturenumber option:selected').text(pasturenumber);
+						$('#pasturenumber').val(pasturenumber);
 						$('#breed').val(breed);
 						$('#status option:selected').text(status);
 						$('#trial').val(trial);
@@ -291,6 +291,9 @@
 						var dam  = data.data[0].attributes.dam;
 						var sire  = data.data[0].attributes.sire;
 						var dob  = data.data[0].attributes.dob;
+						var damexperiment  = data.data[0].attributes.dam;
+						var sireexperiment  = data.data[0].attributes.sire;
+						var dobexperiment  = data.data[0].attributes.dob;
 						var howacquired  = data.data[0].attributes.howacquired;
 						var dateacquired  = data.data[0].attributes.dateacquired;
 						var howdisposed  = data.data[0].attributes.howdisposed;
@@ -310,6 +313,12 @@
 						$('#alternativeid').val(alternativeid);
 						$('#registration').val(registration);
 						$('#color').val(color);
+						$('#dam').val(dam);
+						$('#sire').val(sire);
+						$('#dob').val(dob);
+						$('#damexperiment').val(damexperiment);
+						$('#sireexperiment').val(sireexperiment);
+						$('#dobexperiment').val(dobexperiment);
 						$('#hornstatus option:selected').text(hornstatus);
 						$('#howacquired option:selected').text(howacquired);
 						$('#dateacquired').val(dateacquired);
@@ -345,8 +354,6 @@
 						var birthweight = data.data[0].attributes.birthweight;
 						var birthweightadj = data.data[0].attributes.birthweightadj;
 						var sireframescore = data.data[0].attributes.sireframescore;
-						var conditionscoreweaning2015 = data.data[0].attributes.conditionscoreweaning2015;
-						var conditionscoreweaning2016 = data.data[0].attributes.conditionscoreweaning2016;
 						var bcsrecent = data.data[0].attributes.bcsrecent;
 						var bcsprevious = data.data[0].attributes.bcsprevious;
 						var bcsdifference = data.data[0].attributes.bcsdifference;
@@ -380,9 +387,6 @@
 						var treatment  = data.data[0].attributes.treatment;
 						var blockpen  = data.data[0].attributes.blockpen;
 						var replicate  = data.data[0].attributes.replicate;
-						var dam  = data.data[0].attributes.dam;
-						var sire  = data.data[0].attributes.sire;
-						var dob  = data.data[0].attributes.dob;
 						var animaltype = data.data[0].attributes.animaltype;
 						//var framescoregot = framescoreget(dam);
 						var weandays = difference2days(weandate,dob);
@@ -411,16 +415,8 @@
 						$('#backfat').val(backfat);
 						$('#blockpen').val(blockpen);
 						$('#replicate').val(replicate);
-						$('#dam').val(dam);
-						$('#sire').val(sire);
-						$('#dob').val(dob);
-						$('#damexperiment').val(dam);
-						$('#sireexperiment').val(sire);
-						$('#dobexperiment').val(dob);
 						$('#treatment option:selected').text(treatment);
 						$('#birthweightadj').val(birthweightadj);
-						$('#conditionscoreweaning2015').val(conditionscoreweaning2015);
-						$('#conditionscoreweaning2016').val(conditionscoreweaning2016);
 						$('#bcsrecent').val(bcsrecent);
 						$('#bcsprevious').val(bcsprevious);
 						$('#bcsdifference').val(bcsdifference);

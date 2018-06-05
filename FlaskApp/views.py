@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
-    Grazing, Grazing_Schema, Group, Group_Schema, Herd_Change, Herd_Change_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema, Create_Report, \
+    Grazing, Grazing_Schema, Group, Group_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema, Create_Report, \
     Create_Report_Schema, Herdchange, Herdchange_Schema
 from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
@@ -12,6 +12,8 @@ from secrets import whole_string,short_string
 import sys
 import json
 import sqlite3
+import MySQLdb
+import pdb;
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
@@ -21,7 +23,6 @@ schemaReproduction = Reproduction_Schema()
 schemaAnimalMedical = Medical_Schema()
 schemaGrazing = Grazing_Schema()
 schemaGroup = Group_Schema()
-schemaHerd = Herd_Change_Schema()
 schemaUsers = UsersSchema()
 schemaDrugDic = Drug_Inventory_Dic_Schema()
 schemaReport = Create_Report_Schema()
@@ -71,7 +72,6 @@ class table_users_s(Resource):
 
     def patch(self, userid):
         users_query = Users.query.get_or_404(userid)
-        print >> sys.stderr, "This is the start of the patch Users_S {}".format(userid)
         raw_dict = request.form
         try:
             schemaUsers.validate(raw_dict)
@@ -79,7 +79,6 @@ class table_users_s(Resource):
                 setattr(users_query, key, value)
 
             users_query.update()
-            print >> sys.stderr, "This is the results of PATCH Users_S {}".format(userid)
             return self.get(userid)
 
         except ValidationError as err:
@@ -119,13 +118,6 @@ class table_eartag(Resource):
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
 
-# Used for all experiments page
-class table_groupall(Resource):
-    def get(self):
-        group_query = Group.query.all()
-        result = schemaGroup.dump(group_query, many=True).data
-        # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
-        return result
 
 # master_animal table
 class table_basics(Resource):
@@ -138,13 +130,33 @@ class table_basics(Resource):
         return result
 
     def post(self):
+
         raw_dict = request.form
         #master_dict = raw_dict['data']['attributes']
         try:
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber= None,ts = None, animalname = raw_dict['animalname'],animalgroup=raw_dict['animalgroup'],breeder=raw_dict['breeder'],currentframescore=raw_dict['currentframescore'],damframescore=raw_dict['damframescore'],comments=raw_dict['comments'],species=raw_dict['species'],weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= None,
+                                       ts = None,
+                                       user = raw_dict['user'],
+                                       animalname = raw_dict['animalname'],
+                                       breeder=raw_dict['breeder'],
+                                       currentframescore=raw_dict['currentframescore'],
+                                       damframescore=raw_dict['damframescore'],
+                                       comments=raw_dict['comments'],
+                                       species=raw_dict['species'],
+                                       weight=raw_dict['weight'],
+                                       height=raw_dict['height'],
+                                       eartag=raw_dict['eartag'],
+                                       eid=raw_dict['eid'],
+                                       sex=raw_dict['sex'],
+                                       pasturenumber=raw_dict['pasturenumber'],
+                                       breed=raw_dict['breed'],
+                                       status=raw_dict['status'],
+                                       trial=raw_dict['trial'],
+                                       herd= raw_dict['herd'],
+                                       animaltype=raw_dict['animaltype'])
                 master.add(master)
                 #print >> sys.stderr, "data for basic post {}".format(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
@@ -172,7 +184,26 @@ class table_basics(Resource):
                 #Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
                 #Create a master object with the API data recieved
-                master = Master_animal(cownumber= raw_dict['cownumber'],ts = None, animalname=raw_dict['animalname'], animalgroup=raw_dict['animalgroup'], breeder=raw_dict['breeder'], currentframescore=raw_dict['currentframescore'], damframescore=raw_dict['damframescore'], comments=raw_dict['comments'], species=raw_dict['species'], weight=raw_dict['weight'],height=raw_dict['height'],eartag=raw_dict['eartag'],eid=raw_dict['eid'],sex=raw_dict['sex'],pasturenumber=raw_dict['pasturenumber'],breed=raw_dict['breed'],status=raw_dict['status'],trial=raw_dict['trial'],herd= raw_dict['herd'],animaltype=raw_dict['animaltype'])
+                master = Master_animal(cownumber= raw_dict['cownumber'],
+                                       ts = None,
+                                       user = raw_dict['user'],
+                                       animalname=raw_dict['animalname'],
+                                       breeder=raw_dict['breeder'],
+                                       currentframescore=raw_dict['currentframescore'],
+                                       damframescore=raw_dict['damframescore'],
+                                       comments=raw_dict['comments'],
+                                       species=raw_dict['species'],
+                                       weight=raw_dict['weight'],
+                                       height=raw_dict['height'],
+                                       eartag=raw_dict['eartag'],
+                                       eid=raw_dict['eid'],
+                                       sex=raw_dict['sex'],
+                                       pasturenumber=raw_dict['pasturenumber'],
+                                       breed=raw_dict['breed'],
+                                       status=raw_dict['status'],
+                                       trial=raw_dict['trial'],
+                                       herd= raw_dict['herd'],
+                                       animaltype=raw_dict['animaltype'])
                 master.add(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
@@ -231,6 +262,7 @@ class table_animal_inventory(Resource):
                                           howconceived=raw_dict['howconceived'],
                                           managementcode=raw_dict['managementcode'],
                                           ownerID=raw_dict['ownerID'],
+                                          user=raw_dict['user'],
                                           springfall=raw_dict['springfall'],
                                           includeinlookups=raw_dict['includeinlookups'])
                 animal.add(animal)
@@ -290,6 +322,7 @@ class table_medical_inventory(Resource):
                 medical = Medical_Inventory(medication = raw_dict['medication'],
                                             quantity = raw_dict['quantity'],
                                             cost = raw_dict['cost'],
+                                            user=raw_dict['user'],
                                             purchasedate = raw_dict['purchasedate'],
                                             expirydate = raw_dict['expirydate'])
                 medical.add(medical)
@@ -315,7 +348,7 @@ class table_experiment(Resource):
     def get(self, cownumber):
         experiment_query = Experiment.query.filter_by(cownumber = cownumber).order_by(Experiment.ts.desc())
         result = schemaExperiment.dump(experiment_query,many = True).data
-        print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
+        #print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
         return result
 
     def post(self):
@@ -324,14 +357,11 @@ class table_experiment(Resource):
             # Validate the data or raise a Validation error if
             schemaExperiment.validate(raw_dict)
             # Create a master object with the API data recieved
-            experiment = Experiment(cownumber=raw_dict['cownumber'],ts = None,
-                                    dam=raw_dict['dam'],
-                                    sire=raw_dict['sire'],
+            experiment = Experiment(cownumber=raw_dict['cownumber'],
+                                    ts = None,
                                     birthweight=raw_dict['birthweight'],
                                     animaltype=raw_dict['animaltype'],
                                     birthweightadj=raw_dict['birthweightadj'],
-                                    conditionscoreweaning2015=raw_dict['conditionscoreweaning2015'],
-                                    conditionscoreweaning2016=raw_dict['conditionscoreweaning2016'],
                                     bcsrecent=raw_dict['bcsrecent'],
                                     bcsprevious=raw_dict['bcsprevious'],
                                     bcsdifference=raw_dict['bcsdifference'],
@@ -346,7 +376,6 @@ class table_experiment(Resource):
                                     adj205w=raw_dict['adj205w'],
                                     weandate=raw_dict['weandate'],
                                     adj205h=raw_dict['adj205h'],
-                                    dob=raw_dict['dob'],
                                     weanframescore=raw_dict['weanframescore'],
                                     ageatwean=raw_dict['ageatwean'],
                                     yearlingweight=raw_dict['yearlingweight'],
@@ -366,6 +395,7 @@ class table_experiment(Resource):
                                     backfat=raw_dict['backfat'],
                                     treatment=raw_dict['treatment'],
                                     blockpen=raw_dict['blockpen'],
+                                    user=raw_dict['user'],
                                     replicate=raw_dict['replicate'])
             experiment.add(experiment)
             query = Experiment.query.all()
@@ -462,6 +492,7 @@ class table_reproduction(Resource):
                                         fertility=raw_dict['fertility'],
                                         mobility =raw_dict['mobility'],
                                         conc=raw_dict['conc'],
+                                        user=raw_dict['user'],
                                         deadabnormal =raw_dict['deadabnormal'])
             reproduction.add(reproduction)
             query = Reproduction.query.all()
@@ -525,6 +556,7 @@ class table_medical(Resource):
                              animallocationpreresolution=raw_dict['animallocationpreresolution'],
                              followupexam=raw_dict['followupexam'], resolution=raw_dict['resolution'],
                              animallocation=raw_dict['animallocation'],
+                             user=raw_dict['user'],
                              dateoffollowup=raw_dict['dateoffollowup'], dateofaction=raw_dict['dateofaction'])
             medical.add(medical)
             query = Medical.query.all()
@@ -589,6 +621,7 @@ class table_grazing(Resource):
                               cp1=raw_dict['cp1'],cp2=raw_dict['cp2'],cp3=raw_dict['cp3'],cp4=raw_dict['cp4'],
                               pasturenumberburning=raw_dict['pasturenumberburning'],dateburned=raw_dict['dateburned'],
                               qualityofburn=raw_dict['qualityofburn'],pasturenumberpesticide=raw_dict['pasturenumberpesticide'],
+                              user=raw_dict['user'],
                               chemicalname=raw_dict['chemicalname'],applicationrate=raw_dict['applicationrate'],applicationdate=raw_dict['applicationdate'])
             grazing.add(grazing)
             query = Grazing.query.all()
@@ -628,13 +661,19 @@ class table_grazing(Resource):
             resp.status_code = 401
             return resp
 
+# Used for all experiments page
+class table_group_all(Resource):
+    def get(self):
+        group_query = Group.query.all()
+        result = schemaGroup.dump(group_query, many=True).data
+        # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
+        return result
 
 class table_group(Resource):
 
     def get(self, groupnumber):
-        group_query = Group.query.filter_by(groupnumber = groupnumber).order_by(Group.ts.desc())
+        group_query = Group.query.filter_by(groupnumber = groupnumber)
         result = schemaGroup.dump(group_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
         return result
 
     def post(self):
@@ -643,8 +682,8 @@ class table_group(Resource):
         try:
             # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
-            group = Group(cownumber=raw_dict['cownumber'], ts=None, groupnumber=raw_dict['groupnumber'],
-                             groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],
+            group = Group(cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
+                             groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],user=raw_dict['user'],
                              attributes = raw_dict['attributes'])
             group.add(group)
             query = Group.query.all()
@@ -663,40 +702,26 @@ class table_group(Resource):
             resp.status_code = 403
             return resp
 
-
-class table_herd_change(Resource):
-
-    def get(self):
-        #herd_query = Herd_Change.query.order_by(Herd_Change.ts.desc()).limit(1)
-        herd_query = Herd_Change.query.all()
-        result = schemaGroup.dump(herd_query,many = True).data
-        return result
-
-    def post(self):
+    def patch(self, groupnumber):
+        group_query = Group.query.get_or_404(groupnumber)
         raw_dict = request.form
         try:
-            # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
-            # Create a master object with the API data received
-            herd = Herd_Change(uid = None, ts = None, cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
-                             eid=raw_dict['eid'], eartag=raw_dict['eartag'],
-                             attributes = raw_dict['attributes'])
-            herd.add(herd)
-            query = Herd_Change.query.all()
-            results = schemaGroup.dump(query, many=True).data
-            print >> sys.stderr, "Post from herd_change {}".format(results)
-            return results, 201
+            for key, value in raw_dict.items():
+                setattr(group_query, key, value)
 
+            group_query.update()
+            return self.get(groupnumber)
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
-            resp.status_code = 403
+            resp.status_code = 401
             return resp
 
         except SQLAlchemyError as e:
             db.session.rollback()
             resp = jsonify({"error": str(e)})
-            resp.status_code = 403
+            resp.status_code = 401
             return resp
 
 class table_herdchange(Resource):
@@ -711,7 +736,7 @@ class table_herdchange(Resource):
         try:
                 schemaHerdchange.validate(raw_dict)
                 #Create a master object with the API data recieved
-                herdchange = Herdchange(ts = None, cownumber=raw_dict['cownumber'],
+                herdchange = Herdchange(uid = None, ts = None, cownumber=raw_dict['cownumber'],
                                      attributes = raw_dict['attributes'],
                                      identifier = raw_dict['identifier'],
                                      user = raw_dict['user'])
@@ -749,7 +774,7 @@ class table_drug_inventory_dic_s(Resource):
         raw_dict = request.form
         try:
             schemaDrugDic.validate(raw_dict)
-            drug_dic = Drug_Inventory_Dic(drug=raw_dict['drug'], location=raw_dict['location'], roa = raw_dict['roa'], vialsize=raw_dict['vialsize'], units = raw_dict['units'])
+            drug_dic = Drug_Inventory_Dic(user = raw_dict['user'],drug=raw_dict['drug'], location=raw_dict['location'], roa = raw_dict['roa'], vialsize=raw_dict['vialsize'], units = raw_dict['units'])
             drug_dic.add(drug_dic)
             query = Drug_Inventory_Dic.query.all()
             results = schemaDrugDic.dump(query, many=True).data
@@ -768,9 +793,9 @@ class table_drug_inventory_dic_s(Resource):
 
 class table_reporting(Resource):
 
-    def get(self):
-        report_query = Create_Report.query.order_by(Create_Report.ts.desc()).limit(1)
-        result = schemaReport.dump(report_query,many = True).data
+    def get(self,reportnumber):
+        report_query = Create_Report.query.filter_by(reportnumber=reportnumber)
+        result = schemaReport.dump(report_query, many=True).data
         return result
 
     def post(self):
@@ -779,9 +804,7 @@ class table_reporting(Resource):
             # Validate the data or raise a Validation error if
             schemaReport.validate(raw_dict)
             # Create a master object with the API data received
-            report = Create_Report(uid = None, ts = None, cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
-                             eid=raw_dict['eid'], eartag=raw_dict['eartag'],
-                             attributes = raw_dict['attributes'], start_date = raw_dict['start_date'], end_date = raw_dict['end_date'], users = None)
+            report = Create_Report(uid = None, ts = None, reportnumber = raw_dict['reportnumber'],cownumber=raw_dict['cownumber'],attributes = raw_dict['attributes'], start_date = raw_dict['start_date'], end_date = raw_dict['end_date'], user = raw_dict['user'])
             report.add(report)
             query = Create_Report.query.all()
             results = schemaReport.dump(query, many=True).data
@@ -801,22 +824,8 @@ class table_reporting(Resource):
 
 #Tables below will be used for reporting only
 #Due to strugles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
-class table_report_basic(Resource):
-    def get(self,cownumber,start_date, end_date):
-
-        engine = create_engine(whole_string)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        users = session.query(Users).all()
-        result = schemaUsers.dump(users,many=True).data
-        #master_animal_query = Master_animal.query.filter(and_(Master_animal.cownumber == cownumber, Master_animal.ts >= start_date, Master_animal.ts <= end_date)).order_by(Master_animal.ts.desc())
-        #result = schemaMaster.dump(master_animal_query, many=True).data
-        return result
-
-
-
-class table_report_animal_inventory(Resource):
-    def get(self, cownumber,start_date, end_date):
+class table_report_view(Resource):
+    def get(self, cownumber, start_date, end_date):
         def dict_factory(cursor, row):
             d = {}
             for idx, col in enumerate(cursor.description):
@@ -825,7 +834,7 @@ class table_report_animal_inventory(Resource):
         conn = sqlite3.connect(short_string)
         conn.row_factory = dict_factory
         cur = conn.cursor()
-        cur.execute("Select * from users")
+        cur.execute("Select * from alltables where cownumber = ? and ts between ? and ?",(cownumber,start_date,end_date))
 
         rows = cur.fetchall()
         #animal_inventory_query = Animal_Inventory.query.filter(and_(Animal_Inventory.cownumber == cownumber, Animal_Inventory.ts >= start_date, Animal_Inventory.ts <= end_date)).order_by(Animal_Inventory.ts.desc())
@@ -835,30 +844,20 @@ class table_report_animal_inventory(Resource):
         print >> sys.stderr, "This is the output for results{}".format(rows)
         return rows
 
-class table_report_experiment(Resource):
-    def get(self, cownumber,start_date, end_date):
-        experiment_query = Experiment.query.filter(and_(Experiment.cownumber == cownumber, Experiment.ts >= start_date,
-                                                        Experiment.ts <= end_date)).order_by(Experiment.ts.desc())
-        result = schemaExperiment.dump(experiment_query,many = True).data
-        return result
 
-class table_report_reproduction(Resource):
-    def get(self, cownumber,start_date, end_date):
-        reproduction_query = Reproduction.query.filter(and_(Reproduction.cownumber == cownumber, Reproduction.ts >= start_date,
-                                                            Reproduction.ts <= end_date)).order_by(Reproduction.ts.desc())
-        result = schemaReproduction.dump(reproduction_query,many = True).data
-        return result
+class table_test(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started"
+        db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="password", db="Barn1")
+        cursor = db.cursor(MySQLdb.cursors.DictCursor)
+        print >> sys.stderr, "Executed well until here"
+        cursor.execute("SELECT * FROM animal_table")
+        rows = cursor.fetchall()
 
-class table_report_medical(Resource):
-    def get(self, cownumber,start_date, end_date):
-        medical_query = Medical.query.filter(and_(Medical.cownumber == cownumber, Medical.ts >= start_date,
-                                                  Medical.ts <= end_date)).order_by(Medical.ts.desc())
-        result = schemaAnimalMedical.dump(medical_query,many = True).data
-        return result
 
-class table_report_grazing(Resource):
-    def get(self, cownumber,start_date, end_date):
-        grazing_query = Grazing.query.filter(and_(Grazing.cownumber == cownumber, Grazing.ts >= start_date,
-                                                  Grazing.ts <= end_date)).order_by(Grazing.ts.desc())
-        result = schemaGrazing.dump(grazing_query,many = True).data
-        return result
+        print >> sys.stderr, "This is the output for from cow_table{}".format(rows)
+        cursor.close()
+        return rows
+
+        # cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+

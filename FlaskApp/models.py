@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 # triggers for database
 trig_ddl_1 = DDL('''CREATE TRIGGER cownumber_trigger AFTER INSERT ON master_animal BEGIN update master_animal set cownumber = (select max(cownumber)+1 from master_animal) WHERE cownumber = -1; END;''')
 
-trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herd_change BEGIN update herd_change set uid = (select max(rowid)+1 from herd_change) WHERE uid = -1; END;''')
+trig_ddl_2 = DDL('''CREATE TRIGGER uid_trigger AFTER INSERT ON herdchange BEGIN update herdchange set uid = (select max(rowid)+1 from herdchange) WHERE uid = -1; END;''')
 
 #creates 6 digit number for Users ids
 trig_ddl_3 = DDL('''CREATE TRIGGER userid_trigger AFTER INSERT ON users BEGIN update users set userid = (select max(userid)+1 from users) WHERE userid = -1; END;''')
@@ -127,20 +127,19 @@ class Master_animal(db.Model, CRUD):
 	herd = db.Column(db.Text)
 	animaltype = db.Column(db.Text)
 	animalname = db.Column(db.Text)
-	animalgroup = db.Column(db.Text)
 	breeder = db.Column(db.Text)
 	currentframescore = db.Column(db.Integer)
 	damframescore = db.Column(db.Integer)
 	comments = db.Column(db.Text)
 	species = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 	
-	def __init__(self, cownumber,ts, height,animalname,comments,breeder,currentframescore,damframescore,animalgroup,species, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
+	def __init__(self, cownumber,ts, height,animalname,user,comments,breeder,currentframescore,damframescore,species, weight, eartag, eid, sex, pasturenumber, breed, status, trial, herd, animaltype):
 		self.cownumber = cownumber
 		self.height = height
 		self.weight = weight
 		self.animalname = animalname
-		self.animalgroup = animalgroup
 		self.breeder = breeder
 		self.currentframescore = currentframescore
 		self.damframescore = damframescore
@@ -156,6 +155,7 @@ class Master_animal(db.Model, CRUD):
 		self.herd = herd
 		self.animaltype = animaltype
 		self.ts= ts
+		self.user = user
 
 
 class Master_animal_Schema(Schema):
@@ -174,12 +174,12 @@ class Master_animal_Schema(Schema):
 	herd = fields.String()
 	animaltype = fields.String()
 	animalname = fields.String()
-	animalgroup = fields.String()
 	breeder = fields.String()
 	currentframescore = fields.String()
 	damframescore = fields.String()
 	comments = fields.String()
 	species = fields.String()
+	user = fields.String()
 	ts = fields.DateTime(validate = not_blank)
 	# self links
 	def get_top_level_links(self, data, many):
@@ -201,13 +201,15 @@ class Medical_Inventory(db.Model, CRUD):
 	cost= db.Column(db.Float)
 	purchasedate = db.Column(db.Text)
 	expirydate = db.Column(db.Text)
+	user = db.Column(db.Text)
 
-	def __init__(self, medication, quantity, cost, purchasedate, expirydate):
+	def __init__(self, medication, quantity, cost, purchasedate, expirydate,user):
 		self.medication = medication
 		self.quantity = quantity
 		self.cost = cost
 		self.purchasedate = purchasedate
 		self.expirydate = expirydate
+		self.user = user
 
 
 class Medical_Inventory_Schema(Schema):
@@ -218,6 +220,7 @@ class Medical_Inventory_Schema(Schema):
 	cost = fields.Float(validate=not_blank)
 	purchasedate = fields.String(validate=not_blank)
 	expirydate  = fields.String(validate=not_blank)
+	user = fields.String()
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -257,11 +260,12 @@ class Animal_Inventory(db.Model, CRUD):
 	ownerID = db.Column(db.Text)
 	springfall = db.Column(db.Text)
 	includeinlookups = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
 	def __init__(self, cownumber,ts,brand,brandlocation,tattooleft,tattooright,alternativeid,registration,color,
 				 hornstatus,dam,sire,dob,howacquired,dateacquired,howdisposed,datedisposed,disposalreason,
-				 herdnumberlocation,herdstatus,howconceived,managementcode,ownerID,springfall,includeinlookups):
+				 herdnumberlocation,herdstatus,howconceived,managementcode,ownerID,springfall,includeinlookups,user):
 		self.cownumber = cownumber
 		self.brand = brand
 		self.brandlocation = brandlocation
@@ -286,6 +290,7 @@ class Animal_Inventory(db.Model, CRUD):
 		self.ownerID = ownerID
 		self.springfall = springfall
 		self.includeinlookups = includeinlookups
+		self.user = user
 		self.ts= ts
 
 
@@ -316,6 +321,7 @@ class Animal_Inventory_Schema(Schema):
 	ownerID = fields.String()
 	springfall = fields.String()
 	includeinlookups = fields.String()
+	user = fields.String()
 	ts = fields.DateTime(validate= not_blank)
 
 	# self links
@@ -332,14 +338,10 @@ class Animal_Inventory_Schema(Schema):
 class Experiment(db.Model, CRUD):
 	__tablename__ = 'experiment'
 	cownumber = db.Column(db.Integer, primary_key=True)
-	dam = db.Column(db.Text)
-	sire = db.Column(db.Text)
 	animaltype = db.Column(db.Text)
 	birthweight = db.Column(db.Text)
 	birthweightadj = db.Column(db.Text)
 	sireframescore = db.Column(db.Float)
-	conditionscoreweaning2015 = db.Column(db.Text)
-	conditionscoreweaning2016 = db.Column(db.Text)
 	bcsrecent = db.Column(db.Text)
 	bcsprevious = db.Column(db.Text)
 	bcsdifference = db.Column(db.Text)
@@ -353,7 +355,6 @@ class Experiment(db.Model, CRUD):
 	weanweightdate = db.Column(db.Text)
 	adj205w = db.Column(db.Float)
 	adj205h = db.Column(db.Float)
-	dob = db.Column(db.Text)
 	weanframescore = db.Column(db.Float)
 	ageatwean = db.Column(db.Float)
 	yearlingweight = db.Column(db.Float)
@@ -374,23 +375,19 @@ class Experiment(db.Model, CRUD):
 	treatment = db.Column(db.Text)
 	blockpen = db.Column(db.Text)
 	replicate = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
-	def __init__(self, cownumber,ts, dam, sire, birthweight,birthweightadj,animaltype,
-				 sireframescore, weanheight,conditionscoreweaning2015,conditionscoreweaning2016,
-				 bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
-				 adj205h, dob,weanframescore,weangpd,weanhipht,weanwda,weanweightdate, ageatwean,
+	def __init__(self, cownumber,ts, birthweight,birthweightadj,animaltype,
+				 sireframescore, weanheight, bcsrecent,bcsprevious,bcsdifference, weanweight, weandate,damwtatwean, adj205w,
+				 adj205h,weanframescore,weangpd,weanhipht,weanwda,weanweightdate, ageatwean,
 				 yearlingweight, yearlingheight, yearlingdate, adjyearlingw, adjyearlingh,
 				 yearlingframescore, ageatyearling,customweight, customweightdate, customheight,
-				 customheightdate,currentwtcow,adj365dht,currentwtheifer, backfat, treatment, blockpen, replicate):
+				 customheightdate,currentwtcow,adj365dht,currentwtheifer, backfat, treatment, blockpen, replicate,user):
 		self.cownumber = cownumber
-		self.dam = dam
-		self.sire = sire
 		self.animaltype = animaltype
 		self.birthweight = birthweight
 		self.birthweightadj = birthweightadj
-		self.conditionscoreweaning2015 = conditionscoreweaning2015
-		self.conditionscoreweaning2016 = conditionscoreweaning2016
 		self.bcsrecent = bcsrecent
 		self.bcsprevious = bcsprevious
 		self.bcsdifference = bcsdifference
@@ -405,7 +402,6 @@ class Experiment(db.Model, CRUD):
 		self.weanweightdate = weanweightdate
 		self.adj205w = adj205w
 		self.adj205h = adj205h
-		self.dob = dob
 		self.weanframescore = weanframescore
 		self.ageatwean = ageatwean
 		self.yearlingweight = yearlingweight
@@ -427,19 +423,16 @@ class Experiment(db.Model, CRUD):
 		self.blockpen = blockpen
 		self.replicate = replicate
 		self.ts = ts
+		self.user = user
 
 
 class Experiment_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
 	cownumber = fields.Integer(validate=not_blank)
-	dam = fields.String()
-	sire = fields.String()
 	animaltype = fields.String()
 	birthweight = fields.Float()
 	birthweightadj = fields.String()
-	conditionscoreweaning2015 = fields.String()
-	conditionscoreweaning2016 = fields.String()
 	bcsrecent = fields.String()
 	bcsprevious = fields.String()
 	bcsdifference = fields.String()
@@ -454,7 +447,6 @@ class Experiment_Schema(Schema):
 	weanweightdate = fields.String()
 	adj205w = fields.Float()
 	adj205h = fields.Float()
-	dob = fields.String()
 	weanframescore = fields.Float()
 	ageatwean = fields.Float()
 	yearlingweight = fields.Float()
@@ -475,6 +467,7 @@ class Experiment_Schema(Schema):
 	treatment = fields.String()
 	blockpen = fields.String()
 	replicate = fields.String()
+	user = fields.String()
 	ts = fields.DateTime(validate= not_blank)
 
 	# self links
@@ -530,13 +523,14 @@ class Reproduction(db.Model, CRUD):
 	fertility = db.Column(db.Float)
 	mobility = db.Column(db.Float)
 	conc = db.Column(db.Float)
+	user = db.Column(db.Text)
 	deadabnormal = db.Column(db.Float)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
 	def __init__(self, cownumber,ts, breeding, pregnancy, calfatside,siblingcode, totalcalves, previouscalf, currentcalf, damageatbirth, calfsex, calfbirthweight, pasturenumberreproduction, calfdob,
 				 damcalvingdisposition, calvingease,udderscore, conditionscorecalving, hiphtweaning2015, hiphtweaning2016, hiphtbreeding2016, damdisposition, cowframescore, cowwtbreeding, cowhtbreeding, cowwtweaning,
 				 cowhtweaning, cowwtcalving, cowhtcalving, bcsweaning, bcscalving, bcsbreeding, customcowwt, customcowht, bulldisposition, bullframescore,
-				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal):
+				 bullwtprebreeding, bullhtprebreeding, fertility, mobility, conc, deadabnormal,user):
 		self.cownumber = cownumber
 		self.breeding = breeding
 		self.pregnancy = pregnancy
@@ -578,6 +572,7 @@ class Reproduction(db.Model, CRUD):
 		self.mobility = mobility
 		self.conc = conc
 		self.deadabnormal = deadabnormal
+		self.user = user
 		self.ts = ts
 
 
@@ -625,6 +620,7 @@ class Reproduction_Schema(Schema):
 	mobility = fields.Float()
 	conc = fields.Float()
 	deadabnormal = fields.Float()
+	user = fields.String()
 	ts = fields.DateTime(validate = not_blank)
 
 	# self links
@@ -652,9 +648,10 @@ class Medical(db.Model, CRUD):
 	dateoffollowup = db.Column(db.Text)
 	animallocation = db.Column(db.Text)
 	dateofaction = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
-	def __init__(self, cownumber, ts,reasonforprocedure, notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
+	def __init__(self, cownumber, ts,reasonforprocedure, user,notificationofvmo, recommendationofvmo, treatmentprotocol, animallocationpreresolution, followupexam, resolution, dateoffollowup, animallocation, dateofaction):
 		self.cownumber = cownumber
 		self.reasonforprocedure = reasonforprocedure
 		self.notificationofvmo = notificationofvmo
@@ -667,6 +664,7 @@ class Medical(db.Model, CRUD):
 		self.animallocation = animallocation
 		self.dateofaction = dateofaction
 		self.ts = ts
+		self.user = user
 
 
 class Medical_Schema(Schema):
@@ -683,6 +681,7 @@ class Medical_Schema(Schema):
 	dateoffollowup = fields.String()
 	animallocation = fields.String()
 	dateofaction = fields.String()
+	user = fields.String()
 	ts = fields.DateTime(validate = not_blank)
 
 	# self links
@@ -720,12 +719,13 @@ class Grazing(db.Model, CRUD):
 	chemicalname = db.Column(db.Text)
 	applicationrate = db.Column(db.Text)
 	applicationdate = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default =func.current_timestamp())
 
 	def __init__(self, cownumber,ts, pastureacres, animalspresent, datein, dateout, stockingrate,
 				 pasturenumbergrazing,sample,biomass,DMavailable,cp,cp1,cp2,cp3,cp4,
 				 pasturenumberburning,dateburned,qualityofburn,
-				 pasturenumberpesticide,chemicalname,applicationrate, applicationdate):
+				 pasturenumberpesticide,chemicalname,applicationrate, applicationdate, user):
 		self.cownumber = cownumber
 		self.pastureacres = pastureacres
 		self.animalspresent = animalspresent
@@ -749,6 +749,7 @@ class Grazing(db.Model, CRUD):
 		self.cp3 = cp3
 		self.cp4 = cp4
 		self.ts = ts
+		self.user = user
 
 
 class Grazing_Schema(Schema):
@@ -776,6 +777,7 @@ class Grazing_Schema(Schema):
 	chemicalname = fields.String()
 	applicationrate = fields.String()
 	applicationdate = fields.String()
+	user = fields.String()
 	ts = fields.DateTime(validate = not_blank)
 
 	# self links
@@ -797,15 +799,15 @@ class Group(db.Model, CRUD):
 	groupname = db.Column(db.Text)
 	groupdescription = db.Column(db.Text)
 	attributes = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
 
-	def __init__(self, cownumber,ts, groupnumber, groupname, groupdescription, attributes):
+	def __init__(self, cownumber, groupnumber, groupname, groupdescription, attributes,user):
 		self.cownumber = cownumber
 		self.groupnumber = groupnumber
 		self.groupname = groupname
 		self.groupdescription = groupdescription
 		self.attributes = str(attributes)
-		self.ts = ts
+		self.user = user
 
 
 class Group_Schema(Schema):
@@ -813,10 +815,10 @@ class Group_Schema(Schema):
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
 	cownumber = fields.String(validate=not_blank)
 	groupnumber = fields.Integer(validate=not_blank)
-	groupname = fields.String(validate=not_blank)
-	groupdescription = fields.String(validate=not_blank)
-	attributes = fields.String(validate=not_blank)
-	ts = fields.DateTime(validate = not_blank)
+	groupname = fields.String()
+	groupdescription = fields.String()
+	attributes = fields.String()
+	user = fields.String()
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -829,47 +831,6 @@ class Group_Schema(Schema):
 	class Meta:
 		type_ = 'group'
 
-class Herd_Change(db.Model, CRUD):
-	__tablename__ = 'herd_change'
-	uid = db.Column(db.Integer, primary_key=True, autoincrement=True, default = -1)
-	cownumber = db.Column(db.Text)
-	eid = db.Column(db.Text)
-	groupnumber = db.Column(db.Integer)
-	eartag = db.Column(db.Text)
-	attributes = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
-
-	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid):
-		self.cownumber = cownumber
-		self.groupnumber = groupnumber
-		self.eid = eid
-		self.eartag = eartag
-		self.attributes = str(attributes)
-		self.ts = ts
-		self.uid = uid
-
-
-
-class Herd_Change_Schema(Schema):
-	not_blank = validate.Length(min=1, error='Field cannot be blank')
-	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
-	cownumber = fields.String(validate=not_blank)
-	groupnumber = fields.Integer(validate=not_blank)
-	eid = fields.String(validate=not_blank)
-	eartag = fields.String(validate=not_blank)
-	attributes = fields.String(validate=not_blank)
-	ts = fields.DateTime(validate = not_blank)
-
-	# self links
-	def get_top_level_links(self, data, many):
-		if many:
-			self_link = "/herd_change/"
-		else:
-			self_link = "/herd_change/{}".format(data['attributes'])
-		return {"self": self_link}
-
-	class Meta:
-		type_ = 'herd_change'
 
 class Drug_Inventory_Dic(db.Model, CRUD):
 	__tablename__ = 'drug_inventory_dic'
@@ -878,13 +839,15 @@ class Drug_Inventory_Dic(db.Model, CRUD):
 	roa= db.Column(db.Text)
 	vialsize = db.Column(db.Float)
 	units = db.Column(db.Text)
+	user = db.Column(db.Text)
 
-	def __init__(self, drug, location, roa, vialsize, units):
+	def __init__(self, drug, location, roa, vialsize, units,user):
 		self.drug = drug
 		self.location = location
 		self.roa = roa
 		self.vialsize = vialsize
 		self.units = units
+		self.user = user
 
 
 class Drug_Inventory_Dic_Schema(Schema):
@@ -895,6 +858,8 @@ class Drug_Inventory_Dic_Schema(Schema):
 	roa = fields.String(validate=not_blank)
 	vialsize = fields.Float(validate=not_blank)
 	units  = fields.String(validate=not_blank)
+	user = fields.String()
+
 
 	# self links
 	def get_top_level_links(self, data, many):
@@ -911,26 +876,22 @@ class Create_Report(db.Model, CRUD):
 	__tablename__ = 'reports'
 	uid = db.Column(db.Integer, primary_key=True, autoincrement=True, default = -1)
 	cownumber = db.Column(db.Text)
-	eid = db.Column(db.Text)
-	groupnumber = db.Column(db.Integer)
-	eartag = db.Column(db.Text)
 	attributes = db.Column(db.Text)
-	users = db.Column(db.Text)
 	start_date = db.Column(db.Text)
 	end_date = db.Column(db.Text)
-	ts = db.Column(DateTime(timezone=True), primary_key=True, onupdate=func.current_timestamp())
+	user = db.Column(db.Text)
+	reportnumber = db.Column(db.Text)
+	ts = db.Column(DateTime(timezone=True), primary_key=True, default=func.current_timestamp())
 
-	def __init__(self, cownumber,ts, groupnumber, eid, eartag, attributes,uid,users,start_date,end_date):
+	def __init__(self, cownumber,ts, attributes,uid,start_date,end_date,user,reportnumber):
 		self.cownumber = cownumber
-		self.groupnumber = groupnumber
-		self.eid = eid
-		self.eartag = eartag
 		self.attributes = str(attributes)
 		self.ts = ts
 		self.uid = uid
-		self.users = users
+		self.user = user
 		self.start_date = start_date
 		self.end_date = end_date
+		self.reportnumber = reportnumber
 
 
 
@@ -938,13 +899,11 @@ class Create_Report_Schema(Schema):
 	not_blank = validate.Length(min=1, error='Field cannot be blank')
 	id = fields.Integer(dump_only=True)  # WHY DOES THIS HAVE TO BE HERE???
 	cownumber = fields.String(validate=not_blank)
-	groupnumber = fields.Integer(validate=not_blank)
-	eid = fields.String(validate=not_blank)
-	eartag = fields.String(validate=not_blank)
-	attributes = fields.String(validate=not_blank)
-	users = fields.String(validate=not_blank)
-	start_date = fields.String(validate=not_blank)
-	end_date = fields.String(validate=not_blank)
+	attributes = fields.String()
+	user = fields.String()
+	start_date = fields.String()
+	end_date = fields.String()
+	reportnumber = fields.String()
 	ts = fields.DateTime(validate = not_blank)
 
 	# self links
@@ -960,18 +919,20 @@ class Create_Report_Schema(Schema):
 
 class Herdchange(db.Model, CRUD):
 	__tablename__ = 'herdchange'
-	cownumber = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.Integer, primary_key=True, autoincrement=True, default=-1)
+	cownumber = db.Column(db.Text)
 	attributes = db.Column(db.Text)
 	identifier = db.Column(db.Text)
 	user = db.Column(db.Text)
 	ts = db.Column(DateTime(timezone=True), primary_key=True, default=func.current_timestamp())
 
-	def __init__(self, cownumber,ts, attributes, identifier, user):
+	def __init__(self, cownumber,ts, attributes, identifier, user,uid):
 		self.cownumber = cownumber
 		self.attributes = attributes
 		self.identifier = identifier
 		self.user = user
 		self.ts = ts
+		self.uid = uid
 
 
 class Herdchange_Schema(Schema):

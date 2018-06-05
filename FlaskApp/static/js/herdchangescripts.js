@@ -13,9 +13,20 @@ $(document).ready(function(e){
 					var cownumberlist = data.data[0].attributes.cownumber;
 					var cownumber = $.parseJSON(cownumberlist);
 					$(cownumber).each(function(i,elem){
-						$("<li> "+elem+"</li>").appendTo("#cowlist");
+						$.ajax({
+								url: '/api/master_animal/'+elem,
+								data: $('form').serialize(),
+								type: 'GET',
+								success: function(response) {
+									var animalname = response.data.attributes.animalname;
+									$("<li><a onclick='callall("+elem+")'> "+animalname+" - "+elem+"</a></li>").prependTo("#cowlist");
+								},
+								error: function(error) {
+									console.log(error);
+									$.notify("Cow number doesnt exist", "danger");
+								}	
+						});
 					});
-					
 					
 					$(attributes).each(function(i,elem){
 						if(i == 0){
