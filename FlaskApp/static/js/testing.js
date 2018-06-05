@@ -1,4 +1,4 @@
-#Using the DataTables Plugin for displaying the data in the tabular format
+// Using the DataTables Plugin for displaying the data in the tabular format
 
 $(document).ready(function () {
 		$.ajax({

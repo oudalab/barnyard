@@ -12,7 +12,10 @@ from secrets import whole_string,short_string
 import sys
 import json
 import sqlite3
+<<<<<<< HEAD
 import MySQLdb
+=======
+>>>>>>> 96739664f591ed4b4fcd24b534508d4d1821cf46
 import pdb;
 
 master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
@@ -825,7 +828,11 @@ class table_reporting(Resource):
 #Tables below will be used for reporting only
 #Due to strugles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
 class table_report_view(Resource):
+<<<<<<< HEAD
     def get(self, cownumber, start_date, end_date):
+=======
+    def get(self,cownumber,start_date, end_date):
+>>>>>>> 96739664f591ed4b4fcd24b534508d4d1821cf46
         def dict_factory(cursor, row):
             d = {}
             for idx, col in enumerate(cursor.description):
@@ -844,6 +851,7 @@ class table_report_view(Resource):
         print >> sys.stderr, "This is the output for results{}".format(rows)
         return rows
 
+<<<<<<< HEAD
 
 class table_test(Resource):
     def get(self):
@@ -861,3 +869,6 @@ class table_test(Resource):
 
         # cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
+=======
+
+>>>>>>> 96739664f591ed4b4fcd24b534508d4d1821cf46
