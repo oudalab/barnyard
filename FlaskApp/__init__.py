@@ -5,7 +5,11 @@ from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory, table_animal_inventory, table_experiment, table_reproduction, \
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
+<<<<<<< HEAD
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test
+=======
+    table_drug_inventory_dic_a, table_reporting, table_report_view
+>>>>>>> 96739664f591ed4b4fcd24b534508d4d1821cf46
 from secrets import whole_string, short_string
 import config
 import logging
@@ -69,6 +73,7 @@ api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint = "9")
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
+<<<<<<< HEAD
 # Api for reporting
 # end point to hold intended attribute chnages
 api.add_resource(table_reporting, '/api/reporting/', endpoint="10")
@@ -79,6 +84,15 @@ api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<
 api.add_resource(table_test, '/api/test/', endpoint="18")
 
 # Login Manager
+=======
+#Api for reporting
+#end point to hold intended attribute chnages
+api.add_resource(table_reporting, '/api/reporting/', endpoint = "10")
+api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
+api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint = "11")
+
+#Login Manager
+>>>>>>> 96739664f591ed4b4fcd24b534508d4d1821cf46
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
