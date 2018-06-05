@@ -7,7 +7,6 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_group_all, table_users_a, table_users_s,table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test
 
-
 from secrets import whole_string, short_string
 import config
 import logging
@@ -71,19 +70,11 @@ api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint = "9")
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
-
-# Api for reporting
-# end point to hold intended attribute chnages
-api.add_resource(table_reporting, '/api/reporting/', endpoint="10")
-api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
-api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint = "11")
-
 # Testing for the new MYSQL db connection
 api.add_resource(table_test, '/api/test/', endpoint="18")
 
-# Login Manager
-#Api for reporting
-#end point to hold intended attribute chnages
+# Api for reporting
+# end point to hold intended attribute changes
 api.add_resource(table_reporting, '/api/reporting/', endpoint = "10")
 api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
 api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint = "11")

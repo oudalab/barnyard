@@ -38,7 +38,13 @@ CREATE TABLE `formulary` (
   `email_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Med_ID`),
   KEY `fk6_AID_idx` (`Animal_id`),
+<<<<<<< HEAD
   KEY `fk7_EID_idx` (`email_id`)
+=======
+  KEY `fk7_EID_idx` (`email_id`),
+  CONSTRAINT `fk6_AID` FOREIGN KEY (`Animal_id`) REFERENCES `cow_table` (`animal_id`),
+  CONSTRAINT `fk7_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`)
+>>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,4 +66,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< HEAD
 -- Dump completed on 2018-06-05 23:55:01
+=======
+-- Dump completed on 2018-05-31 21:52:18
+>>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119

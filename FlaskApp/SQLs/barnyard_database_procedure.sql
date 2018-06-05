@@ -16,38 +16,46 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `login`
+-- Table structure for table `procedure`
 --
 
-DROP TABLE IF EXISTS `login`;
+DROP TABLE IF EXISTS `procedure`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `login` (
-<<<<<<< HEAD
-  `email_id` varchar(45) NOT NULL DEFAULT 'null',
-=======
-  `email_id` varchar(45) NOT NULL,
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `pswd_hash` varchar(45) NOT NULL,
-  `roles` varchar(45) DEFAULT NULL,
-  `registered_at` date DEFAULT NULL,
-  PRIMARY KEY (`email_id`)
+CREATE TABLE `procedure` (
+  `procedure_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Animal_id` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` varchar(45) DEFAULT NULL,
+  `reasonforprocedure` varchar(45) DEFAULT NULL,
+  `notificationofvmo` varchar(45) DEFAULT NULL,
+  `recommendationofvmo` varchar(45) DEFAULT NULL,
+  `treatmentprotocol` varchar(45) DEFAULT NULL,
+  `animallocationpreresolution` varchar(45) DEFAULT NULL,
+  `followupexam` varchar(45) DEFAULT NULL,
+  `dateoffollowup` date DEFAULT NULL,
+  `animallocation` varchar(45) DEFAULT NULL,
+  `date_of_action` date DEFAULT NULL,
+  `med_id` int(11) DEFAULT NULL,
+  `email_id` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`procedure_id`),
+  KEY `fk3_AID_idx` (`Animal_id`),
+  KEY `fk3_EID_idx` (`email_id`),
+  KEY `fk3_MID_idx` (`med_id`),
+  KEY `fk5_AID_idx` (`Animal_id`),
+  CONSTRAINT `fk5_AID` FOREIGN KEY (`Animal_id`) REFERENCES `cow_table` (`animal_id`),
+  CONSTRAINT `fk5_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`),
+  CONSTRAINT `fk5_MID` FOREIGN KEY (`med_id`) REFERENCES `formulary` (`med_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `login`
+-- Dumping data for table `procedure`
 --
 
-LOCK TABLES `login` WRITE;
-/*!40000 ALTER TABLE `login` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `login` VALUES ('test','test_name',NULL,'test123',NULL,NULL);
-=======
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
-/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+LOCK TABLES `procedure` WRITE;
+/*!40000 ALTER TABLE `procedure` DISABLE KEYS */;
+/*!40000 ALTER TABLE `procedure` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -59,8 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2018-06-05 23:55:51
-=======
--- Dump completed on 2018-05-31 21:52:19
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
+-- Dump completed on 2018-05-31 21:52:20
