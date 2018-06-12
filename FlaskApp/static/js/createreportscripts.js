@@ -100,12 +100,42 @@ function newherdchange(parsed_list) {
 			jsonattributes.push("eartag");
 		}
 		var newattributes;			
-		$(".createreportinput").each(function(i, elem){
-			if($(this).is(":checked")){
-				newattributes = $(elem).val();
-				jsonattributes.push(newattributes);
-			}
-		});
+		$(".groupaddinput1").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
+			$(".groupaddinput2").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
+			$(".groupaddinput3").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
+			$(".groupaddinput4").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
+			$(".groupaddinput5").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
+			$(".groupaddinput6").each(function(i, elem){
+				if($(this).is(":checked")){
+					newattributes = $(elem).val();
+					jsonattributes.push(newattributes);
+				}
+			});
 		var attributes = JSON.stringify(jsonattributes);
 		var groupnumber = $('#groupnumber').val();
 		var reportnumber = $('#report_number').val();

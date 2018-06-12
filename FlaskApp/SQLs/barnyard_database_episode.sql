@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `episode`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `episode` (
   `Episode_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Animal_id` int(11) NOT NULL,
+  `Animal_id` bigint(10) NOT NULL,
   `Type` varchar(45) DEFAULT NULL,
   `Documents` varchar(45) NOT NULL,
   `start_date` varchar(45) DEFAULT NULL,
@@ -38,16 +38,12 @@ CREATE TABLE `episode` (
   KEY `fk8_EID_idx` (`email_id`),
   KEY `fk8_PID_idx` (`procedure_id`),
   KEY `fk8_MID_idx` (`Med_ID`),
-<<<<<<< HEAD
-  KEY `fk8_EptID_idx` (`expt_no`)
-=======
   KEY `fk8_EptID_idx` (`expt_no`),
-  CONSTRAINT `fk8_AID` FOREIGN KEY (`Animal_id`) REFERENCES `cow_table` (`animal_id`),
+  CONSTRAINT `fk8_AID` FOREIGN KEY (`Animal_id`) REFERENCES `animal_table` (`Animal_ID`),
   CONSTRAINT `fk8_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`),
   CONSTRAINT `fk8_EptID` FOREIGN KEY (`expt_no`) REFERENCES `experiment` (`expt_no`),
   CONSTRAINT `fk8_MID` FOREIGN KEY (`Med_ID`) REFERENCES `formulary` (`med_id`),
-  CONSTRAINT `fk8_PID` FOREIGN KEY (`procedure_id`) REFERENCES `procedure` (`procedure_id`)
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
+  CONSTRAINT `fk8_PID` FOREIGN KEY (`procedure_id`) REFERENCES `procedures` (`procedure_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,8 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2018-06-05 23:54:51
-=======
--- Dump completed on 2018-05-31 21:52:17
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
+-- Dump completed on 2018-06-07 19:39:59

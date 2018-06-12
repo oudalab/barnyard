@@ -21,44 +21,61 @@
 	}
 	function adjusted205wtandht(data,days){
 		var answer = (data/days)*205;
-		return answer;
+		var n = answer.toFixed(4);
+		return n;
 	}
 	function adjusted365wtandht(data,days){
 		var answer = (data/days)*365;
-		return answer;
+		var n = answer.toFixed(4);
+		return n;
 	}
 	function framescorecalculate(days,hipht,animaltype){
 		if(days >=150 && days <=650){
 			if(animaltype == "bull" || animaltype == "Bull"){
 				var framescore = -11.548+((0.4878*(hipht +1)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht+1)*days)));
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+
 			} else if(animaltype == "steer" || animaltype == "Steer"){
 				var framescore = -11.548+((0.4878*(hipht)))-(0.0289*days)+(0.00001947*(days*days))+((0.0000334*((hipht)*days)));
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			} else if(animaltype == "heifer" || animaltype == "Heifer"){
 				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			} else if(animaltype == "cow" || animaltype == "Cow"){
 				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			} else if(animaltype == "calf" || animaltype == "Calf"){
 				var framescore= -11.7086+(0.4723*hipht)-(0.0239*days)+(0.0000146*(days*days))+(0.0000759*(hipht*days));
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			} else{
 				console.log("Invalid Selection");
 			}
 		} else{
 			if(days>=651 && days<=1095){
 				var framescore = (-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.4;
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			}
 			else if(days>=1096 && days<=1460){
 				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-0.9;
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
+				
 			}
 			else{
 				var framescore =(-11.7086+(0.4723*hipht)-(0.0239*730)+(0.0000146*(730*730))+(0.0000759*(hipht*730)))-1.1;
-				return framescore;
+				var n = framescore.toFixed(4);
+				return n;
 			}
 		}
 	}
@@ -739,6 +756,11 @@
             }
         });
         function assignToEventsColumns4(data) {
+			if ($.fn.DataTable.isDataTable("#experiment_table")) {
+			  $('#experiment_table').DataTable().clear().destroy();
+			}
+
+
             var table = $('#experiment_table').dataTable({
                 "bAutoWidth" : false,
                 data : data.data,

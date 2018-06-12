@@ -15,7 +15,6 @@
 				herd : 0,
 				animaltype : 0,
 				animalname : 0,
-				animalgroup : 0,
 				breeder : 0,
 				currentframescore :0,
 				damframescore : 0,

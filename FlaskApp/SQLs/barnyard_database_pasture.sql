@@ -30,11 +30,7 @@ CREATE TABLE `pasture` (
   `chemicalname` varchar(45) DEFAULT NULL,
   `applicationrate` varchar(45) DEFAULT NULL,
   `applicationdate` date DEFAULT NULL,
-<<<<<<< HEAD
   `pasturenumbergrazing` varchar(45) NOT NULL DEFAULT 'null',
-=======
-  `pasturenumbergrazing` varchar(45) NOT NULL,
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
   `email_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pasturenumbergrazing`),
   KEY `fk4_EID_idx` (`email_id`),
@@ -60,8 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2018-06-05 23:55:41
-=======
--- Dump completed on 2018-05-31 21:52:19
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
+-- Dump completed on 2018-06-07 19:40:49

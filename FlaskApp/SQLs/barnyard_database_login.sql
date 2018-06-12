@@ -23,11 +23,7 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login` (
-<<<<<<< HEAD
   `email_id` varchar(45) NOT NULL DEFAULT 'null',
-=======
-  `email_id` varchar(45) NOT NULL,
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `pswd_hash` varchar(45) NOT NULL,
@@ -43,10 +39,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-<<<<<<< HEAD
 INSERT INTO `login` VALUES ('test','test_name',NULL,'test123',NULL,NULL);
-=======
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,8 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2018-06-05 23:55:51
-=======
--- Dump completed on 2018-05-31 21:52:19
->>>>>>> 48d581aeb5eb16d8f854a1945a0a2e499fde5119
+-- Dump completed on 2018-06-07 19:40:59

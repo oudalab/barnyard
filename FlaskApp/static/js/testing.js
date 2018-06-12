@@ -32,7 +32,7 @@ $(document).ready(function () {
                 }, {
                     "data" : "current_expt_no"
                 }, {
-                    "data" : "herdcow_tablecol"
+                    "data" : "Herd"
                 }, {
                     "data" : "animaltype"
                 }, {

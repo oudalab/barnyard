@@ -12,11 +12,11 @@ from secrets import whole_string,short_string
 import sys
 import json
 import sqlite3
-import MySQLdb
+# import mySQLdb
 
-import pdb;
+import pdb
 
-master_animal= Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
+master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
 schemaAnimal = Animal_Inventory_Schema()
 schemaExperiment = Experiment_Schema()
@@ -845,19 +845,19 @@ class table_report_view(Resource):
         print >> sys.stderr, "This is the output for results{}".format(rows)
         return rows
 
-
-class table_test(Resource):
-    def get(self):
-        print >> sys.stderr, "Execution started"
-        db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="password", db="Barn1")
-        cursor = db.cursor(MySQLdb.cursors.DictCursor)
-        print >> sys.stderr, "Executed well until here"
-        cursor.execute("SELECT * FROM animal_table")
-        rows = cursor.fetchall()
-
-
-        print >> sys.stderr, "This is the output for from cow_table{}".format(rows)
-        cursor.close()
-        return rows
+#
+# class table_test(Resource):
+#     def get(self):
+#         print >> sys.stderr, "Execution started"
+#         db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="password", db="Barn1")
+#         cursor = db.cursor(MySQLdb.cursors.DictCursor)
+#         print >> sys.stderr, "Executed well until here"
+#         cursor.execute("SELECT * FROM animal_table")
+#         rows = cursor.fetchall()
+#
+#
+#         print >> sys.stderr, "This is the output for from cow_table{}".format(rows)
+#         cursor.close()
+#         return rows
 
         # cursor = conn.cursor(MySQLdb.cursors.DictCursor)

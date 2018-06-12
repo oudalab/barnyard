@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `procedures`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `procedures` (
   `procedure_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Animal_id` int(11) NOT NULL,
+  `Animal_id` bigint(10) NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` varchar(45) DEFAULT NULL,
   `reasonforprocedure` varchar(45) DEFAULT NULL,
@@ -39,10 +39,11 @@ CREATE TABLE `procedures` (
   `med_id` int(11) DEFAULT NULL,
   `email_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`procedure_id`),
-  KEY `fk3_AID_idx` (`Animal_id`),
-  KEY `fk3_EID_idx` (`email_id`),
-  KEY `fk3_MID_idx` (`med_id`),
-  KEY `fk5_AID_idx` (`Animal_id`)
+  KEY `fk5_MID` (`med_id`),
+  KEY `fk5_AID` (`Animal_id`),
+  CONSTRAINT `fk5_AID` FOREIGN KEY (`Animal_id`) REFERENCES `animal_table` (`animal_id`),
+  CONSTRAINT `fk5_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`),
+  CONSTRAINT `fk5_MID` FOREIGN KEY (`med_id`) REFERENCES `formulary` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-05 23:56:01
+-- Dump completed on 2018-06-07 20:18:52

@@ -4,20 +4,49 @@
 	<title>Edit Cow Info</title>
 </head>
 <html>
+<script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="col-xs-2 sidebar-nav">  
-			<div style="margin-bottom:30px;max-height:400px;overflow-y:scroll;">
-                <h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Numbers</h4>
-				<ul id="latestcow" class=" scrollable-menu">					
-                </ul>
-			</div>
-			<div class="col-xs-2 sidebar-nav">
-				<button id="basic_update" method="POST" class='btn btn-default'>Update</button></a>
-			</div>
+		<div class="sidenav" style="width:15%">
+				<ul class="nav nav-stacked" role="tablist">
+					<li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li>
+					<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Animal Inventory</a></li>
+					<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
+					<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
+					<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>
+					<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Pasture</a></li>
+					<li role="presentation"><a href="#episode" aria-controls="episode" role="tab" data-toggle="tab">Episode</a></li>
+				</ul>
+				<br>
+				<button id="basic_update" method="POST" align="center" class='btn btn-info'>Update</button></a>
+				<div style="margin-bottom:30px;max-height:400px;overflow-y:scroll;">
+					<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Numbers</h4>
+					<ul id="latestcow" class=" scrollable-menu">					
+					</ul>
+				</div>
+				
 		</div>
-		<div class="col-xs-10">
+		<div style="width:85%;" class="col-xs-offset-2">
 			<div style="margin-bottom:100px;">
 				<div class="form-group" >
 					<label for="cownumber" class="control-label col-xs-1">Animal Number</label>
@@ -64,19 +93,20 @@
 					</div>
 				</div>
 			</div>
-		  <!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li>
-				<li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Animal Inventory</a></li>
-				<li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li>
-				<li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li>
-				<li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li>
-				<li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Pasture</a></li>
-				<li role="presentation"><a href="#episode" aria-controls="episode" role="tab" data-toggle="tab">Episode</a></li>
-			</ul>
+		  <!-- <!-- Nav tabs -->
+			
+			<!-- <ul class="nav nav-stacked" role="tablist"> -->
+				<!-- <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basics</a></li> -->
+				<!-- <li role="presentation"><a href="#calf_inventory" aria-controls="calf_inventory" role="tab" data-toggle="tab">Animal Inventory</a></li> -->
+				<!-- <li role="presentation"><a href="#calf_experiment" aria-controls="calf_experiment" role="tab" data-toggle="tab">Experiment</a></li> -->
+				<!-- <li role="presentation"><a href="#calf_reproduction" aria-controls="calf_reproduction" role="tab" data-toggle="tab">Reproduction</a></li> -->
+				<!-- <li role="presentation"><a href="#calf_medical" aria-controls="calf_medical" role="tab" data-toggle="tab">Medical</a></li> -->
+				<!-- <li role="presentation"><a href="#calf_grazing" aria-controls="calf_grazing" role="tab" data-toggle="tab">Pasture</a></li> -->
+				<!-- <li role="presentation"><a href="#episode" aria-controls="episode" role="tab" data-toggle="tab">Episode</a></li> -->
+			<!-- </ul> -->
 
 		  <!-- Tab panes -->
-			<div class="tab-content">
+		  <div class="tab-content">
 				<div role="tabpanel" class="tab-pane fade in active" id="basics">
 					<form id="basics" method="POST" class="form-horizontal" style="margin-top:15px;">
 						<div class="form-group">
