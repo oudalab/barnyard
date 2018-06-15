@@ -759,12 +759,12 @@
 			if ($.fn.DataTable.isDataTable("#experiment_table")) {
 			  $('#experiment_table').DataTable().clear().destroy();
 			}
-
-
-            var table = $('#experiment_table').dataTable({
-                "bAutoWidth" : false,
+			var table = $('#experiment_table').dataTable({
+                select: {
+					style: 'single'
+				}
+				"bAutoWidth" : false,
                 data : data.data,
-				//order: [ 1, 'desc' ],
                 "columns" : [ {
                     "data" : "attributes.cownumber"
                 }, {

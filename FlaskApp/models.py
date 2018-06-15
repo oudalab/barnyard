@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import Column, Integer, DateTime, event, DDL
 from sqlalchemy.sql import func
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 
 
 app = Flask(__name__)

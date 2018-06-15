@@ -1,47 +1,29 @@
+{% extends "header.html" %}
 <html>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript">
-$(function () {
-    $("#upload").bind("click", function () {
-        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-        if (regex.test($("#fileUpload").val().toLowerCase())) {
-            if (typeof (FileReader) != "undefined") {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-		    var data=$.csv.toArrays($("#fileUpload").val());
-			console.log(data);
-			console.log(data);
+<div class="container" style="min-height:100% width:80%">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+	{% for message in messages %}
+	  <div class="alert alert-warning alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		{{message}}
+	  </div>
+	{% endfor %}
+  {% endif %}
+{% endwith %}
 
-                    var table = $("<table />");
-                    var rows = e.target.result.split("\n");
-                    for (var i = 0; i < rows.length; i++) {
-                        var row = $("<tr />");
-                        var cells = rows[i].split(",");
-                        for (var j = 0; j < cells.length; j++) {
-                            var cell = $("<td />");
-                            cell.html(cells[j]);
-                            row.append(cell);
-                        }
-                        table.append(row);
-                    }
-                    $("#dvCSV").html('');
-                    $("#dvCSV").append(table);
-                }
-                reader.readAsText($("#fileUpload")[0].files[0]);
-            } else {
-                alert("This browser does not support HTML5.");
-            }
-        } else {
-            alert("Please upload a valid CSV file.");
-        }
-    });
-});
-</script>
+{% block body %}
+	</div>
+
 <input type="file" id="fileUpload" />
 <input type="button" id="upload" value="Upload" />
 <hr />
 <div id="dvCSV">
 </div>
-<script type = "text/javascript" src="{{url_for('static', filename= 'js/jquery-csv.js')}}"></script>
 
+</body>
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/jquery-csv.js')}}"></script>
+<script type = "text/javascript" src="{{url_for('static', filename= 'js/page.js')}}"></script>
 </html>
+
+{% endblock %}

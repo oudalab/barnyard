@@ -121,7 +121,7 @@
 						$.ajax({
 							url: '/api/master_animal/',
 							data: masterData,
-							datatype: 'json',
+							datatype: 'json', 
 							// Patch becasue we are using the second version of posting basic data (Has a cow number)
 							type: 'PATCH',
 							success: function(response) {

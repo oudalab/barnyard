@@ -8,11 +8,13 @@ from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
 from sqlalchemy import desc, and_, create_engine
 from sqlalchemy.orm import sessionmaker
-from secrets import whole_string,short_string
+from secrets import whole_string, short_string
 import sys
 import json
 import sqlite3
-# import mySQLdb
+import mysql
+from mysql.connector import (connection)
+from mysql.connector import errorcode, errors, Error
 
 import pdb
 
@@ -684,8 +686,8 @@ class table_group(Resource):
             # Validate the data or raise a Validation error if
             schemaGroup.validate(raw_dict)
             group = Group(cownumber=raw_dict['cownumber'], groupnumber=raw_dict['groupnumber'],
-                             groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],user=raw_dict['user'],
-                             attributes = raw_dict['attributes'])
+                             groupname=raw_dict['groupname'], groupdescription=raw_dict['groupdescription'],
+                                user=raw_dict['user'], attributes = raw_dict['attributes'])
             group.add(group)
             query = Group.query.all()
             results = schemaGroup.dump(query, many=True).data
@@ -823,8 +825,8 @@ class table_reporting(Resource):
             resp.status_code = 403
             return resp
 
-#Tables below will be used for reporting only
-#Due to strugles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
+# Tables below will be used for reporting only
+# Due to struggles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
 class table_report_view(Resource):
     def get(self, cownumber, start_date, end_date):
         def dict_factory(cursor, row):
@@ -838,26 +840,128 @@ class table_report_view(Resource):
         cur.execute("Select * from alltables where cownumber = ? and ts between ? and ?",(cownumber,start_date,end_date))
 
         rows = cur.fetchall()
-        #animal_inventory_query = Animal_Inventory.query.filter(and_(Animal_Inventory.cownumber == cownumber, Animal_Inventory.ts >= start_date, Animal_Inventory.ts <= end_date)).order_by(Animal_Inventory.ts.desc())
-        #result = schemaUsers.dump(rows,many = True).data
+        # animal_inventory_query = Animal_Inventory.query.filter(and_(Animal_Inventory.cownumber == cownumber,
+        # Animal_Inventory.ts >= start_date, Animal_Inventory.ts <= end_date)).order_by(Animal_Inventory.ts.desc())
+        # result = schemaUsers.dump(rows,many = True).data
         columns = [i[0] for i in cur.description]
         result = [{columns[index][0]: column for index, column in enumerate(value)} for value in cur.fetchall()]
         print >> sys.stderr, "This is the output for results{}".format(rows)
         return rows
 
-#
-# class table_test(Resource):
-#     def get(self):
-#         print >> sys.stderr, "Execution started"
-#         db = MySQLdb.connect(host="localhost", port=3306, user="root", passwd="password", db="Barn1")
-#         cursor = db.cursor(MySQLdb.cursors.DictCursor)
-#         print >> sys.stderr, "Executed well until here"
-#         cursor.execute("SELECT * FROM animal_table")
-#         rows = cursor.fetchall()
-#
-#
-#         print >> sys.stderr, "This is the output for from cow_table{}".format(rows)
-#         cursor.close()
-#         return rows
 
-        # cursor = conn.cursor(MySQLdb.cursors.DictCursor)
+class table_test(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+
+            cursor.execute("SELECT * FROM animal_table")
+            rows = cursor.fetchall()
+            for row in cursor:
+                print("{Animal_ID}'s animalname is : {animalname}".format(**row))
+
+
+            print >> sys.stderr, "This is whole data{}".format(cursor)
+            cursor.close()
+            cnx.close()
+        return rows
+
+    def post(self):
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            # New comment line
+            cursor = cnx.cursor(dictionary=True)
+            # insert_animaldata = "INSERT INTO animal_table (Animal_ID,animalname,animaltype,eartag,eid,pasturenumber," \
+            #                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,Breeder,currentframescore,"\
+            #                     "damframescore,comments,species,email_id) VALUES (%(Animal_ID)s, %(animalname)s, " \
+            #                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+            #                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+            #                     " %(Breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+            #                     "%(species)s, %(email_id)s)"
+
+            insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at) VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
+            print >> sys.stderr, "Initialized"
+            data = request.get_json(force=True)
+            print >> sys.stderr, "Got the data"
+            for k, v in data.iteritems():
+                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+            print>>sys.stderr, "Next is the execute command, Here it goes"
+            try:
+                cursor.execute(insert_users, data)
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+    def update(self):
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            # New comment line
+            cursor = cnx.cursor(dictionary=True)
+
+            update_users = ("""UPDATE login SET first_name=%(first_name)s, last_name=%(last_name)s, 
+                                pswd_hash=%(pswd_hash)s, email_id=%(email_id)s, roles=%(roles)s, registered_at=%(registered_at)s
+                                WHERE Server=%s(email_id, first_name, last_name, pswd_hash, roles, registered_at)""")
+            print >> sys.stderr, "Initialized"
+            data = request.get_json(force=True)
+            print >> sys.stderr, "Got the data"
+            for k, v in data.iteritems():
+                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+            print>>sys.stderr, "Next is the execute command, Here it goes"
+            try:
+                cursor.execute(update_users, data)
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
