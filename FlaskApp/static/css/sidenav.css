@@ -1,0 +1,88 @@
+body {margin:0;font-family:Arial}
+.sidenav {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: #333;
+    overflow-x: hidden;
+}
+@font-face {
+    font-family:FontAwesome;
+    src:url(https://netdna.bootstrapcdn.com/font-awesome/2.0/font//fontawesome-webfont.eot?#iefix) format('eot'), url(https://netdna.bootstrapcdn.com/font-awesome/2.0/font//fontawesome-webfont.woff) format('woff'), url(https://netdna.bootstrapcdn.com/font-awesome/2.0/font//fontawesome-webfont.ttf) format('truetype'), url(https://netdna.bootstrapcdn.com/font-awesome/2.0/font//fontawesome-webfont.svg#FontAwesome) format('svg');
+    font-weight:400;
+    font-style:normal;
+}
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+.vertical-nav {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    font-family:Arial;
+    font-size: 13px;
+    font-weight: 400;
+}
+.vertical-nav li a:link, a:visited {
+    -webkit-transition: all 0.3s linear;
+    background-color: #333;
+    display:block;
+    color:#FFFFFF;
+    width:200px;
+    text-align:left;
+    padding:20px 20px 20px 15px;
+    text-decoration:none;
+}
+.vertical-nav li a:hover, a:active {
+    text-indent: 20px;
+    background-color: #ddd;
+	color: black;
+}
+.has-dropdown {
+    
+}
+i1:before {
+    font-family:'FontAwesome';
+    content:"\f015";
+    padding:0 15px 0 0;
+}
+i2:before {
+    font-family:'FontAwesome';
+    content:"\f05a";
+    padding:0 15px 0 0;
+}
+i3:before {
+    font-family:'FontAwesome';
+    content:"\f040";
+    padding:0 15px 0 0;
+}
+i4:before {
+    font-family:'FontAwesome';
+    content:"\f003";
+    padding:0 15px 0 0;
+}
+icr:before {
+    font-family:'FontAwesome';
+    content:"\f0da";
+    padding:0 0 0 15px;
+}
+icd:before {
+    font-family:'FontAwesome';
+    content:"\f0d7";
+    padding:0 0 0 15px;
+}
+
+ul li ul
+{
+    display:none;
+}
+
+ul li:hover ul
+{
+    display:block;
+    list-style-type:none;
+}

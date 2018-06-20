@@ -178,7 +178,7 @@ def experimentedit():
 @app.route('/experimentupdate', methods=['GET', 'POST'])
 @login_required
 # route used to make POST call in experimentscript.js
-def experimentupdate():
+def oldexperimentupdate():
     # necessary schemas for all tables
     schemaMaster = Master_animal_Schema()
     schemaMedical = Medical_Inventory_Schema()
@@ -309,6 +309,96 @@ def userinfo():
 def changepassword():
     return render_template("ChangePassword.html")
 
+
+@app.route('/tempsearchpage')
+@login_required
+def tempsearchpage():
+    return render_template("tempsearchpage.html")
+
+@app.route('/animal/add')
+@login_required
+def animaladd():
+    return render_template("animaladd.html")
+
+@app.route('/animal/list')
+@login_required
+def animallist():
+    return render_template("animallist.html")
+
+@app.route('/animal/update')
+@login_required
+def animalupdate():
+    return render_template("animalupdate.html")
+
+@app.route('/experiment/add')
+@login_required
+def experimentadd():
+    return render_template("experimentadd.html")
+
+@app.route('/experiment/update')
+@login_required
+def experimentupdate():
+    return render_template("experimentupdate.html")
+
+@app.route('/report/create')
+@login_required
+def report_create():
+    return render_template("report_create.html")
+
+@app.route('/report/view')
+@login_required
+def report_view():
+    return render_template("report_view.html")
+
+@app.route('/inventory/formulary')
+@login_required
+def inventory_formulary():
+    return render_template("inventory_formulary.html")
+
+@app.route('/inventory/pasture')
+@login_required
+def inventory_pasture():
+    return render_template("inventory_pasture.html")
+
+@app.route('/inventory/procedure')
+@login_required
+def inventory_procedure():
+    return render_template("inventory_procedure.html")
+
+@app.route('/inspection/submit')
+@login_required
+def inspection_submit():
+    return render_template("inspection_submit.html")
+
+@app.route('/inspection/view')
+@login_required
+def inspection_view():
+    return render_template("inspection_view.html")
+
+@app.route('/reproduction/calfadd')
+@login_required
+def reproduction_add_calf():
+    return render_template("reproduction_add_calf.html")
+
+@app.route('/reproduction/calfview')
+@login_required
+def reproduction_view_calf():
+    return render_template("reproduction_view_calf.html")
+
+@app.route('/herd/create')
+@login_required
+def herd_create():
+    return render_template("herd_create.html")
+
+@app.route('/herd/view')
+@login_required
+def herd_view():
+    return render_template("herd_view.html")
+
+@app.route('/herd/grazing')
+@login_required
+def herd_grazing():
+    return render_template("herd_grazing.html")
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

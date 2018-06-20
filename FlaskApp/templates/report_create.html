@@ -1,0 +1,63 @@
+{% extends "tempheader.html" %}
+
+<html>
+<head><title>{% block title %}Create Report{% endblock %}</title></head>
+<body>
+	
+	{% block main %}
+	<div id="Notification area"></div>
+	<h1>This is the Create Report page</h1>
+	{% endblock %}
+
+{% block sidenav %}
+<div class="sidenav">
+    <ul class="vertical-nav">
+        <li><a href="#">Animal<icd></icd></a>
+			<ul class="child">
+                <li><a href="/animal/list">List Animals</a></li>
+                <li><a href="/animal/add">Add Animal</a></li>
+                <li><a href="/animal/update">View/Update Animal</a></li>
+            </ul></li>
+        <li><a href="#">Experiment <icd></icd></a>
+            <ul class="child">
+                <li><a href="/experiment/add">Add Experiment</a></li>
+                <li><a href="/experiment/update">View/Update Experiment</a></li>
+            </ul>
+        </li>
+		<li><a class="active" href="#">Report <icd></icd></a>
+            <ul class="child">
+                <li><a class="active" href="/report/create">Create Report</a></li>
+                <li><a href="/report/view">View Report</a></li>
+            </ul>
+        </li>
+		<li><a href="#">Inventory <icd></icd></a>
+            <ul class="child">
+                <li><a href="/inventory/formulary">Formulary</a></li>
+                <li><a href="/inventory/pasture">Pasture</a></li>
+				<li><a href="/inventory/procedure">Procedure</a></li>
+            </ul>
+        </li>
+		<li><a href="#">Inspection <icd></icd></a>
+            <ul class="child">
+                <li><a href="/inspection/submit">Submit Inspection</a></li>
+                <li><a href="/inspection/view">View Inspection Reports</a></li>
+            </ul>
+        </li>
+		<li><a href="#">Reproduction <icd></icd></a>
+            <ul class="child">
+                <li><a href="/reproduction/calfadd">Add Calf</a></li>
+                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
+            </ul>
+        </li>
+		<li><a href="#">Herd <icd></icd></a>
+            <ul class="child">
+                <li><a href="/herd/create">Create Herd</a></li>
+                <li><a href="/herd/view">View/Update Herd</a></li>
+				<li><a href="/herd/grazing">Grazing</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+</body>
+</html>

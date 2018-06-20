@@ -1,5 +1,18 @@
 {% extends "header.html" %}
 <html>
+<style>
+.position{
+top: 191px;
+    left: 420px;
+    right: -420px;
+    bottom: -191px;
+	}
+</style>
+<head>
+<input type="file" id="fileUpload" class="position"/>
+<input type="button" id="upload" value="Upload" />
+<hr />
+</head>
 <div class="container" style="min-height:100% width:80%">
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -15,9 +28,7 @@
 {% block body %}
 	</div>
 
-<input type="file" id="fileUpload" />
-<input type="button" id="upload" value="Upload" />
-<hr />
+
 <div id="dvCSV">
 </div>
 

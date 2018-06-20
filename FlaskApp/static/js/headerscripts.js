@@ -760,9 +760,6 @@
 			  $('#experiment_table').DataTable().clear().destroy();
 			}
 			var table = $('#experiment_table').dataTable({
-                select: {
-					style: 'single'
-				}
 				"bAutoWidth" : false,
                 data : data.data,
                 "columns" : [ {
