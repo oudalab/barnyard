@@ -16,14 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `experiment`
+-- Table structure for table `trial`
 --
 
-DROP TABLE IF EXISTS `experiment`;
+DROP TABLE IF EXISTS `trial`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `experiment` (
-  `expt_no` bigint(10) NOT NULL,
+CREATE TABLE `trial` (
+  `trial_ID` bigint(10) NOT NULL AUTO_INCREMENT,
   `animaltype` varchar(45) DEFAULT NULL,
   `birthweight` float DEFAULT NULL,
   `birthweightadj` float DEFAULT NULL,
@@ -62,23 +62,22 @@ CREATE TABLE `experiment` (
   `replicate` varchar(45) DEFAULT NULL,
   `email_id` varchar(45) NOT NULL,
   `Animal_ID` bigint(10) NOT NULL,
-  `expt_date` date NOT NULL,
-  PRIMARY KEY (`expt_no`),
-  KEY `fk2_EID_idx` (`email_id`),
-  KEY `fk_AID-94_idx` (`Animal_ID`),
-  CONSTRAINT `fk2_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`),
-  CONSTRAINT `fk_AID_5` FOREIGN KEY (`Animal_ID`) REFERENCES `animal_table` (`animal_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `trail_date` date NOT NULL,
+  PRIMARY KEY (`trial_ID`),
+  KEY `fk21_AIDno_idx` (`Animal_ID`),
+  KEY `fk21_EID_idx` (`email_id`),
+  CONSTRAINT `fk21_AIDno` FOREIGN KEY (`Animal_ID`) REFERENCES `animal_table` (`animal_id`),
+  CONSTRAINT `fk21_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `experiment`
+-- Dumping data for table `trial`
 --
 
-LOCK TABLES `experiment` WRITE;
-/*!40000 ALTER TABLE `experiment` DISABLE KEYS */;
-INSERT INTO `experiment` VALUES (104,'Cow',0,0,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','1390','0','0',0,'0','0','0','test',94,'0000-00-00'),(188,'Cow',0,8,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',178,'0000-00-00'),(217,'Cow',0,0,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',207,'0000-00-00'),(247,'Cow',80,80,0,0,0,0,NULL,40.27,425,'0000-00-00','1.8',2.2,'0000-00-00',0,40.5,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',237,'0000-00-00'),(252,'Cow',80,85,0,0,0,0,NULL,42,376,'0000-00-00','1.5',1.9,'0000-00-00',0,42.9,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',242,'0000-00-00'),(1008,'Cow',0,0,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',998,'0000-00-00'),(1016,'Cow',0,0,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','1455','0','0',0,'0','0','0','test',1006,'0000-00-00'),(1027,'Cow',0,0,0,0,0,0,NULL,0,0,'0000-00-00','0',0,'0000-00-00',0,0,0,0,0,0,'0000-00-00',0,0,0,0,0,'0000-00-00',0,'0000-00-00','0','0','0',0,'0','0','0','test',1017,'0000-00-00');
-/*!40000 ALTER TABLE `experiment` ENABLE KEYS */;
+LOCK TABLES `trial` WRITE;
+/*!40000 ALTER TABLE `trial` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trial` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -90,4 +89,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-21 22:32:35
+-- Dump completed on 2018-06-21 22:32:15

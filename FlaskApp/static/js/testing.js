@@ -55,7 +55,77 @@ $(document).ready(function () {
                     "data" : "gender"
                 }, {
                     "data" : "email_id"
-                } ]
+                } , {
+                    "data" : "brand"
+                }
+				, {
+                    "data" : "brandlocation"
+                }
+				, {
+                    "data" : "tattooleft"
+                }
+				, {
+                    "data" : "tattooright"
+                }
+				, {
+                    "data" : "alternativeid"
+                }
+				, {
+                    "data" : "registration"
+                }
+				, {
+                    "data" : "color"
+                }
+				, {
+                    "data" : "hornstatus"
+                }
+				, {
+                    "data" : "dam"
+                }
+				, {                                               
+                    "data" : "sire"
+                }
+				, {
+                    "data" : "dob"
+                }
+				, {
+                    "data" : "howacquired"
+                }
+				, {
+                    "data" : "dateacquired"
+                }
+				, {
+                    "data" : "howdisposed"
+                }
+				, {
+                    "data" : "datedisposed"
+                }
+				, {
+                    "data" : "disposalreason"
+                }
+				, {
+                    "data" : "herdnumberlocation"
+                }
+				, {
+                    "data" : "herdstatus"
+                }
+				, {
+                    "data" : "howconceived"
+                }
+				, {
+                    "data" : "managementcode"
+                }
+				, {
+                    "data" : "ownerID"
+                }
+				, {
+                    "data" : "user"
+                }, {
+                    "data" : "springfall"
+                } ,{
+					"data": "includeinlookups"
+				}
+				]
             });
         }	
 	});

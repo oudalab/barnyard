@@ -19,6 +19,8 @@
 -- Table structure for table `pasture`
 --
 
+
+
 DROP TABLE IF EXISTS `pasture`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -30,11 +32,13 @@ CREATE TABLE `pasture` (
   `chemicalname` varchar(45) DEFAULT NULL,
   `applicationrate` varchar(45) DEFAULT NULL,
   `applicationdate` date DEFAULT NULL,
-  `pasturenumbergrazing` varchar(45) NOT NULL DEFAULT 'null',
   `email_id` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`pasturenumbergrazing`),
-  KEY `fk4_EID_idx` (`email_id`),
-  CONSTRAINT `fk4_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`)
+  `pasturenumber` varchar(45) NOT NULL,
+  `pasture_ID` bigint(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pasture_ID`),
+  INDEX `fk4_EID_idx` (`email_id`),
+  CONSTRAINT `fk4_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`)  ON DELETE NO ACTION
+    ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,6 +48,7 @@ CREATE TABLE `pasture` (
 
 LOCK TABLES `pasture` WRITE;
 /*!40000 ALTER TABLE `pasture` DISABLE KEYS */;
+INSERT INTO `pasture` VALUES (NULL,'0000-00-00',NULL,NULL,NULL,NULL,'0000-00-00','test','0',0),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','6',1),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','9',2),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','10',3),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','11',4),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','13',5),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','14',6),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','20',7),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','51',8),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','56',9),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','65',10),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','77',11),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','78',12),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','88',13),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','12E',14),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','7 North',15),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','7 South',16),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','C1',17),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','C2',18),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','Quarantine 1',19),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','Ra',20),('null','0000-00-00',NULL,'null','null','null','0000-00-00','test','Rb',21);
 /*!40000 ALTER TABLE `pasture` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-07 19:40:49
+-- Dump completed on 2018-06-21 22:33:08

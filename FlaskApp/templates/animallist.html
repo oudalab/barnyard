@@ -7,6 +7,46 @@
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the Animal List page</h1>
+	
+		<table class="table">
+	  <thead>
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Animal ID</th>
+		  <th scope="col">Animal Name</th>
+		  <th scope="col">Ear Tag</th>
+		  <th scope="col">EID</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <th scope="row">1</th>
+		  <td>1</td>
+		  <td>Brahmin Bull</td>
+		  <td>123456789</td>
+		  <td>1234</td>
+		</tr>
+		<tr>
+		  <th scope="row">2</th>
+		  <td>2</td>
+		  <td>6040</td>
+		  <td>11121314151617</td>
+		  <td>5678</td>
+		</tr>
+		<tr>
+		  <th scope="row">3</th>
+		  <td>3</td>
+		  <td>7060</td>
+		  <td>21222324252627</td>
+		  <td>1011</td>
+		</tr>
+	  </tbody>
+	</table>
+	
+	<button type="button" class="btn btn-primary btn-lg">Edit</button>
+	<button type="button" class="btn btn-secondary btn-lg">Delete</button>
+	
+	
 	{% endblock %}
 
 {% block sidenav %}

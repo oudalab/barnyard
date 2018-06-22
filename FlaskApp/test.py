@@ -2,10 +2,10 @@ import mysql
 from mysql.connector import (connection)
 import sys
 from mysql.connector import errorcode
-
+import json
 
 try:
-    cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+    cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -18,10 +18,9 @@ else:
     cursor = cnx.cursor(dictionary=True)
 
     cursor.execute("SELECT * FROM animal_table")
-
-    # for row in cursor:
-    #     print("{Animal_ID}'s animalname is : {animalname}".format(**row))
-    print(cursor)
+    rows = cursor.fetchall()
+    print("Fetch Completed")
+    print(rows)
     cursor.close()
     cnx.close()
 

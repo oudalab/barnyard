@@ -4,17 +4,18 @@
 	<!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- FontAwesome Min CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {margin:0;font-family:Arial}
 .sidenav {
     height: 100%;
-    width: 240px;
+    width: 15%;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -28,10 +29,11 @@ body {margin:0;font-family:Arial}
     font-style:normal;
 }
 .main {
-    margin-left: 240px; /* Same as the width of the sidenav */
-    font-size: 15px; /* Increased text to enable scrolling */
+    margin-left: 15%; /* Same as the width of the sidenav */
+	font-size: 12px;
     padding: 0px 10px;
 }
+
 .vertical-nav a.active {
   background-color: #4CAF50;
   color: white;
@@ -135,13 +137,15 @@ body {margin:0;font-family:Arial}
   display: none;
 }
 
+/* Dropdown container - needed to position the dropdown content */
 .dropdown {
     float: left;
     overflow: hidden;
 }
 
+/* Style the dropdown button to fit inside the topnav */
 .dropdown .dropbtn {
-    font-size: 15px;  
+    font-size: 17px; 
     border: none;
     outline: none;
     color: white;
@@ -151,6 +155,7 @@ body {margin:0;font-family:Arial}
     margin: 0;
 }
 
+/* Style the dropdown content (hidden by default) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -160,6 +165,7 @@ body {margin:0;font-family:Arial}
     z-index: 1;
 }
 
+/* Style the links inside the dropdown */
 .dropdown-content a {
     float: none;
     color: black;
@@ -169,16 +175,19 @@ body {margin:0;font-family:Arial}
     text-align: left;
 }
 
+/* Add a dark background on topnav links and the dropdown button on hover */
 .topnav a:hover, .dropdown:hover .dropbtn {
-  background-color: #555;
-  color: white;
+    background-color: #555;
+    color: white;
 }
 
+/* Add a grey background to dropdown links on hover */
 .dropdown-content a:hover {
     background-color: #ddd;
     color: black;
 }
 
+/* Show the dropdown menu when the user moves the mouse over the dropdown button */
 .dropdown:hover .dropdown-content {
     display: block;
 }
@@ -215,25 +224,24 @@ body {margin:0;font-family:Arial}
 }
 
 .homebutton{
- backgroundColor:#E81A68"
+ backgroundColor:#E81A68
 }
 </style>
 <title>{% block title %}Homepage{% endblock %}</title>
 </head>
 <body>
-
 <div class="topnav">
 	
-	<a class="homebutton" style="padding-right: 40px;padding-left: 60px;padding-right: 60px;width: 240px;" href="/tempsearchpage"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a>
+	<a class="homebutton" style="width:15%;" href="/tempsearchpage"><img src="/static/images/animated-cow.gif" alt="cow image" ><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a>
 	
 	
 	{% if session['logged_in'] %}
 	<div class="topnav-right">
 		<div class="dropdown">
-			<button class="dropbtn">{{session['email']}} &nbsp;<i class="fa fa-caret-down"></i></button>
+			<button class="dropbtn">{{session['email']}}<i class="fa fa-caret-down"></i></button>
 			<div class="dropdown-content">
-				<a href="/UserInfo">User Info</a>
-				<a href="/ChangePassword">Change Password</a>
+			  <a href="/UserInfo">User Info</a>
+			  <a href="/ChangePassword">Change Password</a>
 			</div>
 		</div> 
 	<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>
@@ -243,21 +251,46 @@ body {margin:0;font-family:Arial}
 	</div>
 				
 </div>
+
 {% block sidenav %}
 
 {% endblock %}
 <div class="main">
+	<div id="Notification_area">
+		<div class="container-fluid" style="min-height:100%; width:100%; margin-top:80px;">
+			<div style="width:50%; margin:0px auto;" align="center">
+			  {% with msgs = get_flashed_messages() %}
+				{% if msgs %}
+				  {% for msg in msgs %}
+					<div class="alert alert-info">
+						{{ msg }}
+					</div>
+				  {% endfor %}
+				{% endif %}
+			  {% endwith %}
+			</div>
+		</div>
+	</div>
 {% block main %}
   <h2>Top Navigation Example</h2>
   <p>Some content..</p>
 {% endblock %}
 </div>
-	
+
 	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="  crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	<!-- Multiple select plugin local import -->
+	<script type = "text/javascript" src="{{url_for('static', filename= 'js/multiselect.js')}}"></script>
+	
+	<!-- Flatpickr Date Plugin -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	{% block imports %}
+	{% endblock %}
 </body>
 </html>

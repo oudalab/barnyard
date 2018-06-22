@@ -23,11 +23,8 @@ DROP TABLE IF EXISTS `formulary`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `formulary` (
-  `Med_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Animal_Id` bigint(10) DEFAULT NULL,
-  `medication` varchar(45) NOT NULL,
+  `Medicine_ID` bigint(10) NOT NULL,
   `quantity` float DEFAULT NULL,
-  `cost` float DEFAULT NULL,
   `purchasedate` date DEFAULT NULL,
   `expirydate` date DEFAULT NULL,
   `drug` varchar(45) DEFAULT NULL,
@@ -35,11 +32,10 @@ CREATE TABLE `formulary` (
   `roa` varchar(45) DEFAULT NULL,
   `vialsize` float DEFAULT NULL,
   `units` float DEFAULT NULL,
-  `email_id` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Med_ID`),
+  `email_id` varchar(45) NOT NULL,
+  `date` date DEFAULT NULL,
+  PRIMARY KEY (`Medicine_ID`),
   KEY `fk7_EID_idx` (`email_id`),
-  KEY `fk6_AID` (`Animal_Id`),
-  CONSTRAINT `fk6_AID` FOREIGN KEY (`Animal_Id`) REFERENCES `animal_table` (`animal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk7_EID` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-07 19:40:09
+-- Dump completed on 2018-06-21 22:32:04

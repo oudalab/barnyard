@@ -17,6 +17,7 @@ from mysql.connector import (connection)
 from mysql.connector import errorcode, errors, Error
 
 import pdb
+from datetime import datetime
 
 master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
@@ -853,7 +854,7 @@ class table_test(Resource):
     def get(self):
         print >> sys.stderr, "Execution started"
         try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -864,21 +865,19 @@ class table_test(Resource):
                 print(err)
         else:
             cursor = cnx.cursor(dictionary=True)
-
-            cursor.execute("SELECT * FROM animal_table")
+            cursor.execute("SELECT Animal_ID,eartag,eid,sex,pasture_ID,breed,status,current_expt_no,Herd,animaltype,animalname,breeder,currentframescore,damframescore,comments,species,height,weight,gender,email_id,brand,brandlocation,tattooleft,tattooright,alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired, DATE_FORMAT(dateacquired, '%%YYYY-%%mm-%%dd'),howdisposed,DATE_FORMAT(datedisposed, '%%YYYY-%%mm-%%dd'),disposalreason,herdnumberlocation,herdstatus,howconceived,managementcode,ownerID,springfall,includeinlookups FROM animal_table")
             rows = cursor.fetchall()
-            for row in cursor:
-                print("{Animal_ID}'s animalname is : {animalname}".format(**row))
+            print("Fetch Completed")
 
-
-            print >> sys.stderr, "This is whole data{}".format(cursor)
+            print >> sys.stderr, "This is the output for Animal_get{}".format(rows)
             cursor.close()
             cnx.close()
+
         return rows
 
     def post(self):
         try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -925,7 +924,7 @@ class table_test(Resource):
                 cnx.close()
     def update(self):
         try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='Barn1')
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
