@@ -7,57 +7,47 @@
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the View Herd page</h1>
+	
+	<div class="container">
+		<table data-toggle="table"
+		data-pagination="true"
+		data-search="true"
+		data-click-to-select="true">
+		<thead>
+		<tr>
+			<th data-field="state" data-checkbox="true"></th>
+			<th data-field="report_number">Herd Number</th>
+			<th data-field="Herd_Name">Herd Name</th>
+			<th data-field="animals_report">Animals in the herd</th>
+		</tr>
+		</thead>
+		<tbody>
+		 <tr>
+		   <td data-checkbox="true"></td>
+		   <td>1</td>
+		   <td>Grazer</td>
+		   <td>1,2,3,4,5,6,7,8,9,10</td>
+		 </tr>
+		 <tr>
+		   <td data-checkbox="true"></td>
+		   <td>2</td>
+		   <td>Feed</td>
+		   <td>11,12,13,14,15,16,17,18,19,20</td>
+		 </tr>
+		 <tr>
+		   <td data-checkbox="true"></td>
+		   <td>3</td>
+		   <td>Birth</td>
+		   <td>21,22,23,24,25,26,27,28,29,30</td>
+		 </tr>
+		</tbody>
+	</table>
+	</div>
+	<button type="button" class="btn btn-primary btn-lg">Edit</button>
+	<button type="button" class="btn btn-secondary btn-lg">Delete</button>
+	
 	{% endblock %}
 
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inventory/formulary">Formulary</a></li>
-                <li><a href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a class="active" href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a class="active" href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block Herd %} class="panel-collapse collapse in" {% endblock %}
 </body>
 </html>

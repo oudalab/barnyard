@@ -7,57 +7,107 @@
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the Formulary Inventory page</h1>
+		<div class="form-group" style="margin-top:15px; margin-bottom:50px;">
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddNew">Add New Medication</button>
+		</div>
+		
+		<div class="container">
+	<table data-toggle="table"
+		data-pagination="true"
+		data-search="true"
+		data-click-to-select="true">
+		<thead>
+		<tr>
+			<th data-field="state" data-checkbox="true"></th>
+			<th data-field="Drug">Drug</th>
+			<th data-field="Location">Location</th>
+			<th data-field="ROA">ROA</th>
+			<th data-field="Vial Size">Vial Size</th>
+			<th data-field="Units">Units</th>
+		</tr>
+		</thead>
+		<tbody>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>Pencillin</td>
+			<td>Storage</td>
+			<td>Injection</td>
+			<td>500</td>
+			<td>tablets</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>Ibuprofen</td>
+			<td>Storage</td>
+			<td>Oral</td>
+			<td>500</td>
+			<td>tablets</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>Benadryl</td>
+			<td>Storage</td>
+			<td>Oral</td>
+			<td>1000</td>
+			<td>ml</td>
+		 </tr>
+		</tbody>
+	</table>
+	</div>
+		<br>
+		<button type="button" class="btn btn-primary btn-lg">Edit</button>
+		<button type="button" class="btn btn-secondary btn-lg">Delete</button>
+	<!-- Another Modal -->
+		<div class="modal fade" id="AddNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+			<div class="modal-content">
+			  <div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add New Medication</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					  <form class = "form-horizontal" style="margin-top:15px;">
+						<div class="form-group">
+							<label for="drug" class="control-label col-xs-2" style="align-right">Drug</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="drug" placeholder="Drug">
+							</div>
+							<label for="location" class="control-label col-xs-2" style="align-right">Location</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="location" placeholder="Location">
+							</div>
+						</div>
+						<div class="form-group" style="margin-top:15px;">						
+							<label for="roa" class="control-label col-xs-2" style="align-right">Route of Administration</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="roa" placeholder="Route of Administration">
+							</div>
+							<label for="vialsize" class="control-label col-xs-2" style="align-right">Vial Size</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="vialsize" placeholder="Vial Size">
+							</div>
+						</div>
+						<div class="form-group" style="margin-top:15px;margin-bottom:30px;">
+							<label for="units" class="control-label col-xs-2" style="align-right">Units</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="units" placeholder="Units">
+							</div>
+						</div>
+					  </form>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" id = "submit_button_pharma" method="POST" class="btn btn-primary" data-dismiss="modal">Submit</button>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 	{% endblock %}
 
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a class="active" href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a class="active" href="/inventory/formulary">Formulary</a></li>
-                <li><a href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block Inventory %} class="panel-collapse collapse in" {% endblock %}
 </body>
 </html>

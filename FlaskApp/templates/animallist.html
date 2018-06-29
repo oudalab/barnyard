@@ -1,103 +1,116 @@
 {% extends "tempheader.html" %}
 
 <html>
-<head><title>{% block title %}Animal List{% endblock %}</title></head>
+<head><title>{% block title %}Animal List{% endblock %}</title>
+</head>
 <body>
 	
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the Animal List page</h1>
 	
-		<table class="table">
-	  <thead>
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Animal ID</th>
-		  <th scope="col">Animal Name</th>
-		  <th scope="col">Ear Tag</th>
-		  <th scope="col">EID</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <th scope="row">1</th>
-		  <td>1</td>
-		  <td>Brahmin Bull</td>
-		  <td>123456789</td>
-		  <td>1234</td>
-		</tr>
-		<tr>
-		  <th scope="row">2</th>
-		  <td>2</td>
-		  <td>6040</td>
-		  <td>11121314151617</td>
-		  <td>5678</td>
-		</tr>
-		<tr>
-		  <th scope="row">3</th>
-		  <td>3</td>
-		  <td>7060</td>
-		  <td>21222324252627</td>
-		  <td>1011</td>
-		</tr>
-	  </tbody>
+	<div id="toolbar" class="btn-group">
+		<button type="button" class="btn btn-default" >
+			<i class="glyphicon glyphicon-plus" ></i>
+		</button>
+		<button type="button" class="btn btn-default">
+			<i class="glyphicon glyphicon-heart"></i>
+		</button>
+		<button type="button" class="btn btn-default" >
+			<i class="glyphicon glyphicon-trash"></i>
+		</button>
+	</div>
+	<table id="table"
+		data-search="true"
+		data-pagination="true"
+		data-show-refresh="true"
+		data-show-columns="true"
+		data-show-export="true"
+		data-filter-control="true"
+	>
+		<thead>
+			<tr>
+				<th data-field="state" data-checkbox="true" id="selectall"></th>
+				<th data-sortable="true" data-field="Animal_ID" data-filter-control="input" >Animal ID</th>
+				<th data-sortable="true" data-field="animalname" data-filter-control="input">Animal Name</th>
+				<th data-field="eartag" data-filter-control="input">Ear Tag</th>
+				<th data-field="eid" class="w150" data-filter-control="input">EID</th>
+				<th data-field="DOB" class="w200" data-filter-control="input">DOB</th>
+				<th data-field="Herd" class="w100" data-filter-control="input">Herd</th>
+				<th data-field="alternativeid" data-filter-control="input">alternativeid</th>
+				<th data-field="animaltype" data-filter-control="input">animaltype</th>
+				<th data-field="brand" data-filter-control="input">brand</th>
+				<th data-field="brandlocation" data-filter-control="input">brandlocation</th>
+				<th data-field="breed" class="w100" data-filter-control="input">breed</th>
+				<th data-field="breeder" class="w200" data-filter-control="input">breeder</th>
+				<th data-field="color" data-filter-control="input">color</th>
+				<th data-field="comments" data-filter-control="input">comments</th>
+				<th data-field="current_expt_no" data-filter-control="input">current_expt_no</th>
+				<th data-field="currentframescore" data-filter-control="input">currentframescore</th>
+				<th data-field="damframescore" data-filter-control="input">damframescore</th>
+				<th data-field="dateacquired" class="w200" data-filter-control="input">dateacquired</th>
+				<th data-field="datedisposed" class="w200" data-filter-control="input">datedisposed</th>
+				<th data-field="disposalreason" data-filter-control="input">disposalreason</th>
+				<th data-field="email_id" data-filter-control="input">email_id</th>
+				<th data-field="gender" data-filter-control="select">gender</th>
+				<th data-field="height" data-filter-control="input">height</th>
+				<th data-field="herdnumberlocation" data-filter-control="input">herdnumberlocation</th>
+				<th data-field="herdstatus" data-filter-control="select">herdstatus</th>
+				<th data-field="hornstatus" data-filter-control="select">hornstatus</th>
+				<th data-field="howacquired" data-filter-control="select">howacquired</th>
+				<th data-field="howconceived" data-filter-control="input">howconceived</th>
+				<th data-field="howdisposed" data-filter-control="input">howdisposed</th>
+				<th data-field="includeinlookups" data-filter-control="input">includeinlookups</th>
+				<th data-field="managementcode" data-filter-control="input">managementcode</th>
+				<th data-field="ownerID" class="w200" data-filter-control="input">ownerID</th>
+				<th data-field="pasture_ID" data-filter-control="input">pasture_ID</th>
+				<th data-field="registration" data-filter-control="input">registration</th>
+				<th data-field="sex" data-filter-control="select">sex</th>
+				<th data-field="sire" data-filter-control="input">sire</th>
+				<th data-field="species" data-filter-control="input">species</th>
+				<th data-field="springfall" data-filter-control="select">springfall</th>
+				<th data-field="state" data-filter-control="input">state</th>
+				<th data-field="status" data-filter-control="input">status</th>
+				<th data-field="tattooleft" data-filter-control="input">tattooleft</th>
+				<th data-field="tattooright" data-filter-control="input">tattooright</th>
+				<th data-field="weight" data-filter-control="input">weight</th>	
+			</tr>
+		</thead>
 	</table>
 	
-	<button type="button" class="btn btn-primary btn-lg">Edit</button>
+	<button type="button" class="btn btn-primary btn-lg" id="Edit">Edit</button>
 	<button type="button" class="btn btn-secondary btn-lg">Delete</button>
+	<ul id="output"></ul>
 	
+	<div class="modal fade" id="AnimalEditModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+			<div class="modal-content">
+			  <div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edit this Animal?</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <fieldset disabled>
+					  <div class="modal-body">
+						  <form class = "form-horizontal" style="margin-top:15px;">
+							<input type="text" name="Animal_Data" id="Animal_Data" value=""/>
+						  </form>
+					  </div>
+				  </fieldset>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					<button type="button" id = "Animal_Add_Modal_Yes" class="btn btn-primary">Yes</button>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 	
 	{% endblock %}
 
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a class="active" href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a class="active" href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inventory/formulary">Formulary</a></li>
-                <li><a href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block animal %} class="panel-collapse collapse in" {% endblock %}
+{% block imports %} <script type = "text/javascript" src="{{url_for('static', filename= 'js/animallist.js')}}"></script>{% endblock %}
 </body>
 </html>

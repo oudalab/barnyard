@@ -7,57 +7,179 @@
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the Pasture Inventory page</h1>
+	
+	<div class="form-group" style="margin-top:15px; margin-bottom:50px;">
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddNew">Add New Procedure</button>
+	</div>
+	<div class="container">
+	<table data-toggle="table"
+		data-pagination="true"
+		data-search="true"
+		data-click-to-select="true">
+		<thead>
+		<tr>
+			<th data-field="state" data-checkbox="true"></th>
+			<th data-field="Date">Pasture</th>
+			<th data-field="Pasture">Feed</th>
+			<th data-field="Submitted By">Facility</th>
+		</tr>
+		</thead>
+		<tbody>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>10A</td>
+			<td>Alpha alpha</td>
+			<td>Barn</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>10B</td>
+			<td>Protein</td>
+			<td>Open land</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>12A</td>
+			<td>Fat</td>
+			<td>Open Land</td>
+		 </tr>
+		</tbody>
+	</table>
+	</div>
+		
+	<button type="button" class="btn btn-primary btn-lg">Edit</button>
+	<button type="button" class="btn btn-secondary btn-lg">Delete</button>
+	
+	<!-- Modal Expansion code -->
+	<div class="modal fade" id="AddNew" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+			<div class="modal-content">
+			  <div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add New Pasture</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					  <div class="form-group">
+							<label for="pastureacres" class="control-label col-xs-1">Pasture Acres</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pastureacres" placeholder="Pasture Acres">
+							</div>
+							<label for="animalspresent" class="control-label col-xs-1">Animals Present</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="animalspresent" placeholder="Animals Present">
+							</div>
+							<label class="control-label col-xs-1" for="date">Date In</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="datein" name="date" placeholder="YYYY-MM-DD" type="text"/>
+							</div>
+							
+							
+						</div>
+						<div class="form-group">
+							<label for="stockingrate" class="control-label col-xs-1">Stocking Rate</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="stockingrate" placeholder="Stocking Rate">
+							</div>
+							<label class="control-label col-xs-1" for="date">Date Out</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="dateout" name="date" placeholder="YYYY-MM-DD" type="text"/>
+							</div>
+						</div>
+						<h2>P Sampling</h2>
+						<div class="form-group">
+							<label for="pasturenumbergrazing" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumbergrazing" placeholder="Pasture Number">
+							</div>
+							<label for="sample" class="control-label col-xs-1">Sample</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="sample" placeholder="Sample">
+							</div>
+							<label for="biomass" class="control-label col-xs-1">BioMass</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="biomass" placeholder="Bio Mass">
+							</div>
+							<label for="DMavailable" class="control-label col-xs-1">DM Available</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="DMavailable" placeholder="DM Available">
+							</div>
+						</div>
+						<br>
+						<hr width="50%" size="3" align="center">
+						<div class="form-group">
+							<label for="cp" class="control-label col-xs-1">CP</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="cp" placeholder="CP">
+							</div>
+							<label for="cp1" class="control-label col-xs-1">1</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp1" placeholder="1">
+							</div>
+							<label for="cp2" class="control-label col-xs-1">2</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp2" placeholder="2">
+							</div>
+							<label for="cp3" class="control-label col-xs-1">3</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp3" placeholder="3">
+							</div>
+							<label for="cp4" class="control-label col-xs-1">4</label>
+							<div class="col-xs-1">
+								<input type="text" class="form-control" id="cp4" placeholder="4">
+							</div>
+						</div>
+						<br>
+						<hr width="50%" size="3" align="center">
+						<h2>Burning</h2>
+						<div class="form-group">
+							<label for="pasturenumberburning" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumberburning" placeholder="Pasture Number">
+							</div>
+							<label for="qualityofburn" class="control-label col-xs-1">Quality of Burn</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="qualityofburn" placeholder="Quality of Burn">
+							</div>
+							<label class="control-label col-xs-1" for="date">Date Burned</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="dateburned" name="date" placeholder="YYYY-MM-DD" type="text"/>
+							</div>
+						</div>
+						<br>
+						<hr width="50%" size="3" align="center">
+						<h2>Herbicide/Pesticide</h2>
+						<div class="form-group">
+							<label for="pasturenumberpesticide" class="control-label col-xs-1">Pasture Number</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="pasturenumberpesticide" placeholder="Pasture Number">
+							</div>
+							<label for="chemicalname" class="control-label col-xs-1">Chemical Name</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="chemicalname" placeholder="Chemical Name">
+							</div>
+							<label for="applicationrate" class="control-label col-xs-1">Application Rate</label>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="applicationrate" placeholder="Application Rate">
+							</div>
+							<label class="control-label col-xs-1" for="date">Application Date</label>
+							<div class="input-group col-xs-2">
+							   <input class="form-control" id="applicationdate" name="date" placeholder="YYYY-MM-DD" type="text"/>
+							</div>
+						</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" id = "submit_button_pharma" method="POST" class="btn btn-primary" data-dismiss="modal">Submit</button>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+		</div>
 	{% endblock %}
 
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a class="active" href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inventory/formulary">Formulary</a></li>
-                <li><a class="active" href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block Inventory %} class="panel-collapse collapse in" {% endblock %}
 </body>
 </html>

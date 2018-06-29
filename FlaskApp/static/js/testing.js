@@ -7,6 +7,7 @@ $(document).ready(function () {
             dataType : 'json',
 			async: false,
             success : function(data) {
+				console.log(data);
                 testdata(data);
             }
         });
@@ -24,7 +25,7 @@ $(document).ready(function () {
                 }, {
                     "data" : "sex"
                 }, {
-                    "data" : "pasturenumber"
+                    "data" : "pasture_ID"
                 }, {
                     "data" : "breed"
                 }, {
@@ -86,7 +87,7 @@ $(document).ready(function () {
                     "data" : "sire"
                 }
 				, {
-                    "data" : "dob"
+                    "data" : "DOB"
                 }
 				, {
                     "data" : "howacquired"
@@ -119,8 +120,6 @@ $(document).ready(function () {
                     "data" : "ownerID"
                 }
 				, {
-                    "data" : "user"
-                }, {
                     "data" : "springfall"
                 } ,{
 					"data": "includeinlookups"
@@ -129,33 +128,3 @@ $(document).ready(function () {
             });
         }	
 	});
-
-
-
-
-// $(document).ready(function(e){
-	// $.ajax({
-			// url: '/api/test',
-			// data: {},
-			// type: 'GET',
-			// datatype : 'json',
-			// async: false,
-			// success: function(data) {
-				// console.log(data);
-				// $(data).each(function(i,elem){
-					// var options= "";
-					// options += "<tr>";
-					// $(elem).each(function(i,column){
-						// options += "<td>"+column+"</td>";
-					// });
-					// options +="</tr>";
-					// str = options.replace(/^"(.*)"$/, '$1');
-					// $(str).appendTo("#add_new_row");
-				// });
-			// },
-			// error: function(error) {
-				// console.log(error)
-				// $.notify("Animal_Inventory Failed", "error")
-			// }
-		// });
-// });

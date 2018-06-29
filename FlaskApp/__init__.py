@@ -6,7 +6,7 @@ from forms import SignupForm, LoginForm
 from views import table_basics, table_medical_inventory, table_animal_inventory, table_experiment, table_reproduction, \
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
-    table_drug_inventory_dic_a, table_reporting, table_report_view, table_test
+    table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, add_animal, TableAnimalAdd
 
 from secrets import whole_string, short_string
 import config
@@ -73,6 +73,13 @@ api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 # Testing for the new MYSQL db connection
 api.add_resource(table_test, '/api/test/', endpoint="18")
 api.add_resource(table_test, '/api/test/')
+
+# APIs for the new UI Design
+api.add_resource(add_animal, '/api/animal/add/')
+api.add_resource(add_animal, '/api/animal/add/', endpoint="19")
+api.add_resource(TableAnimalAdd, '/api/animal/update/<animalname>')
+
+
 
 # Api for reportings
 # end point to hold intended attribute changes
@@ -315,90 +322,126 @@ def changepassword():
 def tempsearchpage():
     return render_template("tempsearchpage.html")
 
-@app.route('/animal/add')
+
+@app.route('/animal/add', methods=['GET','POST'])
 @login_required
 def animaladd():
     return render_template("animaladd.html")
+
 
 @app.route('/animal/list')
 @login_required
 def animallist():
     return render_template("animallist.html")
 
+
 @app.route('/animal/update')
 @login_required
 def animalupdate():
     return render_template("animalupdate.html")
+
 
 @app.route('/experiment/add')
 @login_required
 def experimentadd():
     return render_template("experimentadd.html")
 
+
 @app.route('/experiment/update')
 @login_required
 def experimentupdate():
     return render_template("experimentupdate.html")
+
 
 @app.route('/report/create')
 @login_required
 def report_create():
     return render_template("report_create.html")
 
+
 @app.route('/report/view')
 @login_required
 def report_view():
     return render_template("report_view.html")
+
 
 @app.route('/inventory/formulary')
 @login_required
 def inventory_formulary():
     return render_template("inventory_formulary.html")
 
+
 @app.route('/inventory/pasture')
 @login_required
 def inventory_pasture():
     return render_template("inventory_pasture.html")
+
 
 @app.route('/inventory/procedure')
 @login_required
 def inventory_procedure():
     return render_template("inventory_procedure.html")
 
+
 @app.route('/inspection/submit')
 @login_required
 def inspection_submit():
     return render_template("inspection_submit.html")
+
 
 @app.route('/inspection/view')
 @login_required
 def inspection_view():
     return render_template("inspection_view.html")
 
+
 @app.route('/reproduction/calfadd')
 @login_required
 def reproduction_add_calf():
     return render_template("reproduction_add_calf.html")
+
 
 @app.route('/reproduction/calfview')
 @login_required
 def reproduction_view_calf():
     return render_template("reproduction_view_calf.html")
 
+
+@app.route('/health/add')
+@login_required
+def healthadd():
+    return render_template("health_add.html")
+
+
+@app.route('/health/list')
+@login_required
+def healthlist():
+    return render_template("health_list.html")
+
+
+@app.route('/health/update')
+@login_required
+def healthupdate():
+    return render_template("health_update.html")
+
+
 @app.route('/herd/create')
 @login_required
 def herd_create():
     return render_template("herd_create.html")
+
 
 @app.route('/herd/view')
 @login_required
 def herd_view():
     return render_template("herd_view.html")
 
+
 @app.route('/herd/grazing')
 @login_required
 def herd_grazing():
     return render_template("herd_grazing.html")
+
 
 if __name__ == '__main__':
     handler = RotatingFileHandler('barnyard.log', maxBytes=10000, backupCount=1)

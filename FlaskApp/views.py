@@ -1,4 +1,3 @@
-from flask import Blueprint, request, jsonify, make_response
 from models import Users, UsersSchema, db, Master_animal, Master_animal_Schema, Medical_Inventory, Medical_Inventory_Schema, \
     Animal_Inventory, Animal_Inventory_Schema, Experiment, Experiment_Schema, Reproduction, Reproduction_Schema, Medical, Medical_Schema, \
     Grazing, Grazing_Schema, Group, Group_Schema, Drug_Inventory_Dic, Drug_Inventory_Dic_Schema, Create_Report, \
@@ -15,11 +14,17 @@ import sqlite3
 import mysql
 from mysql.connector import (connection)
 from mysql.connector import errorcode, errors, Error
+from time import strftime
+from flask import jsonify
+
 
 import pdb
-from datetime import datetime
+from datetime import date
 
-master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
+print ("in views here.............")
+
+
+#master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
 schemaAnimal = Animal_Inventory_Schema()
 schemaExperiment = Experiment_Schema()
@@ -795,9 +800,10 @@ class table_drug_inventory_dic_s(Resource):
             resp.status_code = 403
             return resp
 
+
 class table_reporting(Resource):
 
-    def get(self,reportnumber):
+    def get(self, reportnumber):
         report_query = Create_Report.query.filter_by(reportnumber=reportnumber)
         result = schemaReport.dump(report_query, many=True).data
         return result
@@ -808,12 +814,14 @@ class table_reporting(Resource):
             # Validate the data or raise a Validation error if
             schemaReport.validate(raw_dict)
             # Create a master object with the API data received
-            report = Create_Report(uid = None, ts = None, reportnumber = raw_dict['reportnumber'],cownumber=raw_dict['cownumber'],attributes = raw_dict['attributes'], start_date = raw_dict['start_date'], end_date = raw_dict['end_date'], user = raw_dict['user'])
+            report = Create_Report(uid=None, ts=None, reportnumber=raw_dict['reportnumber'],
+                                   cownumber=raw_dict['cownumber'], attributes=raw_dict['attributes'],
+                                   start_date=raw_dict['start_date'], end_date = raw_dict['end_date'],
+                                   user=raw_dict['user'])
             report.add(report)
             query = Create_Report.query.all()
             results = schemaReport.dump(query, many=True).data
             return results, 201
-
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -825,6 +833,7 @@ class table_reporting(Resource):
             resp = jsonify({"error": str(e)})
             resp.status_code = 403
             return resp
+
 
 # Tables below will be used for reporting only
 # Due to struggles with creating views with SqlAlchemy, we decided to make pure SQL queries with a database connection
@@ -865,63 +874,62 @@ class table_test(Resource):
                 print(err)
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("SELECT Animal_ID,eartag,eid,sex,pasture_ID,breed,status,current_expt_no,Herd,animaltype,animalname,breeder,currentframescore,damframescore,comments,species,height,weight,gender,email_id,brand,brandlocation,tattooleft,tattooright,alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired, DATE_FORMAT(dateacquired, '%%YYYY-%%mm-%%dd'),howdisposed,DATE_FORMAT(datedisposed, '%%YYYY-%%mm-%%dd'),disposalreason,herdnumberlocation,herdstatus,howconceived,managementcode,ownerID,springfall,includeinlookups FROM animal_table")
+            cursor.execute("SELECT * from animal_table")
             rows = cursor.fetchall()
             print("Fetch Completed")
-
-            print >> sys.stderr, "This is the output for Animal_get{}".format(rows)
             cursor.close()
+
             cnx.close()
 
-        return rows
+        return jsonify(rows)
 
     def post(self):
-        try:
+         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
-        except mysql.connector.Error as err:
+         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print("Something is wrong with your user name or password")
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
                 print("Database does not exist")
             else:
                 print(err)
-        else:
-            # New comment line
-            cursor = cnx.cursor(dictionary=True)
-            # insert_animaldata = "INSERT INTO animal_table (Animal_ID,animalname,animaltype,eartag,eid,pasturenumber," \
-            #                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,Breeder,currentframescore,"\
-            #                     "damframescore,comments,species,email_id) VALUES (%(Animal_ID)s, %(animalname)s, " \
-            #                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-            #                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-            #                     " %(Breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-            #                     "%(species)s, %(email_id)s)"
+         else:
 
-            insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at) VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
-            print >> sys.stderr, "Initialized"
-            data = request.get_json(force=True)
-            print >> sys.stderr, "Got the data"
-            for k, v in data.iteritems():
-                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
-            print>>sys.stderr, "Next is the execute command, Here it goes"
-            try:
-                cursor.execute(insert_users, data)
-                cnx.commit()
-                return "Success", 201
-            except AttributeError:
-                raise errors.OperationalError("MySQL Connection not available.")
-            except mysql.connector.IntegrityError as err:
-                print("Error: {}".format(err))
-                return None
-            except TypeError, e:
-                print(e)
-                return None
-            except ValueError, e:
-                print(e)
-                return None
-            finally:
-                cursor.close()
-                cnx.close()
+              cursor = cnx.cursor(dictionary=True)
+            # # insert_animaldata = "INSERT INTO animal_table (Animal_ID,animalname,animaltype,eartag,eid,pasturenumber," \
+            # #                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,Breeder,currentframescore,"\
+            # #                     "damframescore,comments,species,email_id) VALUES (%(Animal_ID)s, %(animalname)s, " \
+            # #                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+            # #                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+            # #                     " %(Breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+            # #                     "%(species)s, %(email_id)s)"
+
+            # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at) VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
+            # print >> sys.stderr, "Initialized"
+            # data = request.get_json(force=True)
+            # print >> sys.stderr, "Got the data"
+            # for k, v in data.iteritems():
+                # print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+            # print>>sys.stderr, "Next is the execute command, Here it goes"
+            # try:
+                # cursor.execute(insert_users, data)
+                # cnx.commit()
+                # return "Success", 201
+            # except AttributeError:
+                # raise errors.OperationalError("MySQL Connection not available.")
+            # except mysql.connector.IntegrityError as err:
+                # print("Error: {}".format(err))
+                # return None
+            # except TypeError, e:
+                # print(e)
+                # return None
+            # except ValueError, e:
+                # print(e)
+                # return None
+            # finally:
+                # cursor.close()
+                # cnx.close()
     def update(self):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -964,3 +972,86 @@ class table_test(Resource):
             finally:
                 cursor.close()
                 cnx.close()
+
+
+class add_animal(Resource):
+    print("before definition for add animal")
+
+    def post(self):
+         print("ADD Animal is working")
+         try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+         except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+         else:
+            # New comment line
+            cursor = cnx.cursor(dictionary=True)
+
+            update_users = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
+                                 "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore,"\
+                                 "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright,"\
+                                 "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired,"\
+                                "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived,"\
+                                 "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s,"\
+                                "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+                                 "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+                                 " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+                                 "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, "\
+                                 "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s,"\
+                                 "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, "\
+                                "%(datedisposed)s, %(disposalreason)s" \
+                                 "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
+                                 "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
+            print >> sys.stderr, "Initialized"
+            data = request.get_json(force=True)
+            print >> sys.stderr, "Got the data"
+            for k, v in data.iteritems():
+                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+            print>> sys.stderr, "Next is the execute command, Here it goes"
+            try:
+                cursor.execute(update_users, data)
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+
+
+class TableAnimalAdd(Resource):
+    def get(self, animalname):
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("""SELECT * FROM animal_table WHERE animalname = %s""", (animalname,))
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            print(rows)
+            cursor.close()
+            cnx.close()
+            return jsonify(rows)

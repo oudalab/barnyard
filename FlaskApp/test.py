@@ -2,6 +2,7 @@ import mysql
 from mysql.connector import (connection)
 import sys
 from mysql.connector import errorcode
+from time import strftime
 import json
 
 try:
@@ -16,8 +17,8 @@ except mysql.connector.Error as err:
         print(err)
 else:
     cursor = cnx.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM animal_table")
+    animalname = 1007
+    cursor.execute("""SELECT * FROM animal_table WHERE animalname = %s""", (animalname, ))
     rows = cursor.fetchall()
     print("Fetch Completed")
     print(rows)

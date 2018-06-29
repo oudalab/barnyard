@@ -1,7 +1,9 @@
 {% extends "tempheader.html" %}
 
 <html>
-<head><title>{% block title %}Create Report{% endblock %}</title></head>
+<head><title>{% block title %}Create Report{% endblock %}</title>
+
+</head>
 <body>
 	
 	{% block main %}
@@ -34,8 +36,9 @@
 							<div class="input-group col-xs-2">
 							   <input class="form-control" id="start_date" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
-							
 						</div>
+						<br>
+						
 						<div class="form-group"  style="margin-bottom:50px;">
 							<label for="eartag" class="control-label col-xs-1" style="align-right">Ear Tag</label>
 							<div class="col-xs-2">
@@ -47,7 +50,7 @@
 							</div>
 							<label class="control-label col-xs-4" for="date" align="right">End Date</label>
 							<div class="input-group col-xs-2">
-							   <input class="form-control" id="end_date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+							   <input class="form-control" id="basicDate" name="date" placeholder="MM/DD/YYYY" type="text"/>
 							</div>
 						</div>
 							<div class="col-xs-2">
@@ -207,56 +210,6 @@
 							</div>
 					</form>
 	{% endblock %}
-
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a class="active" href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a class="active" href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inventory/formulary">Formulary</a></li>
-                <li><a href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block Report %} class="panel-collapse collapse in" {% endblock %}
 </body>
 </html>

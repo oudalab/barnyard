@@ -85,7 +85,7 @@
 				},
 				error: function(error) {
 					console.log(error)
-					$.notify("Inventory Fail! Check Error log", "error")
+					$.notify("Inventory Fail! Check Error log", "error");
 				}
 			});
 			e.preventDefault();

@@ -7,57 +7,46 @@
 	{% block main %}
 	<div id="Notification area"></div>
 	<h1>This is the View Inspection Reports page</h1>
+	
+	<div class="container">
+		<table data-toggle="table"
+		data-pagination="true"
+		data-search="true"
+		data-click-to-select="true">
+		<thead>
+		<tr>
+			<th data-field="state" data-checkbox="true"></th>
+			<th data-field="Date">Date</th>
+			<th data-field="Pasture">Pasture</th>
+			<th data-field="Submitted By">Submitted By</th>
+		</tr>
+		</thead>
+		<tbody>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>2018-04-20</td>
+			<td>10A</td>
+			<td>test@gmail.com</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>2018-04-20</td>
+			<td>10B</td>
+			<td>test@gmail.com</td>
+		 </tr>
+		 <tr>
+			<td data-checkbox="true"></td>
+			<td>2018-04-20</td>
+			<td>20A</td>
+			<td>test@gmail.com</td>
+		 </tr>
+		</tbody>
+	</table>
+	</div>
+	
+	<p>Click on specific report to expand/View will be added soon</p>
 	{% endblock %}
 
-{% block sidenav %}
-<div class="sidenav">
-    <ul class="vertical-nav">
-        <li><a href="#">Animal<icd></icd></a>
-			<ul class="child">
-                <li><a href="/animal/list">List Animals</a></li>
-                <li><a href="/animal/add">Add Animal</a></li>
-                <li><a href="/animal/update">View/Update Animal</a></li>
-            </ul></li>
-        <li><a href="#">Experiment <icd></icd></a>
-            <ul class="child">
-                <li><a href="/experiment/add">Add Experiment</a></li>
-                <li><a href="/experiment/update">View/Update Experiment</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Report <icd></icd></a>
-            <ul class="child">
-                <li><a href="/report/create">Create Report</a></li>
-                <li><a href="/report/view">View Report</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Inventory <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inventory/formulary">Formulary</a></li>
-                <li><a href="/inventory/pasture">Pasture</a></li>
-				<li><a href="/inventory/procedure">Procedure</a></li>
-            </ul>
-        </li>
-		<li><a class="active" href="#">Inspection <icd></icd></a>
-            <ul class="child">
-                <li><a href="/inspection/submit">Submit Inspection</a></li>
-                <li><a class="active" href="/inspection/view">View Inspection Reports</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Reproduction <icd></icd></a>
-            <ul class="child">
-                <li><a href="/reproduction/calfadd">Add Calf</a></li>
-                <li><a href="/reproduction/calfview">View/Update Calf</a></li>
-            </ul>
-        </li>
-		<li><a href="#">Herd <icd></icd></a>
-            <ul class="child">
-                <li><a href="/herd/create">Create Herd</a></li>
-                <li><a href="/herd/view">View/Update Herd</a></li>
-				<li><a href="/herd/grazing">Grazing</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+{% block Inspection %} class="panel-collapse collapse in" {% endblock %}
 </body>
 </html>
