@@ -17,7 +17,13 @@
 {% block main %}
 <h2>This is the Animal Update page</h2>
 <div class="row">
-	<div class="col-xs-12"><span class="pull-right"><button type="button" class="btn btn-primary">Update Animal</button></span></div>
+	<div class="col-xs-12">
+		<div class="col-xs-4">
+			<input type="text" class="form-control" id="SearchAnimal" placeholder="Animal Name">
+		</div>
+		<button type="button" id="SearchButton" class="btn btn-primary">Search</button>
+		<span class="pull-right"><button type="button" class="btn btn-primary">Update Animal</button></span>
+	</div>
 </div>
 <br><br>
 <div class="form-group" >

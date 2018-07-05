@@ -1,3 +1,11 @@
+
+$('#SearchButton').click(function(e) {
+	var searchboxvalue = $('#SearchAnimal').val();
+	console.log(searchboxvalue);
+	$.notify("Search for Animal:"+ searchboxvalue, "info");
+	window.location.href = '/animal/update?animalname='+searchboxvalue;
+});
+
 $(document).ready(function(){
 		var animalname = getQueryVariable("animalname")
 		$.ajax({

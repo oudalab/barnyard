@@ -1,7 +1,7 @@
 
 	
 	// imported into experiment.html
-		function get_email_experiment(){
+	function get_email_experiment(){
 		var email = "";
 		$.ajax({
 			url: '/user_email',

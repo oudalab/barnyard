@@ -10,12 +10,7 @@
 	<form>
 		<div class="row">
 			<div class="col-xs-5">
-				<select name="from[]" id="search" class="form-control" size="8" multiple="multiple">
-					<option value="1">Item 1</option>
-					<option value="2">Item 5</option>
-					<option value="2">Item 2</option>
-					<option value="2">Item 4</option>
-					<option value="3">Item 3</option>
+				<select name="from[]" id="search" class="form-control" size="18" multiple="multiple">
 				</select>
 			</div>
 
@@ -27,19 +22,19 @@
 			</div>
 
 			<div class="col-xs-5">
-				<select name="to[]" id="search_to" class="form-control" size="8" multiple="multiple"></select>
+				<select name="to[]" id="search_to" class="form-control" size="18" multiple="multiple"></select>
 			</div>
 		</div>
 		<br>
 		  <div class="form-group">
-			<label for="exampleInputName2">Herd Name</label>
-			<input type="text" class="form-control" id="exampleInputName2" placeholder="Herd Name">
+			<label for="herdname">Herd Name</label>
+			<input type="text" class="form-control" id="herdname" placeholder="Herd Name">
 		  </div>
 		  <div class="form-group">
-			<label for="exampleInputEmail2">Herd Description</label>
-			<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Describe Herd">
+			<label for="herddescription">Herd Description</label>
+			<input type="text" class="form-control" id="herddescription" placeholder="Describe Herd">
 		  </div>
-		  <button type="submit" class="btn btn-default">Submit</button>
+		  <button id="CreateHerdButton" class="btn btn-default">Create</button>
 	</form>
 	{% endblock %}
 

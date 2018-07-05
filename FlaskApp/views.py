@@ -15,7 +15,7 @@ import mysql
 from mysql.connector import (connection)
 from mysql.connector import errorcode, errors, Error
 from time import strftime
-from flask import jsonify
+from flask import jsonify,request
 
 
 import pdb
@@ -38,6 +38,7 @@ schemaReport = Create_Report_Schema()
 schemaHerdchange = Herdchange_Schema()
 #Medicine page
 schemaMedical = Medical_Inventory_Schema()
+
 
 class table_users_a(Resource):
 # "a" for all (All users)
@@ -859,6 +860,7 @@ class table_report_view(Resource):
         return rows
 
 
+
 class table_test(Resource):
     def get(self):
         print >> sys.stderr, "Execution started"
@@ -883,53 +885,54 @@ class table_test(Resource):
 
         return jsonify(rows)
 
-    def post(self):
-         try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+    # def post(self):
+    #      try:
+    #         cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+    #
+    #      except mysql.connector.Error as err:
+    #         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    #             print("Something is wrong with your user name or password")
+    #         elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    #             print("Database does not exist")
+    #         else:
+    #             print(err)
+    #      else:
+    #
+    #           cursor = cnx.cursor(dictionary=True)
+    #         # # insert_animaldata = "INSERT INTO animal_table (Animal_ID,animalname,animaltype,eartag,eid,pasturenumber," \
+    #         # #                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,Breeder,currentframescore,"\
+    #         # #                     "damframescore,comments,species,email_id) VALUES (%(Animal_ID)s, %(animalname)s, " \
+    #         # #                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+    #         # #                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+    #         # #                     " %(Breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+    #         # #                     "%(species)s, %(email_id)s)"
+    #
+    #         # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at) VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
+    #         # print >> sys.stderr, "Initialized"
+    #         # data = request.get_json(force=True)
+    #         # print >> sys.stderr, "Got the data"
+    #         # for k, v in data.iteritems():
+    #             # print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+    #         # print>>sys.stderr, "Next is the execute command, Here it goes"
+    #         # try:
+    #             # cursor.execute(insert_users, data)
+    #             # cnx.commit()
+    #             # return "Success", 201
+    #         # except AttributeError:
+    #             # raise errors.OperationalError("MySQL Connection not available.")
+    #         # except mysql.connector.IntegrityError as err:
+    #             # print("Error: {}".format(err))
+    #             # return None
+    #         # except TypeError, e:
+    #             # print(e)
+    #             # return None
+    #         # except ValueError, e:
+    #             # print(e)
+    #             # return None
+    #         finally:
+    #             cursor.close()
+    #             cnx.close()
 
-         except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                print(err)
-         else:
-
-              cursor = cnx.cursor(dictionary=True)
-            # # insert_animaldata = "INSERT INTO animal_table (Animal_ID,animalname,animaltype,eartag,eid,pasturenumber," \
-            # #                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,Breeder,currentframescore,"\
-            # #                     "damframescore,comments,species,email_id) VALUES (%(Animal_ID)s, %(animalname)s, " \
-            # #                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-            # #                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-            # #                     " %(Breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-            # #                     "%(species)s, %(email_id)s)"
-
-            # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at) VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
-            # print >> sys.stderr, "Initialized"
-            # data = request.get_json(force=True)
-            # print >> sys.stderr, "Got the data"
-            # for k, v in data.iteritems():
-                # print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
-            # print>>sys.stderr, "Next is the execute command, Here it goes"
-            # try:
-                # cursor.execute(insert_users, data)
-                # cnx.commit()
-                # return "Success", 201
-            # except AttributeError:
-                # raise errors.OperationalError("MySQL Connection not available.")
-            # except mysql.connector.IntegrityError as err:
-                # print("Error: {}".format(err))
-                # return None
-            # except TypeError, e:
-                # print(e)
-                # return None
-            # except ValueError, e:
-                # print(e)
-                # return None
-            # finally:
-                # cursor.close()
-                # cnx.close()
     def update(self):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -974,67 +977,7 @@ class table_test(Resource):
                 cnx.close()
 
 
-class add_animal(Resource):
-    print("before definition for add animal")
-
-    def post(self):
-         print("ADD Animal is working")
-         try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
-
-         except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                print(err)
-         else:
-            # New comment line
-            cursor = cnx.cursor(dictionary=True)
-
-            update_users = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
-                                 "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore,"\
-                                 "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright,"\
-                                 "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired,"\
-                                "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived,"\
-                                 "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s,"\
-                                "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-                                 "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-                                 " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-                                 "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, "\
-                                 "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s,"\
-                                 "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, "\
-                                "%(datedisposed)s, %(disposalreason)s" \
-                                 "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
-                                 "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
-            print >> sys.stderr, "Initialized"
-            data = request.get_json(force=True)
-            print >> sys.stderr, "Got the data"
-            for k, v in data.iteritems():
-                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
-            print>> sys.stderr, "Next is the execute command, Here it goes"
-            try:
-                cursor.execute(update_users, data)
-                cnx.commit()
-                return "Success", 201
-            except AttributeError:
-                raise errors.OperationalError("MySQL Connection not available.")
-            except mysql.connector.IntegrityError as err:
-                print("Error: {}".format(err))
-                return None
-            except TypeError, e:
-                print(e)
-                return None
-            except ValueError, e:
-                print(e)
-                return None
-            finally:
-                cursor.close()
-                cnx.close()
-
-
-class TableAnimalAdd(Resource):
+class TableAnimalUpdate(Resource):
     def get(self, animalname):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -1055,3 +998,115 @@ class TableAnimalAdd(Resource):
             cursor.close()
             cnx.close()
             return jsonify(rows)
+
+
+class TableAnimalAdd(Resource):
+    print ("coming+++++")
+
+    def post(self):
+            print("Into the class")
+            try:
+                cnx = mysql.connector.connect(user='root', password='password', host='localhost',
+                                              database='new_barn')
+                cursor = cnx.cursor(dictionary=True)
+                print("here in add animal class")
+                insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
+                                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
+                                     "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
+                                     "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired," \
+                                     "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived," \
+                                     "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s," \
+                                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+                                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+                                     " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+                                     "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, " \
+                                     "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s," \
+                                     "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, " \
+                                     "%(datedisposed)s, %(disposalreason)s,%(pasture_ID)s" \
+                                     "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
+                                     "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
+                # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at)
+                # VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
+
+                # print >> sys.stderr, "Initialized"
+                data = request.get_json(force=True)
+                print("get data------")
+                print >> sys.stderr, "Got the data"
+
+                try:
+                    cursor.execute(insert_animaldata, data)
+                    print("here after execute")
+                    cnx.commit()
+                    return "Success", 201
+                except AttributeError:
+                    raise errors.OperationalError("MySQL Connection not available.")
+                except mysql.connector.IntegrityError as err:
+                    print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+
+
+
+
+    # Since we are communicating with the same table. I think only one class would be enough for both GET and POST.
+    # So please paste your code here for it to work.
+
+
+    # def post(self):
+    #     print ("in method+++++")
+    #     try:
+    #         cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+    #
+    #     except mysql.connector.Error as err:
+    #         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    #             print("Something is wrong with your user name or password")
+    #         elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    #             print("Database does not exist")
+    #         else:
+    #             print(err)
+    #     else:
+    #         cursor = cnx.cursor(dictionary=True)
+    #         print("here in add animal class")
+    #         insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
+    #                              "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
+    #                              "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
+    #                              "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired," \
+    #                              "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived," \
+    #                              "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s," \
+    #                              "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
+    #                              "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
+    #                              " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
+    #                              "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, " \
+    #                              "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s," \
+    #                              "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, " \
+    #                              "%(datedisposed)s, %(disposalreason)s" \
+    #                              "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
+    #                              "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
+    #         print >> sys.stderr, "Initialized"
+    #         try:
+    #             cursor.execute(update_users, data)
+    #             cnx.commit()
+    #             return "Success", 201
+    #         except AttributeError:
+    #             raise errors.OperationalError("MySQL Connection not available.")
+    #         except mysql.connector.IntegrityError as err:
+    #             print("Error: {}".format(err))
+    #             return None
+    #         except TypeError, e:
+    #             print(e)
+    #             return None
+    #         except ValueError, e:
+    #             print(e)
+    #             return None
+    #         finally:
+    #             cursor.close()
+    #             cnx.close()
+    #

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
 	$('#basic_update').click(function(e) {
 		
 		var basic = {
@@ -45,11 +45,12 @@ $(document).ready(function () {
 			includeinlookups : $('#includeinlookups').val()
 			}
 			$.ajax({
-				url: '/animal/add/',
+				url: '/animal/addanimal',
 				data: basic,
 				datatype: 'json',
 				type: 'POST',
 				success: function(response) {
+					console.log(basic);
 					console.log(response);
 					$.notify("Data Saved", "info");
 				},
@@ -63,7 +64,7 @@ $(document).ready(function () {
 	});
 	
 	
-$(document).ready(function(){
+/*$(document).ready(function(){
 		var animalname = getQueryVariable("animalname")
 		// $.ajax({
 				// url: '/api/master_animal/'+cownumber,
@@ -84,4 +85,4 @@ $(document).ready(function(){
 					// $.notify("Cow number doesnt exist", "danger");
 				// }	
 		// });
-	});
+	});*/
