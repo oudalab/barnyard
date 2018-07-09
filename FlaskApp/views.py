@@ -22,8 +22,7 @@ import pdb
 from datetime import date
 
 
-
-#master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
+# master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
 schemaMaster = Master_animal_Schema()
 schemaAnimal = Animal_Inventory_Schema()
 schemaExperiment = Experiment_Schema()
@@ -35,7 +34,7 @@ schemaUsers = UsersSchema()
 schemaDrugDic = Drug_Inventory_Dic_Schema()
 schemaReport = Create_Report_Schema()
 schemaHerdchange = Herdchange_Schema()
-#Medicine page
+# Medicine page
 schemaMedical = Medical_Inventory_Schema()
 
 
@@ -52,7 +51,7 @@ class table_users_a(Resource):
 
 class table_users_s(Resource):
     # "s" for specific (specific user)
-    def get(self, userid):
+    def get(self,userid):
         users_query = Users.query.filter_by(userid=userid).first()
         result = schemaUsers.dump(users_query, many=False).data
         return result
@@ -62,7 +61,7 @@ class table_users_s(Resource):
         try:
             # Validate the data or raise a Validation error if
             schemaUsers.validate(raw_dict)
-            # Create a master object with the API data received
+            # Create a master object with the API data recieved
             users = Users(firstname=raw_dict['firstname'], lastname=raw_dict['lastname'], email = raw_dict['email'], password=raw_dict['password'], roles = "UNASSIGNED",userid = None, registered_at=None, ts=None)
             users.add(users)
             query = Users.query.all()
@@ -113,6 +112,7 @@ class table_users_s_email(Resource):
 
 
 class table_eid(Resource):
+
     def get(self, eid):
         master_animal_query = Master_animal.query.filter_by(eid = eid).order_by(Master_animal.ts.desc()).first_or_404()
         result = schemaMaster.dump(master_animal_query, many=False).data
@@ -138,7 +138,7 @@ class table_basics(Resource):
 
     def get(self, cownumber):
         master_animal_query = Master_animal.query.filter_by(cownumber = cownumber).order_by(Master_animal.ts.desc()).first_or_404()
-        #Serialize the query results in the JSON API format
+        # Serialize the query results in the JSON API format
         result = schemaMaster.dump(master_animal_query, many = False).data
         print >> sys.stderr, "This is proof that the call has been made{}".format(result)
         return result
@@ -146,11 +146,11 @@ class table_basics(Resource):
     def post(self):
 
         raw_dict = request.form
-        #master_dict = raw_dict['data']['attributes']
+        # master_dict = raw_dict['data']['attributes']
         try:
-                #Validate the data or raise a Validation error if
+                # Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
-                #Create a master object with the API data recieved
+                # Create a master object with the API data recieved
                 master = Master_animal(cownumber= None,
                                        ts = None,
                                        user = raw_dict['user'],
@@ -172,12 +172,11 @@ class table_basics(Resource):
                                        herd= raw_dict['herd'],
                                        animaltype=raw_dict['animaltype'])
                 master.add(master)
-                #print >> sys.stderr, "data for basic post {}".format(master)
+                # print >> sys.stderr, "data for basic post {}".format(master)
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
                 return jsonify(results)
-                #return results, 201
-
+                # return results, 201
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -191,13 +190,13 @@ class table_basics(Resource):
                 return resp
 
     def patch(self):
-        #Not a real patch by definition. Used to store duplicate cownumber entries to keep track of changes over time
+        # Not a real patch by definition. Used to store duplicate cownumber entries to keep track of changes over time
         raw_dict = request.form
-        #master_dict = raw_dict['data']['attributes']
+        # master_dict = raw_dict['data']['attributes']
         try:
-                #Validate the data or raise a Validation error if
+                # Validate the data or raise a Validation error if
                 schemaMaster.validate(raw_dict)
-                #Create a master object with the API data recieved
+                # Create a master object with the API data recieved
                 master = Master_animal(cownumber= raw_dict['cownumber'],
                                        ts = None,
                                        user = raw_dict['user'],
@@ -222,8 +221,7 @@ class table_basics(Resource):
                 query = Master_animal.query.order_by(-Master_animal.cownumber).limit(1)
                 results = schemaMaster.dump(query, many = True).data
                 return jsonify(results)
-                #return results, 201
-
+                # return results, 201
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -452,6 +450,7 @@ class table_experiment(Resource):
 
 
 class table_reproduction(Resource):
+
     def get(self, cownumber):
         reproduction_query = Reproduction.query.filter_by(cownumber = cownumber).order_by(Reproduction.ts.desc())
         result = schemaReproduction.dump(reproduction_query,many = True).data
@@ -547,6 +546,7 @@ class table_reproduction(Resource):
 
 
 class table_medical(Resource):
+
     def get(self, cownumber):
         medical_query = Medical.query.filter_by(cownumber = cownumber).order_by(Medical.ts.desc())
         # Serialize the query results in the JSON API format
@@ -881,7 +881,7 @@ class table_test(Resource):
             cursor = cnx.cursor(dictionary=True)
             cursor.execute("SELECT * from animal_table")
             rows = cursor.fetchall()
-            print("Fetch Completed")
+            print("Fetch Test Completed")
             cursor.close()
 
             cnx.close()
@@ -1004,47 +1004,49 @@ class TableAnimalUpdate(Resource):
 
 
 class TableAnimalAdd(Resource):
-    print ("coming+++++")
 
     def post(self):
-            print("Into the class")
+        data=request.get_json(force=True)
+        print(data)
+        for k, v in data.iteritems():
+            print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            print("here in add animal class from the API call")
+            insert_animaldata = ("""INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID, weight,
+                                    height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore,
+                                    damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright, 
+                                    alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired,
+                                    howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,
+                                    howconceived, managementcode ,ownerID ,springfall ,includeinlookups) 
+                                    VALUES ( %(animalname)s, %(animaltype)s, %(eartag)s, %(eid)s, %(pasture_ID)s, 
+                                    %(weight)s, %(height)s, %(gender)s, %(sex)s, %(breed)s, %(status)s, 
+                                    %(current_expt_no)s, %(Herd)s,%(breeder)s, %(currentframescore)s, %(damframescore)s,
+                                    %(comments)s,%(species)s, %(email_id)s,%(brand)s, %(brandlocation)s, %(tattooleft)s,
+                                    %(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s,
+                                    %(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s,
+                                    %(datedisposed)s, %(disposalreason)s,%(herdnumberlocation)s, %(herdstatus)s, 
+                                    %(howconceived)s, %(managementcode)s,%(ownerID)s, %(springfall)s,
+                                    %(includeinlookups)s)""")
             try:
-                cnx = mysql.connector.connect(user='root', password='password', host='localhost',
-                                              database='new_barn')
-                cursor = cnx.cursor(dictionary=True)
-                print("here in add animal class from the API call")
-                insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
-                                     "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
-                                     "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
-                                     "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired," \
-                                     "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived," \
-                                     "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s," \
-                                     "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-                                     "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-                                     " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-                                     "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, " \
-                                     "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s," \
-                                     "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, " \
-                                     "%(datedisposed)s, %(disposalreason)s,%(pasture_ID)s" \
-                                     "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
-                                     "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
-                # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at)
-                # VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
-
-                # print >> sys.stderr, "Initialized"
-                data = request.get_json(force=True)
-                print("get data------")
-                print >> sys.stderr, "Got the data"
-
-                try:
-                    cursor.execute(insert_animaldata, data)
-                    print("here after execute")
-                    cnx.commit()
-                    return "Success", 201
-                except AttributeError:
-                    raise errors.OperationalError("MySQL Connection not available.")
-                except mysql.connector.IntegrityError as err:
-                    print("Error: {}".format(err))
+                cursor.execute(insert_animaldata, data)
+                print("here after execute")
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
                 return None
             except TypeError, e:
                 print(e)
@@ -1101,13 +1103,14 @@ class TableInventoryFormulary(Resource):
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
-            cnx.close()
 
+            cnx.close()
         return jsonify(rows)
 
 
 class TableHealthList(Resource):
     def get(self):
+        print >> sys.stderr, "Execution started"
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
@@ -1124,7 +1127,50 @@ class TableHealthList(Resource):
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
+
             cnx.close()
 
         return jsonify(rows)
 
+
+class TableHerd(Resource):
+
+    def post(self):
+        data=request.get_json(force=True)
+        print(data)
+        for k, v in data.iteritems():
+            print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            print("here in herd from the API call")
+            insert_animaldata = ("""INSERT INTO herd (create_date,name,description,AID) 
+                                    VALUES ( %(create_date)s, %(name)s, %(description)s, %(AID)s)""")
+            try:
+                cursor.execute(insert_animaldata, data)
+                print("here after execute")
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()

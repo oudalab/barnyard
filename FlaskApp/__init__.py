@@ -10,7 +10,7 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
-    TableInventoryPasture, TableInventoryFormulary, TableHealthList
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList,TableHerd
 
 from secrets import whole_string, short_string
 import config
@@ -92,6 +92,7 @@ api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 api.add_resource(TableInventoryPasture, '/api/inventory/pasture/')
 api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/')
 api.add_resource(TableHealthList, '/api/health/record/')
+api.add_resource(TableHerd, '/api/herd/create/')
 
 # Api for reportings
 # end point to hold intended attribute changes
@@ -437,7 +438,7 @@ def healthupdate():
     return render_template("health_update.html")
 
 
-@app.route('/herd/create')
+@app.route('/herd/create',methods=['GET','POST'])
 @login_required
 def herd_create():
     return render_template("herd_create.html")

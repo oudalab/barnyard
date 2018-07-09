@@ -34,7 +34,11 @@
 			<label for="herddescription">Herd Description</label>
 			<input type="text" class="form-control" id="herddescription" placeholder="Describe Herd">
 		  </div>
-		  <button id="CreateHerdButton" class="btn btn-default">Create</button>
+		  <label class="control-label col-xs-1" for="DateCreated">Date Created</label>
+			<div class="input-group col-xs-2">
+			   <input class="form-control" id="DateCreated" name="DateCreated" placeholder="YYYY-MM-DD" type="text">
+			</div>
+		  <button id="CreateHerdButton" href="#" class="btn btn-default">Create</button>
 	</form>
 	{% endblock %}
 

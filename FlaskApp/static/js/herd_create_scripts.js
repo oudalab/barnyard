@@ -12,36 +12,34 @@ jQuery(document).ready(function($) {
 
 
 $('#CreateHerdButton').click(function(e) {
-	var selected = "";
-	$('select#search_to option').each(function(i,pageelement){
-		selected += pageelement.value;
-		selected += ",";
-	});
-	selected = selected.slice(0, -1);
-	alert(selected);
 	var herdname = $('#herdname').val();
 	var herddescription = $('#herddescription').val();
-	data={
-		selected : selected,
-		herdname : herdname,
-		herddescription : herddescription
-	}
-	$.ajax({
-            url : '/api/herd/create/',
-            type : 'POST',
-            dataType : 'json',
-			async: false,
-            success : function(response) {
-				$.notify("Data Sent to POST", "info");
-				console.log();
-            },
-			error: function(response){
-				console.log(response);
-				$.notify("Data NOT SENT to POST", "danger");
-			}
-        });
-	console.log(data);
-	console.log(data);
+	var create_date = $('#DateCreated').val();
+	$('select#search_to option').each(function(i,pageelement){
+		var animal_ID = pageelement.value;
+		var data={
+			name: herdname,
+			description : herddescription,
+			create_date : create_date,
+			AID : animal_ID
+		}
+		var myJSON = JSON.stringify(data);
+		$.ajax({
+				url: '/api/herd/create/',
+				data: myJSON,
+				datatype: 'json',
+				type: 'POST',
+				success: function(response) {
+					console.log(data);
+					console.log(response);
+					$.notify("Data Saved", "info");
+				},
+				error: function(error) {
+					console.log(error)
+					$.notify("Data not saved", "danger");
+				}
+			});
+	});
 });
 
 

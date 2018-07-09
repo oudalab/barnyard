@@ -3,7 +3,7 @@ $(function () {
 		
 		var basic = {
 			animalname : $('#animalname').val(),
-			email_ID : $('#animalnumber').val(),
+			email_id : $('#animalnumber').val(),
 			height: $('#height').val(),
 			weight : $('#weight').val(),
 			eartag : $('#eartag').val(),
@@ -12,6 +12,7 @@ $(function () {
 			pasture_ID : $('#pasturenumber').val(),
 			breed : $('#breed').val(),
 			status : $('#status option:selected').text(),
+			gender : $('#gender option:selected').text(),
 			current_expt_no : $('#trial').val(),
 			Herd : $('#herd').val(),
 			breeder : $('#breeder').val(),
@@ -44,9 +45,10 @@ $(function () {
 			springfall : $('#springfall').val(),
 			includeinlookups : $('#includeinlookups').val()
 			}
+			var myJSON = JSON.stringify(basic);
 			$.ajax({
 				url: '/api/animal/add/',
-				data: basic,
+				data: myJSON,
 				datatype: 'json',
 				type: 'POST',
 				success: function(response) {
