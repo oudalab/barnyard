@@ -26,6 +26,20 @@ $('#CreateHerdButton').click(function(e) {
 		herdname : herdname,
 		herddescription : herddescription
 	}
+	$.ajax({
+            url : '/api/herd/create/',
+            type : 'POST',
+            dataType : 'json',
+			async: false,
+            success : function(response) {
+				$.notify("Data Sent to POST", "info");
+				console.log();
+            },
+			error: function(response){
+				console.log(response);
+				$.notify("Data NOT SENT to POST", "danger");
+			}
+        });
 	console.log(data);
 	console.log(data);
 });

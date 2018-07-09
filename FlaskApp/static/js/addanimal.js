@@ -45,7 +45,7 @@ $(function () {
 			includeinlookups : $('#includeinlookups').val()
 			}
 			$.ajax({
-				url: '/animal/addanimal',
+				url: '/api/animal/add/',
 				data: basic,
 				datatype: 'json',
 				type: 'POST',

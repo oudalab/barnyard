@@ -15,13 +15,12 @@ import mysql
 from mysql.connector import (connection)
 from mysql.connector import errorcode, errors, Error
 from time import strftime
-from flask import jsonify,request
+from flask import jsonify, request
 
 
 import pdb
 from datetime import date
 
-print ("in views here.............")
 
 
 #master_animal = Blueprint('master_animal', __name__) # Seems to only change the format of returned json data
@@ -41,27 +40,29 @@ schemaMedical = Medical_Inventory_Schema()
 
 
 class table_users_a(Resource):
-# "a" for all (All users)
-# this api is specifically used to pull all of the users to populate the list on the left on user_management.html
+    # "a" for all (All users)
+    # this api is specifically used to pull all of the users to populate the list on the left on user_management.html
     def get(self):
         users_query = Users.query.all()
-        #users_query = Users.query.with_entities(Users.lastname, Users.email, Users.firstname, Users.roles, Users.uid)
+        # users_query = Users.query.with_entities(Users.lastname, Users.email, Users.firstname, Users.roles, Users.uid)
         result = schemaUsers.dump(users_query, many= True).data
         print >> sys.stderr, "This is query for user roles{}".format(result)
         return result
 
+
 class table_users_s(Resource):
-# "s" for specific (specific user)
-    def get(self,userid):
+    # "s" for specific (specific user)
+    def get(self, userid):
         users_query = Users.query.filter_by(userid=userid).first()
         result = schemaUsers.dump(users_query, many=False).data
         return result
+
     def post(self):
         raw_dict = request.form
         try:
             # Validate the data or raise a Validation error if
             schemaUsers.validate(raw_dict)
-            # Create a master object with the API data recieved
+            # Create a master object with the API data received
             users = Users(firstname=raw_dict['firstname'], lastname=raw_dict['lastname'], email = raw_dict['email'], password=raw_dict['password'], roles = "UNASSIGNED",userid = None, registered_at=None, ts=None)
             users.add(users)
             query = Users.query.all()
@@ -102,25 +103,28 @@ class table_users_s(Resource):
             resp.status_code = 401
             return resp
 
+
 class table_users_s_email(Resource):
-# "s" for specific (specific user)
+    # "s" for specific (specific user)
     def get(self,email):
         users_query = Users.query.filter_by(email=email).first()
         result = schemaUsers.dump(users_query, many=False).data
         return result
 
-class table_eid(Resource):
 
+class table_eid(Resource):
     def get(self, eid):
         master_animal_query = Master_animal.query.filter_by(eid = eid).order_by(Master_animal.ts.desc()).first_or_404()
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
+
 
 class table_animalname(Resource):
     def get(self, animalname):
         master_animal_query = Master_animal.query.filter_by(animalname=animalname).order_by(Master_animal.ts.desc()).first_or_404()
         result = schemaMaster.dump(master_animal_query, many=False).data
         return result
+
 
 class table_eartag(Resource):
     def get(self, eartag):
@@ -237,18 +241,18 @@ class table_animal_inventory(Resource):
 
     def get(self, cownumber):
         animal_inventory_query = Animal_Inventory.query.filter_by(cownumber = cownumber).order_by(Animal_Inventory.ts.desc())
-        #Serialize the query results in the JSON API format
+        # Serialize the query results in the JSON API format
         result = schemaAnimal.dump(animal_inventory_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from Animal Inventory {}".format(result)
+        # print >> sys.stderr, "This is the results of the get request from Animal Inventory {}".format(result)
         return result
 
     def post(self):
         raw_dict = request.form
-        #master_dict = raw_dict['data']['attributes']
+        # master_dict = raw_dict['data']['attributes']
         try:
-                #Validate the data or raise a Validation error if
+                # Validate the data or raise a Validation error if
                 schemaAnimal.validate(raw_dict)
-                #Create a master object with the API data recieved
+                # Create a master object with the API data recieved
                 animal = Animal_Inventory(cownumber= raw_dict['cownumber'],
                                           ts=None,
                                           brand=raw_dict['brand'],
@@ -279,7 +283,6 @@ class table_animal_inventory(Resource):
                 query = Animal_Inventory.query.all()
                 results = schemaAnimal.dump(query, many = True).data
                 return 201
-
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -314,21 +317,22 @@ class table_animal_inventory(Resource):
             resp.status_code = 401
             return resp
 
+
 class table_medical_inventory(Resource):
 
     def get(self):
         medical_inventory_query = Medical_Inventory.query.all()
-        #Serialize the query results in the JSON API format
+        # Serialize the query results in the JSON API format
         result = schemaMedical.dump(medical_inventory_query, many = True).data
         return result
 
     def post(self):
         raw_dict = request.form
-        #master_dict = raw_dict['data']['attributes']
+        # master_dict = raw_dict['data']['attributes']
         try:
-                #Validate the data or raise a Validation error if
+                # Validate the data or raise a Validation error if
                 schemaMedical.validate(raw_dict)
-                #Create a master object with the API data recieved
+                # Create a master object with the API data recieved
                 medical = Medical_Inventory(medication = raw_dict['medication'],
                                             quantity = raw_dict['quantity'],
                                             cost = raw_dict['cost'],
@@ -339,7 +343,6 @@ class table_medical_inventory(Resource):
                 query = Medical_Inventory.query.all()
                 results = schemaMaster.dump(query, many = True).data
                 return results, 201
-
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -358,7 +361,7 @@ class table_experiment(Resource):
     def get(self, cownumber):
         experiment_query = Experiment.query.filter_by(cownumber = cownumber).order_by(Experiment.ts.desc())
         result = schemaExperiment.dump(experiment_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
+        # print >> sys.stderr, "This is the results of the get request from experiment {}".format(result)
         return result
 
     def post(self):
@@ -412,7 +415,7 @@ class table_experiment(Resource):
             results = schemaExperiment.dump(query, many=True).data
             print >> sys.stderr, "This is result of experiment {}".format(results)
             return 201
-            #return results, 201
+            # return results, 201
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -424,7 +427,6 @@ class table_experiment(Resource):
             resp = jsonify({"error": str(e)})
             resp.status_code = 403
             return resp
-
 
     def patch(self, cownumber):
         experiment_query = Experiment.query.get_or_404(cownumber)
@@ -448,12 +450,12 @@ class table_experiment(Resource):
             resp.status_code = 401
             return resp
 
-class table_reproduction(Resource):
 
+class table_reproduction(Resource):
     def get(self, cownumber):
         reproduction_query = Reproduction.query.filter_by(cownumber = cownumber).order_by(Reproduction.ts.desc())
         result = schemaReproduction.dump(reproduction_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from reproduction {}".format(result)
+        # print >> sys.stderr, "This is the results of the get request from reproduction {}".format(result)
         return result
 
     def post(self):
@@ -521,7 +523,6 @@ class table_reproduction(Resource):
             resp.status_code = 403
             return resp
 
-
     def patch(self, cownumber):
         reproduction_query = Reproduction.query.get_or_404(cownumber)
         raw_dict = request.form
@@ -544,8 +545,8 @@ class table_reproduction(Resource):
             resp.status_code = 401
             return resp
 
-class table_medical(Resource):
 
+class table_medical(Resource):
     def get(self, cownumber):
         medical_query = Medical.query.filter_by(cownumber = cownumber).order_by(Medical.ts.desc())
         # Serialize the query results in the JSON API format
@@ -572,7 +573,6 @@ class table_medical(Resource):
             query = Medical.query.all()
             results = schemaAnimalMedical.dump(query, many=True).data
             return 201
-
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -607,12 +607,13 @@ class table_medical(Resource):
             resp.status_code = 401
             return resp
 
+
 class table_grazing(Resource):
 
     def get(self, cownumber):
         grazing_query = Grazing.query.filter_by(cownumber = cownumber).order_by(Grazing.ts.desc())
         result = schemaGrazing.dump(grazing_query,many = True).data
-        #print >> sys.stderr, "This is the results of the get request from grazing {}".format(result)
+        # print >> sys.stderr, "This is the results of the get request from grazing {}".format(result)
         return result
 
     def post(self):
@@ -637,7 +638,6 @@ class table_grazing(Resource):
             query = Grazing.query.all()
             results = schemaGrazing.dump(query, many=True).data
             return 201
-
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -671,6 +671,7 @@ class table_grazing(Resource):
             resp.status_code = 401
             return resp
 
+
 # Used for all experiments page
 class table_group_all(Resource):
     def get(self):
@@ -678,6 +679,7 @@ class table_group_all(Resource):
         result = schemaGroup.dump(group_query, many=True).data
         # print >> sys.stderr, "This is the results of the get request from Group {}".format(result)
         return result
+
 
 class table_group(Resource):
 
@@ -699,7 +701,6 @@ class table_group(Resource):
             query = Group.query.all()
             results = schemaGroup.dump(query, many=True).data
             return results, 201
-
 
         except ValidationError as err:
             resp = jsonify({"error": err.messages})
@@ -734,6 +735,7 @@ class table_group(Resource):
             resp.status_code = 401
             return resp
 
+
 class table_herdchange(Resource):
 
     def get(self):
@@ -745,7 +747,7 @@ class table_herdchange(Resource):
         raw_dict = request.form
         try:
                 schemaHerdchange.validate(raw_dict)
-                #Create a master object with the API data recieved
+                # Create a master object with the API data recieved
                 herdchange = Herdchange(uid = None, ts = None, cownumber=raw_dict['cownumber'],
                                      attributes = raw_dict['attributes'],
                                      identifier = raw_dict['identifier'],
@@ -754,7 +756,6 @@ class table_herdchange(Resource):
                 query = Herdchange.query.all()
                 results = schemaHerdchange.dump(query, many = True).data
                 return results, 201
-
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -767,19 +768,22 @@ class table_herdchange(Resource):
                 resp.status_code = 403
                 return resp
 
+
 class table_drug_inventory_dic_a(Resource):
-# "a" for all (All drugs)
+    # "a" for all (All drugs)
     def get(self):
         drug_dic_query = Drug_Inventory_Dic.query.all()
         result = schemaDrugDic.dump(drug_dic_query, many= True).data
         return result
 
+
 class table_drug_inventory_dic_s(Resource):
-# "s" for specific (specific user)
+    # "s" for specific (specific user)
     def get(self,drug):
         drug_dic_query = Drug_Inventory_Dic.query.filter_by(drug=drug).first()
         result = schemaDrugDic.dump(drug_dic_query, many=False).data
         return result
+
     def post(self):
         raw_dict = request.form
         try:
@@ -858,7 +862,6 @@ class table_report_view(Resource):
         result = [{columns[index][0]: column for index, column in enumerate(value)} for value in cur.fetchall()]
         print >> sys.stderr, "This is the output for results{}".format(rows)
         return rows
-
 
 
 class table_test(Resource):
@@ -1009,7 +1012,7 @@ class TableAnimalAdd(Resource):
                 cnx = mysql.connector.connect(user='root', password='password', host='localhost',
                                               database='new_barn')
                 cursor = cnx.cursor(dictionary=True)
-                print("here in add animal class")
+                print("here in add animal class from the API call")
                 insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
                                      "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
                                      "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
@@ -1054,59 +1057,74 @@ class TableAnimalAdd(Resource):
                 cnx.close()
 
 
+class TableInventoryPasture(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("SELECT * from pasture_history")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+        return jsonify(rows)
 
 
-    # Since we are communicating with the same table. I think only one class would be enough for both GET and POST.
-    # So please paste your code here for it to work.
+class TableInventoryFormulary(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("SELECT * from formulary")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+            cnx.close()
+
+        return jsonify(rows)
 
 
-    # def post(self):
-    #     print ("in method+++++")
-    #     try:
-    #         cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
-    #
-    #     except mysql.connector.Error as err:
-    #         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-    #             print("Something is wrong with your user name or password")
-    #         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-    #             print("Database does not exist")
-    #         else:
-    #             print(err)
-    #     else:
-    #         cursor = cnx.cursor(dictionary=True)
-    #         print("here in add animal class")
-    #         insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
-    #                              "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
-    #                              "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
-    #                              "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired," \
-    #                              "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived," \
-    #                              "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s," \
-    #                              "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-    #                              "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-    #                              " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-    #                              "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, " \
-    #                              "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s," \
-    #                              "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, " \
-    #                              "%(datedisposed)s, %(disposalreason)s" \
-    #                              "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
-    #                              "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
-    #         print >> sys.stderr, "Initialized"
-    #         try:
-    #             cursor.execute(update_users, data)
-    #             cnx.commit()
-    #             return "Success", 201
-    #         except AttributeError:
-    #             raise errors.OperationalError("MySQL Connection not available.")
-    #         except mysql.connector.IntegrityError as err:
-    #             print("Error: {}".format(err))
-    #             return None
-    #         except TypeError, e:
-    #             print(e)
-    #             return None
-    #         except ValueError, e:
-    #             print(e)
-    #             return None
-    #         finally:
-    #             cursor.close()
-    #             cnx.close()
-    #
+class TableHealthList(Resource):
+    def get(self):
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("SELECT * from health_record")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+            cnx.close()
+
+        return jsonify(rows)
+

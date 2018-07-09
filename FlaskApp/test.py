@@ -46,6 +46,11 @@ data = {'animalname' : '2345',
         'springfall' : "testing",
         'gender':"female",
         'includeinlookups':"yes"}
+
+name='1234'
+pasno='1'
+no='1'
+email='test'
 try:
     cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
@@ -59,15 +64,8 @@ except mysql.connector.Error as err:
 else:
     cursor = cnx.cursor(dictionary=True)
     print ("here test ++++")
-    insert_animaldata = ("""INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID,
-                         weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore,
-                         damframescore,comments,species,email_id,brandlocation,tattooleft,tattooright,
-                         alternativeid,registration,color,hornstatus,dam,sire,howacquired,dateacquired,
-                         howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived,
-                         managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s,
-                         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                         %s, %s, %s, %s, %s, %s, %s""")
-    cursor.execute(insert_animaldata, data)
+    insert_animaldata = ("""INSERT INTO animal_table (animalname,pasture_ID,current_expt_no,email_id ) VALUES ( '1234','1','1','test')""")
+    cursor.execute(insert_animaldata)
     cnx.commit()
     cnx.close()
 

@@ -9,7 +9,8 @@ from mysql.connector import errorcode, errors, Error
 from views import table_basics, table_medical_inventory, table_animal_inventory, table_experiment, table_reproduction, \
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
-    table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd
+    table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList
 
 from secrets import whole_string, short_string
 import config
@@ -84,9 +85,13 @@ api.add_resource(table_test, '/api/test/')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/<animalname>')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/', endpoint="20")
 
-#api.add_resource(TableAnimalUpdate, '/api/animal/addanimal')
-#api.add_resource(TableAnimalUpdate, '/api/animal/add', endpoint="19")
+api.add_resource(TableAnimalAdd, '/api/animal/add/')
+api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 
+
+api.add_resource(TableInventoryPasture, '/api/inventory/pasture/')
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/')
+api.add_resource(TableHealthList, '/api/health/record/')
 
 # Api for reportings
 # end point to hold intended attribute changes
@@ -330,58 +335,9 @@ def tempsearchpage():
     return render_template("tempsearchpage.html")
 
 
-@app.route('/animal/addanimal', methods=['GET','POST'])
+@app.route('/animal/add', methods=['GET','POST'])
 @login_required
 def animaladd():
-
-        print("Into the class")
-        try:
-            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
-            cursor = cnx.cursor(dictionary=True)
-            print("here in add animal class")
-            insert_animaldata = ("INSERT INTO animal_table (animalname,animaltype,eartag,eid,pasture_ID," \
-                                 "weight,height,gender,sex,breed,status,current_expt_no,Herd,breeder,currentframescore," \
-                                 "damframescore,comments,species,email_id,brand,brandlocation,tattooleft,tattooright," \
-                                 "alternativeid,registration,color,hornstatus,dam,sire,DOB,howacquired,dateacquired," \
-                                 "howdisposed,datedisposed ,disposalreason ,herdnumberlocation ,herdstatus ,howconceived," \
-                                 "managementcode ,ownerID ,springfall ,includeinlookups ) VALUES ( %(animalname)s," \
-                                 "%(animaltype)s, %(eartag)s, %(eid)s, %(pasturenumber)s, %(weight)s, %(height)s, " \
-                                 "%(gender)s, %(sex)s, %(breed)s, %(status)s, %(current_expt_no)s, %(Herd)s," \
-                                 " %(breeder)s, %(currentframescore)s, %(damframescore)s, %(comments)s, " \
-                                 "%(species)s, %(email_id)s),%(brand)s, %(brandlocation)s, %(tattooleft)s, " \
-                                 "%(tattooright)s, %(alternativeid)s, %(registration)s, %(color)s, %(hornstatus)s," \
-                                 "%(dam)s, %(sire)s, %(DOB)s, %(howacquired)s,%(dateacquired)s, %(howdisposed)s, " \
-                                 "%(datedisposed)s, %(disposalreason)s,%(pasture_ID)s" \
-                                 "%(herdnumberlocation)s, %(herdstatus)s, %(howconceived)s, %(managementcode)s, " \
-                                 "%(ownerID)s, %(springfall)s, %(includeinlookups)s")
-            # insert_users = ("INSERT INTO login (email_id, first_name, last_name, pswd_hash, roles, registered_at)
-            # VALUES (%(email_id)s,%(first_name)s,%(last_name)s,%(pswd_hash)s,%(roles )s,%(registered_at)s)")
-
-            # print >> sys.stderr, "Initialized"
-            data = request.get_json(force=True)
-            print("get data------")
-            print >> sys.stderr, "Got the data"
-
-            try:
-                cursor.execute(insert_animaldata, data)
-                print("here after execute")
-                cnx.commit()
-                return "Success", 201
-            except AttributeError:
-                raise errors.OperationalError("MySQL Connection not available.")
-            except mysql.connector.IntegrityError as err:
-                print("Error: {}".format(err))
-            return None
-        except TypeError, e:
-            print(e)
-            return None
-        except ValueError, e:
-            print(e)
-            return None
-        #finally:
-            #cursor.close()
-
-            #cnx.close()
         return render_template("animaladd.html")
 
 

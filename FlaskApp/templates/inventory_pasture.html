@@ -12,42 +12,31 @@
 		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddNew">Add New Procedure</button>
 	</div>
 	<div class="container">
-	<table data-toggle="table"
-		data-pagination="true"
+	<table id="table"
 		data-search="true"
-		data-click-to-select="true">
+		data-pagination="true"
+		data-show-refresh="true"
+		data-show-columns="true"
+		data-show-export="true"
+		data-filter-control="true"
+	>
 		<thead>
-		<tr>
-			<th data-field="state" data-checkbox="true"></th>
-			<th data-field="Date">Pasture</th>
-			<th data-field="Pasture">Feed</th>
-			<th data-field="Submitted By">Facility</th>
-		</tr>
+			<tr>
+				<th data-field="state" data-checkbox="true" id="selectall"></th>
+				<th data-sortable="true" data-field="pasture_ID" data-filter-control="select">Pasture ID</th>
+				<th data-sortable="true" data-field="email_ID">email ID</th>
+				<th data-field="pasturenumberburning">Pasture Number Burning</th>
+				<th data-field="dateburned">Date Burned</th>
+				<th data-field="qualityofburn">Quality of Burn</th>
+				<th data-field="pasturenumberpesticide">Pasture Number Pesticide</th>
+				<th data-field="chemicalname">Chemical Name</th>
+				<th data-field="applicationrate">Application Rate</th>
+				<th data-field="applicationdate">Application Date</th>
+			</tr>
 		</thead>
-		<tbody>
-		 <tr>
-			<td data-checkbox="true"></td>
-			<td>10A</td>
-			<td>Alpha alpha</td>
-			<td>Barn</td>
-		 </tr>
-		 <tr>
-			<td data-checkbox="true"></td>
-			<td>10B</td>
-			<td>Protein</td>
-			<td>Open land</td>
-		 </tr>
-		 <tr>
-			<td data-checkbox="true"></td>
-			<td>12A</td>
-			<td>Fat</td>
-			<td>Open Land</td>
-		 </tr>
-		</tbody>
 	</table>
-	</div>
-		
-	<button type="button" class="btn btn-primary btn-lg">Edit</button>
+	
+	<button type="button" class="btn btn-primary btn-lg" id="Edit">Edit</button>
 	<button type="button" class="btn btn-secondary btn-lg">Delete</button>
 	
 	<!-- Modal Expansion code -->
@@ -67,68 +56,13 @@
 							<div class="col-xs-2">
 								<input type="text" class="form-control" id="pastureacres" placeholder="Pasture Acres">
 							</div>
-							<label for="animalspresent" class="control-label col-xs-1">Animals Present</label>
+							<label for="pasture_ID" class="control-label col-xs-1">Pasture ID</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="animalspresent" placeholder="Animals Present">
+								<input type="text" class="form-control" id="pasture_ID" placeholder="Pasture ID">
 							</div>
-							<label class="control-label col-xs-1" for="date">Date In</label>
-							<div class="input-group col-xs-2">
-							   <input class="form-control" id="datein" name="date" placeholder="YYYY-MM-DD" type="text"/>
-							</div>
-							
-							
-						</div>
-						<div class="form-group">
-							<label for="stockingrate" class="control-label col-xs-1">Stocking Rate</label>
+							<label for="pasturenumberburning" class="control-label col-xs-1">Pasture Number</label>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="stockingrate" placeholder="Stocking Rate">
-							</div>
-							<label class="control-label col-xs-1" for="date">Date Out</label>
-							<div class="input-group col-xs-2">
-							   <input class="form-control" id="dateout" name="date" placeholder="YYYY-MM-DD" type="text"/>
-							</div>
-						</div>
-						<h2>P Sampling</h2>
-						<div class="form-group">
-							<label for="pasturenumbergrazing" class="control-label col-xs-1">Pasture Number</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="pasturenumbergrazing" placeholder="Pasture Number">
-							</div>
-							<label for="sample" class="control-label col-xs-1">Sample</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="sample" placeholder="Sample">
-							</div>
-							<label for="biomass" class="control-label col-xs-1">BioMass</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="biomass" placeholder="Bio Mass">
-							</div>
-							<label for="DMavailable" class="control-label col-xs-1">DM Available</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="DMavailable" placeholder="DM Available">
-							</div>
-						</div>
-						<br>
-						<hr width="50%" size="3" align="center">
-						<div class="form-group">
-							<label for="cp" class="control-label col-xs-1">CP</label>
-							<div class="col-xs-2">
-								<input type="text" class="form-control" id="cp" placeholder="CP">
-							</div>
-							<label for="cp1" class="control-label col-xs-1">1</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="cp1" placeholder="1">
-							</div>
-							<label for="cp2" class="control-label col-xs-1">2</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="cp2" placeholder="2">
-							</div>
-							<label for="cp3" class="control-label col-xs-1">3</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="cp3" placeholder="3">
-							</div>
-							<label for="cp4" class="control-label col-xs-1">4</label>
-							<div class="col-xs-1">
-								<input type="text" class="form-control" id="cp4" placeholder="4">
+								<input type="text" class="form-control" id="pasturenumberburning" placeholder="Pasture Number">
 							</div>
 						</div>
 						<br>
@@ -181,5 +115,6 @@
 	{% endblock %}
 
 {% block Inventory %} class="panel-collapse collapse in" {% endblock %}
+{% block imports %} <script type = "text/javascript" src="{{url_for('static', filename= 'js/inventory_pasture_scripts.js')}}"></script>{% endblock %}
 </body>
 </html>
