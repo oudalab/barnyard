@@ -93,7 +93,7 @@ api.add_resource(table_test, '/api/test/')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/<animalname>')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/', endpoint="20")
 
-api.add_resource(TableAnimalAdd, '/api/animal/add/')
+api.add_resource(TableAnimalAdd, '/api/animal/add/<animalname>')
 api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 
 api.add_resource(TableHerd, '/api/herd/create/')
@@ -377,7 +377,7 @@ def experiment_edit():
     return render_template("experiment_edit.html")
 
 
-@app.route('/experiment/update')
+@app.route('/experiment/update', methods=['GET', 'POST', 'PATCH'])
 @login_required
 def experimentupdate():
     return render_template("experimentupdate.html")

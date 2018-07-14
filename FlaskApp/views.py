@@ -1035,10 +1035,27 @@ class TableAnimalUpdate(Resource):
                 cnx.close()
 
 
-
-
-
 class TableAnimalAdd(Resource):
+    def get(self, animalname):
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("""SELECT animalname FROM animal_table WHERE Animal_ID = %s""", (animalname,))
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            print(rows)
+            cursor.close()
+            cnx.close()
+            return jsonify(rows)
 
     def post(self):
         data=request.get_json(force=True)
@@ -1382,7 +1399,7 @@ class TableHerdUniqueName(Resource):
                 return err
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute(" select distinct name from herd")
+            cursor.execute("select distinct name from herd")
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -1477,8 +1494,8 @@ class TableHerd(Resource):
                 return err
         else:
             cursor = cnx.cursor(dictionary=True)
-            #cursor.execute(" select * from herd")
-            cursor.execute(" select a.animalname,name,description,create_date from animal_table a,herd h where a.Animal_ID=h.AID")
+            # cursor.execute("select * from herd")
+            cursor.execute("select a.animalname,name,description,create_date from animal_table a,herd h where a.Animal_ID=h.AID")
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -1487,9 +1504,33 @@ class TableHerd(Resource):
 
         return jsonify(rows)
 
+    def patch(self):
+        print >> sys.stderr, "Execution started"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("""select name,description, create_date, string, GROUP_CONCAT(AID ORDER BY AID Asc)AIDs
+                           from herd GROUP BY name;""")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+            cnx.close()
+        return jsonify(rows)
 
     def post(self):
-        data=request.get_json(force=True)
+        data = request.get_json(force=True)
         print(data)
         for k, v in data.iteritems():
             print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
