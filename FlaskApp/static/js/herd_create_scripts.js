@@ -14,6 +14,7 @@ jQuery(document).ready(function($) {
 $('#CreateHerdButton').click(function(e) {
 	var herdname = $('#herdname').val();
 	var herddescription = $('#herddescription').val();
+	var string = "";
 	var create_date = $('#DateCreated').val();
 	$('select#search_to option').each(function(i,pageelement){
 		var animal_ID = pageelement.value;
@@ -21,24 +22,27 @@ $('#CreateHerdButton').click(function(e) {
 			name: herdname,
 			description : herddescription,
 			create_date : create_date,
-			AID : animal_ID
+			AID : animal_ID,
+			string : string
 		}
 		var myJSON = JSON.stringify(data);
 		$.ajax({
-				url: '/api/herd/create/',
-				data: myJSON,
-				datatype: 'json',
-				type: 'POST',
-				success: function(response) {
-					console.log(data);
-					console.log(response);
-					$.notify("Data Saved", "info");
-				},
-				error: function(error) {
-					console.log(error)
-					$.notify("Data not saved", "danger");
-				}
-			});
+			url: '/api/herd/create/',
+			data: myJSON,
+			datatype: 'json',
+			type: 'POST',
+			success: function(response) {
+				console.log(response);
+				$.notify("Data Saved", "info");
+				setTimeout(location.reload(), 3000);
+				
+			},
+			error: function(error) {
+				console.log(error)
+				$.notify("Data not saved", "danger");
+			}
+		});
+		
 	});
 });
 

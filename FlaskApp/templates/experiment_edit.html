@@ -1,0 +1,74 @@
+{% extends "tempheader.html" %}
+
+<html>
+<head><title>{% block title %}Experiment{% endblock %}</title>
+{% block style %}
+.scrollable-menu .li .a{
+	background-color: #fff;
+}
+{% endblock %}
+
+</head>
+<body>
+	
+	{% block main %}
+	<div id="Notification area"></div>
+	<h1>This is the Experiment page</h1>
+	<div class="container-fluid">
+		<div class="col-xs-2 sidebar-nav">  
+			<div style="margin-bottom:30px;max-height:400px;overflow-y:scroll;">
+				<h4 style="margin:0px auto; padding-bottom:5px;" align="center">Animal Numbers</h4>
+				<ul id="animallist" class=" scrollable-menu">	
+					<li>All</li>
+				</ul>
+			</div>
+			<div>
+				<button id="experiment_update" method="POST" class='btn btn-default'>Update</button></a>
+			</div>
+		</div>
+		<div class="col-xs-10">
+			<form id = "basicexperimentform">
+				<h3>Welcome to the edits page</h3>
+				<div class="form-group">
+					<label for="herdnumber" class="control-label col-xs-1">Herd Number</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="herdnumber" name="herdnumber" placeholder="Herd Number">
+					</div>
+					<label for="herdname" class="control-label col-xs-1">Herd Name</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="herdname" placeholder="Herd Name">
+					</div>
+					<label for="animalnumber" class="control-label col-xs-1">Animal Number</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="animalnumber" placeholder="Animal Number">
+					</div>
+					<label>
+					
+					<br>
+					<br>
+				</div>
+			</form>
+			<form id = "experimentform">
+				<div class="form-group">
+					<label for="herddescription" class="control-label col-xs-1">Herd Description</label>
+					<div class="col-xs-6">
+						<input type="text" class="form-control" id="herddescription" placeholder="Herd Description">
+					</div>
+					<br>
+					<br>
+				</div>
+				<h2>The created fields come here</h2>
+				<div id="newfields" class='form-group'>
+					
+				</div>
+			</form>
+		</div>
+	</div>
+	{% endblock %}
+
+{% block experiment %} class="panel-collapse collapse in" {% endblock %}
+
+{% block imports %} <script type = "text/javascript" src="{{url_for('static', filename= 'js/experiment_edit_scripts.js')}}"></script> {% endblock %}
+
+</body>
+</html>

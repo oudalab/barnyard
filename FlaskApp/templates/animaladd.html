@@ -15,7 +15,7 @@
 <div class="form-group" >
 				<label for="animalnumber" class="control-label col-xs-1">Animal_ID</label>
 				<div class="col-xs-2">
-					<input type="text" class="form-control" id="animalnumber" name="animalnumber"  placeholder="Animal Number">
+					<input type="text" class="form-control" id="animalnumber" name="animalnumber"  placeholder="Animal Number" disabled>
 				</div>
 				<label for="animalname" class="control-label col-xs-1">Animal Name</label>
 				<div class="col-xs-2">
@@ -34,7 +34,7 @@
 			<div class="form-group">
 				<label for="pasturenumber" class="control-label col-xs-1">Pasture Number</label>
 				<div class="col-xs-2">
-				  <input type="text" class="form-control" id="pasturenumber" placeholder="Herd">
+				  <select class="form-control" id="pasturenumber"></select>
 				</div>
 				<label for="herd" class="control-label col-xs-1">Herd</label>
 				<div class="col-xs-2">
@@ -166,7 +166,7 @@
 				</div>
 				<label class="control-label col-xs-1" for="DOB">D.O.B</label>
 				<div class="input-group col-xs-2">
-				   <input class="form-control" id="DOB" name="DOB" placeholder="YYYY-MM-DD" type="text">
+				   <input class="date" id="DOB" name="DOB" placeholder="YYYY-MM-DD" type="text">
 				</div>
 			</div>
 			<br>
@@ -205,7 +205,7 @@
 				</div>
 				<label class="control-label col-xs-1" for="date">Date Acquired</label>
 				<div class="input-group col-xs-2">
-				   <input class="form-control" id="dateacquired" name="date" placeholder="YYYY-MM-DD" type="text"/>
+				   <input class="date" id="dateacquired" name="date" placeholder="YYYY-MM-DD" type="text"/>
 				</div>
 			</div>
 			<br>
@@ -227,7 +227,7 @@
 				</div>
 				<label class="control-label col-xs-1" for="date">Date Disposed</label>
 				<div class="input-group col-xs-2">
-				   <input class="form-control" id="datedisposed" name="date" placeholder="YYYY-MM-DD" type="text"/>
+				   <input class="date" id="datedisposed" name="date" placeholder="YYYY-MM-DD" type="text"/>
 				</div>
 			</div>
 			<br>
