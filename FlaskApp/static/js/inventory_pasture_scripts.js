@@ -6,6 +6,9 @@ $(document).ready(function () {
 		async: false,
 		success : function(data) {
 			console.log(data);
+			$(data).each(function(i,elem){
+				elem.event_date = StringToDate(elem.event_date);
+			});
 			tablecall(data);
 		},
 		error: function(response){

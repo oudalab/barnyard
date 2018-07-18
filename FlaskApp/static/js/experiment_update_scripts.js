@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$.ajax({
 		url : '/api/herd/create/',
-		type : 'PATCH',
+		type : 'GET',
 		dataType : 'json',
 		async: false,
 		success : function(data) {
@@ -16,7 +16,8 @@ $(document).ready(function(){
 				});
 				elem.string = attributes.replace(/,\s*$/, "");
 				
-				var AIDs = elem.AIDs.split(",");
+				var AIDs = JSON.parse(elem.AID_string);
+				elem.AIDs = AIDs;
 				var animalnames = "";
 				$(AIDs).each(function(i,elem){
 					$.ajax({
@@ -60,24 +61,10 @@ $('#Edit').click(function() {
   $("#ExperimentEditModal").modal("show");
 });
 $('#Edit_Experiment_Yes').click(function() {
-	var pasture_ID= $('#name').val();
-	var myJSON = JSON.stringify(json);
-	$.ajax({
-		url: '/api/inventory/pasturehistory/',
-		data: myJSON,
-		datatype: 'json',
-		type: 'PATCH',
-		success: function(response) {
-			console.log(response);
-			alert("Data Saved");
-			$.notify("Data Saved", "info");
-		},
-		error: function(error) {
-			console.log(error)
-			$.notify("Data not saved", "danger");
-		}
-	});
-	setTimeout(location.reload(), 2000); 
+	var name= $('#name').val();
+		setTimeout(function() {
+		window.location.href = '/experiment/edit?herdname=' +name
+	}, 2000); 
 });
 
 $('#Delete').click(function() {
@@ -110,5 +97,66 @@ $('#Delete_No').click(function() {
 
 $('#button_Done').click(function() {
   setTimeout(location.reload(), 2000);
+});
+
+$('#UploadCSV').click(function() {
+  $("#UploadCSVModal").modal("show");
+});
+$('#Upload_Done').click(function() {
+	location.reload();
+});
+
+
+$(function () {
+    $("#upload").bind("click", function () {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+        if (regex.test($("#fileUpload").val().toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+					var data=$.csv.toObjects(e.target.result);
+					console.log(data);
+					$(data).each(function(i, elem){
+							var dataJson = JSON.stringify(elem);
+							console.log(dataJson);
+							$.ajax({
+								url: '/api/animal/add/',
+								data: dataJson,
+								type: 'post',
+								dataType: 'json',
+								success: function(response) {
+									console.log(response);
+									$.notify("Data Saved", "info");
+								},
+								error: function(response) {
+									console.log(response);
+									$.notify("Data Not saved", "error");					
+								}
+							});
+					});
+					
+                    var table = $("<table />");
+                    var rows = e.target.result.split("\n");
+                    for (var i = 0; i < rows.length; i++) {
+                        var row = $("<tr />");
+                        var cells = rows[i].split(",");
+                        for (var j = 0; j < cells.length; j++) {
+                            var cell = $("<td />");
+                            cell.html(cells[j]);
+                            row.append(cell);
+                        }
+                        table.append(row);
+                    }
+                    $("#dvCSV").html('');
+                    $("#dvCSV").append(table);
+                }
+                reader.readAsText($("#fileUpload")[0].files[0]);
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid CSV file.");
+        }
+    });
 });
 	

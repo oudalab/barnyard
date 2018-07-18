@@ -15,7 +15,7 @@ $(document).ready(function(){
 		success: function(data) {
 			console.log(data);
 			$(data).each(function(j,elem){
-				$("<option value="+elem.name+"> "+elem.name+"</option>").appendTo("#name");
+				$("<option value='"+elem.name+"'> "+elem.name+"</option>").appendTo("#name");
 			});
 		},
 		error: function(error) {
@@ -48,7 +48,10 @@ $('#create_experiment').click(function(){
 		type: 'PATCH',
 		success: function(response) {
 			console.log(response);
-			$.notify("Data Saved", "info");
+			alert("Data Saved", "info");
+			setTimeout(function() {
+				window.location.href = '/experiment/edit?herdname='+name
+			}, 2000); 
 		},
 		error: function(error) {
 			console.log(error)

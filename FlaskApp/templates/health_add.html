@@ -5,102 +5,55 @@
 <body>
 {% block main %}
 <div id="Notification area"></div>
-<h1>This is the Health Add page</h1>
+<h1>Health Add page</h1>
 <div class="container">
-	<button type="button" class="btn btn-primary">Add</button>
+	<button type="button" class="btn btn-primary" id="Add_Button">Add</button>
 	<div class="form-group">
-		<label for="episodeid" class="control-label col-xs-1">Episode ID</label>
+		<label for="animalname" class="control-label col-xs-1">Animal Name</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="episodeid" placeholder="Episode ID">
+			<input type="text" class="form-control" id="animalname" placeholder="Animal Name">
 		</div>
-		<label for="type" class="control-label col-xs-1">Type</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="type" placeholder="Type">
-		</div>
-		<label for="animal_id" class="control-label col-xs-1">Animal ID</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="animal_id" placeholder="Animal ID">
-		</div>
-		<label for="start_date" class="control-label col-xs-1">Start Date</label>
+		<label for="create_date" class="control-label col-xs-1">Create Date</label>
 		<div class="input-group col-xs-2">
-		   <input class="form-control" id="start_date" name="date" placeholder="YYYY-MM-DD" type="text"/>
+		   <input class="date" id="create_date" name="create_date" placeholder="YYYY-MM-DD" type="text"/>
 		</div>
 	</div>
+	<hr width="50%" size="3" align="center">
 	<div class="form-group">
-		<label for="procedure_id" class="control-label col-xs-1">Procedure ID</label>
+		<label for="Medical_ID" class="control-label col-xs-1">Medicine</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="procedure_id" placeholder="Procedure ID">
+		  <select class="form-control" id="Medical_ID"></select>
 		</div>
-		<label for="med_id" class="control-label col-xs-1">Med ID</label>
+		<label for="location" class="control-label col-xs-1">Location</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="med_id" placeholder="Med ID">
-		</div>
-		<label for="experiment_number" class="control-label col-xs-1">Experiment Number</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="experiment_number" placeholder="Experiment Number">
-		</div>
-		<label for="end_date" class="control-label col-xs-1">End Date</label>
-		<div class="input-group col-xs-2">
-		   <input class="form-control" id="end_date" name="date" placeholder="YYYY-MM-DD" type="text"/>
+			<input type="text" class="form-control" id="location" placeholder="Location">
 		</div>
 	</div>
 	<br>
 	<hr width="50%" size="3" align="center">
 	<div class="form-group">
-		<label for="reasonforprocedure" class="control-label col-xs-1">Reason for Procedure</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="reasonforprocedure" placeholder="Reason for Procedure">
-		</div>
-		<label for="notificationofvmo" class="control-label col-xs-1">Notification of VMO</label>
-		<div class="col-xs-2">
-		  <select class="form-control" id="notificationofvmo">
-			<option></option>
-			<option>None</option>
-			<option>Site Visit</option>
-			<option>Email</option>
-			<option>Phone</option>
-			<option>Text</option>
-		  </select>
-		</div>
-		<label for="recommendationofvmo" class="control-label col-xs-1">Recommendation of VMO</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="recommendationofvmo" placeholder="Recommendation of VMO">
-		</div>
-		<label for="treatmentprotocol" class="control-label col-xs-1">Treatment Protocol</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="treatmentprotocol" placeholder="Treatment Protocol">
-		</div>
+        <div class="col-xs-12">
+            <textarea class="form-control" rows="6" id="medical_notes" placeholder="Medical Notes" required></textarea>
+        </div>
 	</div>
 	<br>
 	<hr width="50%" size="3" align="center">
 	<div class="form-group">
-		<label for="animallocationpreresolution" class="control-label col-xs-1">Animal Location Pre-resolution</label>
+		<label for="Amt_given" class="control-label col-xs-1">Amount Given</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="animallocationpreresolution" placeholder="Animal Location Pre-resolution">
+			<input type="text" class="form-control" id="Amt_given" placeholder="Amount Given">
 		</div>
-		<label for="followupexam" class="control-label col-xs-1">Follow-up Exam</label>
+		<label for="route" class="control-label col-xs-1">Route</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="followupexam" placeholder="Follow-up Exam">
+			<input type="text" class="form-control" id="route" placeholder="Route">
 		</div>
-		<label for="resolution" class="control-label col-xs-1">Resolution</label>
+		<label for="water_feed" class="control-label col-xs-1">Water/Feed</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="resolution" placeholder="Resolution">
+			<input type="text" class="form-control" id="water_feed" placeholder="Water/Feed">
 		</div>
-		<label class="control-label col-xs-1" for="dateoffollowup">Date of Followup Exam</label>
-		<div class="input-group col-xs-2">
-		   <input class="form-control" id="dateoffollowup" name="date" placeholder="YYYY-MM-DD" type="text"/>
-		</div>
-	</div>
-	<br>
-	<hr width="50%" size="3" align="center">
-	<div class="form-group">
-		<label for="animallocation" class="control-label col-xs-1">Animal Location</label>
+		<label for="withdraw_time" class="control-label col-xs-1">Withdraw Time</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="animallocation" placeholder="Animal Location">
-		</div>
-		<label class="control-label col-xs-1" for="dateofaction">Date of Action</label>
-		<div class="input-group col-xs-2">
-		   <input class="form-control" id="dateofaction" name="date" placeholder="YYYY-MM-DD" type="text"/>
+			<input type="text" class="form-control" id="withdraw_time" placeholder="Withdraw Time">
 		</div>
 	</div>
 </div>
@@ -108,5 +61,6 @@
 {% endblock %}
 
 {% block HealthRecords %} class="panel-collapse collapse in" {% endblock %}
+{% block imports %} <script type = "text/javascript" src="{{url_for('static', filename= 'js/health_add_scripts.js')}}"></script>{% endblock %}
 </body>
 </html>

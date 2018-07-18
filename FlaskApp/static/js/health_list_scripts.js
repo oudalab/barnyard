@@ -6,13 +6,29 @@ $(document).ready(function () {
 			async: false,
             success : function(data) {
 				console.log(data);
+				$(data).each(function(i,elem){
+					elem.create_date = StringToDate(elem.create_date);
+					$.ajax({
+						url: '/api/animal/add/'+elem.Animal_id,
+						data: $('form').serialize(),
+						type: 'GET',
+						async: false,
+						success : function(response) {
+							elem.animalname = response[0].animalname;
+							
+						},
+						error: function(response){
+							console.log(response);
+						}
+					});	
+				});
                 tablecall(data);
             },
 			error: function(response){
 				console.log(response);
 			}
         });
-})
+});
 
 function tablecall(data) {
     $('#table').bootstrapTable({
@@ -22,3 +38,39 @@ function tablecall(data) {
         data: data
     });
 };
+
+$('#Edit').click(function() {
+  var log= $('#table').bootstrapTable('getSelections');
+  console.log(log);
+  alert("Selected Animal is : " + log[0].animalname);
+  $('#Health_Data').val(log[0].animalname);
+  $("#HealthEditModal").modal("show");
+});
+$('#Health_Edit_Modal_Yes').click(function() {
+	var animalname= $('#Animal_Data').val()
+	setTimeout(function() {location.reload();}, 2000); 
+});
+
+$('#Delete').click(function() {
+  var log= $('#table').bootstrapTable('getSelections');
+  console.log(log);
+  $('#Delete_Animal').append(log[0].animalname);
+  $("#HealthDeleteModal").modal("show");
+});
+$('#Delete_Yes').click(function() {
+	var animalname= $('#Delete_Animal')[0].textContent;
+	var number = animalname.replace(/['"]+/g, '')
+	alert(number);
+	$.ajax({
+		url: '/api/animal/update/'+animalname,
+		type : 'DELETE',
+		async: false,
+		success : function(data) {
+			location.reload();
+			$.notify("Animal Data Deleted.")
+		},
+		error: function(response){
+			$.notify("Not Deleted. Please contact IT")
+		}
+	});
+});

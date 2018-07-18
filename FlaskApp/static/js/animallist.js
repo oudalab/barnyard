@@ -6,6 +6,11 @@ $(document).ready(function () {
 		async: false,
 		success : function(data) {
 			console.log(data);
+			$(data).each(function(i,elem){
+				elem.DOB = StringToDate(elem.DOB);
+				elem.dateacquired = StringToDate(elem.dateacquired);
+				elem.datedisposed = StringToDate(elem.datedisposed);
+			});
 			tablecall(data);
 		},
 		error: function(response){

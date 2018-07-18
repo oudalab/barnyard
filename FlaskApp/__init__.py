@@ -10,7 +10,8 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
-    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,TableHerdUniqueName
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,TableHerdUniqueName,\
+    TableExperiment,TableHealthAdd
 
 from secrets import whole_string, short_string
 import config
@@ -106,12 +107,19 @@ api.add_resource(TableInventoryPasture, '/api/inventory/pasture/', endpoint="22"
 api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/<pasture_ID>/<event_date>')
 api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/', endpoint="23")
 
-api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/')
-api.add_resource(TableHealthList, '/api/health/record/')
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/<drug>/<date>')
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/', endpoint="25")
+api.add_resource(TableHealthList, '/api/health/record/<Record_ID>')
+api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
 
 api.add_resource(TableHerdUniqueName, '/api/herd/name/<herdname>')
 api.add_resource(TableHerdUniqueName, '/api/herd/name/', endpoint="24")
 
+api.add_resource(TableExperiment, '/api/experiment/herd/<Animal_ID>')
+api.add_resource(TableExperiment, '/api/experiment/herd', endpoint="26")
+
+api.add_resource(TableHealthAdd, '/api/health/add/<animalname>')
+api.add_resource(TableHealthAdd, '/api/health/add/', endpoint="27")
 # Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -371,7 +379,7 @@ def animalupdate():
 def experimentadd():
     return render_template("experimentadd.html")
 
-@app.route('/experiment/edit')
+@app.route('/experiment/edit', methods=['GET', 'POST','PATCH','DELETE'])
 @login_required
 def experiment_edit():
     return render_template("experiment_edit.html")
@@ -437,19 +445,19 @@ def reproduction_view_calf():
     return render_template("reproduction_view_calf.html")
 
 
-@app.route('/health/add')
+@app.route('/health/add',methods=['POST','GET'])
 @login_required
 def healthadd():
     return render_template("health_add.html")
 
 
-@app.route('/health/list')
+@app.route('/health/list',methods=['POST','GET','PATCH','DELETE'])
 @login_required
 def healthlist():
     return render_template("health_list.html")
 
 
-@app.route('/health/update')
+@app.route('/health/update',methods=['PATCH','GET'])
 @login_required
 def healthupdate():
     return render_template("health_update.html")
