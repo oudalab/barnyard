@@ -41,21 +41,26 @@
 		<div class="modal-content">
 		  <div class="modal-content">
 			  <div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Edit this Health Record?</h5>
+				<h2 class="modal-title" id="exampleModalLabel">Edit this Health Record?</h2>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				  <span aria-hidden="true">&times;</span>
 				</button>
 			  </div>
 			  <div class="modal-body">
-				<div class="form-group">
+				<div class="row form-group">
 					<label for="animalname" class="control-label col-xs-1">Animal Name</label>
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="animalname" placeholder="Animal Name">
+						<input type="text" class="form-control" id="animalname" placeholder="Animal Name" disabled>
+					</div>
+					<label for="Record_ID" class="control-label col-xs-1">Database ID</label>
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="Record_ID" placeholder="Database ID" disabled>
 					</div>
 					<label for="create_date" class="control-label col-xs-1">Create Date</label>
 					<div class="input-group col-xs-2">
 					   <input class="date" id="create_date" name="create_date" placeholder="YYYY-MM-DD" type="text"/>
 					</div>
+					
 				</div>
 				<hr width="50%" size="3" align="center">
 				<div class="form-group">

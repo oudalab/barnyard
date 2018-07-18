@@ -1481,7 +1481,7 @@ class TableHealthList(Resource):
                                                 medical_notes=%(medical_notes)s,
                                                 location=%(location)s, Amt_given=%(Amt_given)s,
                                                 route=%(route)s, water_feed =%(water_feed)s,
-                                                email_ID=%(email_ID)s,withdraw_time=%(withdraw_time)s,
+                                                email_ID=%(email_ID)s,withdraw_time=%(withdraw_time)s
                                                 WHERE Record_ID =%(Record_ID)s""")
             try:
                 cursor.execute(update_animaldata,data)
@@ -1775,7 +1775,7 @@ class TableExperiment(Resource):
                                     e.damwtatwean,e.weanheight,e.weanweight,e.weandate,e.weangpd,e.weanwda,e.weanweightdate,e.adj205w,e.adj205h,e.weanframescore,e.ageatwean,
                                     e.yearlingweight,e.yearlingheight,e.yearlingdate,e.adjyearlingw,e.adjyearlingh,e.yearlingframescore,e.ageatyearling,e.customweight,
                                     e.customweightdate,e.customheight,e.customheightdate,e.currentwtcow,e.adj365dht,e.currentwtheifer,e.backfat,e.treatment,e.blockpen,
-                                    e.replicate,e.email_id,e.Animal_ID,e.expt_date,e.expt_name from animal_table a,experiment e where a.Animal_ID=e.Animal_ID and e.Animal_ID=%s""",(Animal_ID,))
+                                    e.replicate,e.email_id,e.Animal_ID,e.expt_date,e.expt_name from animal_table a,experiments e where a.Animal_ID=e.Animal_ID and e.Animal_ID=%s""",(Animal_ID,))
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -1801,18 +1801,18 @@ class TableExperiment(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("here in pasture class from the API call")
-            insert_animaldata = ("""INSERT INTO trial (animaltype,birthweight,birthweightadj,sireframescore,bcsrecent,bcsprevious,bcsdifference,
+            insert_animaldata = ("""INSERT INTO experiments (animaltype,birthweight,birthweightadj,sireframescore,bcsrecent,bcsprevious,bcsdifference,
                                     damwtatwean,weanheight,weanweight,weandate,weangpd,weanwda,weanweightdate,adj205w,adj205h,weanframescore,ageatwean,
                                     yearlingweight,yearlingheight,yearlingdate,adjyearlingw,adjyearlingh,yearlingframescore,ageatyearling,customweight,
                                     customweightdate,customheight,customheightdate,currentwtcow,adj365dht,currentwtheifer,backfat,treatment,blockpen,
-                                    replicate,email_id,Animal_ID,trail_date) 
+                                    replicate,email_id,AnimalID,expt_date) 
                                     VALUES( %(animaltype)s,%(birthweight)s,%(birthweightadj)s, 
                                     %(sireframescore)s, %(bcsrecent)s,%(bcsprevious)s,
                                     %(bcsdifference)s,%(email_id)s,%(damwtatwean)s, 
                                     %(weanheight)s,%(weanweight)s ,%(weandate)s,%(weangpd)s,%(weanwda)s,%(weanweightdate)s,%(adj205w)s,%(adj205h)s,%(weanframescore)s,%(ageatwean)s,
                                     %(yearlingweight)s,%(yearlingheight)s,%(yearlingdate)s,%(adjyearlingw)s,%(adjyearlingh)s,%(yearlingframescore)s,,%(ageatyearling)s,%(customweight)s,
                                     %(customweightdate)s,%(customheight)s,%(customheightdate)s,%(currentwtcow)s,%(adj365dht)s,,%(currentwtheifer)s,%(backfat)s,
-                                    %(treatment)s,%(blockpen)s,%(replicate)s,%(Animal_ID)s,%(trail_date)s""")
+                                    %(treatment)s,%(blockpen)s,%(replicate)s,%(AnimalID)s,%(expt_date)s""")
             try:
                 cursor.execute(insert_animaldata, data)
                 print("here after insert execute in experiment")
@@ -1852,7 +1852,7 @@ class TableExperiment(Resource):
                 print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
             cursor = cnx.cursor(dictionary=True)
             print("experiment update++++")
-            update_animaldata = ("""UPDATE experiment SET animaltype=%(animaltype)s,
+            update_animaldata = ("""UPDATE experiments SET animaltype=%(animaltype)s,
                                                 birthweight=%(birthweight)s,birthweightadj=%(birthweightadj)s,
                                                 sireframescore=%(sireframescore)s,
                                                 bcsrecent=%(bcsrecent)s, bcsprevious=%(bcsprevious)s,

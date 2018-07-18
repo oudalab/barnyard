@@ -445,7 +445,7 @@ def reproduction_view_calf():
     return render_template("reproduction_view_calf.html")
 
 
-@app.route('/health/add',methods=['POST','GET'])
+@app.route('/health/add',methods=['POST','GET',])
 @login_required
 def healthadd():
     return render_template("health_add.html")

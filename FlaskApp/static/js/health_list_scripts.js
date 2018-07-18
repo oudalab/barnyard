@@ -42,12 +42,92 @@ function tablecall(data) {
 $('#Edit').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
   console.log(log);
-  alert("Selected Animal is : " + log[0].animalname);
-  $('#Health_Data').val(log[0].animalname);
+  $("#create_date").val(log[0].create_date);
+  $("#animalname").val(log[0].animalname);
+  $("#location").val(log[0].location);
+  $("#Amt_given").val(log[0].Amt_given);
+  $("#medical_notes").val(log[0].medical_notes);
+  $("#route").val(log[0].route);
+  $("#water_feed").val(log[0].water_feed);
+  $("#withdraw_time").val(log[0].withdraw_time);
+  $("#Record_ID").val(log[0].Record_ID);
+  $.ajax({
+		url : '/api/inventory/formulary/',
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			console.log(data);
+			$(data).each(function(j,elem){
+				if($('select#Medical_ID option[value="'+elem.Medicine_ID+'"]').length >0){
+					if(elem.drug == log[0].drug){
+						document.getElementById('Medical_ID').value =elem.Medicine_ID;
+					}
+				}
+				else{
+					$("<option value='"+elem.Medicine_ID+"'>"+ elem.drug +" </option>").appendTo("#Medical_ID");
+					if(elem.drug == log[0].drug){
+						document.getElementById('Medical_ID').value =elem.Medicine_ID;
+					}
+				}
+			});
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
   $("#HealthEditModal").modal("show");
 });
+// $('#HealthEditModal').on('shown.bs.modal', function () {
+    // $(this).find('.modal-dialog').css({height:'auto', 
+                              // 'max-height':'100%'});
+// });
 $('#Health_Edit_Modal_Yes').click(function() {
-	var animalname= $('#Animal_Data').val()
+	var animalname = $("#animalname").val();
+	var Animal_ID;
+	$.ajax({
+		url : '/api/health/add/'+animalname,
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			console.log(data);
+			Animal_ID = data[0].Animal_ID;
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
+	var data = {
+		Record_ID : $("#Record_ID").val(),
+		create_date : $("#create_date").val(),
+		Animal_id : Animal_ID,
+		Medicine_ID : $("#Medical_ID").val(),
+		location : $("#location").val(),
+		Amt_given : $("#Amt_given").val(),
+		medical_notes : $("#medical_notes").val(),
+		route : $("#route").val(),
+		water_feed : $("#water_feed").val(),
+		withdraw_time : $("#withdraw_time").val(),
+		email_ID : "test"
+	}
+	var dataJson = JSON.stringify(data);
+	console.log(dataJson);
+	$.ajax({
+		url: '/api/health/record/',
+		data: dataJson,
+		type: 'PATCH',
+		dataType: 'json',
+		success: function(response) {
+			console.log(response);
+			$.notify("Data Saved", "info");
+		},
+		error: function(response) {
+			console.log(response);
+			$.notify("Data Not saved", "error");					
+		}
+	});
+	console.log(data);
 	setTimeout(function() {location.reload();}, 2000); 
 });
 
