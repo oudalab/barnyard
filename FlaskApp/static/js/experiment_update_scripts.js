@@ -69,30 +69,34 @@ $('#Edit_Experiment_Yes').click(function() {
 
 $('#Delete').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
-  $("#nameDelete").val(log[0].name);
-  $("#ExperimentDeleteModal").modal("show");
-});
-$('#Delete_Yes').click(function() {
-	var pasturenumber= $('#pasturenumberDelete').val();
-	var date = $('#DateDelete').val();
-	$('#Delete_Pasture').empty();
+  console.log(log);
+  var result = alertbox("Please click 'OK' if you want to delete the following Herd\n'"+log[0].name +"' created on this date '"+ log[0].create_date +"'\nClick 'Cancel' if not");
+  if (r = 1){
+	  var data = {
+		  name : log[0].name,
+		  create_date : log[0].create_date
+	  }
+	  myJSON = JSON.stringify(data)
 	$.ajax({
-		url: '/api/inventory/pasturehistory/'+pasturenumber+'/'+date,
-		type : 'DELETE',
-		async: false,
-		success : function(data) {
-			alert("Event data Deleted");
-			setTimeout(location.reload(), 2000);
-			$.notify("Event Data Deleted.");
+		url: '/api/herd/create/',
+		type: 'DELETE',
+		data : myJSON,
+		dataType: 'json',
+		success: function(response) {
+			console.log(response);
+			$.notify("Data Saved", "info");
+			setTimeout(function() {location.reload();}, 2000); 
 		},
-		error: function(response){
-			$.notify("Not Deleted. Please contact IT");
+		error: function(response) {
+			console.log(response);
+			$.notify("Data Not saved", "error");					
 		}
-	});
-});
-
-$('#Delete_No').click(function() {
-	$('#Delete_Pasture').empty();
+	});  
+  }
+  else{
+	alert("Not deleted");
+  }
+  
 });
 
 $('#button_Done').click(function() {

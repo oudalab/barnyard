@@ -78,7 +78,9 @@ $('#edit').click(function() {
   console.log(log);
 });
 $('#Edit_Pasture_Modal_Yes').click(function() {
+	var log= $('#table').bootstrapTable('getSelections');
 	var json = {
+		Medicine_ID : log[0].Medicine_ID,
 		date : $("#date").val(),
 		drug : $("#drug").val(),
 		email_ID : "test",
@@ -112,16 +114,11 @@ $('#Edit_Pasture_Modal_Yes').click(function() {
 
 $('#Delete').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
-  $('#pasturenumberDelete').val(log[0].drug);
-  $('#DateDelete').val(log[0].date);
-  $("#FormularyDeleteModal").modal("show");
-});
-$('#Delete_Yes').click(function() {
-	var pasturenumber= $('#pasturenumberDelete').val();
-	var date = $('#DateDelete').val();
-	$('#Delete_Pasture').empty();
+  console.log(log);
+  var result = alertbox("Please click 'OK' if you want to delete the following Medicine\n'"+log[0].drug +"' entered on this date '"+ log[0].date +"'\nClick 'Cancel' if not");
+  if (r = 1){
 	$.ajax({
-		url: '/api/inventory/formulary/'+pasturenumber+'/'+date,
+		url: '/api/inventory/formulary/'+log[0].Medicine_ID,
 		type : 'DELETE',
 		async: false,
 		success : function(data) {
@@ -132,5 +129,9 @@ $('#Delete_Yes').click(function() {
 		error: function(response){
 			$.notify("Not Deleted. Please contact IT");
 		}
-	});
+	});  
+  }
+  else{
+	alert("Not deleted");
+  }
 });

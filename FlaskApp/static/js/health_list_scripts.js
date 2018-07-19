@@ -98,6 +98,9 @@ $('#Health_Edit_Modal_Yes').click(function() {
 			console.log(response);
 		}
 	});
+	var log= $('#table').bootstrapTable('getSelections');
+	console.log(log);
+	var amount = $("#Amt_given").val() - log[0].Amt_given;
 	var data = {
 		Record_ID : $("#Record_ID").val(),
 		create_date : $("#create_date").val(),
@@ -105,6 +108,7 @@ $('#Health_Edit_Modal_Yes').click(function() {
 		Medicine_ID : $("#Medical_ID").val(),
 		location : $("#location").val(),
 		Amt_given : $("#Amt_given").val(),
+		difference : amount,
 		medical_notes : $("#medical_notes").val(),
 		route : $("#route").val(),
 		water_feed : $("#water_feed").val(),
@@ -113,6 +117,7 @@ $('#Health_Edit_Modal_Yes').click(function() {
 	}
 	var dataJson = JSON.stringify(data);
 	console.log(dataJson);
+
 	$.ajax({
 		url: '/api/health/record/',
 		data: dataJson,
@@ -134,10 +139,30 @@ $('#Health_Edit_Modal_Yes').click(function() {
 $('#Delete').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
   console.log(log);
-  $('#Delete_Animal').append(log[0].animalname);
-  $("#HealthDeleteModal").modal("show");
+  var result = alertbox("Please click 'OK' if you want to delete the following animal\n'"+log[0].animalname +"' on this date '"+ log[0].create_date +"'\nClick 'Cancel' if not");
+  if (r = 1){
+	$.ajax({
+		url: '/api/health/record/'+log[0].Record_ID,
+		type: 'DELETE',
+		dataType: 'json',
+		success: function(response) {
+			console.log(response);
+			$.notify("Data Saved", "info");
+			setTimeout(function() {location.reload();}, 2000); 
+		},
+		error: function(response) {
+			console.log(response);
+			$.notify("Data Not saved", "error");					
+		}
+	});  
+  }
+  else{
+	alert("Not deleted");
+  }
+  
 });
 $('#Delete_Yes').click(function() {
+	var log= $('#table').bootstrapTable('getSelections');
 	var animalname= $('#Delete_Animal')[0].textContent;
 	var number = animalname.replace(/['"]+/g, '')
 	alert(number);

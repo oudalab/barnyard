@@ -103,23 +103,23 @@ api.add_resource(TableHerd, '/api/herd/create/', endpoint="21")
 api.add_resource(TableInventoryPasture, '/api/inventory/pasture/')
 api.add_resource(TableInventoryPasture, '/api/inventory/pasture/', endpoint="22")
 
-
 api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/<pasture_ID>/<event_date>')
 api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/', endpoint="23")
 
-api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/<drug>/<date>')
-api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/', endpoint="25")
-api.add_resource(TableHealthList, '/api/health/record/<Record_ID>')
-api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
-
-api.add_resource(TableHerdUniqueName, '/api/herd/name/<herdname>')
+api.add_resource(TableHerdUniqueName, '/api/herd/name/<name>')
 api.add_resource(TableHerdUniqueName, '/api/herd/name/', endpoint="24")
+
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/<Medicine_ID>')
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/', endpoint="25")
 
 api.add_resource(TableExperiment, '/api/experiment/herd/<Animal_ID>')
 api.add_resource(TableExperiment, '/api/experiment/herd', endpoint="26")
 
 api.add_resource(TableHealthAdd, '/api/health/add/<animalname>')
 api.add_resource(TableHealthAdd, '/api/health/add/', endpoint="27")
+
+api.add_resource(TableHealthList, '/api/health/record/<Record_ID>')
+api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
 # Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)

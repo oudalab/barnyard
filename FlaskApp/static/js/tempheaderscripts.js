@@ -8,6 +8,11 @@ function getQueryVariable(variable)
    }
    return false;
 };	
+
+function alertbox(txt) {
+	var r = confirm(txt);
+	return r;
+}
 	
 function StringToDate(string)
 {

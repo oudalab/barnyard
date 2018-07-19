@@ -12,8 +12,20 @@ $(document).ready(function(){
 			$("#herdname").val(data[0].name);
 			$("#herddescription").val(data[0].description);
 			$("#create_date").val(StringToDate(data[0].create_date));
-			$(data).each(function(j,elem){
-				$("<li><a onclick='callexperiment("+elem.AID+")'> "+elem.AID+" --> "+elem.animalname+"</a></li>").prependTo("#animallist");
+			var AIDs = JSON.parse(data[0].AID_string);
+			$(AIDs).each(function(j,elem){
+				$.ajax({
+					url : '/api/animal/add/'+elem,
+					type : 'GET',
+					dataType : 'json',
+					async: false,
+					success : function(results) {
+						$("<li><a onclick='callexperiment("+results[0].Animal_ID+")'> "+results[0].Animal_ID+" --> "+results[0].animalname+"</a></li>").prependTo("#animallist");
+					},
+					error: function(response){
+						console.log(response);
+					}
+				});
 			});
 			var value = JSON.parse(data[0].string);
 			$(value).each(function(i,elem){

@@ -1376,11 +1376,11 @@ class TableInventoryFormulary(Resource):
             print("formulary update++++")
             update_animaldata = ("""UPDATE formulary SET
                                                 date=%(date)s,vial_size=%(vial_size)s,
-                                                Lot_no=%(Lot_no)s,
+                                                drug=%(drug)s,Lot_no =%(Lot_no)s,
                                                 expirydate=%(expirydate)s, location=%(location)s,
                                                 purchasedate=%(purchasedate)s, roa =%(roa)s,
                                                 email_ID=%(email_ID)s,total_quantity=%(total_quantity)s
-                                                WHERE Lot_no =%(Lot_no)s and date=%(date)s""")
+                                                WHERE  Medicine_ID=%(Medicine_ID)s""")
             try:
                 cursor.execute(update_animaldata,data)
                 print("here after execute in update pasture ")
@@ -1393,7 +1393,7 @@ class TableInventoryFormulary(Resource):
                 cursor.close()
                 cnx.close()
 
-    def delete(self, drug,date):
+    def delete(self,Medicine_ID):
         # data = request.get_json(force=True)
         print("delete method++")
         try:
@@ -1409,9 +1409,9 @@ class TableInventoryFormulary(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("formulary delete++++")
-            update_animaldata = "DELETE FROM formulary WHERE drug= %s and date=%s"
+            update_animaldata = "DELETE FROM formulary WHERE Medicine_ID=%s"
             try:
-                cursor.execute(update_animaldata, (drug, date,))
+                cursor.execute(update_animaldata, (Medicine_ID,))
                 print("here after execute in delete formulary ")
                 cnx.commit()
                 return "Success", 201
@@ -1483,8 +1483,10 @@ class TableHealthList(Resource):
                                                 route=%(route)s, water_feed =%(water_feed)s,
                                                 email_ID=%(email_ID)s,withdraw_time=%(withdraw_time)s
                                                 WHERE Record_ID =%(Record_ID)s""")
+            update_formulary = ( """UPDATE formulary SET qty_in_stock=qty_in_stock-%(difference)s where Medicine_ID=%(Medicine_ID)s""")
             try:
                 cursor.execute(update_animaldata,data)
+                cursor.execute(update_formulary, data)
                 print("here after execute in update health ")
                 cnx.commit()
                 return "Success", 201
@@ -1552,6 +1554,33 @@ class TableHerdUniqueName(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             cursor.execute("select distinct name from herds")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+        return jsonify(rows)
+
+    def post(self,name):
+        print(name)
+        print >> sys.stderr, "Execution started in herd unique name"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("select * from herds where name=%s",(name,))
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -1958,8 +1987,10 @@ class TableHealthAdd(Resource):
             insert_animaldata = ("""INSERT INTO medical_record (Animal_id,create_date,medical_notes,location,Amt_given,route,water_feed,
                                     withdraw_time,email_id,Medicine_ID)  VALUES( %(Animal_id)s,%(create_date)s,%(medical_notes)s, 
                                     %(location)s, %(Amt_given)s,%(route)s,%(water_feed)s,%(withdraw_time)s,%(email_id)s,%(Medicine_ID)s )""")
+            update_formulary=("""UPDATE formulary SET qty_in_stock=qty_in_stock-%(Amt_given)s where Medicine_ID=%(Medicine_ID)s""")
             try:
                 cursor.execute(insert_animaldata, data)
+                cursor.execute(update_formulary, data)
                 print("here after execute in health add")
                 cnx.commit()
                 return "Success", 201
