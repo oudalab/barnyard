@@ -939,7 +939,7 @@ class table_test(Resource):
 
 
 class TableAnimalUpdate(Resource):
-    def get(self, animalname):
+    def get(self, Animal_ID):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
@@ -952,7 +952,7 @@ class TableAnimalUpdate(Resource):
                 print(err)
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("""SELECT * FROM animal_table WHERE animalname = %s""", (animalname,))
+            cursor.execute("""SELECT * FROM animal_table WHERE Animal_ID = %s""", (Animal_ID,))
             rows = cursor.fetchall()
             print("Fetch Completed")
             print(rows)
@@ -960,7 +960,7 @@ class TableAnimalUpdate(Resource):
             cnx.close()
             return jsonify(rows)
 
-    def patch(self,animalname):
+    def patch(self,Animal_ID):
 
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -985,7 +985,7 @@ class TableAnimalUpdate(Resource):
                                                 alternativeid=%(alternativeid)s,registration=%(registration)s,color=%(color)s,hornstatus=%(hornstatus)s,dam=%(dam)s,sire=%(sire)s,DOB=%(DOB)s,howacquired=%(howacquired)s,dateacquired=%(dateacquired)s,
                                                 howdisposed=%(howdisposed)s,datedisposed=%(datedisposed)s ,disposalreason=%(disposalreason)s ,herdnumberlocation=%(herdnumberlocation)s ,herdstatus=%(herdstatus)s ,
                                                 howconceived=%(howconceived)s, managementcode=%(managementcode)s ,ownerID=%(ownerID)s ,springfall=%(springfall)s ,includeinlookups=%(includeinlookups)s
-                                                WHERE animalname=%(animalname)s""")
+                                                WHERE Animal_ID=%(Animal_ID)s""")
             try:
                 cursor.execute(update_animaldata,data)
                 print("here after execute in update animal ")
@@ -998,7 +998,7 @@ class TableAnimalUpdate(Resource):
                 cursor.close()
                 cnx.close()
 
-    def delete(self,animalname):
+    def delete(self,Animal_ID):
         #data = request.get_json(force=True)
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -1013,9 +1013,9 @@ class TableAnimalUpdate(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("animal delete++++")
-            update_animaldata = "DELETE FROM animal_table WHERE animalname = %s"
+            update_animaldata = "DELETE FROM animal_table WHERE Animal_ID = %s"
             try:
-                cursor.execute(update_animaldata,(animalname,))
+                cursor.execute(update_animaldata,(Animal_ID,))
                 print("here after execute in delete animal ")
                 cnx.commit()
                 return "Success", 201
@@ -1036,7 +1036,7 @@ class TableAnimalUpdate(Resource):
 
 
 class TableAnimalAdd(Resource):
-    def get(self, animalname):
+    def get(self, Animal_ID):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
@@ -1049,7 +1049,7 @@ class TableAnimalAdd(Resource):
                 print(err)
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("""SELECT animalname,Animal_ID FROM animal_table WHERE Animal_ID = %s""", (animalname,))
+            cursor.execute("""SELECT animalname,Animal_ID FROM animal_table WHERE Animal_ID = %s""", (Animal_ID,))
             rows = cursor.fetchall()
             print("Fetch Completed")
             print(rows)
@@ -1446,7 +1446,7 @@ class TableHealthList(Resource):
                 print(err)
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("SELECT Record_ID,Animal_id,create_date,email_id,medical_notes,location,Amt_given,route,water_feed,"
+            cursor.execute("SELECT result,Record_ID,Animal_id,create_date,email_id,medical_notes,location,Amt_given,route,water_feed,"
                            "withdraw_time,(select drug from formulary where medical_record.Medicine_ID=formulary.Medicine_ID)drug "
                            "from medical_record;")
             rows = cursor.fetchall()
@@ -1478,7 +1478,7 @@ class TableHealthList(Resource):
             print("health update++++")
             update_animaldata = ("""UPDATE medical_record SET Animal_id=%(Animal_id)s,
                                                 create_date=%(create_date)s,Medicine_ID=%(Medicine_ID)s,
-                                                medical_notes=%(medical_notes)s,
+                                                medical_notes=%(medical_notes)s,result=%(result)s,
                                                 location=%(location)s, Amt_given=%(Amt_given)s,
                                                 route=%(route)s, water_feed =%(water_feed)s,
                                                 email_ID=%(email_ID)s,withdraw_time=%(withdraw_time)s
@@ -1816,7 +1816,7 @@ class TableExperiment(Resource):
         data=request.get_json(force=True)
         print(data)
         for k, v in data.iteritems():
-            print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+           print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
 
@@ -1834,14 +1834,12 @@ class TableExperiment(Resource):
                                     damwtatwean,weanheight,weanweight,weandate,weangpd,weanwda,weanweightdate,adj205w,adj205h,weanframescore,ageatwean,
                                     yearlingweight,yearlingheight,yearlingdate,adjyearlingw,adjyearlingh,yearlingframescore,ageatyearling,customweight,
                                     customweightdate,customheight,customheightdate,currentwtcow,adj365dht,currentwtheifer,backfat,treatment,blockpen,
-                                    replicate,email_id,AnimalID,expt_date) 
-                                    VALUES( %(animaltype)s,%(birthweight)s,%(birthweightadj)s, 
-                                    %(sireframescore)s, %(bcsrecent)s,%(bcsprevious)s,
-                                    %(bcsdifference)s,%(email_id)s,%(damwtatwean)s, 
-                                    %(weanheight)s,%(weanweight)s ,%(weandate)s,%(weangpd)s,%(weanwda)s,%(weanweightdate)s,%(adj205w)s,%(adj205h)s,%(weanframescore)s,%(ageatwean)s,
-                                    %(yearlingweight)s,%(yearlingheight)s,%(yearlingdate)s,%(adjyearlingw)s,%(adjyearlingh)s,%(yearlingframescore)s,,%(ageatyearling)s,%(customweight)s,
-                                    %(customweightdate)s,%(customheight)s,%(customheightdate)s,%(currentwtcow)s,%(adj365dht)s,,%(currentwtheifer)s,%(backfat)s,
-                                    %(treatment)s,%(blockpen)s,%(replicate)s,%(AnimalID)s,%(expt_date)s""")
+                                    replicate,email_id,Animal_ID,expt_date) 
+                                    VALUES( %(animaltype)s,%(birthweight)s,%(birthweightadj)s, %(sireframescore)s, %(bcsrecent)s,%(bcsprevious)s,%(bcsdifference)s,
+                                    %(damwtatwean)s, %(weanheight)s,%(weanweight)s ,%(weandate)s,%(weangpd)s,%(weanwda)s,%(weanweightdate)s,%(adj205w)s,%(adj205h)s,%(weanframescore)s,%(ageatwean)s,
+                                    %(yearlingweight)s,%(yearlingheight)s,%(yearlingdate)s,%(adjyearlingw)s,%(adjyearlingh)s,%(yearlingframescore)s,%(ageatyearling)s,%(customweight)s,
+                                    %(customweightdate)s,%(customheight)s,%(customheightdate)s,%(currentwtcow)s,%(adj365dht)s,%(currentwtheifer)s,%(backfat)s,
+                                    %(treatment)s,%(blockpen)s,%(replicate)s,%(email_id)s,%(Animal_ID)s,%(expt_date)s)""")
             try:
                 cursor.execute(insert_animaldata, data)
                 print("here after insert execute in experiment")
@@ -1851,13 +1849,13 @@ class TableExperiment(Resource):
                 raise errors.OperationalError("MySQL Connection not available.")
             except mysql.connector.IntegrityError as err:
                 print("Error: {}".format(err))
-                return None
+                return err
             except TypeError, e:
                 print(e)
-                return None
+                return e
             except ValueError, e:
                 print(e)
-                return None
+                return e
             finally:
                 cursor.close()
                 cnx.close()
@@ -1984,14 +1982,166 @@ class TableHealthAdd(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("here in health add class from the API call")
-            insert_animaldata = ("""INSERT INTO medical_record (Animal_id,create_date,medical_notes,location,Amt_given,route,water_feed,
-                                    withdraw_time,email_id,Medicine_ID)  VALUES( %(Animal_id)s,%(create_date)s,%(medical_notes)s, 
+            insert_animaldata = ("""INSERT INTO medical_record (result,Animal_id,create_date,medical_notes,location,Amt_given,route,water_feed,
+                                    withdraw_time,email_id,Medicine_ID)  VALUES( %(result)s,%(Animal_id)s,%(create_date)s,%(medical_notes)s, 
                                     %(location)s, %(Amt_given)s,%(route)s,%(water_feed)s,%(withdraw_time)s,%(email_id)s,%(Medicine_ID)s )""")
             update_formulary=("""UPDATE formulary SET qty_in_stock=qty_in_stock-%(Amt_given)s where Medicine_ID=%(Medicine_ID)s""")
             try:
                 cursor.execute(insert_animaldata, data)
                 cursor.execute(update_formulary, data)
                 print("here after execute in health add")
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+
+class TableReproduction(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started in Repro"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("SELECT * from reproduction")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+        return jsonify(rows)
+
+    def post(self):
+        data=request.get_json(force=True)
+        print(data)
+        for k, v in data.iteritems():
+            print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            print("here in repro class from the API call")
+            insert_animaldata = ("""INSERT INTO reproduction (Animal_id , breeding, pregnancy, calfdob,damageatbirth,
+                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
+                                    calfsex, email_ID, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding
+                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding
+                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
+                                    fertility,mobility,conc,deadabnormal,date) 
+                                    VALUES( %(fertilizer_name)s,%(event_date)s,%(qualityofburn)s, 
+                                    %(fertilizer_applicationrate)s, %(chemicalname)s,%(applicationrate)s,
+                                    %(pesticide_method)s, %(pasture_ID)s,%(email_id)s,%(pasturenumber)s, 
+                                    %(comments)s,%(fertilizer_method)s )""")
+            try:
+                cursor.execute(insert_animaldata, data)
+                print("here after execute in repro")
+                cnx.commit()
+                return "Success", 201
+            except AttributeError:
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+
+    def patch(self):
+        print("in repro patch")
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            data = request.get_json(force=True)
+            print(data)
+            for k, v in data.iteritems():
+                print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+            cursor = cnx.cursor(dictionary=True)
+            print("repro update++++")
+            update_animaldata = ("""UPDATE pasture_history SET fertilizer_name=%(fertilizer_name)s,
+                                                event_date=%(event_date)s,qualityofburn=%(qualityofburn)s,
+                                                fertilizer_applicationrate=%(fertilizer_applicationrate)s,
+                                                chemicalname=%(chemicalname)s, applicationrate=%(applicationrate)s,
+                                                fertilizer_method=%(fertilizer_method)s, pasture_ID =%(pasture_ID)s,
+                                                email_ID=%(email_ID)s,pasturenumber=%(pasturenumber)s,
+                                                comments=%(comments)s,pesticide_method=%(pesticide_method)s
+                                                WHERE pasturenumber =%(pasturenumber)s and event_date=%(event_date)s""")
+            try:
+                cursor.execute(update_animaldata,data)
+                print("here after execute in update repro ")
+                cnx.commit()
+                return "Success", 201
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()
+
+    def delete(self, pasture_ID,event_date):
+        # data = request.get_json(force=True)
+        print("delete method++")
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            print("repro delete++++")
+            update_animaldata = "DELETE FROM pasture_history WHERE pasturenumber = %s and event_date=%s"
+            try:
+                cursor.execute(update_animaldata, (pasture_ID, event_date,))
+                print("here after execute in delete repro ")
                 cnx.commit()
                 return "Success", 201
             except AttributeError:

@@ -91,10 +91,10 @@ api.add_resource(table_test, '/api/test/')
 # APIs for the new UI Design
 
 
-api.add_resource(TableAnimalUpdate, '/api/animal/update/<animalname>')
+api.add_resource(TableAnimalUpdate, '/api/animal/update/<Animal_ID>')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/', endpoint="20")
 
-api.add_resource(TableAnimalAdd, '/api/animal/add/<animalname>')
+api.add_resource(TableAnimalAdd, '/api/animal/add/<Animal_ID>')
 api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 
 api.add_resource(TableHerd, '/api/herd/create/')
@@ -113,7 +113,7 @@ api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/<Medicine_ID
 api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/', endpoint="25")
 
 api.add_resource(TableExperiment, '/api/experiment/herd/<Animal_ID>')
-api.add_resource(TableExperiment, '/api/experiment/herd', endpoint="26")
+api.add_resource(TableExperiment, '/api/experiment/herd/', endpoint="26")
 
 api.add_resource(TableHealthAdd, '/api/health/add/<animalname>')
 api.add_resource(TableHealthAdd, '/api/health/add/', endpoint="27")

@@ -43,6 +43,7 @@ $('#Add_Button').click(function() {
 		Amt_given : $("#Amt_given").val(),
 		route : $("#route").val(),
 		water_feed : $("#water_feed").val(),
+		result : $("#result").val(),
 		withdraw_time : $("#withdraw_time").val()
 	}
 	var dataJson = JSON.stringify(data);

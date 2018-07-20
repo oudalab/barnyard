@@ -21,14 +21,15 @@
 					<th data-field="state" data-checkbox="true" id="selectall"></th>
 						<th data-field="Record_ID">Database_ID</th>
 						<th data-sortable="true" data-field="create_date">Date</th>
-						<th data-field="animalname">animal Name</th>
+						<th data-field="animalname" data-filter-control="input">animal Name</th>
+						<th data-field="medical_notes" class="w500">Medical Notes</th>
 						<th data-field="drug">Medicine Name</th>
-						<th data-field="medical_notes">Medical Notes</th>
 						<th data-field="location">location</th>
 						<th data-field="Amt_given">Amount Given</th>
 						<th data-field="route">Route</th>
-						<th data-field="water_feed">Water/Feed</th>
 						<th data-field="withdraw_time">Withdraw Time</th>
+						<th data-field="water_feed">Water/Feed</th>
+						<th data-field="result">Laboratory Results</th>
 						<th data-field="email_id">Email ID</th>
 				</tr>
 			</thead>
@@ -78,6 +79,12 @@
 				<div class="form-group">
 					<div class="col-xs-12">
 						<textarea class="form-control" rows="6" id="medical_notes" placeholder="Medical Notes" required></textarea>
+					</div>
+				</div>
+				<hr width="50%" size="3" align="center">
+				<div class="form-group">
+					<div class="col-xs-12">
+						<textarea class="form-control" rows="6" id="result" placeholder="Laboratory Result"></textarea>
 					</div>
 				</div>
 				<br>

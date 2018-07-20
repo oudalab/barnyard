@@ -43,7 +43,7 @@ $(document).ready(function(){
 					}
 					else if(each[0] == "date"){
 						var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+each[1]+"</label>";
-						toappend += "<div class='input-group col-xs-2'><input class='date' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
+						toappend += "<div class='input-group col-xs-2'><input class='date form-control' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
 						toappend += "<script>$('#"+ each[1] +"').flatpickr({});</script>";
 						$(toappend).appendTo("#newfields");
 					}
@@ -64,7 +64,7 @@ $(document).ready(function(){
 					}
 					else if(each[0] == "date"){
 						var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+each[1]+"</label>";
-						toappend += "<div class='input-group col-xs-2'><input class='date' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
+						toappend += "<div class='input-group col-xs-2'><input class='date form-control' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
 						toappend += "<script>$('#"+ each[1] +"').flatpickr({});</script>";
 						$(toappend).appendTo("#newfields");
 					}
@@ -83,7 +83,7 @@ $(document).ready(function(){
 					}
 					else if(each[0] == "date"){
 						var toappend = "<label for='date' class='control-label col-xs-2' style='align-right'>"+each[1]+"</label>";
-						toappend += "<div class='input-group col-xs-2'><input class='date' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
+						toappend += "<div class='input-group col-xs-2'><input class='date form-control' id="+each[1]+" name="+each[1]+" placeholder='YYYY-MM-DD' type='text'/></div>";
 						toappend += "<script>$('#"+ each[1] +"').flatpickr({});</script>";
 						$(toappend).appendTo("#newfields");
 					}
@@ -154,4 +154,47 @@ function callexperiment(variable){
 		}
 	});
 };
+
+$("#experiment_update").click(function(){
+	var Animal_ID = $('#Animal_ID').val();
+	$.ajax({
+		url : '/api/experiment/herd/'+Animal_ID,
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			console.log(data);
+			$("#newfields input").each(function(i,elem){
+				if(elem.value == ""){
+					data[0][elem.id] = null;
+				}
+				else{
+					data[0][elem.id] = elem.value;
+				}
+			});
+			var sendingdata = data[0]
+			sendingdata.expt_date = $("#create_date").val();
+			var myJSON = JSON.stringify(sendingdata);
+			$.ajax({
+				url : '/api/experiment/herd/',
+				type : 'POST',
+				data : myJSON,
+				dataType : 'json',
+				async: false,
+				success : function(response) {
+					console.log(response);
+					$.notify("Data Updated");
+				},
+				error : function(response){
+					console.log(response)
+					$.notify("Error", "danger");
+				}
+			});
+		},
+		error : function(response){
+			console.log(response)
+		}
+	});
+	
+});
 

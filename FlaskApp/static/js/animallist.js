@@ -41,29 +41,24 @@ $(function () {
 $('#Edit').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
   console.log(log);
-  alert("Selected Animal is : " + log[0].animalname);
-  $('#Animal_Data').val(log[0].animalname);
-  $("#AnimalEditModal").modal("show");
-});
-$('#Animal_Add_Modal_Yes').click(function() {
-	var animalname= $('#Animal_Data').val()
+  var result = alertbox("Please click 'OK' if you want to EDIT the following animal\n'"+log[0].Animal_ID +"' named as '"+ log[0].animalname +"'\nClick 'Cancel' if not");
+  if (r = 1){
 	setTimeout(function() {
-		window.location.href = '/animal/update?animalname=' + animalname
+		window.location.href = '/animal/update?Animal_ID=' + log[0].Animal_ID
 	}, 2000); 
+  }
+  else{
+	alert("Not Edited");
+  }
 });
 
 $('#Delete').click(function() {
   var log= $('#table').bootstrapTable('getSelections');
   console.log(log);
-  $('#Delete_Animal').append(log[0].animalname);
-  $("#AnimalDeleteModal").modal("show");
-});
-$('#Delete_Yes').click(function() {
-	var animalname= $('#Delete_Animal')[0].textContent;
-	var number = animalname.replace(/['"]+/g, '')
-	alert(number);
+  var result = alertbox("Please click 'OK' if you want to Delete the following animal\n'"+log[0].Animal_ID +"' named as '"+ log[0].animalname +"'\nClick 'Cancel' if not");
+  if (r = 1){
 	$.ajax({
-		url: '/api/animal/update/'+animalname,
+		url: '/api/animal/update/'+log[0].Animal_ID,
 		type : 'DELETE',
 		async: false,
 		success : function(data) {
@@ -74,6 +69,13 @@ $('#Delete_Yes').click(function() {
 			$.notify("Not Deleted. Please contact IT")
 		}
 	});
+	setTimeout(function() {
+		location.reload();
+	}, 2000); 
+  }
+  else{
+	alert("Not Deleted");
+  }
 });
 
 

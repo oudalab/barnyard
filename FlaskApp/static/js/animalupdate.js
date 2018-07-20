@@ -21,9 +21,9 @@ $(document).ready(function(){
 			console.log(response);
 		}
 	});
-	var animalname = getQueryVariable("animalname")
+	var Animal_ID = getQueryVariable("Animal_ID")
 	$.ajax({
-			url: '/api/animal/update/'+animalname,
+			url: '/api/animal/update/'+Animal_ID,
 			data: $('form').serialize(),
 			type: 'GET',
 			success: function(response) {
@@ -79,8 +79,9 @@ $(document).ready(function(){
 	});
 	$(function () {
 	$('#animal_update').click(function(e) {
-		var animalnumber = $('#animalname').val()
+		var Animal_ID = $('#Animal_ID').val();
 		var basic = {
+			Animal_ID : Animal_ID,
 			animalname : $('#animalname').val(),
 			email_id : "test",
 			height: $('#height').val(),
@@ -110,11 +111,11 @@ $(document).ready(function(){
 			hornstatus : $('#hornstatus').val(),
 			dam : $('#dam').text(),
 			sire : $('#sire').val(),
-			DOB : $('#DOB').val(),
+			// DOB : $('#DOB').val(),
 			howacquired : $('#howacquired').val(),
-			dateacquired : $('#dateacquired').val(),
+			// dateacquired : $('#dateacquired').val(),
 			howdisposed : $('#howdisposed').val(),
-			datedisposed : $('#datedisposed').val(),
+			// datedisposed : $('#datedisposed').val(),
 			disposalreason : $('#disposalreason').val(),
 			herdnumberlocation : $('#herdnumberlocation').val(),
 			herdstatus : $('#herdstatus').text(),
@@ -124,9 +125,17 @@ $(document).ready(function(){
 			springfall : $('#springfall').val(),
 			includeinlookups : $('#includeinlookups').val()
 			}
+			$(".date").each(function(i,elem){
+				if(elem.value == ""){
+					basic[elem.id] = null;
+				}
+				else{
+					basic[elem.id] = elem.value;
+				}
+			});
 			var myJSON = JSON.stringify(basic);
 			$.ajax({
-				url: '/api/animal/update/'+animalnumber,
+				url: '/api/animal/update/'+Animal_ID,
 				data: myJSON,
 				datatype: 'json',
 				type: 'PATCH',

@@ -110,6 +110,7 @@ $('#Health_Edit_Modal_Yes').click(function() {
 		Amt_given : $("#Amt_given").val(),
 		difference : amount,
 		medical_notes : $("#medical_notes").val(),
+		result : $("#result").val(),
 		route : $("#route").val(),
 		water_feed : $("#water_feed").val(),
 		withdraw_time : $("#withdraw_time").val(),
@@ -159,7 +160,6 @@ $('#Delete').click(function() {
   else{
 	alert("Not deleted");
   }
-  
 });
 $('#Delete_Yes').click(function() {
 	var log= $('#table').bootstrapTable('getSelections');
