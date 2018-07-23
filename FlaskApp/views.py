@@ -1134,6 +1134,7 @@ class TableInventoryPastureHistory(Resource):
                                     fertilizer_applicationrate, chemicalname, applicationrate, pesticide_method, 
                                     email_ID, pasturenumber, comments, fertilizer_method from pasture_history """)
             rows = cursor.fetchall()
+            print rows
             print("Fetch Completed")
             cursor.close()
 
@@ -1804,7 +1805,7 @@ class TableExperiment(Resource):
                                     e.damwtatwean,e.weanheight,e.weanweight,e.weandate,e.weangpd,e.weanwda,e.weanweightdate,e.adj205w,e.adj205h,e.weanframescore,e.ageatwean,
                                     e.yearlingweight,e.yearlingheight,e.yearlingdate,e.adjyearlingw,e.adjyearlingh,e.yearlingframescore,e.ageatyearling,e.customweight,
                                     e.customweightdate,e.customheight,e.customheightdate,e.currentwtcow,e.adj365dht,e.currentwtheifer,e.backfat,e.treatment,e.blockpen,
-                                    e.replicate,e.email_id,e.Animal_ID,e.expt_date,e.expt_name from animal_table a,experiments e where a.Animal_ID=e.Animal_ID and e.Animal_ID=%s""",(Animal_ID,))
+                                    e.replicate,e.email_id,e.Animal_ID,e.expt_date,e.expt_name from animal_table a,experiments e where a.Animal_ID=e.Animal_ID and e.Animal_ID=%s order by expt_date desc""",(Animal_ID,))
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -2025,7 +2026,13 @@ class TableReproduction(Resource):
                 return err
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("SELECT * from reproduction")
+            cursor.execute("""SELECT a.animalname,ID, breeding, pregnancy, calfdob,damageatbirth,
+                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
+                                    calfsex, r.email_id, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
+                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding,
+                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
+                                    fertility,mobility,conc,deadabnormal,date from reproduction r,animal_table a where a.Animal_ID=r.Animal_id""")
             rows = cursor.fetchall()
             print("Fetch Completed")
             cursor.close()
@@ -2052,19 +2059,33 @@ class TableReproduction(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("here in repro class from the API call")
-            insert_animaldata = ("""INSERT INTO reproduction (Animal_id , breeding, pregnancy, calfdob,damageatbirth,
-                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
-                                    calfsex, email_ID, pasturenumber, damcalvingdisposition, calvingease,udderscore,
-                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding
-                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding
-                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
-                                    fertility,mobility,conc,deadabnormal,date) 
-                                    VALUES( %(fertilizer_name)s,%(event_date)s,%(qualityofburn)s, 
-                                    %(fertilizer_applicationrate)s, %(chemicalname)s,%(applicationrate)s,
-                                    %(pesticide_method)s, %(pasture_ID)s,%(email_id)s,%(pasturenumber)s, 
-                                    %(comments)s,%(fertilizer_method)s )""")
+            insert_animaldata= """INSERT INTO animal_table (animalname,DOB) VALUES (%(animalname)s,%(calfdob)s) """
+            select_animal="""select Animal_ID,animalname,DOB from animal_table where animalname=%(animalname)s"""
+
+
             try:
                 cursor.execute(insert_animaldata, data)
+                cnx.commit()
+                cursor.execute(select_animal, data)
+                rows = cursor.fetchall()
+                for k, v in rows.iteritems():
+                    if k=="Animal_id":
+                        print("inside if")
+                        res=v
+                insert_reproductiondata = ("""INSERT INTO reproduction (Animal_id , breeding, pregnancy, calfdob,damageatbirth,
+                                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
+                                                    calfsex, email_ID, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
+                                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding,
+                                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
+                                                    fertility,mobility,conc,deadabnormal,date) 
+                                                    VALUES( %s,%(breeding)s,%(pregnancy)s, %(calfdob)s,%(damageatbirth)s,%(siblingcode)s,
+                                                    %(calfatside)s, %(totalcalves)s,%(previouscalf)s,%(currentcalf)s,%(calfbirthweight)s,%(calfsex)s,%(damcalvingdisposition)s,
+                                                    %(calvingease)s, %(udderscore)s,%(email_id)s,%(pasturenumber)s,%(conditionscorecalving)s,%(hiphtweaning)s,%(hiphtbreeding)s, 
+                                                    %(damdisposition)s,%(cowframescore)s,%(cowwtbreeding)s,%(cowhtbreeding)s,%(cowwtweaning)s,%(cowhtweaning)s,%(cowwtcalving)s,
+                                                    %(cowhtcalving)s,%(bcsweaning)s,%(bcscalving)s,%(bcsbreeding)s,%(customcowwt)s,%(customcowht)s,%(bulldisposition)s,%(bullframescore)s,
+                                                    %(bullwtprebreeding)s,%(bullhtprebreeding)s,%(fertility)s,%(mobility)s,%(conc)s,%(deadabnormal)s,%(date)s)""")
+                cursor.execute(insert_reproductiondata,res, data)
                 print("here after execute in repro")
                 cnx.commit()
                 return "Success", 201
@@ -2102,14 +2123,17 @@ class TableReproduction(Resource):
                 print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
             cursor = cnx.cursor(dictionary=True)
             print("repro update++++")
-            update_animaldata = ("""UPDATE pasture_history SET fertilizer_name=%(fertilizer_name)s,
-                                                event_date=%(event_date)s,qualityofburn=%(qualityofburn)s,
-                                                fertilizer_applicationrate=%(fertilizer_applicationrate)s,
-                                                chemicalname=%(chemicalname)s, applicationrate=%(applicationrate)s,
-                                                fertilizer_method=%(fertilizer_method)s, pasture_ID =%(pasture_ID)s,
-                                                email_ID=%(email_ID)s,pasturenumber=%(pasturenumber)s,
-                                                comments=%(comments)s,pesticide_method=%(pesticide_method)s
-                                                WHERE pasturenumber =%(pasturenumber)s and event_date=%(event_date)s""")
+            update_animaldata = ("""UPDATE reproduction SET Animal_id=%(Animal_id)s,pregnancy=%(pregnancy)s,calfdob=%(calfdob)s,conc=%(conc)s,
+                                                damageatbirth=%(damageatbirth)s,siblingcode=%(siblingcode)s,%(calfatside)s,%(totalcalves)s,
+                                                previouscalf=%(previouscalf)s,currentcalf=%(currentcalf)s,calfbirthweight=%(calfbirthweight)s,
+                                                calfsex=%(calfsex)s, damcalvingdisposition=%(damcalvingdisposition)s,calvingease=%(calvingease)s
+                                                udderscore=%(udderscore)s, conditionscorecalving =%(conditionscorecalving)s,hiphtweaning=%(hiphtweaning)s,
+                                                email_ID=%(email_ID)s,pasturenumber=%(pasturenumber)s,hiphtbreeding=%(hiphtbreeding)s,damdisposition=%(damdisposition)s,
+                                                cowframescore=%(cowframescore)s,cowwtbreeding=%(cowwtbreeding)s,cowhtbreeding=%(cowhtbreeding)s,cowwtweaning=%(cowwtweaning)s,cowhtweaning=%(cowhtweaning)s,
+                                                cowwtcalving=%(cowwtcalving)s,cowhtcalving=%(cowhtcalving)s,bcsweaning=%(bcsweaning)s,bcscalving=%(bcscalving)s,bcsbreeding=%(bcsbreeding)s,
+                                                customcowwt=%(customcowwt)s,customcowht=%(customcowht)s,bulldisposition=%(bulldisposition)s,bullframescore=%(bullframescore)s,bullwtprebreeding=%(bullwtprebreeding)s,
+                                                bullhtprebreeding=%(bullhtprebreeding)s,fertility=%(fertility)s,mobility=%(mobility)s,deadabnormal=%(deadabnormal)s,date=%(date)s
+                                                WHERE ID =%(ID)s """)
             try:
                 cursor.execute(update_animaldata,data)
                 print("here after execute in update repro ")
@@ -2122,7 +2146,7 @@ class TableReproduction(Resource):
                 cursor.close()
                 cnx.close()
 
-    def delete(self, pasture_ID,event_date):
+    def delete(self,ID):
         # data = request.get_json(force=True)
         print("delete method++")
         try:
@@ -2138,9 +2162,9 @@ class TableReproduction(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("repro delete++++")
-            update_animaldata = "DELETE FROM pasture_history WHERE pasturenumber = %s and event_date=%s"
+            update_animaldata = "DELETE FROM reproduction WHERE ID = %s "
             try:
-                cursor.execute(update_animaldata, (pasture_ID, event_date,))
+                cursor.execute(update_animaldata, (ID,))
                 print("here after execute in delete repro ")
                 cnx.commit()
                 return "Success", 201

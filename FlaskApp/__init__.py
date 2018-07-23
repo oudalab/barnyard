@@ -10,8 +10,8 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
-    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,TableHerdUniqueName,\
-    TableExperiment,TableHealthAdd
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,\
+    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction
 
 from secrets import whole_string, short_string
 import config
@@ -120,6 +120,10 @@ api.add_resource(TableHealthAdd, '/api/health/add/', endpoint="27")
 
 api.add_resource(TableHealthList, '/api/health/record/<Record_ID>')
 api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
+
+api.add_resource(TableReproduction, '/api/reproduction/record/')
+api.add_resource(TableReproduction, '/api/reproduction/record/', endpoint="29")
+
 # Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -437,6 +441,12 @@ def inspection_view():
 @login_required
 def reproduction_add_calf():
     return render_template("reproduction_add_calf.html")
+
+
+@app.route('/reproduction/listview')
+@login_required
+def reproduction_view_list():
+    return render_template("reproduction_view_list.html")
 
 
 @app.route('/reproduction/calfview')

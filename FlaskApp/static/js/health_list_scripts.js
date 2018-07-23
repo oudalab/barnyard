@@ -1,33 +1,33 @@
 $(document).ready(function () {
-		$.ajax({
-            url : '/api/health/record/',
-            type : 'GET',
-            dataType : 'json',
-			async: false,
-            success : function(data) {
-				console.log(data);
-				$(data).each(function(i,elem){
-					elem.create_date = StringToDate(elem.create_date);
-					$.ajax({
-						url: '/api/animal/add/'+elem.Animal_id,
-						data: $('form').serialize(),
-						type: 'GET',
-						async: false,
-						success : function(response) {
-							elem.animalname = response[0].animalname;
-							
-						},
-						error: function(response){
-							console.log(response);
-						}
-					});	
-				});
-                tablecall(data);
-            },
-			error: function(response){
-				console.log(response);
-			}
-        });
+	$.ajax({
+		url : '/api/health/record/',
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			console.log(data);
+			$(data).each(function(i,elem){
+				elem.create_date = StringToDate(elem.create_date);
+				$.ajax({
+					url: '/api/animal/add/'+elem.Animal_id,
+					data: $('form').serialize(),
+					type: 'GET',
+					async: false,
+					success : function(response) {
+						elem.animalname = response[0].animalname;
+						
+					},
+					error: function(response){
+						console.log(response);
+					}
+				});	
+			});
+			tablecall(data);
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
 });
 
 function tablecall(data) {
