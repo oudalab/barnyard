@@ -11,7 +11,7 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
     TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,\
-    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction
+    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction,Expt
 
 from secrets import whole_string, short_string
 import config
@@ -123,6 +123,9 @@ api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
 
 api.add_resource(TableReproduction, '/api/reproduction/record/')
 api.add_resource(TableReproduction, '/api/reproduction/record/', endpoint="29")
+
+api.add_resource(Expt, '/api/experiment/list/')
+api.add_resource(Expt, '/api/experiment/list/', endpoint="30")
 
 # Login Manager
 login_manager = LoginManager()
@@ -360,7 +363,7 @@ def tempsearchpage():
     return render_template("tempsearchpage.html")
 
 
-@app.route('/animal/add', methods=['GET','POST'])
+@app.route('/animal/add', methods=['GET','POST','PATCH'])
 @login_required
 def animaladd():
         return render_template("animaladd.html")
@@ -383,6 +386,13 @@ def animalupdate():
 def experimentadd():
     return render_template("experimentadd.html")
 
+
+@app.route('/experiment/list', methods=['GET','PATCH','DELETE'])
+@login_required
+def experiment_list():
+    return render_template("experiment_list.html")
+
+
 @app.route('/experiment/edit', methods=['GET', 'POST','PATCH','DELETE'])
 @login_required
 def experiment_edit():
@@ -392,7 +402,7 @@ def experiment_edit():
 @app.route('/experiment/update', methods=['GET', 'POST', 'PATCH'])
 @login_required
 def experimentupdate():
-    return render_template("experimentupdate.html")
+    return render_template("experiment_update.html")
 
 
 @app.route('/report/create')

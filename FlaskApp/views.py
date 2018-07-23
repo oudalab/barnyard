@@ -894,6 +894,7 @@ class table_test(Resource):
 
         return jsonify(rows)
 
+
     def update(self):
         try:
             cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
@@ -1109,6 +1110,41 @@ class TableAnimalAdd(Resource):
             finally:
                 cursor.close()
                 cnx.close()
+
+    def patch(self,Animal_ID):
+
+        print >> sys.stderr, "Execution started in Repro"
+        print Animal_ID
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            animal_data=("""SELECT a.animalname,ID,r.Animal_id, breeding, pregnancy, calfdob,damageatbirth,
+                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
+                                    calfsex, r.email_id, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
+                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding,
+                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
+                                    fertility,mobility,conc,deadabnormal,date from reproduction r,animal_table a where a.Animal_ID=r.Animal_id and r.Animal_id=%s""")
+            cursor.execute(animal_data,(Animal_ID,))
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+        return jsonify(rows)
 
 
 class TableInventoryPastureHistory(Resource):
@@ -2008,6 +2044,38 @@ class TableHealthAdd(Resource):
                 cursor.close()
                 cnx.close()
 
+    def patch(self,Animal_id):
+        print >> sys.stderr, "Execution started in Repro"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            cursor.execute("""SELECT a.animalname,ID,r.Animal_id, breeding, pregnancy, calfdob,damageatbirth,
+                                    siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
+                                    calfsex, r.email_id, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                    conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
+                                    cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding,
+                                    customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
+                                    fertility,mobility,conc,deadabnormal,date from reproduction r,animal_table a where a.Animal_ID=r.Animal_id and r.Animal_id=%s""",Animal_id)
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+        return jsonify(rows)
+
 class TableReproduction(Resource):
     def get(self):
         print >> sys.stderr, "Execution started in Repro"
@@ -2026,7 +2094,7 @@ class TableReproduction(Resource):
                 return err
         else:
             cursor = cnx.cursor(dictionary=True)
-            cursor.execute("""SELECT a.animalname,ID, breeding, pregnancy, calfdob,damageatbirth,
+            cursor.execute("""SELECT a.animalname,ID,r.Animal_id, breeding, pregnancy, calfdob,damageatbirth,
                                     siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
                                     calfsex, r.email_id, pasturenumber, damcalvingdisposition, calvingease,udderscore,
                                     conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
@@ -2059,38 +2127,49 @@ class TableReproduction(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("here in repro class from the API call")
-            insert_animaldata= """INSERT INTO animal_table (animalname,DOB) VALUES (%(animalname)s,%(calfdob)s) """
-            select_animal="""select Animal_ID,animalname,DOB from animal_table where animalname=%(animalname)s"""
+            insert_animaldata= """INSERT INTO animal_table (animalname,DOB,email_id) VALUES (%(animalname)s,%(calfdob)s,%(email_id)s) """
+
 
 
             try:
                 cursor.execute(insert_animaldata, data)
-                cnx.commit()
+                #cnx.commit()
+                print("committed")
+                cursor = cnx.cursor(dictionary=True)
+                select_animal = """select distinct Animal_ID,animalname,DOB from animal_table where animalname=%(animalname)s"""
                 cursor.execute(select_animal, data)
+                print("after select stmt")
                 rows = cursor.fetchall()
-                for k, v in rows.iteritems():
-                    if k=="Animal_id":
-                        print("inside if")
-                        res=v
+                for row in rows:
+                    print("* {Animal_ID}".format(Animal_ID=row['Animal_ID']))
+                # for k, v in rows.iteritems():
+                #     if k=="Animal_id":
+                #         print("inside if")
+                #         res=v
+                #res=1120
+                Animal_ID=rows[0]['Animal_ID']
+                print Animal_ID
+                data['Animal_ID'] = Animal_ID
                 insert_reproductiondata = ("""INSERT INTO reproduction (Animal_id , breeding, pregnancy, calfdob,damageatbirth,
                                                     siblingcode, calfatside, totalcalves, previouscalf, currentcalf,calfbirthweight,
-                                                    calfsex, email_ID, pasturenumber, damcalvingdisposition, calvingease,udderscore,
+                                                    calfsex, damcalvingdisposition, calvingease,udderscore, email_id,
                                                     conditionscorecalving,hiphtweaning,hiphtbreeding,damdisposition,cowframescore,cowwtbreeding,
                                                     cowhtbreeding,cowwtweaning,cowhtweaning,cowwtcalving,cowhtcalving,bcsweaning,bcscalving,bcsbreeding,
                                                     customcowwt,customcowht,bulldisposition,bullframescore,bullwtprebreeding,bullhtprebreeding,
-                                                    fertility,mobility,conc,deadabnormal,date) 
-                                                    VALUES( %s,%(breeding)s,%(pregnancy)s, %(calfdob)s,%(damageatbirth)s,%(siblingcode)s,
+                                                    fertility,mobility,conc,deadabnormal,date)
+                                                    VALUES( %(Animal_ID)s,%(breeding)s,%(pregnancy)s, %(calfdob)s,%(damageatbirth)s,%(siblingcode)s,
                                                     %(calfatside)s, %(totalcalves)s,%(previouscalf)s,%(currentcalf)s,%(calfbirthweight)s,%(calfsex)s,%(damcalvingdisposition)s,
-                                                    %(calvingease)s, %(udderscore)s,%(email_id)s,%(pasturenumber)s,%(conditionscorecalving)s,%(hiphtweaning)s,%(hiphtbreeding)s, 
+                                                    %(calvingease)s, %(udderscore)s,%(email_id)s,%(conditionscorecalving)s,%(hiphtweaning)s,%(hiphtbreeding)s,
                                                     %(damdisposition)s,%(cowframescore)s,%(cowwtbreeding)s,%(cowhtbreeding)s,%(cowwtweaning)s,%(cowhtweaning)s,%(cowwtcalving)s,
                                                     %(cowhtcalving)s,%(bcsweaning)s,%(bcscalving)s,%(bcsbreeding)s,%(customcowwt)s,%(customcowht)s,%(bulldisposition)s,%(bullframescore)s,
                                                     %(bullwtprebreeding)s,%(bullhtprebreeding)s,%(fertility)s,%(mobility)s,%(conc)s,%(deadabnormal)s,%(date)s)""")
-                cursor.execute(insert_reproductiondata,res, data)
+                cursor.execute(insert_reproductiondata,data)
                 print("here after execute in repro")
                 cnx.commit()
                 return "Success", 201
-            except AttributeError:
-                raise errors.OperationalError("MySQL Connection not available.")
+            except AttributeError as e:
+                print e
+                #raise errors.OperationalError("MySQL Connection not available.")
             except mysql.connector.IntegrityError as err:
                 print("Error: {}".format(err))
                 return None
@@ -2123,12 +2202,12 @@ class TableReproduction(Resource):
                 print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
             cursor = cnx.cursor(dictionary=True)
             print("repro update++++")
-            update_animaldata = ("""UPDATE reproduction SET Animal_id=%(Animal_id)s,pregnancy=%(pregnancy)s,calfdob=%(calfdob)s,conc=%(conc)s,
-                                                damageatbirth=%(damageatbirth)s,siblingcode=%(siblingcode)s,%(calfatside)s,%(totalcalves)s,
+            update_animaldata = ("""UPDATE reproduction SET pregnancy=%(pregnancy)s,calfdob=%(calfdob)s,conc=%(conc)s,
+                                                damageatbirth=%(damageatbirth)s,siblingcode=%(siblingcode)s,calfatside=%(calfatside)s,totalcalves=%(totalcalves)s,
                                                 previouscalf=%(previouscalf)s,currentcalf=%(currentcalf)s,calfbirthweight=%(calfbirthweight)s,
-                                                calfsex=%(calfsex)s, damcalvingdisposition=%(damcalvingdisposition)s,calvingease=%(calvingease)s
+                                                calfsex=%(calfsex)s, damcalvingdisposition=%(damcalvingdisposition)s,calvingease=%(calvingease)s,
                                                 udderscore=%(udderscore)s, conditionscorecalving =%(conditionscorecalving)s,hiphtweaning=%(hiphtweaning)s,
-                                                email_ID=%(email_ID)s,pasturenumber=%(pasturenumber)s,hiphtbreeding=%(hiphtbreeding)s,damdisposition=%(damdisposition)s,
+                                                email_id=%(email_id)s,pasturenumber=%(pasturenumber)s,hiphtbreeding=%(hiphtbreeding)s,damdisposition=%(damdisposition)s,
                                                 cowframescore=%(cowframescore)s,cowwtbreeding=%(cowwtbreeding)s,cowhtbreeding=%(cowhtbreeding)s,cowwtweaning=%(cowwtweaning)s,cowhtweaning=%(cowhtweaning)s,
                                                 cowwtcalving=%(cowwtcalving)s,cowhtcalving=%(cowhtcalving)s,bcsweaning=%(bcsweaning)s,bcscalving=%(bcscalving)s,bcsbreeding=%(bcsbreeding)s,
                                                 customcowwt=%(customcowwt)s,customcowht=%(customcowht)s,bulldisposition=%(bulldisposition)s,bullframescore=%(bullframescore)s,bullwtprebreeding=%(bullwtprebreeding)s,
@@ -2182,3 +2261,34 @@ class TableReproduction(Resource):
             finally:
                 cursor.close()
                 cnx.close()
+class Expt(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            # cursor.execute("select * from herd")
+            cursor.execute("""select a.animalname,e.animaltype,e.birthweight,e.birthweightadj,e.sireframescore,e.bcsrecent,e.bcsprevious,e.bcsdifference,
+                                    e.damwtatwean,e.weanheight,e.weanweight,e.weandate,e.weangpd,e.weanwda,e.weanweightdate,e.adj205w,e.adj205h,e.weanframescore,e.ageatwean,
+                                    e.yearlingweight,e.yearlingheight,e.yearlingdate,e.adjyearlingw,e.adjyearlingh,e.yearlingframescore,e.ageatyearling,e.customweight,
+                                    e.customweightdate,e.customheight,e.customheightdate,e.currentwtcow,e.adj365dht,e.currentwtheifer,e.backfat,e.treatment,e.blockpen,
+                                    e.replicate,e.email_id,e.Animal_ID,e.expt_date,e.expt_name from animal_table a,experiments e where a.Animal_ID=e.Animal_ID  order by expt_date desc""")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+            return jsonify(rows)

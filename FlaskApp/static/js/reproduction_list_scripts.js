@@ -156,3 +156,45 @@ function tablecall(data, columns) {
     columns: columns
   });
 };
+
+
+$('#Edit').click(function() {
+	
+  var log= $('#table').bootstrapTable('getSelections');
+  console.log(log);
+  var result = alertbox("Please click 'OK' if you want to EDIT the following animal\n'"+ log[0].animalname +"'\nClick 'Cancel' if not");
+  if (r = 1){
+	setTimeout(function() {
+		window.location.href = '/reproduction/calfview?Animal_id='+ log[0].Animal_id;
+	}, 2000); 
+  }
+  else{
+	alert("Not Edited");
+  }
+});
+
+$('#Delete').click(function() {
+  var log= $('#table').bootstrapTable('getSelections');
+  console.log(log);
+  var result = alertbox("Please click 'OK' if you want to Delete the following animal\n'"+ log[0].animalname +"'\nClick 'Cancel' if not");
+  if (r = 1){
+	$.ajax({
+		url: '/api/reproduction/record/'+log[0].ID,
+		type : 'DELETE',
+		async: false,
+		success : function(data) {
+			location.reload();
+			$.notify("Animal Data Deleted.")
+		},
+		error: function(response){
+			$.notify("Not Deleted. Please contact IT")
+		}
+	});
+	setTimeout(function() {
+		location.reload();
+	}, 2000); 
+  }
+  else{
+	alert("Not Deleted");
+  }
+});

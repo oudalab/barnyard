@@ -15,7 +15,7 @@
 			<input type="text" id="date" class="date form-control" placeholder="YYYY-MM-DD">
 		</div><label for="animalname" class="col-xs-1 control-label">Animal Name</label>
 		<div class="col-xs-2">
-			<input type="text" id="animalname" class="form-control" placeholder="Animal Name">
+			<input type="text" id="animalname" class="form-control" placeholder="Animal Name" required>
 		</div>
 	</div>
 	<div class= "form-group">
@@ -23,6 +23,7 @@
 		<div class="col-xs-2">
 		  <select class="form-control" id="breeding">
 			<option></option>
+			<option selected="selected">0</option>
 			<option>Bull-1</option>
 			<option>Bull-2</option>
 			<option>Bull-3</option>
@@ -36,6 +37,7 @@
 		<div class="col-xs-2">
 		  <select class="form-control" id="pregnancy">
 			<option></option>
+			<option selected="selected">0</option>
 			<option>Pregnant</option>
 			<option>Open</option>
 		  </select>
@@ -48,6 +50,7 @@
 		<div class="col-xs-2">
 		  <select class="form-control" id="siblingcode">
 			<option></option>
+			<option selected="selected">0</option>
 			<option>Single</option>
 			<option>Twin</option>
 		  </select>
@@ -82,12 +85,13 @@
 		</div>
 		<label for="calfdob" class="col-xs-1 control-label">Calf DOB</label>
 		<div class="col-xs-2">
-			<input type="text" id="calfdob" class="form-control" name="date" placeholder="YYYY-MM-DD">
+			<input type="text" id="calfdob" class="date form-control" name="date" placeholder="YYYY-MM-DD">
 		</div>
 		<label for="calfsex" class="col-xs-1 control-label">Calf Sex</label>
 		<div class="col-xs-2">
 		  <select class="form-control" id="calfsex">
 			<option></option>
+			<option selected="selected">0</option>
 			<option>Steer</option>
 			<option>Heifer</option>
 			<option>Bull</option>
@@ -106,6 +110,7 @@
 		<div class="col-xs-2">
 			<select class="form-control" id="damcalvingdisposition">
 				<option></option>
+				<option selected="selected">0</option>
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -117,6 +122,7 @@
 		<div class="col-xs-2">
 			<select class="form-control" id="calvingease">
 				<option></option>
+				<option selected="selected">0</option>
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -136,17 +142,13 @@
 	<br>
 	<hr width="50%" size="1" align="center">
 	<div class="form-group">
-		<label for="hiphtweaning2015" class="control-label col-xs-1">Hip Ht Weaning 2015</label>
+		<label for="hiphtweaning" class="control-label col-xs-1">Hip Ht Weaning</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="hiphtweaning2015" placeholder="Hip Ht Weaning 2015">
+			<input type="text" class="form-control" id="hiphtweaning" placeholder="Hip Ht Weaning">
 		</div>
-		<label for="hiphtweaning2016" class="control-label col-xs-1">Hip Ht Weaning 2016</label>
+		<label for="hiphtbreeding" class="control-label col-xs-1">Hip Ht Breeding</label>
 		<div class="col-xs-2">
-			<input type="text" class="form-control" id="hiphtweaning2016" placeholder="Hip Ht Weaning 2016">
-		</div>
-		<label for="hiphtbreeding2016" class="control-label col-xs-1">Hip Ht Breeding 2016</label>
-		<div class="col-xs-2">
-			<input type="text" class="form-control" id="hiphtbreeding2016" placeholder="Hip Ht Breeding 2016">
+			<input type="text" class="form-control" id="hiphtbreeding" placeholder="Hip Ht Breeding">
 		</div>
 	</div>
 	<br>
@@ -157,6 +159,7 @@
 		<div class="col-xs-2">
 			<select class="form-control" id="damdisposition">
 				<option></option>
+				<option selected="selected">0</option>
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -235,6 +238,7 @@
 		<div class="col-xs-2">
 			<select class="form-control" id="bulldisposition">
 				<option></option>
+				<option selected="selected">0</option>
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
