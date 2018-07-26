@@ -2127,7 +2127,15 @@ class TableReproduction(Resource):
         else:
             cursor = cnx.cursor(dictionary=True)
             print("here in repro class from the API call")
-            insert_animaldata= """INSERT INTO animal_table (animalname,DOB,email_id) VALUES (%(animalname)s,%(calfdob)s,%(email_id)s) """
+            #insert_animaldata= """INSERT INTO animal_table (animalname,DOB,email_id) VALUES (%(animalname)s,%(calfdob)s,%(email_id)s) """
+            insert_animaldata = ("""INSERT INTO animal_table(animalname, animaltype, eartag, eid, pasture_ID, weight,
+                                     height, gender, sex, breed, status, current_expt_no, Herd, breeder, currentframescore,
+                                     damframescore, comments, species, email_id, brand, brandlocation, tattooleft, tattooright,
+                                     alternativeid, registration, color, hornstatus, dam, sire, DOB, howacquired, dateacquired,
+                                     howdisposed, datedisposed, disposalreason, herdnumberlocation, herdstatus,
+                                     howconceived, managementcode, ownerID, springfall, includeinlookups)
+                                     VALUES( %(animalname)s, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',%(email_id)s, '0', '0', '0',
+                                     '0', '0', '0', '0', '0', '0', '0',%(calfdob)s, '0', '1960-01-01', '0','1960-01-01', '0', '0', '0', '0', '0', '0', '0', '0')""")
 
 
 
@@ -2292,3 +2300,77 @@ class Expt(Resource):
             cnx.close()
 
             return jsonify(rows)
+
+class TableInspection(Resource):
+    def get(self):
+        print >> sys.stderr, "Execution started in inspection"
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                return err
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+                return err
+            else:
+                print(err)
+                return err
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            # cursor.execute("select * from herd")
+            cursor.execute("""select * from inspection_report""")
+            rows = cursor.fetchall()
+            print("Fetch Completed")
+            cursor.close()
+
+            cnx.close()
+
+            return jsonify(rows)
+
+    def post(self):
+        data=request.get_json(force=True)
+        print(data)
+        for k, v in data.iteritems():
+            print >> sys.stderr, ("Code : {0} ==> Value : {1}".format(k, v))
+        try:
+            cnx = mysql.connector.connect(user='root', password='password', host='localhost', database='new_barn')
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
+        else:
+            cursor = cnx.cursor(dictionary=True)
+            print("here in inspection add class from the API call")
+            insert_animaldata = ("""INSERT INTO inspection_report (pasture_ID,general_appearance,live_stock,date,animal_condition,fencing,access_to_food,access_to_water,
+                                    cleaniness_of_water,email_ID,access_to_shelter,comments,pasture_major_deficiencies,pasture_minor_deficiencies,builinding_number,lighting,housekeeping,
+                                    head_catch_condition,non_slip_surface_evidence,Pen_condition,container_disposal,drug_storage) 
+                                     VALUES( %(pasture_ID)s,%(general_appearance)s,%(live_stock)s,%(date)s, %(animal_condition)s, %(fencing)s,%(access_to_food)s,%(access_to_water)s,
+                                     %(cleaniness_of_water)s,%(email_ID)s,%(access_to_shelter)s,%(comments)s,%(pasture_major_deficiencies)s,%(pasture_minor_deficiencies)s,%(builinding_number)s,%(lighting)s,
+                                      %(housekeeping)s,%(head_catch_condition)s,%(non_slip_surface_evidence)s,%(Pen_condition)s,%(container_disposal)s,%(drug_storage)s)""")
+
+            try:
+                cursor.execute(insert_animaldata, data)
+                print("here after execute in inspection add")
+                cnx.commit()
+                return "Success", 201
+            except AttributeError as e:
+                print e
+                raise errors.OperationalError("MySQL Connection not available.")
+            except mysql.connector.IntegrityError as err:
+                print("Error: {}".format(err))
+                return None
+            except TypeError, e:
+                print(e)
+                return None
+            except ValueError, e:
+                print(e)
+                return None
+            finally:
+                cursor.close()
+                cnx.close()

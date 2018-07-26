@@ -11,7 +11,7 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
     TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,\
-    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction,Expt
+    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction,Expt,TableInspection
 
 from secrets import whole_string, short_string
 import config
@@ -22,6 +22,8 @@ from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
 import syslog
 import sys
+from werkzeug.utils import secure_filename
+import os
 # import json
 from models import *
 
@@ -34,6 +36,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
+app.config['UPLOAD_FOLDER']='/var/www/barnyard/FlaskApp/static/pdf_files/'
+ALLOWED_EXTENSIONS=set(['txt','pdf','png','jpg'])
 db.init_app(app)
 
 # API configurations
@@ -126,6 +130,9 @@ api.add_resource(TableReproduction, '/api/reproduction/record/', endpoint="29")
 
 api.add_resource(Expt, '/api/experiment/list/')
 api.add_resource(Expt, '/api/experiment/list/', endpoint="30")
+
+api.add_resource(TableInspection, '/api/inspection/report/')
+api.add_resource(TableInspection, '/api/inspection/report/', endpoint="31")
 
 # Login Manager
 login_manager = LoginManager()
@@ -292,15 +299,14 @@ def adddashboard():
 def login_page():
     formLogin = LoginForm()
     if formLogin.validate_on_submit():
-        user = Users.query.filter_by(email = formLogin.email.data).first_or_404()
+        user = Users.query.filter_by(email=formLogin.email.data).first_or_404()
+        print >> sys.stderr, "This is the output for results{}".format(user)
         if user.check_password(formLogin.password.data):
             user.authenticated = True
             login_user(user)
             flash("Logged in Successfully")
             session['logged_in'] = True
             session['email'] = formLogin.email.data
-            # session['firstname'] = formLogin.firstname.data
-            # session['lastname'] = formLogin.lastname.data
             return render_template('search.html', user=current_user.email)
         else:
             flash("Incorrect Email/Password combination")
@@ -435,7 +441,7 @@ def inventory_procedure():
     return render_template("inventory_procedure.html")
 
 
-@app.route('/inspection/submit')
+@app.route('/inspection/submit',methods=['GET','POST'])
 @login_required
 def inspection_submit():
     return render_template("inspection_submit.html")
@@ -499,6 +505,21 @@ def herd_view():
 @login_required
 def herd_grazing():
     return render_template("herd_grazing.html")
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploadajax', methods=['POST'])
+def upload():
+    file = request.files['file']
+
+    if file and allowed_file(file.filename):
+         filename = secure_filename(file.filename)
+         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+         return filename,200
+
 
 
 if __name__ == '__main__':

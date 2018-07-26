@@ -24,6 +24,11 @@
 	<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 	<!-- Flatpickr Date Plugin -->
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/filter-control/bootstrap-table-filter-control.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/sticky-header/bootstrap-table-sticky-header.css" />
 
 <style>
 body {margin:0;font-family:Arial}
@@ -32,10 +37,12 @@ body {margin:0;font-family:Arial}
 	font-size: 12px;
 	height: 5%;
     padding: 0px 10px;
+	
 }
 .topnav {
   overflow: hidden;
   background-color: #333;
+  margin-left : 15%;
 }
 
 .topnav-right {
@@ -158,9 +165,9 @@ body {margin:0;font-family:Arial}
     height: 100%;
     width: 15%;
     position: fixed;
-    z-index: 1;
+    z-index: 1;	
+    top: 0px;
     left: 0;
-	top: 6%;
     background-color: #333;
     overflow-x: hidden;
 }
@@ -278,29 +285,6 @@ ul.list-group  li a:hover, ul li a:focus {
 <title>{% block title %}Homepage{% endblock %}</title>
 </head>
 <body>
-<div class="topnav navbar-fixed-top">
-	
-	<a class="homebutton" style="width:15%;" href="/tempsearchpage"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a>
-	
-	
-	{% if session['logged_in'] %}
-	<div class="topnav-right">
-		<div class="dropdown">
-			<button class="dropbtn">{{session['email']}}<i class="fa fa-caret-down"></i></button>
-			<div class="dropdown-content">
-			  <a href="/UserInfo">User Info</a>
-			  <a href="/ChangePassword">Change Password</a>
-			</div>
-		</div> 
-	<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>
-	{% else %}
-	<a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a>
-	{% endif %}
-	</div>
-				
-</div>
-</head>
-<body>
 
 
 
@@ -311,6 +295,11 @@ ul.list-group  li a:hover, ul li a:focus {
     <div class="collapse navbar-collapse" id="sideNavbar">
       <div class="panel-group" id="accordion">
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"> <a href="/tempsearchpage"><span class="glyphicon glyphicon-home"></span>Home</a> </h3>
+          </div>
+        </div>
+		<div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-piggy-bank"> </span>Animal<span class="caret"></span></a> </h4>
           </div>
@@ -343,7 +332,7 @@ ul.list-group  li a:hover, ul li a:focus {
             <ul class="list-group">
               <li><a class="navlink" href="/inventory/formulary">Formulary</a></li>
               <li><a class="navlink" href="/inventory/pasture">Pasture Management</a></li>
-              <li><a class="navlink" href="/inventory/procedure">Procedure</a></li>
+              <!--<li><a class="navlink" href="/inventory/procedure">Procedure</a></li>-->
             </ul>
           </div>
         </div>
@@ -378,7 +367,7 @@ ul.list-group  li a:hover, ul li a:focus {
             <ul class="list-group">
               <li><a class="navlink" href="/health/list">List Health Record</a></li>
               <li><a class="navlink" href="/health/add">Add Health Record</a></li>
-              <li><a class="navlink" href="/health/update">Update Health Record</a></li>
+              <!--<li><a class="navlink" href="/health/update">Update Health Record</a></li>-->
             </ul>
           </div>
         </div>
@@ -408,6 +397,22 @@ ul.list-group  li a:hover, ul li a:focus {
       </div>
     </div>
   </div>
+  <div class="topnav navbar-fixed-top">
+	{% if session['logged_in'] %}
+	<div class="topnav-right">
+		<div class="dropdown">
+			<button class="dropbtn">{{session['email']}}<i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+			  <a href="/UserInfo">User Info</a>
+			  <a href="/ChangePassword">Change Password</a>
+			</div>
+		</div> 
+	<a href="/signout"> <span class="glyphicon glyphicon-log-out"></span> Signout &nbsp;</a>
+	{% else %}
+	<a href="/signup"> <span class="glyphicon glyphicon-user"></span> Signup &nbsp;</a>
+	{% endif %}
+	</div>			
+</div>
 <div class="main">
 	<div id="Notification_area">
 		<div class="container-fluid" style="min-height:100%; width:100%; margin-top:80px;">
@@ -434,10 +439,7 @@ ul.list-group  li a:hover, ul li a:focus {
 </script>
 	<!-- bootstrap table imports -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/filter-control/bootstrap-table-filter-control.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/sticky-header/bootstrap-table-sticky-header.css" />
+
 	
 		<!-- Our own headerscript file -->
 	<script type = "text/javascript" src="{{url_for('static', filename= 'js/tempheaderscripts.js')}}"></script>
@@ -462,7 +464,7 @@ ul.list-group  li a:hover, ul li a:focus {
 	<!-- Latest compiled and minified Locales -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-en-US.min.js"></script>
 	
-	<!-- bootstrap Tables Plugins -->
+	<!-- bootstrap-Tables Plugins -->
 	<script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
 	<script src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/extensions/export/bootstrap-table-export.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/filter-control/bootstrap-table-filter-control.js"></script>

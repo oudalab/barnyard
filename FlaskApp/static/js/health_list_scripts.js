@@ -29,7 +29,16 @@ $(document).ready(function () {
 		}
 	});
 });
-
+function nameFormatter(value) {
+	var values = String(value);
+	var pair = values.split("-");
+	if(pair[0]=="pdf"){
+		return '<a target="_blank" href=/static/pdf_files/'+ pair[1] + '>'+pair[1]+'</a>';
+	}
+	else{
+		return value
+	}
+}
 function tablecall(data) {
     $('#table').bootstrapTable({
 		filterControl: true,

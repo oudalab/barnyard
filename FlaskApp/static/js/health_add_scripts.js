@@ -32,7 +32,14 @@ $('#Add_Button').click(function() {
 			console.log(response);
 		}
 	});
-	
+	var results;
+	if($('#uploads').val()== ""){
+		results = $("#result").val();
+	}
+	else{
+		results = "pdf-";
+		results += $("#uploads").val();
+	}
 	var data = {
 		Animal_id : Animal_ID,
 		create_date : $("#create_date").val(),
@@ -43,9 +50,10 @@ $('#Add_Button').click(function() {
 		Amt_given : $("#Amt_given").val(),
 		route : $("#route").val(),
 		water_feed : $("#water_feed").val(),
-		result : $("#result").val(),
+		result : results,
 		withdraw_time : $("#withdraw_time").val()
 	}
+	results = null;
 	var dataJson = JSON.stringify(data);
 	console.log(dataJson);
 	$.ajax({
@@ -62,4 +70,31 @@ $('#Add_Button').click(function() {
 			$.notify("Data Not saved", "error");					
 		}
 	});
+});
+
+
+$('#Upload_PDF').click(function() {
+  $("#UploadPDFModal").modal("show");
+});
+
+$(function() {
+    $('#upload-file-btn').click(function() {
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/uploadajax',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: false,
+            success: function(data) {
+                console.log(data);
+				$("#uploads").val(data);
+				$("#result").val(data);
+				document.getElementById("result").disabled="true";
+				$.notify("File upload Success", "info");
+            },
+        });
+    });
 });

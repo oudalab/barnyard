@@ -165,7 +165,7 @@ $('#Edit').click(function() {
   var result = alertbox("Please click 'OK' if you want to EDIT the following animal\n'"+ log[0].animalname +"'\nClick 'Cancel' if not");
   if (r = 1){
 	setTimeout(function() {
-		window.location.href = '/reproduction/calfview?Animal_id='+ log[0].Animal_id;
+		window.location.href = '/reproduction/calfview?animalname='+ log[0].animalname;
 	}, 2000); 
   }
   else{

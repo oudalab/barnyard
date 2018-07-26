@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login` (
-  `email_id` varchar(45) NOT NULL DEFAULT 'null',
+  `email_id` varchar(45) NOT NULL ,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
-  `pswd_hash` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
   `roles` varchar(45) DEFAULT NULL,
-  `registered_at` date DEFAULT NULL,
+  `date` date DEFAULT NULL,
   PRIMARY KEY (`email_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +39,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('test','test_name',NULL,'test123',NULL,NULL);
+INSERT INTO `login` VALUES ('test@gmail.com','test_name',NULL,'test123','admin','2018-07-24');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
