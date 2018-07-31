@@ -1,6 +1,26 @@
+$(document).ready(function(){
+   $.ajax({
+		url : '/api/inventory/pasture/',
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			console.log(data);
+			$(data).each(function(j,elem){
+				$("<option value='"+elem.pasture_ID+"-"+elem.pasturenumber+"'> "+elem.pasture_ID+" - "+elem.pasturenumber+"</option>").appendTo("#pasture_number");
+			});
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
+});
+
 $("#Inspection_Submit").click(function(){
+    var pasture_ID= $('#pasture_number').val();
+	var res = pasture_ID.split("-");
 	var data = {
-		pasture_ID : $("#pasture_number").val(),
+		pasture_ID : res[0],
 		general_appearance : $("#general_appearance option:selected").text(),
 		live_stock : $("#livestock option:selected").text(),
 		date : $("#date").val(),
@@ -13,7 +33,8 @@ $("#Inspection_Submit").click(function(){
 		comments : $("#comments").val(),
 		pasture_major_deficiencies : $("#major_deficiencies").val(),
 		pasture_minor_deficiencies : $("#minor_deficiencies").val(),
-		email_ID : "test",
+		email_ID : $("#email")[0].textContent,
+		sub_pasture : $("#sub_pasture").val(),
 		builinding_number : 0,
 		lighting : 0,
 		housekeeping : 0,
@@ -35,7 +56,7 @@ $("#Inspection_Submit").click(function(){
 		},
 		error: function(response) {
 			console.log(response);
-			$.notify("Data Not saved", "error");					
+			$.notify("Data Not saved", "error");
 		}
 	});
 });
@@ -43,17 +64,18 @@ $("#Inspection_Submit").click(function(){
 $("#Inspection_Submit_Building").click(function(){
 	var data = {
 		pasture_ID : 0,
+		sub_pasture : 0,
 		live_stock : 0,
 		animal_condition : 0,
 		fencing : 0,
 		access_to_food : 0,
 		access_to_water : 0,
-		cleaniness_of_water : $("#housekeeping_cleanliness option:selected").text(),
+		cleaniness_of_water : 0,
 		access_to_shelter : 0,
 		comments : $("#iacuc2_comments").val(),
 		pasture_major_deficiencies : $("#iacuc_major2_deficiencies").val(),
 		pasture_minor_deficiencies : $("#iacuc_minor2_deficiencies").val(),
-		email_ID : "test",
+		email_ID : $("#email")[0].textContent,
 		builinding_number : $("#building_number").val(),
 		general_appearance : $("#general_appearance_building option:selected").text(),
 		lighting : $("#electrical_lighting option:selected").text(),
@@ -62,7 +84,7 @@ $("#Inspection_Submit_Building").click(function(){
 		head_catch_condition : $("#squeezechute_headcatch option:selected").text(),
 		non_slip_surface_evidence : $("#headcatch_exit option:selected").text(),
 		Pen_condition : $("#pen_condition option:selected").text(),
-		container_disposal : $("#sharp_disposal_containers option:selected").text(), 
+		container_disposal : $("#sharp_disposal_containers option:selected").text(),
 		drug_storage : $("#drug_storage option:selected").text()
 	};
 	var myJSON = JSON.stringify(data);
@@ -77,7 +99,7 @@ $("#Inspection_Submit_Building").click(function(){
 		},
 		error: function(response) {
 			console.log(response);
-			$.notify("Data Not saved", "error");					
+			$.notify("Data Not saved", "error");
 		}
 	});
 });

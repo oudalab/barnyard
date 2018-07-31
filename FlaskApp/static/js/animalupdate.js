@@ -42,6 +42,7 @@ $(document).ready(function(){
 					$('#sex option:selected').text(response[0].sex);
 					$('#pasturenumber').val(response[0].pasture_ID);
 					$('#breed').val(response[0].breed);
+					$('#sub_pasture').val(response[0].sub_pasture);
 					$('#status option:selected').text(response[0].status);
 					$('#trial').val(response[0].current_expt_no);
 					$('#herd').val(response[0].herd);
@@ -80,15 +81,15 @@ $(document).ready(function(){
 				error: function(error) {
 					console.log(error);
 					$.notify("Animal Name doesnt exist", "danger");
-				}	
+				}
 			});
 		},
 		error: function(error) {
 			console.log(error);
 			$.notify("Animal Name doesnt exist", "danger");
-		}	
+		}
 	});
-	
+
 	});
 	$(function () {
 	$('#animal_update').click(function(e) {
@@ -96,13 +97,14 @@ $(document).ready(function(){
 		var basic = {
 			Animal_ID : Animal_ID,
 			animalname : $('#animalname').val(),
-			email_id : "test",
+			email_id : $("#email")[0].textContent,
 			height: $('#height').val(),
 			weight : $('#weight').val(),
 			eartag : $('#eartag').val(),
 			eid : $('#eid').val(),
 			sex : $('#sex option:selected').text(),
 			pasture_ID : $('#pasturenumber').val(),
+			sub_pasture : $('#sub_pasture').val(),
 			breed : $('#breed').val(),
 			status : $('#status option:selected').text(),
 			gender : $('#gender option:selected').text(),

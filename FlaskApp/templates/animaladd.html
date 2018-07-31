@@ -5,7 +5,7 @@
 <body>
 {% block main %}
 <div id="Notification area"></div>
-<h1>This is the Animal Add page</h1>
+<h1>Add new animal to the Animal List</h1>
 <div class="row">
 	<div class="col-xs-12"><span class="pull-right"><button type="button" id="basic_update" class="btn btn-primary">Add Animal</button></span></div>
 	<script type = "text/javascript" src="{{url_for('static', filename= 'js/addanimal.js')}}"></script>
@@ -13,9 +13,9 @@
 <br><br>
 <form  method="post">
 <div class="form-group" >
-				<label for="animalnumber" class="control-label col-xs-1">Animal_ID</label>
+				<label for="animalnumber" class="control-label col-xs-1">Database_ID</label>
 				<div class="col-xs-2">
-					<input type="text" class="form-control" id="animalnumber" name="animalnumber"  placeholder="Animal Number" disabled>
+					<input type="text" class="form-control" id="animalnumber" name="animalnumber" disabled>
 				</div>
 				<label for="animalname" class="control-label col-xs-1">Animal Name</label>
 				<div class="col-xs-2">
@@ -173,12 +173,16 @@
 			<hr width="50%" size="3" align="center">
 			<div class="form-group">
 				<label for="dam" class="control-label col-xs-1">Dam</label>
-				<div class="col-xs-5">
+				<div class="col-xs-2">
 					<input type="text" class="form-control" id="dam" placeholder="Dam">
 				</div>
 				<label for="sire" class="control-label col-xs-1">Sire</label>
-				<div class="col-xs-5">
+				<div class="col-xs-2">
 					<input type="text" class="form-control" id="sire" placeholder="Sire">
+				</div>
+				<label for="sub_pasture" class="control-label col-xs-1">Sub Pasture</label>
+				<div class="col-xs-2">
+					<input type="text" class="form-control" id="sub_pasture" placeholder="sub pasture">
 				</div>
 			</div>
 			<br>
@@ -207,6 +211,7 @@
 				<div class="input-group col-xs-2">
 				   <input class="date" id="dateacquired" name="date" placeholder="YYYY-MM-DD" type="text"/>
 				</div>
+
 			</div>
 			<br>
 			<hr width="50%" size="3" align="center">
