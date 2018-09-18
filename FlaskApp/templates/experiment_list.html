@@ -5,6 +5,7 @@
 <body>
 
 	{% block main %}
+
 	<div id="Notification area"></div>
 	<h1>Experiment List</h1>
 	<h5>Click on '+' icon to upload csv files.</h5>
@@ -14,9 +15,12 @@
 			<i class="glyphicon glyphicon-plus" ></i>
 		</button>
 	</div>
+	<div style="background: linear-gradient(to bottom, rgba(220,251,210,1) 1%,rgba(201,193,144,1) 40%,rgba(183,173,112,1) 83%,rgba(216,239,197,1) 100%);">
 	<table id="table"
 		data-search="true"
 		data-pagination="true"
+		data-striped="true"
+		data-smart-display="true"
 		data-show-refresh="true"
 		data-show-columns="true"
 		data-show-export="true"
@@ -26,10 +30,16 @@
 			<tr>
 				<th data-field="state" data-checkbox="true"></th>
 				<th data-field="Animal_ID" data-sortable="true">Database ID</th>
-				<th data-field="expt_date">expt_date</th>
+				<th data-field="expt_date" class="w150">expt_date</th>
 				<th data-field="expt_name">expt_name</th>
 				<th data-field="animalname">animalname</th>
 				<th data-field="animaltype">animaltype</th>
+				<th data-field="herd" class="w200">Herd</th>
+				<th data-field="pasture_ID">pasture number</th>
+				<th data-field="currentframescore">currentframescore</th>
+				<th data-field="damframescore">damframescore</th>
+				<th data-field="height">Height</th>
+				<th data-field="weight">Weight</th>
 				<th data-field="adj205h">adj205h</th>
 				<th data-field="adj205w">adj205w</th>
 				<th data-field="adj365dht">adj365dht</th>
@@ -51,7 +61,6 @@
 				<th data-field="customweight">customweight</th>
 				<th data-field="customweightdate">customweightdate</th>
 				<th data-field="damwtatwean">damwtatwean</th>
-				<th data-field="email_id">email_id</th>
 				<th data-field="replicate">replicate</th>
 				<th data-field="sireframescore">sireframescore</th>
 				<th data-field="treatment">treatment</th>
@@ -66,10 +75,12 @@
 				<th data-field="yearlingframescore">yearlingframescore</th>
 				<th data-field="yearlingheight">yearlingheight</th>
 				<th data-field="yearlingweight">yearlingweight</th>
+				<th data-field="comments">Comments</th>
+				<th data-field="email_id">email_id</th>
 			</tr>
 		</thead>
 	</table>
-
+    </div>
 	<button type="button" class="btn btn-primary btn-lg" id="Edit">Edit</button>
 	<button type="button" class="btn btn-danger btn-lg" id="Delete">Delete</button>
 	<div class="modal fade" id="UploadCSVModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
