@@ -1,10 +1,29 @@
 {% extends "tempheader.html" %}
 
 {% block title%} User Management {% endblock %}
+{% block style %}
 
+#table{
+    background: url(paper.gif);
+    background-position: left top;
+    background-repeat: repeat;
+    background-color:#F3F1DA;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+    border:2px solid black;
+    color:black;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color:#67C699;
+}
+
+{% endblock %}
 {% block main %}
 <div  class = "container">
     {% if session['roles']=="SUPERUSER" or session['roles']=="ADMIN" %}
+    <h1 align="center" style="color: blue;">Users' List</h1>
     <table id="table" data-search="true" data-pagination="true" data-show-refresh="true" data-show-columns="true" data-show-export="true" data-filter-control="true">
 		<thead>
 			<tr>
