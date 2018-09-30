@@ -1,15 +1,16 @@
 $(function () {
 	$('#basic_update').click(function(e) {
-		
+		var animalname = $('#animalname').val();
 		var basic = {
 			animalname : $('#animalname').val(),
-			email_id : $('#animalnumber').val(),
+			email_id : $("#email")[0].textContent,
 			height: $('#height').val(),
 			weight : $('#weight').val(),
 			eartag : $('#eartag').val(),
 			eid : $('#eid').val(),
 			sex : $('#sex option:selected').text(),
 			pasture_ID : $('#pasturenumber').val(),
+			sub_pasture : $('#sub_pasture').val(),
 			breed : $('#breed').val(),
 			status : $('#status option:selected').text(),
 			gender : $('#gender option:selected').text(),
@@ -47,27 +48,51 @@ $(function () {
 			}
 			var myJSON = JSON.stringify(basic);
 			$.ajax({
-				url: '/api/animal/add/',
-				data: myJSON,
-				datatype: 'json',
-				type: 'POST',
+				url: '/api/animal/update/'+animalname,
+				data: $('form').serialize(),
+				type: 'GET',
 				success: function(response) {
-					console.log(basic);
-					console.log(response);
-					$.notify("Data Saved", "info");
+					if (response!=0){
+						alert("Animal Name already Exists");
+					}
+					else{
+						$.ajax({
+							url: '/api/animal/add/',
+							data: myJSON,
+							datatype: 'json',
+							type: 'POST',
+							success: function(response) {
+								console.log(basic);
+								console.log(response);
+								$.notify("Data Saved", "info");
+							},
+							error: function(error) {
+								console.log(error)
+								$.notify("Data not saved", "danger");
+							}
+						});
+					}
 				},
 				error: function(error) {
 					console.log(error)
 					$.notify("Data not saved", "danger");
 				}
 			});
+
 			e.preventDefault();
 		});
 	});
+<<<<<<< HEAD
 	
 $(document).ready(function(){
 	$('input').each( function(i,elem) {
 		
+=======
+
+$(document).ready(function(){
+	$('input').each( function(i,elem) {
+
+>>>>>>> b9eac74a4a97d951d847caa48459460f6feb848b
 		if(elem.placeholder=="YYYY-MM-DD")
 			elem.value = '1990-01-30';
 		else{

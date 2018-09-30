@@ -11,7 +11,7 @@ $(function () {
 							var dataJson = JSON.stringify(elem);
 							console.log(dataJson);
 							$.ajax({
-								url: '/api/test/',
+								url: '/api/inventory/pasturehistory/',
 								data: dataJson,
 								type: 'post',
 								dataType: 'json',

@@ -10,7 +10,12 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
+<<<<<<< HEAD
     TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory
+=======
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory,\
+    TableHerdUniqueName, TableExperiment, TableHealthAdd, TableReproduction,Expt,TableInspection
+>>>>>>> b9eac74a4a97d951d847caa48459460f6feb848b
 
 from secrets import whole_string, short_string
 import config
@@ -21,6 +26,8 @@ from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
 import syslog
 import sys
+from werkzeug.utils import secure_filename
+import os
 # import json
 from models import *
 
@@ -33,6 +40,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = whole_string
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['WTF_CSRF_ENABLED'] = config.WTF_CSRF_ENABLED
+app.config['UPLOAD_FOLDER']='/var/www/barnyard/FlaskApp/static/pdf_files/'
+ALLOWED_EXTENSIONS=set(['txt','pdf','png','jpg'])
 db.init_app(app)
 
 # API configurations
@@ -89,10 +98,11 @@ api.add_resource(table_test, '/api/test/')
 # api.add_resource(Addanimal, '/api/animal/add')
 # APIs for the new UI Design
 
-api.add_resource(TableAnimalUpdate, '/api/animal/update/<animalname>')
+
+api.add_resource(TableAnimalUpdate, '/api/animal/update/<Animal_ID>')
 api.add_resource(TableAnimalUpdate, '/api/animal/update/', endpoint="20")
 
-api.add_resource(TableAnimalAdd, '/api/animal/add/')
+api.add_resource(TableAnimalAdd, '/api/animal/add/<Animal_ID>')
 api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 
 api.add_resource(TableHerd, '/api/herd/create/')
@@ -100,10 +110,41 @@ api.add_resource(TableHerd, '/api/herd/create/', endpoint="21")
 
 api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/')
 api.add_resource(TableInventoryPasture, '/api/inventory/pasture/')
+<<<<<<< HEAD
 api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/')
 api.add_resource(TableHealthList, '/api/health/record/')
 
 
+=======
+api.add_resource(TableInventoryPasture, '/api/inventory/pasture/', endpoint="22")
+
+api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/<pasture_ID>/<event_date>')
+api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/', endpoint="23")
+
+api.add_resource(TableHerdUniqueName, '/api/herd/name/<name>')
+api.add_resource(TableHerdUniqueName, '/api/herd/name/', endpoint="24")
+
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/<Medicine_ID>')
+api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/', endpoint="25")
+
+api.add_resource(TableExperiment, '/api/experiment/herd/<Animal_ID>')
+api.add_resource(TableExperiment, '/api/experiment/herd/', endpoint="26")
+
+api.add_resource(TableHealthAdd, '/api/health/add/<animalname>')
+api.add_resource(TableHealthAdd, '/api/health/add/', endpoint="27")
+
+api.add_resource(TableHealthList, '/api/health/record/<Record_ID>')
+api.add_resource(TableHealthList, '/api/health/record/', endpoint="28")
+
+api.add_resource(TableReproduction, '/api/reproduction/record/')
+api.add_resource(TableReproduction, '/api/reproduction/record/', endpoint="29")
+
+api.add_resource(Expt, '/api/experiment/list/')
+api.add_resource(Expt, '/api/experiment/list/', endpoint="30")
+
+api.add_resource(TableInspection, '/api/inspection/report/')
+api.add_resource(TableInspection, '/api/inspection/report/', endpoint="31")
+>>>>>>> b9eac74a4a97d951d847caa48459460f6feb848b
 
 # Login Manager
 login_manager = LoginManager()
@@ -270,15 +311,14 @@ def adddashboard():
 def login_page():
     formLogin = LoginForm()
     if formLogin.validate_on_submit():
-        user = Users.query.filter_by(email = formLogin.email.data).first_or_404()
+        user = Users.query.filter_by(email=formLogin.email.data).first_or_404()
+        print >> sys.stderr, "This is the output for results{}".format(user)
         if user.check_password(formLogin.password.data):
             user.authenticated = True
             login_user(user)
             flash("Logged in Successfully")
             session['logged_in'] = True
             session['email'] = formLogin.email.data
-            # session['firstname'] = formLogin.firstname.data
-            # session['lastname'] = formLogin.lastname.data
             return render_template('search.html', user=current_user.email)
         else:
             flash("Incorrect Email/Password combination")
@@ -341,7 +381,7 @@ def tempsearchpage():
     return render_template("tempsearchpage.html")
 
 
-@app.route('/animal/add', methods=['GET','POST'])
+@app.route('/animal/add', methods=['GET','POST','PATCH'])
 @login_required
 def animaladd():
         return render_template("animaladd.html")
@@ -353,22 +393,38 @@ def animallist():
     return render_template("animallist.html")
 
 
+<<<<<<< HEAD
 @app.route('/animal/update',methods=['GET','DELETE'])
+=======
+@app.route('/animal/update', methods=['GET','DELETE'])
+>>>>>>> b9eac74a4a97d951d847caa48459460f6feb848b
 @login_required
 def animalupdate():
     return render_template("animalupdate.html")
 
 
-@app.route('/experiment/add')
+@app.route('/experiment/add', methods=['GET', 'POST'])
 @login_required
 def experimentadd():
     return render_template("experimentadd.html")
 
 
-@app.route('/experiment/update')
+@app.route('/experiment/list', methods=['GET','PATCH','DELETE'])
+@login_required
+def experiment_list():
+    return render_template("experiment_list.html")
+
+
+@app.route('/experiment/edit', methods=['GET', 'POST','PATCH','DELETE'])
+@login_required
+def experiment_edit():
+    return render_template("experiment_edit.html")
+
+
+@app.route('/experiment/update', methods=['GET', 'POST', 'PATCH'])
 @login_required
 def experimentupdate():
-    return render_template("experimentupdate.html")
+    return render_template("experiment_update.html")
 
 
 @app.route('/report/create')
@@ -383,7 +439,7 @@ def report_view():
     return render_template("report_view.html")
 
 
-@app.route('/inventory/formulary')
+@app.route('/inventory/formulary',methods=['GET', 'POST', 'PATCH', 'DELETE'])
 @login_required
 def inventory_formulary():
     return render_template("inventory_formulary.html")
@@ -401,7 +457,7 @@ def inventory_procedure():
     return render_template("inventory_procedure.html")
 
 
-@app.route('/inspection/submit')
+@app.route('/inspection/submit',methods=['GET','POST'])
 @login_required
 def inspection_submit():
     return render_template("inspection_submit.html")
@@ -419,31 +475,37 @@ def reproduction_add_calf():
     return render_template("reproduction_add_calf.html")
 
 
+@app.route('/reproduction/listview')
+@login_required
+def reproduction_view_list():
+    return render_template("reproduction_view_list.html")
+
+
 @app.route('/reproduction/calfview')
 @login_required
 def reproduction_view_calf():
     return render_template("reproduction_view_calf.html")
 
 
-@app.route('/health/add')
+@app.route('/health/add',methods=['POST','GET',])
 @login_required
 def healthadd():
     return render_template("health_add.html")
 
 
-@app.route('/health/list')
+@app.route('/health/list',methods=['POST','GET','PATCH','DELETE'])
 @login_required
 def healthlist():
     return render_template("health_list.html")
 
 
-@app.route('/health/update')
+@app.route('/health/update',methods=['PATCH','GET'])
 @login_required
 def healthupdate():
     return render_template("health_update.html")
 
 
-@app.route('/herd/create',methods=['GET','POST'])
+@app.route('/herd/create', methods=['GET','POST'])
 @login_required
 def herd_create():
     return render_template("herd_create.html")
@@ -459,6 +521,21 @@ def herd_view():
 @login_required
 def herd_grazing():
     return render_template("herd_grazing.html")
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/uploadajax', methods=['POST'])
+def upload():
+    file = request.files['file']
+
+    if file and allowed_file(file.filename):
+         filename = secure_filename(file.filename)
+         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+         return filename,200
+
 
 
 if __name__ == '__main__':

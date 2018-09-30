@@ -70,8 +70,8 @@ CREATE TABLE `animal_table` (
   KEY `fk_email_id_idx` (`email_id`),
   KEY `fk_pasno_idx` (`pasture_ID`),
   CONSTRAINT `fk_email_id` FOREIGN KEY (`email_id`) REFERENCES `login` (`email_id`),
-  CONSTRAINT `fk_pasno` FOREIGN KEY (`pasture_ID`) REFERENCES `pasture` (`pasture_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1117 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  CONSTRAINT `fk_pasno` FOREIGN KEY (`pasture_ID`) REFERENCES `pasture` (`pasture_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1159 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
