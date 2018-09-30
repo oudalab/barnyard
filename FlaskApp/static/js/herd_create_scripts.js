@@ -25,20 +25,22 @@ $('#CreateHerdButton').click(function(e) {
 		}
 		var myJSON = JSON.stringify(data);
 		$.ajax({
-				url: '/api/herd/create/',
-				data: myJSON,
-				datatype: 'json',
-				type: 'POST',
-				success: function(response) {
-					console.log(data);
-					console.log(response);
-					$.notify("Data Saved", "info");
-				},
-				error: function(error) {
-					console.log(error)
-					$.notify("Data not saved", "danger");
-				}
-			});
+			url: '/api/herd/create/',
+			data: myJSON,
+			datatype: 'json',
+			type: 'POST',
+			success: function(response) {
+				console.log(response);
+				$.notify("Data Saved", "info");
+				setTimeout(location.reload(), 3000);
+				
+			},
+			error: function(error) {
+				console.log(error)
+				$.notify("Data not saved", "danger");
+			}
+		});
+		
 	});
 });
 

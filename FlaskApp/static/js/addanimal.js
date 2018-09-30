@@ -65,26 +65,35 @@ $(function () {
 		});
 	});
 	
-	
-/*$(document).ready(function(){
-		var animalname = getQueryVariable("animalname")
-		// $.ajax({
-				// url: '/api/master_animal/'+cownumber,
-				// data: $('form').serialize(),
-				// type: 'GET',
-				// success: function(response) {
-					// var animalname = response.data.attributes.animalname;
-					// basicget(cownumber);
-					// animal_inventoryget(cownumber);
-					// experimentget(cownumber);
-					// reproductionget(cownumber);
-					// medicalget(cownumber);
-					// grazingget(cownumber);
-					// $("<li><a onclick='callall("+cownumber+")'> "+animalname+" - "+cownumber+"</a></li>").prependTo("#latestcow");
-				// },
-				// error: function(error) {
-					// console.log(error);
-					// $.notify("Cow number doesnt exist", "danger");
-				// }	
-		// });
-	});*/
+$(document).ready(function(){
+	$('input').each( function(i,elem) {
+		
+		if(elem.placeholder=="YYYY-MM-DD")
+			elem.value = '1990-01-30';
+		else{
+			if (elem.id == "animalname" || elem.id == "pasturenumber"){}
+			else if(elem.id == "animalnumber"){
+				elem.value = 'test';
+			}
+			else{
+				console.log(elem);
+				elem.value = 0;
+			}
+		}
+	});
+	$.ajax({
+		url : '/api/inventory/pasture/',
+		type : 'GET',
+		dataType : 'json',
+		async: false,
+		success : function(data) {
+			$(data).each(function(j,elem){
+				$("<option value="+elem.pasture_ID+"> "+elem.pasture_ID+" - "+elem.pasturenumber+"</option>").appendTo("#pasturenumber");
+			});
+		},
+		error: function(response){
+			console.log(response);
+		}
+	});
+
+});

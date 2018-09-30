@@ -10,7 +10,7 @@ from views import table_basics, table_medical_inventory, table_animal_inventory,
     table_medical, table_grazing, table_group, table_herdchange, table_eid, table_animalname, table_eartag,\
     table_group_all, table_users_a, table_users_s, table_users_s_email, table_drug_inventory_dic_s, \
     table_drug_inventory_dic_a, table_reporting, table_report_view, table_test, TableAnimalUpdate, TableAnimalAdd, \
-    TableInventoryPasture, TableInventoryFormulary, TableHealthList,TableHerd
+    TableInventoryPasture, TableInventoryFormulary, TableHealthList, TableHerd, TableInventoryPastureHistory
 
 from secrets import whole_string, short_string
 import config
@@ -74,6 +74,13 @@ api.add_resource(table_drug_inventory_dic_a, '/api/drug_inventory_dic_a/')
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/', endpoint="9")
 api.add_resource(table_drug_inventory_dic_s, '/api/drug_inventory_dic_s/<drug>')
 
+# Api for reportings
+# end point to hold intended attribute changes
+api.add_resource(table_reporting, '/api/reporting/', endpoint="10")
+api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
+api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint="11")
+
+
 # Testing for the new MYSQL db connection
 api.add_resource(table_test, '/api/test/', endpoint="18")
 api.add_resource(table_test, '/api/test/')
@@ -88,17 +95,15 @@ api.add_resource(TableAnimalUpdate, '/api/animal/update/', endpoint="20")
 api.add_resource(TableAnimalAdd, '/api/animal/add/')
 api.add_resource(TableAnimalAdd, '/api/animal/add/', endpoint="19")
 
+api.add_resource(TableHerd, '/api/herd/create/')
+api.add_resource(TableHerd, '/api/herd/create/', endpoint="21")
 
+api.add_resource(TableInventoryPastureHistory, '/api/inventory/pasturehistory/')
 api.add_resource(TableInventoryPasture, '/api/inventory/pasture/')
 api.add_resource(TableInventoryFormulary, '/api/inventory/formulary/')
 api.add_resource(TableHealthList, '/api/health/record/')
-api.add_resource(TableHerd, '/api/herd/create/')
 
-# Api for reportings
-# end point to hold intended attribute changes
-api.add_resource(table_reporting, '/api/reporting/', endpoint="10")
-api.add_resource(table_reporting, '/api/reporting/<reportnumber>')
-api.add_resource(table_report_view, '/api/report_view/<cownumber>/<start_date>/<end_date>', endpoint="11")
+
 
 # Login Manager
 login_manager = LoginManager()
@@ -229,7 +234,7 @@ def mysqlpost():
 
     return "Success", 200
 
-	
+
 @app.route('/test')
 @login_required
 def test():
@@ -242,19 +247,19 @@ def testdashboard():
     return render_template("barn1dashboard.html")
 
 
-@app.route('/importfunc', methods = ['GET','POST'])
+@app.route('/importfunc', methods=['GET', 'POST'])
 @login_required
 def importfunc():
     return render_template("page.html")
 
 
-@app.route('/dashboard', methods = ['GET','POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template(("dashboard.html"))
+    return render_template("dashboard.html")
 
 
-@app.route('/adddashboard', methods = ['GET','POST'])
+@app.route('/adddashboard', methods=['GET', 'POST'])
 @login_required
 def adddashboard():
     return render_template("adddashboard.html")
@@ -348,7 +353,7 @@ def animallist():
     return render_template("animallist.html")
 
 
-@app.route('/animal/update')
+@app.route('/animal/update',methods=['GET','DELETE'])
 @login_required
 def animalupdate():
     return render_template("animalupdate.html")
@@ -384,7 +389,7 @@ def inventory_formulary():
     return render_template("inventory_formulary.html")
 
 
-@app.route('/inventory/pasture')
+@app.route('/inventory/pasture',methods=['GET','POST','PATCH','DELETE'])
 @login_required
 def inventory_pasture():
     return render_template("inventory_pasture.html")
@@ -464,4 +469,4 @@ if __name__ == '__main__':
     syslog.syslog(syslog.LOG_ERR, 'Error message here')
     syslog.syslog(syslog.LOG_DEBUG, 'Debug message here')
     syslog.syslog(syslog.LOG_INFO, 'Informational message here')
-    app.run(debug = False)
+    app.run(debug=False)
